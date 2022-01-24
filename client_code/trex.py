@@ -1,4 +1,7 @@
+import anvil
 import anvil.server
+
+from ._Trex import _Trex
 
 
 @anvil.server.portable_class
@@ -35,3 +38,7 @@ class Trex:
 
     def save(self):
         anvil.server.call("tableau.private.save_trex", self)
+
+
+def show_trex():
+    anvil.alert(content=_Trex(), buttons=None)

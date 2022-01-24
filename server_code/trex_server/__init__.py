@@ -21,8 +21,10 @@ def trex_from_row(row):
 
 
 @anvil.server.callable("tableau.private.get_trex")
-def get():
-    row = app_tables.trex.get() or app_tables.trex.add_row(logo=DEFAULT_LOGO)
+def get(app_id):
+    row = app_tables.trex.get(app_id=app_id) or app_tables.trex.add_row(
+        app_id=app_id, logo=DEFAULT_LOGO
+    )
     return trex_from_row(row)
 
 

@@ -1,0 +1,192 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"PNYENV":45}'}
+components:
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Author Name:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: none, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'QATSLM,OZCOHZ'}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: none, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_box_1
+  layout_properties: {grid_position: 'NLRWJS,FFMCZR'}
+  data_bindings:
+  - {property: text, code: self.item.author_name, writeback: true}
+  event_bindings: {}
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Author Email:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: none, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: label_2
+  layout_properties: {grid_position: 'WIJOGW,DMDVAQ'}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: none, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_box_2
+  layout_properties: {grid_position: 'EMELYC,IRGAQQ'}
+  data_bindings:
+  - {property: text, code: self.item.author_email, writeback: true}
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Author Website:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: none, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: label_3
+  layout_properties: {grid_position: 'OZRSTR,CHNODV'}
+- type: TextBox
+  properties: {}
+  name: text_box_3
+  layout_properties: {grid_position: 'UNNBWS,MBYFRC'}
+  data_bindings:
+  - {property: text, code: self.item.author_website, writeback: true}
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Author Organisation:', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
+    underline: false, icon: ''}
+  name: label_4
+  layout_properties: {grid_position: 'CFEOXT,DWIUOT'}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: none, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_box_4
+  layout_properties: {grid_position: 'MRWJLS,TNRAUX'}
+  data_bindings:
+  - {property: text, code: self.item.author_org, writeback: true}
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Extension Name:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: none, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: label_5
+  layout_properties: {grid_position: 'ONEFAH,KWHPBY'}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: none, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_box_5
+  layout_properties: {grid_position: 'DQNWGG,SZPPJT'}
+  data_bindings:
+  - {property: text, code: self.item.name, writeback: true}
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Extension Description:', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
+    underline: false, icon: ''}
+  name: label_6
+  layout_properties: {grid_position: 'JXEUKY,QKLEHC'}
+- type: TextArea
+  properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    auto_expand: false, font: '', spacing_above: none, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_area_1
+  layout_properties: {grid_position: 'CZRYSX,IGTBDS'}
+  data_bindings:
+  - {property: text, code: self.item.description, writeback: true}
+- type: CheckBox
+  properties: {role: null, align: left, tooltip: '', border: '', enabled: true, foreground: '',
+    allow_indeterminate: false, visible: true, text: Full access to data is required,
+    font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
+    background: '', bold: true, checked: false, underline: false}
+  name: check_box_1
+  layout_properties: {grid_position: 'BUQRPN,PNYENV'}
+  data_bindings:
+  - {property: checked, code: self.item.full_permission, writeback: true}
+- type: FlowPanel
+  properties: {}
+  name: flow_panel_2
+  layout_properties: {grid_position: 'ICNYNW,MYUQMO'}
+  components:
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Logo:', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_7
+    layout_properties: {grid_position: 'ICNYNW,ZADDOI'}
+  - type: FileLoader
+    properties: {}
+    name: file_loader_logo
+    layout_properties: {grid_position: 'EFISCV,KSLQMC'}
+    event_bindings: {change: file_loader_logo_change}
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_2
+  layout_properties: {grid_position: 'RVTYMA,DTXESC'}
+  components:
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Converted Logo (max. 70 x 70 pixels):', font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: label_9
+    layout_properties: {grid_position: 'REXWRX,IBWWPK'}
+  - type: Image
+    properties: {role: null, vertical_align: center, height: '200', tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: original_size, spacing_above: small,
+      source: '', spacing_below: small, background: '', horizontal_align: center}
+    name: image_1
+    layout_properties: {grid_position: 'QCVALJ,NKROGX'}
+    data_bindings:
+    - {property: source, code: self.item.logo}
+  data_bindings:
+  - {property: visible, code: self.item.logo is not None}
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_1
+  layout_properties: {grid_position: 'RVTYMA,XETXXH'}
+  components:
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Original Image:', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_8
+    layout_properties: {grid_position: 'YGDYLX,ZYLQOL'}
+  - type: Image
+    properties: {}
+    name: image_2
+    layout_properties: {grid_position: 'QNBQHD,FWOAWV'}
+    data_bindings:
+    - {property: source, code: self.original_image}
+  data_bindings:
+  - {property: visible, code: self.original_image is not None}
+- type: FlowPanel
+  properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+    foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+  name: flow_panel_1
+  layout_properties: {grid_position: 'EBDGRZ,DAJORI'}
+  components:
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: download, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:download'}
+    name: button_download
+    layout_properties: {}
+    event_bindings: {click: button_download_click}
+    data_bindings:
+    - {property: enabled, code: self.file_available}
+  - type: Button
+    properties: {role: primary-color, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: save, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:save'}
+    name: button_save
+    layout_properties: {grid_position: 'DYMKKQ,SGIGZQ'}
+    event_bindings: {click: button_save_click}
+is_package: true
+custom_component: false

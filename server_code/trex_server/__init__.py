@@ -4,7 +4,7 @@ from uuid import uuid4
 import anvil.server
 from anvil.tables import app_tables
 
-from ..trex import Trex
+from ..trex.model import Trex
 from .file import DEFAULT_LOGO, get_file
 
 

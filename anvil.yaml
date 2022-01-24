@@ -1,0 +1,28 @@
+allow_embedding: false
+package_name: tableau_extension
+db_schema:
+  trex:
+    title: trex
+    client: none
+    server: full
+    columns:
+    - name: app_id
+      admin_ui: {width: 200}
+      type: string
+    - name: details
+      admin_ui: {width: 594.5}
+      type: simpleObject
+    - name: logo
+      admin_ui: {width: 200}
+      type: media
+    - name: file
+      admin_ui: {width: 200}
+      type: media
+startup: {type: form, module: Startup}
+name: Tableau Extension
+startup_form: null
+runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_persist: true}
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}

@@ -175,49 +175,49 @@ class ParameterChangedEvent:
         self._proxy = proxy
 
 
-events = {
-    "filter": {
-        "event": tableau.TableauEventType.FilterChanged,
-        "wrapper": FilterChangedEvent,
-    },
-    "selection": {
-        "event": tableau.TableauEventType.MarkSelectionChanged,
-        "wrapper": MarksSelectedEvent,
-    },
-    "parameter": {
-        "event": tableau.TableauEventType.ParameterChanged,
-        "wrapper": ParameterChangedEvent,
-    },
+_event_types = {
+    "filter_changed": tableau.TableauEventType.FilterChanged,
+    "selection_changed": tableau.TableauEventType.MarkSelectionChanged,
+    "parameter_changed": tableau.TableauEventType.ParameterChanged,
+}
+_proxies = {
+    tableau.TableauEventType.FilterChanged: FilterChangedEvent,
+    tableau.TableauEventType.MarkSelectionChanged: MarksSelectedEvent,
+    tableau.TableauEventType.ParameterChanged: ParameterChangedEvent,
 }
 
 
-class _WrappedHandler:
-    _proxies = {
-        tableau.TableauEventType.FilterChanged: FilterChangedEvent,
-        tableau.TableauEventType.MarkSelectionChanged: MarksSelectedEvent,
-        tableau.TableauEventType.ParameterChanged: ParameterChangedEvent,
-    }
-
-    def __init__(self, handler):
-        self.handler = report_exceptions(handler)
-
-    def __call__(self, event):
-        wrapped_event = self._proxies[event._type](event)
-        self.handler(wrapped_event)
-
-
 class event_handler:
-    _proxies = {
-        "filter_changed": tableau.TableauEventType.FilterChanged,
-        "selection_changed": tableau.TableauEventType.MarkSelectionChanged,
-        "parameter_changed": tableau.TableauEventType.ParameterChanged,
-    }
+    """A decorator class to register an event handling function
 
+    NOTE - This does not work for registering methods
+    """
     def __init__(self, event_type, targets):
-        self.proxy = self._proxies[event_type]
+        self.event_type = _event_types[event_type]
         self.targets = targets
 
     def __call__(self, handler):
-        wrapped_handler = _WrappedHandler(handler)
+        handler = report_exceptions(handler)
+
+        def wrapper(event):
+            wrapped_event = _proxies[event._type](event)
+            handler(wrapped_event)
+
         for target in self.targets:
-            target._proxy.addEventListener(self.proxy, wrapped_handler)
+            target._proxy.addEventListener(self.event_type, wrapper)
+
+
+def register_event_handler(handler, event_type, targets):
+    """A function to register an event handler
+
+    This will work for both ordinary functions and methods
+    """
+    handler = report_exceptions(handler)
+    event_type = _event_types[event_type]
+
+    def wrapper(event):
+        wrapped_event = _proxies[event._type](event)
+        handler(wrapped_event)
+
+    for target in targets:
+        target._proxy.addEventListener(event_type, wrapper)

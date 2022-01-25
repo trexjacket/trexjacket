@@ -9,14 +9,14 @@ def _timestamp(seconds):
     return strftime("%Y-%m-%d %H:%M:%S", gmtime(seconds))
 
 
-def log_to_console(console, msg):
+def _log_to_console(console, msg):
     if console.text:
         console.text += f"\n{msg}"
     else:
         console.text = msg
 
 
-class LoggingErrorHandler:
+class _LoggingErrorHandler:
     def __init__(self, logger):
         self.logger = logger
 
@@ -32,7 +32,7 @@ class Logger:
         self.history = history
         self._consoles = []
         self.prefix = "" if prefix is None else prefix
-        anvil.set_default_error_handling(LoggingErrorHandler(self))
+        anvil.set_default_error_handling(_LoggingErrorHandler(self))
 
     def register_console(self, component, show_history=True):
         if getattr(component, "text", None) is None:
@@ -49,7 +49,7 @@ class Logger:
                 f"(of max. {self.history} kept in logger history)."
             )
         msg = f"{self.prefix} Listening for logging messages..."
-        log_to_console(component, msg)
+        _log_to_console(component, msg)
         self._consoles.append(component)
 
     def remove_console(self, component):
@@ -62,4 +62,4 @@ class Logger:
         if len(self._messages) > self.history:
             self._messages.pop(0)
         for console in self._consoles:
-            log_to_console(console, msg)
+            _log_to_console(console, msg)

@@ -1,4 +1,5 @@
 from anvil.js.window import tableau
+import itertools
 
 tableau.extensions.initializeAsync()
 
@@ -109,6 +110,10 @@ class Worksheet:
     @property
     def parameters(self):
         return list(self._proxy.getParametersAsync())
+    
+    @property
+    def data_sources(self):
+        return list(self._proxy.getDataSourcesAsync())
 
 
 class Dashboard:
@@ -138,6 +143,12 @@ class Dashboard:
     @property
     def parameters(self):
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
+    
+    def refresh_data_sources(self):
+        data_sources_generator = (ws.data_sources for ws in self.worksheets)
+        data_sources = set(itertools.chain(*data_sources_generator))
+        for ds in data_sources:
+            ds.refreshAsync()
 
 
 class MarksSelectedEvent:

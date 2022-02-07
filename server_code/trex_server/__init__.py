@@ -46,9 +46,7 @@ def save(trex):
     except AssertionError:
         raise PermissionError("You do not have permission to update this object.")
 
-    row = app_tables.trex.get(
-        app_id=trex.app_id
-    )  # Dan Bolinson: THIS WAS MISSING ANY CONDITIONS ON THE GET
+    row = app_tables.trex.get(app_id=trex.app_id)
     if row["file"] is None or _update_required(trex, row):
         file = get_file(trex.details, trex.logo)
         row.update(details=trex.details, logo=trex.logo, file=file)

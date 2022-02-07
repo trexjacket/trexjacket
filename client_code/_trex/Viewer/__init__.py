@@ -31,6 +31,7 @@ class Viewer(ViewerTemplate):
 
     def button_save_click(self, **event_args):
         self.item.save()
+        self.refresh_data_bindings()
 
     def button_download_click(self, **event_args):
         anvil.media.download(self.item.file)

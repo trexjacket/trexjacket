@@ -15,6 +15,7 @@ def trex_from_row(row):
     obj.capability.set_update_handler(obj._handle_cache_update)
     if row["details"] is not None:
         obj.__dict__.update(row["details"])
+    obj.app_id = row["app_id"]
     obj.logo = row["logo"]
     obj.file = row["file"]
     return obj
@@ -22,6 +23,7 @@ def trex_from_row(row):
 
 @anvil.server.callable("tableau.private.get_trex")
 def get(app_id):
+    print(f"Got app_id {app_id}. Count: {len(app_tables.trex.search(app_id=app_id))}")
     row = app_tables.trex.get(app_id=app_id) or app_tables.trex.add_row(
         app_id=app_id, logo=DEFAULT_LOGO
     )
@@ -44,7 +46,9 @@ def save(trex):
     except AssertionError:
         raise PermissionError("You do not have permission to update this object.")
 
-    row = app_tables.trex.get()
+    row = app_tables.trex.get(
+        app_id=trex.app_id
+    )  # Dan Bolinson: THIS WAS MISSING ANY CONDITIONS ON THE GET
     if row["file"] is None or _update_required(trex, row):
         file = get_file(trex.details, trex.logo)
         row.update(details=trex.details, logo=trex.logo, file=file)

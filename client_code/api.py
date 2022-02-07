@@ -2,7 +2,6 @@ import anvil
 from anvil.js import report_exceptions
 
 from ._trex.Viewer import Viewer
-from .model import event_types, proxies
 
 
 class event_handler:
@@ -51,7 +50,12 @@ def show_trex(publisher=None):
 def tableau_available():
     try:
         from anvil.js.window import tableau
+
         _ = tableau.extensions.dashboardContent.dashboard
         return True
     except AttributeError:
         return False
+
+
+if tableau_available():
+    from .model import event_types, proxies

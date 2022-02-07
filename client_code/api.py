@@ -10,16 +10,15 @@ _event_types = {
     "parameter_changed": None,
 }
 _proxies = {}
-_tableau = None
 dashboard = model.Dashboard()
 
 
 def tableau_available():
-    return _tableau is not None
+    return dashboard.proxy is not None
 
 
-def set_tableau():
-    global _tableau, _event_types, _proxies
+def _set_dashboard():
+    global _event_types, _proxies
 
     try:
         from anvil.js.window import tableau
@@ -28,23 +27,21 @@ def set_tableau():
     except AttributeError:
         return
 
-    _tableau = tableau
-
-    _tableau.extensions.initializeAsync()
+    tableau.extensions.initializeAsync()
     _event_types = {
-        "filter_changed": _tableau.TableauEventType.FilterChanged,
-        "selection_changed": _tableau.TableauEventType.MarkSelectionChanged,
-        "parameter_changed": _tableau.TableauEventType.ParameterChanged,
+        "filter_changed": tableau.TableauEventType.FilterChanged,
+        "selection_changed": tableau.TableauEventType.MarkSelectionChanged,
+        "parameter_changed": tableau.TableauEventType.ParameterChanged,
     }
 
     _proxies = {
-        _tableau.TableauEventType.FilterChanged: model.FilterChangedEvent,
-        _tableau.TableauEventType.MarkSelectionChanged: model.MarksSelectedEvent,
-        _tableau.TableauEventType.ParameterChanged: model.ParameterChangedEvent,
+        tableau.TableauEventType.FilterChanged: model.FilterChangedEvent,
+        tableau.TableauEventType.MarkSelectionChanged: model.MarksSelectedEvent,
+        tableau.TableauEventType.ParameterChanged: model.ParameterChangedEvent,
     }
 
 
-set_tableau()
+_set_dashboard()
 
 
 class event_handler:

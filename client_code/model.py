@@ -1,7 +1,4 @@
-from anvil.js.window import tableau
 import itertools
-
-tableau.extensions.initializeAsync()
 
 
 class Mark:
@@ -110,7 +107,7 @@ class Worksheet:
     @property
     def parameters(self):
         return list(self._proxy.getParametersAsync())
-    
+
     @property
     def data_sources(self):
         return list(self._proxy.getDataSourcesAsync())
@@ -123,12 +120,8 @@ class Dashboard:
     """
 
     def __init__(self):
-        try:
-            self._proxy = tableau.extensions.dashboardContent.dashboard
-        except AttributeError:
-            raise AttributeError("Cannot find a tableau dashboard in this page")
+        self._proxy = None
         self._worksheets = {}
-        self.refresh()
 
     def __getitem__(self, idx):
         return self._worksheets(idx)
@@ -137,13 +130,23 @@ class Dashboard:
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
 
     @property
+    def proxy(self):
+        return self._proxy
+
+    @proxy.setter
+    def proxy(self, value):
+        self._proxy = value
+        if value is not None:
+            self.refresh()
+
+    @property
     def worksheets(self):
         return self._worksheets.values()
 
     @property
     def parameters(self):
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
-    
+
     def refresh_data_sources(self):
         data_sources_generator = (ws.data_sources for ws in self.worksheets)
         data_sources = set(itertools.chain(*data_sources_generator))
@@ -183,18 +186,3 @@ class ParameterChangedEvent:
 
     def __init__(self, proxy):
         self._proxy = proxy
-
-
-event_types = {
-    "filter_changed": tableau.TableauEventType.FilterChanged,
-    "selection_changed": tableau.TableauEventType.MarkSelectionChanged,
-    "parameter_changed": tableau.TableauEventType.ParameterChanged,
-}
-
-proxies = {
-    tableau.TableauEventType.FilterChanged: FilterChangedEvent,
-    tableau.TableauEventType.MarkSelectionChanged: MarksSelectedEvent,
-    tableau.TableauEventType.ParameterChanged: ParameterChangedEvent,
-}
-
-

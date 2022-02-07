@@ -23,11 +23,11 @@ def _set_dashboard():
     try:
         from anvil.js.window import tableau
 
+        tableau.extensions.initializeAsync()
         dashboard.proxy = tableau.extensions.dashboardContent.dashboard
     except AttributeError:
         return
 
-    tableau.extensions.initializeAsync()
     _event_types = {
         "filter_changed": tableau.TableauEventType.FilterChanged,
         "selection_changed": tableau.TableauEventType.MarkSelectionChanged,

@@ -20,7 +20,13 @@ def tableau_available():
 
 def set_tableau():
     global _tableau, _event_types, _proxies
-    from anvil.js.window import tableau
+
+    try:
+        from anvil.js.window import tableau
+
+        dashboard.proxy = tableau.extensions.dashboardContent.dashboard
+    except AttributeError:
+        return
 
     _tableau = tableau
 
@@ -36,7 +42,6 @@ def set_tableau():
         _tableau.TableauEventType.MarkSelectionChanged: model.MarksSelectedEvent,
         _tableau.TableauEventType.ParameterChanged: model.ParameterChangedEvent,
     }
-    dashboard.proxy = _tableau.extensions.dashboardContent.dashboard
 
 
 set_tableau()

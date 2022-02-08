@@ -25,7 +25,6 @@ class Viewer(ViewerTemplate):
         return self.changes_saved and self.item.file is not None
 
     def handle_message(self, message):
-        print(f"message content: {message.content}")
         self.changes_saved = message.content
         self.refresh_data_bindings()
 

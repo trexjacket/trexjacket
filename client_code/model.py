@@ -145,7 +145,9 @@ class Dashboard:
 
     @property
     def parameters(self):
-        return [Parameter(p) for p in self._proxy.getParametersAsync()]
+        if self.proxy is None:
+            return []
+        return [Parameter(p) for p in self.proxy.getParametersAsync()]
 
     def refresh_data_sources(self):
         data_sources_generator = (ws.data_sources for ws in self.worksheets)

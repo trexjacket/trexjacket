@@ -23,7 +23,7 @@ class Session:
         self.logger = Logger()
         self.logger.log("Starting new session")
         self._initializing = True
-        self.delay = 2
+        self.timeout = 2
         self.event_types = {
             "filter_changed": None,
             "selection_changed": None,
@@ -52,9 +52,12 @@ class Session:
 
     @property
     def available(self):
+        waited = 0
+        step = 0.1
         if self._initializing:
-            self.logger.log(
-                f"Dashboard is still initializing. Sleeping for {self.delay} seconds..."
-            )
-            sleep(self.delay)
+            self.logger.log(f"Dashboard is still initialising. Waiting for a max of {self.timeout} seconds...")
+        while self._initializing and waited <= self.timeout:
+            sleep(step)
+            waited += step
+        self.logger.log(f"Waited for {waited} seconds")
         return self.dashboard.proxy is not None

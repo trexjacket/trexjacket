@@ -1,5 +1,7 @@
 import itertools
 
+from .events import FILTER_CHANGED, PARAMETER_CHANGED, SELECTION_CHANGED
+
 
 class Mark:
     """Wrapper for the data content of a selected tableau mark"""
@@ -188,15 +190,6 @@ class ParameterChangedEvent:
 
     def __init__(self, proxy):
         self._proxy = proxy
-
-
-class EventType:
-    pass
-
-
-FILTER_CHANGED = type("FilterChanged", (EventType,), {})
-PARAMETER_CHANGED = type("ParameterChanged", (EventType,), {})
-SELECTION_CHANGED = type("SelectionChanged", (EventType,), {})
 
 
 class EventTypeMapper:

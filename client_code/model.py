@@ -93,7 +93,7 @@ class Worksheet(TableauProxy):
     @property
     def selected(self):
         datatable = DataTable(self._proxy.getSelectedMarksAsync()["data"][0])
-        return [Mark(**record) for record in datatable.records]
+        return datatable.records
 
     @property
     def filters(self):

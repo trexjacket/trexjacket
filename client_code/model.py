@@ -3,6 +3,14 @@ import itertools
 from .events import FILTER_CHANGED, PARAMETER_CHANGED, SELECTION_CHANGED
 
 
+class TableauProxy:
+    def __init__(self, proxy):
+        self._proxy = proxy
+
+    def __getattr__(self, name):
+        return getattr(self._proxy, name)
+
+
 class Mark:
     """Wrapper for the data content of a selected tableau mark"""
 
@@ -13,14 +21,11 @@ class Mark:
         return str(self.__dict__)
 
 
-class DataTable:
+class DataTable(TableauProxy):
     """Wrapper for a tableau DataTable
 
     https://tableau.github.io/extensions-api/docs/interfaces/datatable.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
 
     @property
     def records(self):
@@ -34,28 +39,22 @@ class DataTable:
         ]
 
 
-class Field:
+class Field(TableauProxy):
     """Wrapper for a tableau Field
 
     https://tableau.github.io/extensions-api/docs/interfaces/field.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
 
     @property
     def name(self):
         return self._proxy.name
 
 
-class Filter:
+class Filter(TableauProxy):
     """Wrapper for a tableau Filter
 
     https://tableau.github.io/extensions-api/docs/interfaces/filter.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
 
     @property
     def field_name(self):
@@ -70,14 +69,11 @@ class Filter:
         return Field(self._proxy.getFieldAsync())
 
 
-class Parameter:
+class Parameter(TableauProxy):
     """Wrapper for a tableau Parameter
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
 
     @property
     def name(self):
@@ -88,14 +84,11 @@ class Parameter:
         return self._proxy.currentValue
 
 
-class Worksheet:
+class Worksheet(TableauProxy):
     """Wrapper for a tableau Worksheet
 
     https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
 
     @property
     def selected(self):
@@ -158,38 +151,31 @@ class Dashboard:
             ds.refreshAsync()
 
 
-class MarksSelectedEvent:
+class MarksSelectedEvent(TableauProxy):
     """Wrapper for a tableau MarksSelectedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
 
     @property
     def worksheet(self):
         return Worksheet(self._proxy._worksheet)
 
 
-class FilterChangedEvent:
+class FilterChangedEvent(TableauProxy):
     """Wrapper for a tableau FilterChangedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
+    pass
 
 
-class ParameterChangedEvent:
+class ParameterChangedEvent(TableauProxy):
     """Wrapper for a tableau ParameterChangedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html
     """
-
-    def __init__(self, proxy):
-        self._proxy = proxy
+    pass
 
 
 class EventTypeMapper:

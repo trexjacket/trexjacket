@@ -15,18 +15,19 @@ class event_handler:
     """
 
     def __init__(self, event_type, targets):
-        self.event_type = session.event_types[event_type]
+        self.event_type = event_type
         self.targets = targets
 
     def __call__(self, handler):
         handler = report_exceptions(handler)
 
         def wrapper(event):
-            wrapped_event = session.proxies[event._type](event)
+            wrapped_event = session.event_type_mapper.proxy(event)
             handler(wrapped_event)
 
+        tableau_event = session.event_type_mapper.tableau_event(self.event_type)
         for target in self.targets:
-            target._proxy.addEventListener(self.event_type, wrapper)
+            target._proxy.addEventListener(tableau_event, wrapper)
 
 
 def register_event_handler(handler, event_type, targets):
@@ -35,14 +36,14 @@ def register_event_handler(handler, event_type, targets):
     This will work for both ordinary functions and methods
     """
     handler = report_exceptions(handler)
-    event_type = session.event_types[event_type]
+    tableau_event = session.event_type_mapper.tableau_event(event_type)
 
     def wrapper(event):
-        wrapped_event = session.proxies[event._type](event)
+        wrapped_event = session.event_type_mapper.proxy(event)
         handler(wrapped_event)
 
     for target in targets:
-        target._proxy.addEventListener(event_type, wrapper)
+        target._proxy.addEventListener(tableau_event, wrapper)
 
 
 def show_trex():

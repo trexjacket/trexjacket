@@ -188,3 +188,46 @@ class ParameterChangedEvent:
 
     def __init__(self, proxy):
         self._proxy = proxy
+
+
+class EventType:
+    pass
+
+
+FILTER_CHANGED = type("FilterChanged", (EventType,), {})
+PARAMETER_CHANGED = type("ParameterChanged", (EventType,), {})
+SELECTION_CHANGED = type("SelectionChanged", (EventType,), {})
+
+
+class EventTypeMapper:
+    def __init__(self):
+        self._tableau = None
+        self._tableau_event_types = None
+        self._proxies = None
+
+    @property
+    def tableau(self):
+        return self._tableau
+
+    @tableau.setter
+    def tableau(self, value):
+        self._tableau = value
+        self._tableau_event_types = {
+            FILTER_CHANGED: self._tableau.TableauEventType.FilterChanged,
+            PARAMETER_CHANGED: self._tableau.TableauEventType.ParameterChanged,
+            SELECTION_CHANGED: self._tableau.TableauEventType.MarkSelectionChanged,
+        }
+        self._proxies = {
+            self._tableau.TableauEventType.FilterChanged: FilterChangedEvent,
+            self._tableau.TableauEventType.MarkSelectionChanged: MarksSelectedEvent,
+            self._tableau.TableauEventType.ParameterChanged: ParameterChangedEvent,
+        }
+
+    def tableau_event(self, event_type):
+        try:
+            return self._tableau_event_types[event_type]
+        except KeyError:
+            raise ValueError(f"Unknown event type: {event_type}")
+
+    def proxy(self, event):
+        return self._proxies[event._type](event)

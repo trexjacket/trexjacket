@@ -6,12 +6,12 @@ from ._anvil_extras.messaging import Publisher
 from ._anvil_extras.non_blocking import call_async
 from ._logging import Logger
 
-cdn_url = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js"
+CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js" # noqa
 
 
 def _inject_tableau():
     injector = HTMLInjector()
-    injector.cdn(cdn_url)
+    injector.cdn(CDN_URL)
 
     from anvil.js.window import tableau
 
@@ -24,13 +24,8 @@ class Session:
         self.logger.log("Starting new session")
         self._initializing = True
         self.timeout = 2
-        self.event_types = {
-            "filter_changed": None,
-            "selection_changed": None,
-            "parameter_changed": None,
-        }
-        self.proxies = {}
         self.publisher = Publisher()
+        self.event_type_mapper = model.EventTypeMapper()
         self.dashboard = model.Dashboard()
         self._tableau = _inject_tableau()
         async_call = call_async(self._tableau.extensions.initializeAsync)
@@ -38,16 +33,7 @@ class Session:
 
     def _on_init(self, result):
         self.dashboard.proxy = self._tableau.extensions.dashboardContent.dashboard
-        self.event_types = {
-            "filter_changed": self._tableau.TableauEventType.FilterChanged,
-            "selection_changed": self._tableau.TableauEventType.MarkSelectionChanged,
-            "parameter_changed": self._tableau.TableauEventType.ParameterChanged,
-        }
-        self.proxies = {
-            self._tableau.TableauEventType.FilterChanged: model.FilterChangedEvent,
-            self._tableau.TableauEventType.MarkSelectionChanged: model.MarksSelectedEvent,
-            self._tableau.TableauEventType.ParameterChanged: model.ParameterChangedEvent,
-        }
+        self.event_type_mapper.tableau = self._tableau
         self._initializing = False
 
     @property
@@ -56,7 +42,8 @@ class Session:
         step = 0.1
         if self._initializing:
             self.logger.log(
-                f"Dashboard is still initialising. Waiting for a max of {self.timeout} seconds..."
+                "Dashboard is still initialising. "
+                f"Waiting for a max of {self.timeout} seconds..."
             )
         while self._initializing and waited <= self.timeout:
             sleep(step)

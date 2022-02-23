@@ -40,6 +40,9 @@ class MarksCollection:
     def __getitem__(self, key):
         return self.marks[key]
 
+    def __getattr__(self, name):
+        return self.marks[name]
+
     def __len__(self):
         return len(self.marks)
 

@@ -1,6 +1,83 @@
 import itertools
+import re
 
 from .events import FILTER_CHANGED, PARAMETER_CHANGED, SELECTION_CHANGED
+
+
+class Dimension:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def __repr__(self):
+        return f"Dimension(name={self.name!r}, value={self.value!r})"
+
+
+class Mark:
+    def __init__(self, name, value, dimensions=None, aggregation=None):
+        self.name = name
+        self.value = value
+        self.dimensions = {} if dimensions is None else dimensions
+        self.aggregation = aggregation
+
+    def __getattr__(self, name):
+        if name in self.dimensions:
+            return self.dimensions[name].value
+        else:
+            raise AttributeError(f"{name} not found")
+
+    def __repr__(self):
+        return (
+            f"Mark(name={self.name!r}, value={self.value!r}, "
+            f"dimensions={self.dimensions}, aggregation={self.aggregation!r})"
+        )
+
+
+class MarksCollection:
+    def __init__(self, marks):
+        self.marks = marks
+
+    def __getitem__(self, key):
+        return self.marks[key]
+
+    def __len__(self):
+        return len(self.marks)
+
+    def __iter__(self):
+        return iter(self.marks.values())
+
+    def __repr__(self):
+        return f"MarksCollection({self.marks})"
+
+
+aggregation_pattern = re.compile(r"(^.*?)\((.*)\)$")
+
+
+def _marks(record):
+    result = {}
+    dimensions = {}
+    for key, value in record.items():
+        match = aggregation_pattern.search(key)
+        if match:
+            name = match.group(2)
+            aggregation = match.group(1)
+            result[key] = Mark(name, value, aggregation=aggregation)
+        else:
+            dimensions[key] = Dimension(key, value)
+
+    for mark in result.values():
+        mark.dimensions = dimensions
+    return result
+
+
+def build_marks_collection(records):
+    marks = {key: mark for record in records for key, mark in _marks(record).items()}
+    return MarksCollection(marks)
+
+
+def marks_collection(records, constructor=None):
+    constructor = build_marks_collection if constructor is None else constructor
+    return constructor(records)
 
 
 class TableauProxy:
@@ -11,14 +88,8 @@ class TableauProxy:
         return getattr(self._proxy, name)
 
 
-class Mark:
-    """Wrapper for the data content of a selected tableau mark"""
-
-    def __init__(self, **attrs):
-        self.__dict__ = attrs
-
-    def __str__(self):
-        return str(self.__dict__)
+def _clean_record_key(key):
+    return key.replace("(generated)", "").strip().lower().replace(" ", "_")
 
 
 class DataTable(TableauProxy):
@@ -32,7 +103,7 @@ class DataTable(TableauProxy):
         keys = [c.fieldName for c in self._proxy.columns]
         return [
             {
-                attr[0]: attr[1]
+                _clean_record_key(attr[0]): attr[1]
                 for attr in zip(keys, [data_value.nativeValue for data_value in row])
             }
             for row in self._proxy.data
@@ -93,7 +164,7 @@ class Worksheet(TableauProxy):
     @property
     def selected(self):
         datatable = DataTable(self._proxy.getSelectedMarksAsync()["data"][0])
-        return datatable.records
+        return marks_collection(datatable.records)
 
     @property
     def filters(self):
@@ -167,6 +238,7 @@ class FilterChangedEvent(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
     """
+
     pass
 
 
@@ -175,6 +247,7 @@ class ParameterChangedEvent(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html
     """
+
     pass
 
 
@@ -210,3 +283,4 @@ class EventTypeMapper:
 
     def proxy(self, event):
         return self._proxies[event._type](event)
+

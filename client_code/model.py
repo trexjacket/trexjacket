@@ -6,6 +6,7 @@ from .events import FILTER_CHANGED, PARAMETER_CHANGED, SELECTION_CHANGED
 
 class Dimension:
     """Represents a dimension of a selected Mark"""
+
     def __init__(self, name, value):
         self.name = name
         self.value = value
@@ -30,6 +31,7 @@ class Mark:
         the aggregation function of this data point. If None, this data point
         is not aggregated.
     """
+
     def __init__(self, name, value, dimensions=None, aggregation=None):
         self.name = name
         self.value = value
@@ -58,6 +60,7 @@ class MarksCollection:
         a dictionary of marks. The keys are the names of the marks and the
         values are Mark objects
     """
+
     def __init__(self, marks):
         self.marks = marks
 
@@ -131,12 +134,13 @@ def marks_collection(records):
     -------
     MarksCollection
     """
-    marks = {key: mark for record in records for key, mark in _marks(record).items()}
-    return MarksCollection(marks)
+    marks = (_marks(record).values() for record in records)
+    return list(itertools.chain(*marks))
 
 
 class TableauProxy:
     """A base class for those requiring a Tableau proxy object"""
+
     def __init__(self, proxy):
         self._proxy = proxy
 
@@ -220,12 +224,16 @@ class Worksheet(TableauProxy):
 
     @property
     def selected_records(self):
-        datatable = DataTable(self._proxy.getSelectedMarksAsync()["data"][0])
-        return datatable.records
+        data = self._proxy.getSelectedMarksAsync()["data"]
+        datatables = (DataTable(table) for table in data)
+        return list(itertools.chain(*[dt.records for dt in datatables]))
 
     @property
     def marks(self):
-        return marks_collection(self.selected_records)
+        data = self._proxy.getSelectedMarksAsync()["data"]
+        datatables = (DataTable(table) for table in data)
+        records = list(itertools.chain(*[dt.records for dt in datatables]))
+        return marks_collection(records)
 
     @property
     def filters(self):
@@ -344,4 +352,3 @@ class EventTypeMapper:
 
     def proxy(self, event):
         return self._proxies[event._type](event)
-

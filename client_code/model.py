@@ -70,14 +70,9 @@ def _marks(record):
     return result
 
 
-def build_marks_collection(records):
+def marks_collection(records):
     marks = {key: mark for record in records for key, mark in _marks(record).items()}
     return MarksCollection(marks)
-
-
-def marks_collection(records, constructor=None):
-    constructor = build_marks_collection if constructor is None else constructor
-    return constructor(records)
 
 
 class TableauProxy:

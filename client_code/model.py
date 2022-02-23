@@ -5,6 +5,7 @@ from .events import FILTER_CHANGED, PARAMETER_CHANGED, SELECTION_CHANGED
 
 
 class Dimension:
+    """Represents a dimension of a selected Mark"""
     def __init__(self, name, value):
         self.name = name
         self.value = value
@@ -14,6 +15,21 @@ class Dimension:
 
 
 class Mark:
+    """Wrapper for the data source of a selected mark
+
+    Attributes
+    ----------
+    name : str
+        the name of this data point
+    value : object
+        the value of this data point
+    dimensions : dict
+        a dictionary of dimensions of this data point. The keys are the
+        dimension names and the values are Dimension objects
+    aggregation : str
+        the aggregation function of this data point. If None, this data point
+        is not aggregated.
+    """
     def __init__(self, name, value, dimensions=None, aggregation=None):
         self.name = name
         self.value = value
@@ -34,6 +50,14 @@ class Mark:
 
 
 class MarksCollection:
+    """Represents a collection of marks
+
+    Attributes
+    ----------
+    marks : dict
+        a dictionary of marks. The keys are the names of the marks and the
+        values are Mark objects
+    """
     def __init__(self, marks):
         self.marks = marks
 
@@ -57,6 +81,23 @@ aggregation_pattern = re.compile(r"(^.*?)\((.*)\)$")
 
 
 def _marks(record):
+    """Generate a dictionary of marks from a record
+
+    The record keys are split into those that represent dimensions and those that should
+    become the names of Mark instances.
+
+    Parameters
+    ----------
+    record : dict
+        A single entry from DataTable.records
+
+    Returns
+    -------
+    dict
+        A dictionary of marks. The keys are the names of the marks and the
+        values are Mark objects
+    """
+
     result = {}
     dimensions = {}
     for key, value in record.items():
@@ -74,11 +115,23 @@ def _marks(record):
 
 
 def marks_collection(records):
+    """Generate a MarksCollection from a list of records
+
+    Parameters
+    ----------
+    records : list
+        A list of records from DataTable.records
+
+    Returns
+    -------
+    MarksCollection
+    """
     marks = {key: mark for record in records for key, mark in _marks(record).items()}
     return MarksCollection(marks)
 
 
 class TableauProxy:
+    """A base class for those requiring a Tableau proxy object"""
     def __init__(self, proxy):
         self._proxy = proxy
 
@@ -87,6 +140,7 @@ class TableauProxy:
 
 
 def _clean_record_key(key):
+    """Clean the record keys from tableau"""
     return key.replace("(generated)", "").strip().lower().replace(" ", "_")
 
 

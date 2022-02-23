@@ -77,7 +77,8 @@ class MarksCollection:
         return f"MarksCollection({self.marks})"
 
 
-aggregation_pattern = re.compile(r"(^.*?)\((.*)\)$")
+aggregation_pattern = re.compile(r"(^agg|sum)\((.*)\)$")
+datetime_pattern = re.compile(r"(^month)\((.*)\)$")
 
 
 def _marks(record):
@@ -101,11 +102,15 @@ def _marks(record):
     result = {}
     dimensions = {}
     for key, value in record.items():
-        match = aggregation_pattern.search(key)
-        if match:
-            name = match.group(2)
-            aggregation = match.group(1)
+        aggregation_match = aggregation_pattern.search(key)
+        datetime_match = datetime_pattern.search(key)
+        if aggregation_match:
+            name = aggregation_match.group(2)
+            aggregation = aggregation_match.group(1)
             result[name] = Mark(name, value, aggregation=aggregation)
+        elif datetime_match:
+            name = datetime_match.group(2)
+            dimensions[name] = Dimension(name, value)
         else:
             dimensions[key] = Dimension(key, value)
 

@@ -64,7 +64,7 @@ def _marks(record):
         if match:
             name = match.group(2)
             aggregation = match.group(1)
-            result[key] = Mark(name, value, aggregation=aggregation)
+            result[name] = Mark(name, value, aggregation=aggregation)
         else:
             dimensions[key] = Dimension(key, value)
 

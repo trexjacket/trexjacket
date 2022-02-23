@@ -214,9 +214,13 @@ class Worksheet(TableauProxy):
     """
 
     @property
-    def selected(self):
+    def selected_records(self):
         datatable = DataTable(self._proxy.getSelectedMarksAsync()["data"][0])
-        return marks_collection(datatable.records)
+        return datatable.records
+
+    @property
+    def marks(self):
+        return marks_collection(self.selected_records)
 
     @property
     def filters(self):

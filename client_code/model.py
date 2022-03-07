@@ -21,17 +21,19 @@ class Dimension:
         return self.name == other.name and self.value == other.value
 
 
-class DansMark:
+class Mark:
     """Basically a class for Dan to throw some spaghetti to see what sticks
 
     Usage:
     mark.dimensions: a tuple of the identifying dimensions
     mark.identifier: a tuple identifying the mark
     mark.measures: a tuple of the underlying data
-    mark.values:  a tuple of the actual data that is associated with this mark, mapped to measures
+    mark.values:  a tuple of the actual data that is associated with this mark,
+    mapped to measures
 
     Marks are accessible by case-insensitive dictionary lookup
-    i.e. a mark can be accessed mark['profit'] and this will return the value associated with any of:
+    i.e. a mark can be accessed mark['profit'] and this will return the value
+    associated with any of:
       mark measure SUM(Profit)
       mark measure (Profit)
     """
@@ -70,12 +72,14 @@ class DansMark:
         return f"DansMark: Identified by {self.dimensions}, values: {self.values_dict}"
 
 
-def generate_dans_marks(records):
+def _marks(records):
     """Generates Dans Marks"""
     # we iterate through all records.
-    # Some "Marks" can be assembled from multiple records if they share a common identifier (frozen set of dimensions)
+    # Some "Marks" can be assembled from multiple records if they share a common
+    # identifier (frozen set of dimensions)
     # This is not really known until we have iterated through all records
-    # We do rely on a record having a complete set of dimensions, or they will be assembled separately (i.e. dimensions
+    # We do rely on a record having a complete set of dimensions, or they will be
+    # assembled separately (i.e. dimensions
     # must fully overlap for us to group them)
     dans_marks = dict()
     for record in records:
@@ -108,9 +112,8 @@ def generate_dans_marks(records):
 
             elif aggregation_match:
                 name = aggregation_match.group(2)
-                aggregation = aggregation_match.group(
-                    1
-                )  # for now we don't use this since my model is too basic
+                # for now we don't use this since my model is too basic
+                # aggregation = aggregation_match.group(1)
                 this_value = {_clean_record_key(name): value}
 
             else:
@@ -130,135 +133,15 @@ def generate_dans_marks(records):
             dans_marks[all_dimensions].values_dict.update(all_values)
 
         else:
-            new_mark = DansMark(all_dimensions)
+            new_mark = Mark(all_dimensions)
             new_mark.values_dict = all_values
             dans_marks[all_dimensions] = new_mark
 
     return list(dans_marks.values())
 
 
-class Mark:
-    """Wrapper for the data source of a selected mark
-
-    Attributes
-    ----------
-    name : str
-        the name of this data point
-    value : object
-        the value of this data point
-    dimensions : dict
-        a dictionary of dimensions of this data point. The keys are the
-        dimension names and the values are Dimension objects
-    aggregation : str
-        the aggregation function of this data point. If None, this data point
-        is not aggregated.
-    """
-
-    def __init__(self, name, value, dimensions=None, aggregation=None):
-        self.name = name
-        self.value = value
-        self.dimensions = {} if dimensions is None else dimensions
-        self.aggregation = aggregation
-
-    def __getattr__(self, name):
-        if name in self.dimensions:
-            return self.dimensions[name].value
-        else:
-            raise AttributeError(f"{name} not found")
-
-    def __repr__(self):
-        return (
-            f"Mark(name={self.name!r}, value={self.value!r}, "
-            f"dimensions={self.dimensions}, aggregation={self.aggregation!r})"
-        )
-
-
-class MarksCollection:
-    """Represents a collection of marks
-
-    Attributes
-    ----------
-    marks : dict
-        a dictionary of marks. The keys are the names of the marks and the
-        values are Mark objects
-    """
-
-    def __init__(self, marks):
-        self.marks = marks
-
-    def __getitem__(self, key):
-        return self.marks[key]
-
-    def __getattr__(self, name):
-        return self.marks[name]
-
-    def __len__(self):
-        return len(self.marks)
-
-    def __iter__(self):
-        return iter(self.marks.values())
-
-    def __repr__(self):
-        return f"MarksCollection({self.marks})"
-
-
 aggregation_pattern = re.compile(r"(^agg|sum)\((.*)\)$")
 datetime_pattern = re.compile(r"(^month)\((.*)\)$")
-
-
-def _marks(record):
-    """Generate a dictionary of marks from a record
-
-    The record keys are split into those that represent dimensions and those that should
-    become the names of Mark instances.
-
-    Parameters
-    ----------
-    record : dict
-        A single entry from DataTable.records
-
-    Returns
-    -------
-    dict
-        A dictionary of marks. The keys are the names of the marks and the
-        values are Mark objects
-    """
-
-    result = {}
-    dimensions = {}
-    for key, value in record.items():
-        aggregation_match = aggregation_pattern.search(key)
-        datetime_match = datetime_pattern.search(key)
-        if aggregation_match:
-            name = aggregation_match.group(2)
-            aggregation = aggregation_match.group(1)
-            result[name] = Mark(name, value, aggregation=aggregation)
-        elif datetime_match:
-            name = datetime_match.group(2)
-            dimensions[name] = Dimension(name, value)
-        else:
-            dimensions[key] = Dimension(key, value)
-
-    for mark in result.values():
-        mark.dimensions = dimensions
-
-    return result
-
-
-def marks_collection(records):
-    """Generate a MarksCollection from a list of records
-
-    Parameters
-    ----------
-    records : list
-        A list of records from DataTable.records
-
-    Returns
-    -------
-    MarksCollection
-    """
-    marks = (_marks(record).values() for record in records)
-    return list(itertools.chain(*marks))
 
 
 class TableauProxy:
@@ -362,14 +245,7 @@ class Worksheet(TableauProxy):
         data = self._proxy.getSelectedMarksAsync()["data"]
         datatables = (DataTable(table) for table in data)
         records = list(itertools.chain(*[dt.records for dt in datatables]))
-        return marks_collection(records)
-
-    @property
-    def selected_dans_marks(self):
-        data = self._proxy.getSelectedMarksAsync()["data"]
-        datatables = (DataTable(table) for table in data)
-        records = list(itertools.chain(*[dt.records for dt in datatables]))
-        return generate_dans_marks(records)
+        return _marks(records)
 
     @property
     def filters(self):

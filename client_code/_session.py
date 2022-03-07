@@ -1,12 +1,14 @@
 from time import sleep
 
+import anvil
+
 from . import model
 from ._anvil_extras.injection import HTMLInjector
 from ._anvil_extras.messaging import Publisher
 from ._anvil_extras.non_blocking import call_async
 from ._logging import Logger
 
-CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js" # noqa
+CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js"  # noqa
 
 
 def _inject_tableau():
@@ -30,11 +32,16 @@ class Session:
         self._tableau = _inject_tableau()
         async_call = call_async(self._tableau.extensions.initializeAsync)
         async_call.on_result(self._on_init)
+        async_call.on_error(self.handle_error)
 
     def _on_init(self, result):
         self.dashboard.proxy = self._tableau.extensions.dashboardContent.dashboard
         self.event_type_mapper.tableau = self._tableau
         self._initializing = False
+
+    def handle_error(self, err):
+        print(err)
+        anvil.Notification("Failed to initialize tableau", style="danger").show()
 
     @property
     def available(self):

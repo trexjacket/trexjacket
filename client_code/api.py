@@ -1,9 +1,10 @@
 import anvil
 import anvil.js
+from _session import Session
 from anvil.js import report_exceptions
 
 from ._trex.Viewer import Viewer
-from _session import Session
+from .events import event_types
 
 session = Session()
 
@@ -15,6 +16,8 @@ class event_handler:
     """
 
     def __init__(self, event_type, targets):
+        if isinstance(event_type, str):
+            event_type = event_types[event_type]
         self.event_type = event_type
         self.targets = targets
 
@@ -30,11 +33,13 @@ class event_handler:
             target._proxy.addEventListener(tableau_event, wrapper)
 
 
-def register_event_handler(handler, event_type, targets):
+def register_event_handler(event_type, handler, targets):
     """A function to register an event handler
 
     This will work for both ordinary functions and methods
     """
+    if isinstance(event_type, str):
+        event_type = event_types[event_type]
     handler = report_exceptions(handler)
     tableau_event = session.event_type_mapper.tableau_event(event_type)
 

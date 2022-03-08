@@ -4,7 +4,7 @@ import re
 from .events import FILTER_CHANGED, PARAMETER_CHANGED, SELECTION_CHANGED
 
 
-class Dimension:
+class Field:
     """Represents a dimension of a selected Mark"""
 
     def __init__(self, name, value):
@@ -19,6 +19,14 @@ class Dimension:
 
     def __eq__(self, other):
         return self.name == other.name and self.value == other.value
+
+
+class Measure(Field):
+    pass
+
+
+class Dimension(Field):
+    pass
 
 
 class Mark:
@@ -39,7 +47,9 @@ class Mark:
     """
 
     def __init__(self, dimensions):
-        self.values_dict = dict()
+        self.values_dict = (
+            dict()
+        )  # replace this with measures, referencing a Dimension object?
         self.dimensions = dimensions
 
     @property

@@ -28,8 +28,7 @@ DEFAULT_ICON = icon.decode("utf8")  # serializable string
 
 def get_url_for_branch(branch=None):
     "Returns the URL for the specified branch."
-    print("Ignoring branch for now")
-    url = anvil.server.get_app_origin()  # branch)
+    url = anvil.server.get_app_origin("published")
     return url
 
 

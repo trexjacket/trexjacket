@@ -191,7 +191,7 @@ class Worksheet:
     https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
     """
 
-    def __init__(self, proxy, session):
+    def __init__(self, proxy, session=None):
         self._proxy = proxy
         self.session = session
 

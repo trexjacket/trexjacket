@@ -41,6 +41,10 @@ def register_event_handler(event_type, handler, targets, session):
     def wrapper(event):
         wrapped_event = session.event_type_mapper.proxy(event)
         handler(wrapped_event)
-
+    
+    handler_fn = None
     for target in targets:
-        target._proxy.addEventListener(tableau_event, wrapper)
+        hander_fn = target._proxy.addEventListener(tableau_event, wrapper)
+        
+    return handler_fn # added for event deregistration. Maybe we don't care. Open to thoughts here.
+                      # one way could be to add 'target._listener_fn' to each target?

@@ -5,6 +5,99 @@ from .marks import Field, build_marks
 from .utils import clean_record_key
 
 
+
+from time import sleep
+
+import anvil
+
+from .._anvil_extras.injection import HTMLInjector
+from .._anvil_extras.messaging import Publisher
+from .._anvil_extras.non_blocking import call_async
+from .._logging import Logger
+
+CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js"  # noqa
+
+
+def _inject_tableau():
+    injector = HTMLInjector()
+    injector.cdn(CDN_URL)
+
+    from anvil.js.window import tableau
+
+    return tableau
+
+
+class TableauSession:
+    # What do you think of making TableauSession a singleton?
+    current_session = None
+    
+    @classmethod
+    def get_session(cls):
+        if not cls.current_session:
+            cls.current_session = TableauSession()
+        return cls.current_session
+    
+    def __init__(self, timeout=2):
+        if self.current_session:
+            raise SessionStartedError("You've already started a session. Use TableauSession.get_session().")
+        
+        self.logger = Logger()
+        self.logger.log("Starting new session")
+        self._initializing = True
+        self.timeout = timeout
+        self.publisher = Publisher()
+        self.event_type_mapper = EventTypeMapper()
+        self.dashboard = Dashboard(self)
+        self._tableau = _inject_tableau()
+        async_call = call_async(self._tableau.extensions.initializeAsync)
+        async_call.on_result(self._on_init)
+        async_call.on_error(self.handle_error)
+        self.available
+
+    def _on_init(self, result):
+        self.dashboard.proxy = self._tableau.extensions.dashboardContent.dashboard
+        self.event_type_mapper.tableau = self._tableau
+        self._initializing = False
+
+    def handle_error(self, err):
+        self.logger.log(err)
+        anvil.Notification("Failed to initialize tableau", style="danger").show()
+
+    @property
+    def available(self):
+        waited = 0
+        step = 0.1
+        if self._initializing:
+            self.logger.log(
+                "Dashboard is still initialising. "
+                f"Waiting for a max of {self.timeout} seconds..."
+            )
+        while self._initializing and waited <= self.timeout:
+            sleep(step)
+            waited += step
+#         self.logger.log(f"Waited for {waited} seconds")
+        return self.dashboard.proxy is not None
+    
+    @property
+    def extensions_api(self):
+        """This provides access to the raw Tableau Extensions API. This can be used
+        to access parts of the API that is not handled by the Anvil Tableau Extension framework yet.
+        
+        For example, if you want to access underlying data for the first sheet, you can call:
+        tableau_session.extensions_api.extensions.dashboardContent.dashboard.worksheets[0].getUnderlyingDataAsync()
+        
+        Note that this maps the Tableau Extensions API, and returns JavaScript Proxy Objects. 
+        
+        For more information, see: 
+        https://anvil.works/docs/client/javascript/accessing-javascript
+        """
+        return self._tableau
+
+
+
+
+
+
 class TableauProxy:
     """A base class for those requiring a Tableau proxy object"""
 

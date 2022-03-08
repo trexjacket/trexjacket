@@ -185,11 +185,18 @@ class EventTypeMapper:
         return self._proxies[event._type](event)
 
 
-class Worksheet(TableauProxy):
+class Worksheet:
     """Wrapper for a tableau Worksheet
 
     https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
     """
+
+    def __init__(self, proxy, session):
+        self._proxy = proxy
+        self.session = session
+
+    def __getattr__(self, name):
+        return getattr(self._proxy, name)
 
     @property
     def selected_records(self):
@@ -245,8 +252,8 @@ class Worksheet(TableauProxy):
     def data_sources(self):
         return list(self._proxy.getDataSourcesAsync())
 
-    def register_event_handler(self, event_type, handler, session):
-        events.register_event_handler(event_type, handler, self, session)
+    def register_event_handler(self, event_type, handler):
+        events.register_event_handler(event_type, handler, self, self.session)
 
 
 class Dashboard:
@@ -255,20 +262,24 @@ class Dashboard:
     https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html
     """
 
-    def __init__(self):
+    def __init__(self, session):
         self._proxy = None
         self._worksheets = {}
+        self.session = session
 
     def __getitem__(self, idx):
         try:
             return self._worksheets[idx]
         except KeyError:
             raise KeyError(
-                f"Worksheet {idx} doesn't exist. Worksheets in dashboard: {self._worksheets}"
+                f"Worksheet {idx} doesn't exist. "
+                f"Worksheets in dashboard: {self._worksheets}"
             )
 
     def refresh(self):
-        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
+        self._worksheets = {
+            ws.name: Worksheet(ws, self.session) for ws in self._proxy.worksheets
+        }
 
     @property
     def proxy(self):
@@ -302,6 +313,6 @@ class Dashboard:
         for ds in data_sources:
             ds.refreshAsync()
 
-    def register_event_handler(self, event_type, handler, session):
+    def register_event_handler(self, event_type, handler):
         for ws in self.worksheets:
-            ws.register_event_handler(event_type, handler, session)
+            ws.register_event_handler(event_type, handler)

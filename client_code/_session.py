@@ -20,7 +20,7 @@ def _inject_tableau():
     return tableau
 
 
-class Session:
+class TableauSession:
     def __init__(self):
         self.logger = Logger()
         self.logger.log("Starting new session")
@@ -40,7 +40,7 @@ class Session:
         self._initializing = False
 
     def handle_error(self, err):
-        print(err)
+        self.logger.log(err)
         anvil.Notification("Failed to initialize tableau", style="danger").show()
 
     @property

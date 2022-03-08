@@ -28,7 +28,7 @@ class TableauSession:
         self.timeout = 2
         self.publisher = Publisher()
         self.event_type_mapper = EventTypeMapper()
-        self.dashboard = Dashboard()
+        self.dashboard = Dashboard(self)
         self._tableau = _inject_tableau()
         async_call = call_async(self._tableau.extensions.initializeAsync)
         async_call.on_result(self._on_init)

@@ -221,5 +221,5 @@ class Dashboard:
             ds.refreshAsync()
 
     def register_event_handler(self, event_type, handler, session):
-        for ws in self.woksheets:
+        for ws in self.worksheets:
             ws.register_event_handler(event_type, handler, session)

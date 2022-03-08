@@ -2,11 +2,11 @@ from time import sleep
 
 import anvil
 
-from . import model
 from ._anvil_extras.injection import HTMLInjector
 from ._anvil_extras.messaging import Publisher
 from ._anvil_extras.non_blocking import call_async
 from ._logging import Logger
+from .model.proxies import Dashboard, EventTypeMapper
 
 CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js"  # noqa
 
@@ -27,8 +27,8 @@ class TableauSession:
         self._initializing = True
         self.timeout = 2
         self.publisher = Publisher()
-        self.event_type_mapper = model.EventTypeMapper()
-        self.dashboard = model.Dashboard()
+        self.event_type_mapper = EventTypeMapper()
+        self.dashboard = Dashboard()
         self._tableau = _inject_tableau()
         async_call = call_async(self._tableau.extensions.initializeAsync)
         async_call.on_result(self._on_init)

@@ -21,11 +21,11 @@ def _inject_tableau():
 
 
 class TableauSession:
-    def __init__(self):
+    def __init__(self, timeout=2):
         self.logger = Logger()
         self.logger.log("Starting new session")
         self._initializing = True
-        self.timeout = 2
+        self.timeout = timeout
         self.publisher = Publisher()
         self.event_type_mapper = EventTypeMapper()
         self.dashboard = Dashboard(self)

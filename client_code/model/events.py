@@ -22,7 +22,13 @@ def register_event_handler(event_type, handler, targets, session):
         raise ValueError("No tableau session is available")
 
     if isinstance(event_type, str):
-        event_type = _event_types[event_type]
+        try:
+            event_type = _event_types[event_type]
+        except KeyError:
+            raise KeyError(
+                f"Unrecognized event_type {event_type}. "
+                f"Valid events: {list(_event_types.keys())}"
+            )
 
     try:
         _ = len(targets)

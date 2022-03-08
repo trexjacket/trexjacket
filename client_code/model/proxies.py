@@ -308,13 +308,16 @@ class EventTypeMapper:
         return self._proxies[event._type](event)
 
 
-class Worksheet:
+class Worksheet: # Shouldn't this be a TableauProxy????
     """Wrapper for a tableau Worksheet
 
     https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
     """
 
     def __init__(self, proxy, session=None):
+        # unclear to me why this isn't a Tableau Proxy! 
+        # If it has something to do with this Session this can be replaced with
+        # calls to TableauSession.get_session()...
         self._proxy = proxy
         self.session = session
 
@@ -403,6 +406,10 @@ class Dashboard:
 
     https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html
     """
+    # So interestingly from the API:
+    # The Dashboard interface inherits from the Sheet interface.
+    # Do we want to do this too? Would that be more or less convenient? 
+    # We have duplicated a bunch of the logic, specifically around parameters and events.
 
     def __init__(self, session):
         self._proxy = None
@@ -419,6 +426,7 @@ class Dashboard:
             )
 
     def refresh(self):
+        # What is this function meant do? I'm confused by this... is it meant to reload the dashboard?
         self._worksheets = {
             ws.name: Worksheet(ws, self.session) for ws in self._proxy.worksheets
         }
@@ -454,6 +462,12 @@ class Dashboard:
         if self.proxy is None:
             return None
         return self.proxy.name
+      
+    @property
+    def datasources(self):
+        # We probably want to wrap the DataSource object as well. 
+        # This will need updating when done.
+        return self._proxy.getAllDataSourcesAsync()
 
     def refresh_data_sources(self):
         data_sources_generator = (ws.data_sources for ws in self.worksheets)

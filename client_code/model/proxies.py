@@ -255,7 +255,7 @@ class Dashboard:
         self._worksheets = {}
 
     def __getitem__(self, idx):
-        return self._worksheets(idx)
+        return self._worksheets[idx]
 
     def refresh(self):
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
@@ -272,7 +272,7 @@ class Dashboard:
 
     @property
     def worksheets(self):
-        return self._worksheets.values()
+        return list(self._worksheets.values())
 
     @property
     def parameters(self):

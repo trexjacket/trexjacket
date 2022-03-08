@@ -27,13 +27,13 @@ def register_event_handler(event_type, handler, targets, session):
     try:
         _ = len(targets)
     except TypeError:
-        targets = [targets]
+        targets = (targets,)
 
     handler = report_exceptions(handler)
-    tableau_event = session.mapper.tableau_event(event_type)
+    tableau_event = session.event_type_mapper.tableau_event(event_type)
 
     def wrapper(event):
-        wrapped_event = session.mapper.proxy(event)
+        wrapped_event = session.event_type_mapper.proxy(event)
         handler(wrapped_event)
 
     for target in targets:

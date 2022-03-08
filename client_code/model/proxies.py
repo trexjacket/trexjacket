@@ -39,28 +39,22 @@ class DataTable(TableauProxy):
         ]
 
 
-class Filter(TableauProxy):
+class Filter:
     """Wrapper for a tableau Filter
 
     https://tableau.github.io/extensions-api/docs/interfaces/filter.html
     """
 
+    def __init__(self, proxy):
+        self._proxy = proxy
+        self.worksheet = None
+
+    def __getattr__(self, name):
+        return getattr(self._proxy, name)
+
     @property
     def field_name(self):
         return self._proxy.fieldName
-
-    @property
-    def worksheet(self):
-        # THIS DOES NOT WORK since tableau.dashboard is out of scope but this is
-        # what we'd like to do
-        # if not hasattr(self, "_worksheet"):
-        #     self._worksheet = tableau.dashboard[self._proxy.worksheetName]
-
-        return self._worksheet
-
-    @worksheet.setter
-    def worksheet(self, sheet):
-        self._worksheet = sheet
 
     def set_filter_value(self, values, method="replace"):
         self.worksheet.apply_filter(self.field_name, values, method)

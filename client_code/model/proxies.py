@@ -50,6 +50,55 @@ class Filter(TableauProxy):
         return self._proxy.fieldName
 
     @property
+    def worksheet(self):
+        # THIS DOES NOT WORK since tableau.dashboard is out of scope but this is
+        # what we'd like to do
+        # if not hasattr(self, "_worksheet"):
+        #     self._worksheet = tableau.dashboard[self._proxy.worksheetName]
+
+        return self._worksheet
+
+    @worksheet.setter
+    def worksheet(self, sheet):
+        self._worksheet = sheet
+
+    def set_filter_value(self, values, method="replace"):
+        self.worksheet.apply_filter(self.field_name, values, method)
+
+    # This needs probably subclassing of the Filter object and a genertor function to
+    # decide which one to instantiate based on the javascript filterType attribute.
+    # The abstract Filter class does not offer a way to get the filter vlaue because
+    # it is abstract
+    @property
+    def field_value(self):
+        if self.filter_type == "categorical":
+            values = [v.nativeValue for v in self.appliedValues]
+        elif self.filter_type == "range":
+            values = (self.minValue.nativeValue, self.maxValue.nativeValue)
+        elif self.filter_type == "relative-date":
+            values = self.periodType
+        elif self.filter_type == "hierarchical":
+            # Borderline NotImplementedError
+            values = "Hierarchical filter"
+
+        return values
+
+    @field_value.setter
+    def field_value(self, values):
+        # This doesn't seem to work... What am I doing wrong??
+        print("Setting from setter...")
+        self.set_filter_value(values)
+        print("filter set hopefully")
+
+    @property
+    def domain(self):
+        return [v.nativeValue for v in self._proxy.getDomainAsync("database").values]
+
+    @property
+    def relevant_domain(self):
+        return [v.nativeValue for v in self._proxy.getDomainAsync("relevant").values]
+
+    @property
     def filter_type(self):
         return self._proxy.filterType
 
@@ -158,7 +207,36 @@ class Worksheet(TableauProxy):
 
     @property
     def filters(self):
-        return [Filter(f) for f in self._proxy.getFiltersAsync()]
+        all_filters = [Filter(f) for f in self._proxy.getFiltersAsync()]
+        for f in all_filters:
+            f.worksheet = self
+
+        return all_filters
+
+    # Feels like we need a similar method at the dashboard level that iterates through
+    # all worksheets, returning first match
+    def get_filter(self, filter_name):
+        specified_filter = [f for f in self.filters if f.field_name == filter_name]
+        if not specified_filter:
+            raise KeyError(
+                f"No filter matching field_name {filter_name}. "
+                f"Worksheet filters: {[f.field_name for f in self.filters]}"
+            )
+
+        specified_filter = specified_filter[0]
+        specified_filter.worksheet = self
+        return specified_filter
+
+    def apply_filter(self, field_name, values, update_type="replace"):
+        if not isinstance(values, list):
+            values = [values]
+
+        print(
+            f"applying filter async: {field_name} "
+            f"filtered to {values} with method {update_type}"
+        )
+        self._proxy.applyFilterAsync(field_name, values, update_type)
+        print("filter applied")
 
     @property
     def parameters(self):

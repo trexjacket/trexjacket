@@ -56,33 +56,30 @@ class Filter:
     def field_name(self):
         return self._proxy.fieldName
 
-    def set_filter_value(self, values, method="replace"):
-        self.worksheet.apply_filter(self.field_name, values, method)
+    def set_filter_value(self, new_values, method="replace"):
+        self.worksheet.apply_filter(self.field_name, new_values, method)
 
     # This needs probably subclassing of the Filter object and a genertor function to
     # decide which one to instantiate based on the javascript filterType attribute.
     # The abstract Filter class does not offer a way to get the filter vlaue because
     # it is abstract
     @property
-    def field_value(self):
+    def applied_values(self):
         if self.filter_type == "categorical":
-            values = [v.nativeValue for v in self.appliedValues]
+            result = [v.nativeValue for v in self.appliedValues]
         elif self.filter_type == "range":
-            values = (self.minValue.nativeValue, self.maxValue.nativeValue)
+            result = (self.minValue.nativeValue, self.maxValue.nativeValue)
         elif self.filter_type == "relative-date":
-            values = self.periodType
+            result = self.periodType
         elif self.filter_type == "hierarchical":
-            # Borderline NotImplementedError
-            values = "Hierarchical filter"
+            # Borderline NotImplementedError in the JS library
+            result = "Hierarchical filter"
 
-        return values
+        return result
 
-    @field_value.setter
-    def field_value(self, values):
-        # This doesn't seem to work... What am I doing wrong??
-        print("Setting from setter...")
-        self.set_filter_value(values)
-        print("filter set hopefully")
+    @applied_values.setter
+    def applied_values(self, new_values):
+        self.set_filter_value(new_values)
 
     @property
     def domain(self):
@@ -132,8 +129,15 @@ class FilterChangedEvent(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
     """
+    @property
+    def filter(self):
+        f = Filter(self._proxy.getFilterAsync())
+        f.worksheet = self.worksheet
+        return f
 
-    pass
+    @property
+    def worksheet(self):
+        return Worksheet(self._proxy._worksheet)
 
 
 class ParameterChangedEvent(TableauProxy):
@@ -255,7 +259,10 @@ class Dashboard:
         self._worksheets = {}
 
     def __getitem__(self, idx):
-        return self._worksheets[idx]
+        try:
+            return self._worksheets[idx]
+        except KeyError:
+            raise KeyError(f"Worksheet {idx} doesn't exist. Worksheets in dashboard: {self._worksheets}")
 
     def refresh(self):
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}

@@ -33,6 +33,7 @@ class TableauSession:
         async_call = call_async(self._tableau.extensions.initializeAsync)
         async_call.on_result(self._on_init)
         async_call.on_error(self.handle_error)
+        self.available
 
     def _on_init(self, result):
         self.dashboard.proxy = self._tableau.extensions.dashboardContent.dashboard

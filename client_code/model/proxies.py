@@ -189,13 +189,25 @@ class Filter:
     @property
     def field(self):
         return Field(self._proxy.getFieldAsync())
-
-
+      
 class Parameter(TableauProxy):
     """Wrapper for a tableau Parameter
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
     """
+    @property
+    def domain(self):
+        return self.allowable_values()
+
+    @property
+    def data_type(self):
+        return self._proxy.dataType
+      
+    def allowable_values(self):
+        return self._proxy.allowableValues
+      
+    def change_value(self, new_value):
+        self._proxy.changeValueAsync(new_value)
 
     @property
     def name(self):
@@ -203,8 +215,24 @@ class Parameter(TableauProxy):
 
     @property
     def value(self):
-        return self._proxy.currentValue
-
+        return self._proxy.currentValue.nativeValue
+      
+    @value.setter
+    def value(self, new_value):
+        self.change_value(new_value)
+        
+    def register_event_handler(self, handler):
+        # Note our use of the TableauSession.get_session method. Leveraging the fact that it's a singleton.
+        self._listener = events.register_event_handler(events.PARAMETER_CHANGED, handler, self, TableauSession.get_session())
+        
+    def remove_event_handler(self):
+        if hasattr(self, '_listener') and self._listener:
+            self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
+            self._listener = None
+            
+    def __repr__(self):
+        return f"Parameter: '{self.name}', with current value: {self.value}"
+  
 
 class MarksSelectedEvent(TableauProxy):
     """Wrapper for a tableau MarksSelectedEvent

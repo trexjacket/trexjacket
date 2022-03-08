@@ -61,11 +61,11 @@ class Mark:
 
     @property
     def value(self):
-        return self.values_dict.values[0]
+        return self.values[0]
 
     @property
     def values(self):
-        return self.values_dict.values
+        return list(self.values_dict.values())
 
     @property
     def measures(self):

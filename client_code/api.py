@@ -1,7 +1,6 @@
 import anvil
 import anvil.js
 from _session import TableauSession
-from .events import register_event_handler
 
 from ._trex.Viewer import Viewer
 

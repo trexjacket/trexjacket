@@ -129,6 +129,7 @@ class FilterChangedEvent(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
     """
+
     @property
     def filter(self):
         f = Filter(self._proxy.getFilterAsync())
@@ -262,7 +263,9 @@ class Dashboard:
         try:
             return self._worksheets[idx]
         except KeyError:
-            raise KeyError(f"Worksheet {idx} doesn't exist. Worksheets in dashboard: {self._worksheets}")
+            raise KeyError(
+                f"Worksheet {idx} doesn't exist. Worksheets in dashboard: {self._worksheets}"
+            )
 
     def refresh(self):
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}

@@ -268,7 +268,9 @@ class ParameterChangedEvent(TableauProxy):
     https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html
     """
 
-    pass
+    @property
+    def parameter(self):
+        return Parameter(self._proxy.getParameterAsync())
 
 
 class EventTypeMapper:
@@ -367,7 +369,15 @@ class Worksheet:
 
     @property
     def parameters(self):
-        return list(self._proxy.getParametersAsync())
+        return [Parameter(p) for p in self._proxy.getParametersAsync()]
+      
+    def get_parameter(self, parameter_name):
+        p = [Parameter(p) for p in self.parameters if p.name == paramter_name]
+        if not p:
+            raise KeyError(f"No matching parameter found for {parameter_name}. "
+                           f"Parameters on Sheet: {[p.name for p in self.parameters]}")
+        else:
+            return p[0]
 
     @property
     def data_sources(self):
@@ -418,9 +428,15 @@ class Dashboard:
 
     @property
     def parameters(self):
-        if self.proxy is None:
-            return []
-        return [Parameter(p) for p in self.proxy.getParametersAsync()]
+        return [Parameter(p) for p in self._proxy.getParametersAsync()]
+      
+    def get_parameter(self, parameter_name):
+        p = [Parameter(p) for p in self.parameters if p.name == parameter_name]
+        if not p:
+            raise KeyError(f"No matching parameter found for {parameter_name}. "
+                           f"Parameters on Sheet: {[p.name for p in self.parameters]}")
+        else:
+            return p[0]
 
     @property
     def name(self):

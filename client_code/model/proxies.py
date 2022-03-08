@@ -383,10 +383,21 @@ class Worksheet:
     def data_sources(self):
         return list(self._proxy.getDataSourcesAsync())
 
+
     def register_event_handler(self, event_type, handler):
-        events.register_event_handler(event_type, handler, self, self.session)
-
-
+        if event_type in ['selection_changed', 'filter_changed', events.SELECTION_CHANGED, events.FILTER_CHANGED]:
+              # NOTE: I changed this to use TableauSession.get_session() instead of self.session.
+#               events.register_event_handler(event_type, handler, self, self.session)
+              events.register_event_handler(event_type, handler, self, TableauSession.get_session())
+        
+        elif event_type in ['parameter_changed', events.PARAMETER_CHANGED]:
+            for p in self.parameters:
+                p.register_event_handler(handler)
+                
+        else:
+            raise NotImplementedError("You can only set selection_changed, filter_changed, or parameter_changed from "
+                                      f"the Sheet object. You tried: {event_type}")
+            
 class Dashboard:
     """Wrapper for a tableau Dashboard
 
@@ -451,5 +462,15 @@ class Dashboard:
             ds.refreshAsync()
 
     def register_event_handler(self, event_type, handler):
-        for ws in self.worksheets:
-            ws.register_event_handler(event_type, handler)
+        if event_type in ['selection_changed', 'filter_changed', events.SELECTION_CHANGED, events.FILTER_CHANGED]:
+            for ws in self.worksheets:
+                ws.register_event_handler(event_type, handler)
+        
+        elif event_type in ['parameter_changed', events.PARAMETER_CHANGED]:
+            for p in self.parameters:
+                p.register_event_handler(handler)
+                
+        else:
+            raise NotImplementedError("You can only set selection_changed, filter_changed, or parameter_changed "
+                                      f"from the Dashboard object. You passed: {event_type}")
+  

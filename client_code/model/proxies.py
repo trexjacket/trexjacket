@@ -169,9 +169,7 @@ class Worksheet(TableauProxy):
         return list(self._proxy.getDataSourcesAsync())
 
     def register_event_handler(self, event_type, handler, session):
-        events.register_event_handler(
-            event_type, handler, [self], session.event_type_mapper
-        )
+        events.register_event_handler(event_type, handler, self, session)
 
 
 class Dashboard:

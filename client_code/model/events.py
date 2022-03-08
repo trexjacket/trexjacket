@@ -16,15 +16,24 @@ _event_types = {
 }
 
 
-def register_event_handler(event_type, handler, targets, mapper):
+def register_event_handler(event_type, handler, targets, session):
     """A function to register an event handler"""
+    if not session.available:
+        raise ValueError("No tableau session is available")
+
     if isinstance(event_type, str):
         event_type = _event_types[event_type]
+
+    try:
+        _ = len(targets)
+    except TypeError:
+        targets = [targets]
+
     handler = report_exceptions(handler)
-    tableau_event = mapper.tableau_event(event_type)
+    tableau_event = session.mapper.tableau_event(event_type)
 
     def wrapper(event):
-        wrapped_event = mapper.proxy(event)
+        wrapped_event = session.mapper.proxy(event)
         handler(wrapped_event)
 
     for target in targets:

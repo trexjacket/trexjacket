@@ -27,7 +27,7 @@ class Tableau:
 
     @classmethod
     def session(cls, timeout, logger, publisher):
-        if cls._session is not None:
+        if cls._session is None:
             logger.log("Starting new session")
             cls._session = Tableau()
             cls._session.logger = logger

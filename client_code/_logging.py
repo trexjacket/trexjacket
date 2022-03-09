@@ -27,8 +27,9 @@ class _LoggingErrorHandler:
 
 
 class Logger:
-    def __init__(self, prefix=">>>", history=10):
+    def __init__(self, with_anvil_logging=True, prefix=">>>", history=10):
         self._messages = []
+        self.with_anvil_logging = with_anvil_logging
         self.history = history
         self._consoles = []
         self.prefix = "" if prefix is None else prefix
@@ -55,8 +56,9 @@ class Logger:
     def remove_console(self, component):
         self._consoles = [c for c in self._consoles if c != component]
 
-    def log(self, message):
-        print(f"{_timestamp(time())} GMT: {message}")
+    def log(self, message, with_anvil_logging=True):
+        if with_anvil_logging or self.with_anvil_logging:
+            print(f"{_timestamp(time())} GMT: {message}")
         msg = f"{self.prefix} {message}"
         self._messages.append(msg)
         if len(self._messages) > self.history:

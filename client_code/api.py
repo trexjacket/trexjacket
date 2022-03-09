@@ -3,10 +3,14 @@ import anvil.js
 
 from ._trex.Viewer import Viewer
 from .model.proxies import Tableau
+from ._logging import Logger
+from ._anvil_extras.messaging import Publisher
 
 
-def get_session():
-    return Tableau.session()
+def get_session(timeout=2, logger=None, publisher=None):
+    logger = Logger() if logger is None else logger
+    publisher = Publisher() if publisher is None else publisher
+    return Tableau.session(timeout, logger, publisher)
 
 
 def show_trex():

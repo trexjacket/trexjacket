@@ -5,9 +5,7 @@ import anvil
 from anvil.js import report_exceptions
 
 from .._anvil_extras.injection import HTMLInjector
-from .._anvil_extras.messaging import Publisher
 from .._anvil_extras.non_blocking import call_async
-from .._logging import Logger
 from . import events
 from .marks import Field, build_marks
 from .utils import clean_record_key
@@ -28,27 +26,32 @@ class Tableau:
     _session = None
 
     @classmethod
-    def session(cls):
-        if not cls._session:
+    def session(cls, timeout, logger, publisher):
+        if cls._session is not None:
+            logger.log("Starting new session")
             cls._session = Tableau()
+            cls._session.logger = logger
+            cls._session.publisher = publisher
+            cls._session.timeout = timeout
+            cls._session.available
         return cls._session
 
-    def __init__(self, timeout=2):
+    def __init__(self):
         if self._session is not None:
             raise ValueError("You've already started a session. Use Tableau.session().")
 
-        self.logger = Logger()
-        self.logger.log("Starting new session")
+        self.logger = None
+        self.publisher = None
+        self.timeout = None
+
         self._initializing = True
-        self.timeout = timeout
-        self.publisher = Publisher()
         self.event_type_mapper = EventTypeMapper()
-        self.dashboard = Dashboard(self)
+        self.dashboard = Dashboard()
         self._tableau = _inject_tableau()
+
         async_call = call_async(self._tableau.extensions.initializeAsync)
         async_call.on_result(self._on_init)
         async_call.on_error(self.handle_error)
-        self.available
 
     def _on_init(self, result):
         self.dashboard.proxy = self._tableau.extensions.dashboardContent.dashboard
@@ -428,7 +431,7 @@ class Dashboard:
     https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html
     """
 
-    def __init__(self, session):
+    def __init__(self):
         self._proxy = None
         self._worksheets = {}
 

@@ -7,10 +7,10 @@ from ._logging import Logger
 from ._anvil_extras.messaging import Publisher
 
 
-def get_session(timeout=2, logger=None, publisher=None):
+def get_session(logger=None, publisher=None, timeout=2):
     logger = Logger() if logger is None else logger
     publisher = Publisher() if publisher is None else publisher
-    return Tableau.session(timeout, logger, publisher)
+    return Tableau.session(logger=logger, publisher=publisher, timeout=timeout)
 
 
 def show_trex():

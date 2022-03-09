@@ -1,6 +1,7 @@
 from ._anvil_designer import LogConsoleTemplate
 from ..model.proxies import Tableau
 
+
 class LogConsole(LogConsoleTemplate):
     def __init__(self, **properties):
         self.logger = Tableau.session().logger

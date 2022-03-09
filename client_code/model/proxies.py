@@ -445,9 +445,7 @@ class Dashboard:
             )
 
     def refresh(self):
-        self._worksheets = {
-            ws.name: Worksheet(ws) for ws in self._proxy.worksheets
-        }
+        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
 
     @property
     def proxy(self):

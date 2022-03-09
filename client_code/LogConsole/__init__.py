@@ -1,5 +1,5 @@
-from ._anvil_designer import LogConsoleTemplate
 from ..model.proxies import Tableau
+from ._anvil_designer import LogConsoleTemplate
 
 
 class LogConsole(LogConsoleTemplate):

@@ -1,18 +1,10 @@
 from ._anvil_designer import LogConsoleTemplate
-
+from ..model.proxies import Tableau
 
 class LogConsole(LogConsoleTemplate):
     def __init__(self, **properties):
-        self._logger = None
+        self.logger = Tableau.session().logger
         self.init_components(**properties)
-
-    @property
-    def logger(self):
-        return self._logger
-
-    @logger.setter
-    def logger(self, value):
-        self._logger = value
 
     def form_show(self, **event_args):
         self.logger.register_console(self.logging_console)

@@ -40,5 +40,4 @@ components:
   layout_properties: {grid_position: 'UTUBBB,OEAYZK'}
 is_package: true
 custom_component: true
-properties:
-- {name: logger, type: object, default_binding_prop: true, description: ''}
+properties: []

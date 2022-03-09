@@ -2,6 +2,7 @@ import itertools
 from time import sleep
 
 import anvil
+from anvil.js import report_exceptions
 
 from .._anvil_extras.injection import HTMLInjector
 from .._anvil_extras.messaging import Publisher
@@ -24,16 +25,16 @@ def _inject_tableau():
 
 
 class Tableau:
-    current_session = None
+    _session = None
 
     @classmethod
     def session(cls):
-        if not cls.current_session:
-            cls.current_session = Tableau()
-        return cls.current_session
+        if not cls._session:
+            cls._session = Tableau()
+        return cls._session
 
     def __init__(self, timeout=2):
-        if self.current_session:
+        if self._session is not None:
             raise ValueError("You've already started a session. Use Tableau.session().")
 
         self.logger = Logger()
@@ -90,6 +91,37 @@ class Tableau:
         https://anvil.works/docs/client/javascript/accessing-javascript
         """
         return self._tableau
+
+    def register_event_handler(self, event_type, handler, targets):
+        if not self.available:
+            raise ValueError("No tableau session is available")
+
+        if isinstance(event_type, str):
+            try:
+                event_type = events.event_types[event_type]
+            except KeyError:
+                raise KeyError(
+                    f"Unrecognized event_type {event_type}. "
+                    f"Valid events: {list(events.event_types.keys())}"
+                )
+
+        try:
+            _ = len(targets)
+        except TypeError:
+            targets = (targets,)
+
+        handler = report_exceptions(handler)
+        tableau_event = self.event_type_mapper.tableau_event(event_type)
+
+        def wrapper(event):
+            wrapped_event = self.event_type_mapper.proxy(event)
+            handler(wrapped_event)
+
+        handler_fn = None
+        for target in targets:
+            handler_fn = target._proxy.addEventListener(tableau_event, wrapper)
+
+        return handler_fn
 
 
 class TableauProxy:
@@ -213,8 +245,9 @@ class Parameter(TableauProxy):
         self.change_value(new_value)
 
     def register_event_handler(self, handler):
-        self._listener = events.register_event_handler(
-            events.PARAMETER_CHANGED, handler, self, Tableau.session()
+        session = Tableau.session()
+        self._listener = session.register_event_handler(
+            events.PARAMETER_CHANGED, handler, self
         )
 
     def remove_event_handler(self):
@@ -369,13 +402,14 @@ class Worksheet(TableauProxy):
         return list(self._proxy.getDataSourcesAsync())
 
     def register_event_handler(self, event_type, handler):
+        session = Tableau.session()
         if event_type in [
             "selection_changed",
             "filter_changed",
             events.SELECTION_CHANGED,
             events.FILTER_CHANGED,
         ]:
-            events.register_event_handler(event_type, handler, self, Tableau.session())
+            session.register_event_handler(event_type, handler, self)
 
         elif event_type in ["parameter_changed", events.PARAMETER_CHANGED]:
             for p in self.parameters:
@@ -397,7 +431,6 @@ class Dashboard:
     def __init__(self, session):
         self._proxy = None
         self._worksheets = {}
-        self.session = session
 
     def __getitem__(self, idx):
         try:

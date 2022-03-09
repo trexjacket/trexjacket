@@ -1,19 +1,16 @@
 import anvil
 import anvil.js
 
-from model.events import register_event_handler
-from .model.proxies import TableauSession
-
 from ._trex.Viewer import Viewer
-
-session = TableauSession.get_session()
+from .model.proxies import Tableau
 
 
 def get_session():
-    return TableauSession.get_session()
+    return Tableau.session()
 
 
 def show_trex():
+    session = get_session()
     anvil.alert(
         content=Viewer(session.publisher),
         buttons=None,

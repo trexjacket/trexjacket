@@ -1,10 +1,4 @@
 import itertools
-
-from . import events
-from .marks import Field, build_marks
-from .utils import clean_record_key
-
-
 from time import sleep
 
 import anvil
@@ -13,6 +7,9 @@ from .._anvil_extras.injection import HTMLInjector
 from .._anvil_extras.messaging import Publisher
 from .._anvil_extras.non_blocking import call_async
 from .._logging import Logger
+from . import events
+from .marks import Field, build_marks
+from .utils import clean_record_key
 
 CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js"  # noqa
 
@@ -26,21 +23,18 @@ def _inject_tableau():
     return tableau
 
 
-class TableauSession:
-    # What do you think of making TableauSession a singleton?
+class Tableau:
     current_session = None
 
     @classmethod
-    def get_session(cls):
+    def session(cls):
         if not cls.current_session:
-            cls.current_session = TableauSession()
+            cls.current_session = Tableau()
         return cls.current_session
 
     def __init__(self, timeout=2):
         if self.current_session:
-            raise SessionStartedError(
-                "You've already started a session. Use TableauSession.get_session()."
-            )
+            raise ValueError("You've already started a session. Use Tableau.session().")
 
         self.logger = Logger()
         self.logger.log("Starting new session")
@@ -76,18 +70,21 @@ class TableauSession:
         while self._initializing and waited <= self.timeout:
             sleep(step)
             waited += step
-        #         self.logger.log(f"Waited for {waited} seconds")
         return self.dashboard.proxy is not None
 
     @property
     def extensions_api(self):
-        """This provides access to the raw Tableau Extensions API. This can be used
-        to access parts of the API that is not handled by the Anvil Tableau Extension framework yet.
+        """This provides access to the raw Tableau Extensions API.
+        This can be used to access parts of the API that is not handled by the
+        Anvil Tableau Extension framework yet.
 
-        For example, if you want to access underlying data for the first sheet, you can call:
-        tableau_session.extensions_api.extensions.dashboardContent.dashboard.worksheets[0].getUnderlyingDataAsync()
+        For example, if you want to access underlying data for the first sheet,
+        you can call:
+        dashboard = tableau.extensions_api.extensions.dashboardContent.dashboard
+        dashboard.worksheets[0].getUnderlyingDataAsync()
 
-        Note that this maps the Tableau Extensions API, and returns JavaScript Proxy Objects.
+        Note that this maps the Tableau Extensions API, and returns JavaScript
+        Proxy Objects.
 
         For more information, see:
         https://anvil.works/docs/client/javascript/accessing-javascript
@@ -149,10 +146,6 @@ class Filter:
     def set_filter_value(self, new_values, method="replace"):
         self.worksheet.apply_filter(self.field_name, new_values, method)
 
-    # This needs probably subclassing of the Filter object and a genertor function to
-    # decide which one to instantiate based on the javascript filterType attribute.
-    # The abstract Filter class does not offer a way to get the filter vlaue because
-    # it is abstract
     @property
     def applied_values(self):
         if self.filter_type == "categorical":
@@ -162,7 +155,6 @@ class Filter:
         elif self.filter_type == "relative-date":
             result = self.periodType
         elif self.filter_type == "hierarchical":
-            # Borderline NotImplementedError in the JS library
             result = "Hierarchical filter"
 
         return result
@@ -221,9 +213,8 @@ class Parameter(TableauProxy):
         self.change_value(new_value)
 
     def register_event_handler(self, handler):
-        # Note our use of the TableauSession.get_session method. Leveraging the fact that it's a singleton.
         self._listener = events.register_event_handler(
-            events.PARAMETER_CHANGED, handler, self, TableauSession.get_session()
+            events.PARAMETER_CHANGED, handler, self, Tableau.session()
         )
 
     def remove_event_handler(self):
@@ -309,21 +300,11 @@ class EventTypeMapper:
         return self._proxies[event._type](event)
 
 
-class Worksheet:  # Shouldn't this be a TableauProxy????
+class Worksheet(TableauProxy):
     """Wrapper for a tableau Worksheet
 
     https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
     """
-
-    def __init__(self, proxy, session=None):
-        # unclear to me why this isn't a Tableau Proxy!
-        # If it has something to do with this Session this can be replaced with
-        # calls to TableauSession.get_session()...
-        self._proxy = proxy
-        self.session = session
-
-    def __getattr__(self, name):
-        return getattr(self._proxy, name)
 
     @property
     def selected_records(self):
@@ -346,8 +327,6 @@ class Worksheet:  # Shouldn't this be a TableauProxy????
 
         return all_filters
 
-    # Feels like we need a similar method at the dashboard level that iterates through
-    # all worksheets, returning first match
     def get_filter(self, filter_name):
         specified_filter = [f for f in self.filters if f.field_name == filter_name]
         if not specified_filter:
@@ -376,7 +355,7 @@ class Worksheet:  # Shouldn't this be a TableauProxy????
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
-        p = [Parameter(p) for p in self.parameters if p.name == paramter_name]
+        p = [Parameter(p) for p in self.parameters if p.name == parameter_name]
         if not p:
             raise KeyError(
                 f"No matching parameter found for {parameter_name}. "
@@ -396,11 +375,7 @@ class Worksheet:  # Shouldn't this be a TableauProxy????
             events.SELECTION_CHANGED,
             events.FILTER_CHANGED,
         ]:
-            # NOTE: I changed this to use TableauSession.get_session() instead of self.session.
-            #               events.register_event_handler(event_type, handler, self, self.session)
-            events.register_event_handler(
-                event_type, handler, self, TableauSession.get_session()
-            )
+            events.register_event_handler(event_type, handler, self, Tableau.session())
 
         elif event_type in ["parameter_changed", events.PARAMETER_CHANGED]:
             for p in self.parameters:
@@ -408,8 +383,8 @@ class Worksheet:  # Shouldn't this be a TableauProxy????
 
         else:
             raise NotImplementedError(
-                "You can only set selection_changed, filter_changed, or parameter_changed from "
-                f"the Sheet object. You tried: {event_type}"
+                "You can only set selection_changed, filter_changed, or "
+                f"parameter_changed from the Sheet object. You tried: {event_type}"
             )
 
 
@@ -418,11 +393,6 @@ class Dashboard:
 
     https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html
     """
-
-    # So interestingly from the API:
-    # The Dashboard interface inherits from the Sheet interface.
-    # Do we want to do this too? Would that be more or less convenient?
-    # We have duplicated a bunch of the logic, specifically around parameters and events.
 
     def __init__(self, session):
         self._proxy = None
@@ -439,7 +409,6 @@ class Dashboard:
             )
 
     def refresh(self):
-        # What is this function meant do? I'm confused by this... is it meant to reload the dashboard?
         self._worksheets = {
             ws.name: Worksheet(ws, self.session) for ws in self._proxy.worksheets
         }
@@ -480,8 +449,6 @@ class Dashboard:
 
     @property
     def datasources(self):
-        # We probably want to wrap the DataSource object as well.
-        # This will need updating when done.
         return self._proxy.getAllDataSourcesAsync()
 
     def refresh_data_sources(self):
@@ -506,6 +473,6 @@ class Dashboard:
 
         else:
             raise NotImplementedError(
-                "You can only set selection_changed, filter_changed, or parameter_changed "
-                f"from the Dashboard object. You passed: {event_type}"
+                "You can only set selection_changed, filter_changed, or"
+                f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )

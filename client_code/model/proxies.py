@@ -443,7 +443,7 @@ class Dashboard:
 
     def refresh(self):
         self._worksheets = {
-            ws.name: Worksheet(ws, self.session) for ws in self._proxy.worksheets
+            ws.name: Worksheet(ws) for ws in self._proxy.worksheets
         }
 
     @property

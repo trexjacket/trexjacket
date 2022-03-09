@@ -2,8 +2,8 @@ import base64
 import io
 import xml.etree.ElementTree as et
 
-import anvil.server
 import anvil.media
+import anvil.server
 from PIL import Image
 
 required_author_fields = ["name", "email", "website"]

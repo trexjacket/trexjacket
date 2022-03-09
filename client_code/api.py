@@ -1,10 +1,10 @@
 import anvil
 import anvil.js
 
+from ._anvil_extras.messaging import Publisher
+from ._logging import Logger
 from ._trex.Viewer import Viewer
 from .model.proxies import Tableau
-from ._logging import Logger
-from ._anvil_extras.messaging import Publisher
 
 
 def get_session(logger=None, publisher=None, timeout=2):

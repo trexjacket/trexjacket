@@ -23,10 +23,34 @@ def _inject_tableau():
 
 
 class Tableau:
+    """The main interface to Tableau.
+
+    Creating an instance of class this will initialize a tableau session and make
+    available a Dashboard instances with its related objects and methods.
+
+    Attributes
+    ----------
+    logger : tableau_extension._logging.Logger
+    publisher : anvil_extras.messaging.Publisher
+    dashboard : Dashboard
+    """
     _session = None
 
     @classmethod
     def session(cls, logger=None, publisher=None, timeout=None):
+        """Constructor method for the Tableau class.
+
+        Parameters
+        ----------
+        logger : tableau_extension._logging.Logger
+        publisher : anvil_extras.messaging.Publisher
+        timeout : int
+            The number of seconds to wait for the session to be initialized.
+
+        Returns
+        -------
+        Tableau
+        """
         if cls._session is None:
             logger.log("Starting new session")
             cls._session = Tableau()
@@ -64,6 +88,7 @@ class Tableau:
 
     @property
     def available(self):
+        """Whether the current sesssion is yet available"""
         waited = 0
         step = 0.1
         if self._initializing:
@@ -96,6 +121,17 @@ class Tableau:
         return self._tableau
 
     def register_event_handler(self, event_type, handler, targets):
+        """Register an event handling function for a given event type.
+
+        Parameters
+        ----------
+        event_type : str
+            The event type to register the handler for.
+        handler : function
+            The function to call when the event is triggered.
+        targets : list
+            The list of targets to register the handler for.
+        """
         if not self.available:
             raise ValueError("No tableau session is available")
 

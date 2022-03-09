@@ -8,8 +8,10 @@ from ._trex.Viewer import Viewer
 
 session = TableauSession.get_session()
 
+
 def get_session():
-  return TableauSession.get_session()
+    return TableauSession.get_session()
+
 
 def show_trex():
     anvil.alert(

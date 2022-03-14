@@ -70,21 +70,21 @@ class Logger:
 def register_default_handlers(session):
     logger = session.logger
 
-    def _on_filter_change(self, event):
+    def _on_filter_change(event):
         logger.log("*" * 50)
         logger.log("Filter Change detected...")
         logger.log(f"** Field Name: {event.filter.field_name}")
         logger.log(f"** Values: {event.filter.applied_values}")
         logger.log("*" * 50)
 
-    def _on_parameter_change(self, event):
+    def _on_parameter_change(event):
         logger.log("*" * 50)
         logger.log("Parameter Change detected...")
         logger.log(f"** Parameter name: {event.parameter.name}")
         logger.log(f"** Parameter value: {event.parameter.value}")
         logger.log("*" * 50)
 
-    def _on_selection_change(self, event):
+    def _on_selection_change(event):
         logger.log("*" * 50)
         logger.log("Selection Change detected...")
         logger.log(f"** Worksheet name: {event.worksheet.name}")

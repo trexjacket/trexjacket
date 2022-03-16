@@ -1,0 +1,4 @@
+anvil-uplink
+sphinx
+sphinx-autobuild
+sphinx-rtd-theme

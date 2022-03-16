@@ -34,6 +34,7 @@ class Tableau:
     publisher : anvil_extras.messaging.Publisher
     dashboard : Dashboard
     """
+
     _session = None
 
     @classmethod

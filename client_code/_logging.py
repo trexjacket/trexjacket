@@ -3,6 +3,8 @@ from time import gmtime, strftime, time
 import anvil
 import anvil.server
 
+from .model import events as _events
+
 
 def _timestamp(seconds):
     """Text representation of a unix timestamp"""
@@ -67,7 +69,12 @@ class Logger:
             _log_to_console(console, msg)
 
 
-def register_default_handlers(session):
+def register_default_handlers(session, events=None):
+    if events is None:
+        events = _events.event_types.values()
+    if isinstance(events, str):
+        events = [events]
+    events = [_events.event_types[e] if isinstance(e, str) else e for e in events]
     logger = session.logger
 
     def _on_filter_change(event):
@@ -95,6 +102,9 @@ def register_default_handlers(session):
         logger.log("*" * 50)
 
     dashboard = session.dashboard
-    dashboard.register_event_handler("filter_changed", _on_filter_change)
-    dashboard.register_event_handler("parameter_changed", _on_parameter_change)
-    dashboard.register_event_handler("selection_changed", _on_selection_change)
+    if _events.FILTER_CHANGED in events:
+        dashboard.register_event_handler("filter_changed", _on_filter_change)
+    if _events.PARAMETER_CHANGED in events:
+        dashboard.register_event_handler("parameter_changed", _on_parameter_change)
+    if _events.SELECTION_CHANGED in events:
+        dashboard.register_event_handler("selection_changed", _on_selection_change)

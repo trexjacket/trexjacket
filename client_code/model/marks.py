@@ -1,3 +1,4 @@
+import datetime as dt
 import re
 
 from .utils import clean_record_key
@@ -7,6 +8,7 @@ class Field:
     """Represents a dimension of a selected Mark"""
 
     def __init__(self, name, value):
+        self._value = None
         self.name = name
         self.value = value
 
@@ -18,6 +20,18 @@ class Field:
 
     def __eq__(self, other):
         return self.name == other.name and self.value == other.value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        try:
+            iso_string = value.toISOString().replace("Z", "+00:00")
+            self._value = dt.datetime.fromisoformat(iso_string)
+        except AttributeError:
+            self._value = value
 
 
 class Measure(Field):

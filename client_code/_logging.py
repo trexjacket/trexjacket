@@ -69,7 +69,10 @@ class Logger:
             _log_to_console(console, msg)
 
 
-def register_default_handlers(session, event_types=None):
+_all_event_types = events.event_types.values()
+
+
+def register_default_handlers(session, event_types=_all_event_types):
     """Register simple logging handlers for the given event types
 
     Parameters
@@ -79,8 +82,6 @@ def register_default_handlers(session, event_types=None):
         List of event types to register handlers for. If None, all event types
         are registered.
     """
-    if event_types is None:
-        event_types = events.event_types.values()
     if isinstance(event_types, str):
         event_types = [event_types]
     event_types = [

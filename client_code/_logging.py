@@ -67,7 +67,7 @@ class Logger:
             self._messages.pop(0)
         for console in self._consoles:
             _log_to_console(console, msg)
-    
+
     def warn(self, message, with_anvil_logging=True):
         self.log(f"WARNING: {message}", with_anvil_logging)
         anvil.Notification(message=message, title="Warning", style="warning").show()

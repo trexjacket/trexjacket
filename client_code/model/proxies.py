@@ -1,3 +1,4 @@
+import datetime as dt
 import itertools
 from time import sleep
 
@@ -20,6 +21,22 @@ def _inject_tableau():
     from anvil.js.window import tableau
 
     return tableau
+
+
+_event_cache = {}
+
+
+def _suppress_duplicate_events(event_handler):
+    def suppressing_handler(event):
+        now = dt.datetime.now()
+        for k, v in _event_cache.items():
+            if now - v > dt.timedelta(seconds=0.5):
+                del _event_cache[k]
+        if event not in _event_cache:
+            _event_cache[event] = now
+            event_handler(event)
+
+    return suppressing_handler
 
 
 class Tableau:
@@ -151,6 +168,8 @@ class Tableau:
             targets = (targets,)
 
         handler = report_exceptions(handler)
+        if event_type == events.FILTER_CHANGED:
+            handler = _suppress_duplicate_events(handler)
         tableau_event = self.event_type_mapper.tableau_event(event_type)
 
         def wrapper(event):
@@ -315,6 +334,12 @@ class FilterChangedEvent(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
     """
+
+    def __hash__(self):
+        return hash(self.fieldName)
+
+    def __eq__(self, other):
+        return self.fieldName == other.fieldName
 
     @property
     def filter(self):

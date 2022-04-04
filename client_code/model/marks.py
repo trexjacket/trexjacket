@@ -43,14 +43,19 @@ class Dimension(Field):
 
 
 class Mark:
-    """Basically a class for Dan to throw some spaghetti to see what sticks
+    """A class to represent a selected mark on a worksheet
 
-    Usage:
-    mark.dimensions: a tuple of the identifying dimensions
-    mark.identifier: a tuple identifying the mark
-    mark.measures: a tuple of the underlying data
-    mark.values:  a tuple of the actual data that is associated with this mark,
-    mapped to measures
+    Attributes
+    ----------
+    dimensions : tuple
+        of the identifying dimensions
+    identifier : tuple
+        identifying the mark
+    measures : tuple
+        of the underlying data
+    values : tuple
+        of the actual data that is associated with this mark
+        mapped to measures
 
     Marks are accessible by case-insensitive dictionary lookup
     i.e. a mark can be accessed mark['profit'] and this will return the value
@@ -60,9 +65,7 @@ class Mark:
     """
 
     def __init__(self, dimensions):
-        self.values_dict = (
-            dict()
-        )  # replace this with measures, referencing a Dimension object?
+        self.values_dict = dict()
         self.dimensions = dimensions
 
     @property
@@ -92,7 +95,7 @@ class Mark:
         return self.values_dict.get(clean_record_key(key))
 
     def __repr__(self):
-        return f"DansMark: Identified by {self.dimensions}, values: {self.values_dict}"
+        return f"Mark: Identified by {self.dimensions}, values: {self.values_dict}"
 
 
 aggregation_pattern = re.compile(r"(^agg|sum)\((.*)\)$")
@@ -100,15 +103,17 @@ datetime_pattern = re.compile(r"(^month)\((.*)\)$")
 
 
 def build_marks(records):
-    """Generates Dans Marks"""
-    # we iterate through all records.
-    # Some "Marks" can be assembled from multiple records if they share a common
-    # identifier (frozen set of dimensions)
-    # This is not really known until we have iterated through all records
-    # We do rely on a record having a complete set of dimensions, or they will be
-    # assembled separately (i.e. dimensions
-    # must fully overlap for us to group them)
-    dans_marks = dict()
+    """Generates Marks
+
+    we iterate through all records.
+    Some "Marks" can be assembled from multiple records if they share a common
+    identifier (frozen set of dimensions)
+    This is not really known until we have iterated through all records
+    We do rely on a record having a complete set of dimensions, or they will be
+    assembled separately (i.e. dimensions
+    must fully overlap for us to group them)
+    """
+    marks = dict()
     for record in records:
         all_dimensions = set()
         all_values = dict()
@@ -156,12 +161,12 @@ def build_marks(records):
 
         all_dimensions = frozenset(all_dimensions)
 
-        if all_dimensions in dans_marks:
-            dans_marks[all_dimensions].values_dict.update(all_values)
+        if all_dimensions in marks:
+            marks[all_dimensions].values_dict.update(all_values)
 
         else:
             new_mark = Mark(all_dimensions)
             new_mark.values_dict = all_values
-            dans_marks[all_dimensions] = new_mark
+            marks[all_dimensions] = new_mark
 
-    return list(dans_marks.values())
+    return list(marks.values())

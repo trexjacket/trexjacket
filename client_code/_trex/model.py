@@ -50,6 +50,7 @@ class Trex:
         self.capability.set_update_handler(self._handle_cache_update)
 
     def __setattr__(self, name, value):
+        self.__dict__[name] = value
         if name == "publisher":
             cache["publisher"] = value
         else:
@@ -59,7 +60,6 @@ class Trex:
                 )
             except AttributeError:
                 pass
-        self.__dict__[name] = value
 
     def _handle_cache_update(self, update):
         self.file = update["file"]

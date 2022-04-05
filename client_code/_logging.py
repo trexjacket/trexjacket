@@ -3,6 +3,8 @@ from time import gmtime, strftime, time
 import anvil
 import anvil.server
 
+from .model import events
+
 
 def _timestamp(seconds):
     """Text representation of a unix timestamp"""
@@ -65,3 +67,60 @@ class Logger:
             self._messages.pop(0)
         for console in self._consoles:
             _log_to_console(console, msg)
+
+    def warn(self, message, with_anvil_logging=True):
+        self.log(f"WARNING: {message}", with_anvil_logging)
+        anvil.Notification(message=message, title="Warning", style="warning").show()
+
+
+_all_event_types = events.event_types.values()
+
+
+def register_default_handlers(session, event_types=_all_event_types):
+    """Register simple logging handlers for the given event types
+
+    Parameters
+    ----------
+    session : Tableau instance
+    event_types : list or str
+        List of event types to register handlers for. If None, all event types
+        are registered.
+    """
+    if isinstance(event_types, str):
+        event_types = [event_types]
+    event_types = [
+        events.event_types[e] if isinstance(e, str) else e for e in event_types
+    ]
+    logger = session.logger
+
+    def _on_filter_change(event):
+        logger.log("*" * 50)
+        logger.log("Filter Change detected...")
+        logger.log(f"** Field Name: {event.filter.field_name}")
+        logger.log(f"** Values: {event.filter.applied_values}")
+        logger.log("*" * 50)
+
+    def _on_parameter_change(event):
+        logger.log("*" * 50)
+        logger.log("Parameter Change detected...")
+        logger.log(f"** Parameter name: {event.parameter.name}")
+        logger.log(f"** Parameter value: {event.parameter.value}")
+        logger.log("*" * 50)
+
+    def _on_selection_change(event):
+        logger.log("*" * 50)
+        logger.log("Selection Change detected...")
+        logger.log(f"** Worksheet name: {event.worksheet.name}")
+        logger.log(f"** Worksheet type: {event.worksheet.sheetType}")
+        logger.log(f"** Records: {event.worksheet.selected_records}")
+        for mark in event.worksheet.selected_marks:
+            logger.log(f"** {mark}")
+        logger.log("*" * 50)
+
+    dashboard = session.dashboard
+    if events.FILTER_CHANGED in events:
+        dashboard.register_event_handler("filter_changed", _on_filter_change)
+    if events.PARAMETER_CHANGED in events:
+        dashboard.register_event_handler("parameter_changed", _on_parameter_change)
+    if events.SELECTION_CHANGED in events:
+        dashboard.register_event_handler("selection_changed", _on_selection_change)

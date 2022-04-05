@@ -527,6 +527,10 @@ class Dashboard:
         return list(self._worksheets.values())
 
     @property
+    def filters(self):
+        return itertools.chain(*[ws.filters for ws in self.worksheets])
+
+    @property
     def parameters(self):
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 

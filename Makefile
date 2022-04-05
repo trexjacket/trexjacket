@@ -20,5 +20,5 @@ github_actions_docs:
 	rm -rf $(GH_PAGES_DIR)
 	mkdir $(GH_PAGES_DIR) && touch $(GH_PAGES_DIR)/.nojekyll
 	rm -rf $(DOCSDIR)/$(BUILDDIR) && mkdir $(DOCSDIR)/$(BUILDDIR)
-	pipx run sphinx-build -b html $(DOCSDIR) $(DOCSDIR)/$(BUILDDIR)
+	sphinx-build -b html $(DOCSDIR) $(DOCSDIR)/$(BUILDDIR)
 	@cp -a $(DOCSDIR)/$(BUILDDIR)/html/* $(GH_PAGES_DIR)

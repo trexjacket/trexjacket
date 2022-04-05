@@ -13,7 +13,7 @@ jobs:
             - name: Install dependencies
               run: python3 -m pip install -r requirements.txt
             - name: Build docs
-              run: make github_action_docs
+              run: make github_actions_docs
             - name: Commit built docs
               run: |
                   git config --global user.name "github-actions[bot]"

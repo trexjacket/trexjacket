@@ -528,7 +528,7 @@ class Dashboard:
 
     @property
     def filters(self):
-        return itertools.chain(*[ws.filters for ws in self.worksheets])
+        return list(itertools.chain(*[ws.filters for ws in self.worksheets]))
 
     @property
     def parameters(self):

@@ -230,12 +230,12 @@ class Filter:
     def __getattr__(self, name):
         return getattr(self._proxy, name)
 
+    def __str__(self):
+        return f"Filter: '{self.field_name}', with values: {self.applied_values}"
+
     @property
     def field_name(self):
         return self._proxy.fieldName
-
-    def set_filter_value(self, new_values, method="replace"):
-        self.worksheet.apply_filter(self.field_name, new_values, method)
 
     @property
     def applied_values(self):
@@ -270,12 +270,18 @@ class Filter:
     def field(self):
         return Field(self._proxy.getFieldAsync())
 
+    def set_filter_value(self, new_values, method="replace"):
+        self.worksheet.apply_filter(self.field_name, new_values, method)
+
 
 class Parameter(TableauProxy):
     """Wrapper for a tableau Parameter
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
     """
+
+    def __str__(self):
+        return f"Parameter: '{self.name}', with current value: {self.value}"
 
     @property
     def domain(self):
@@ -313,9 +319,6 @@ class Parameter(TableauProxy):
         if hasattr(self, "_listener") and self._listener:
             self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
             self._listener = None
-
-    def __repr__(self):
-        return f"Parameter: '{self.name}', with current value: {self.value}"
 
 
 class MarksSelectedEvent(TableauProxy):

@@ -94,7 +94,7 @@ class Mark:
     def get(self, key):
         return self.values_dict.get(clean_record_key(key))
 
-    def __repr__(self):
+    def __str__(self):
         return f"Mark: Identified by {self.dimensions}, values: {self.values_dict}"
 
 

@@ -1,6 +1,7 @@
 import base64
 import io
 import xml.etree.ElementTree as et
+from urllib.parse import urlparse, urlunparse
 
 import anvil.media
 import anvil.server
@@ -29,7 +30,9 @@ DEFAULT_ICON = icon.decode("utf8")  # serializable string
 def get_url_for_branch(branch=None):
     "Returns the URL for the specified branch."
     url = anvil.server.get_app_origin("published")
-    return url
+    parsed = urlparse(url)
+    parsed[1] = parsed[1].lower()
+    return urlunparse(parsed)
 
 
 def get_id_from_url(url):

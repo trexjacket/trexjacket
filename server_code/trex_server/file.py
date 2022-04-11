@@ -30,7 +30,7 @@ DEFAULT_ICON = icon.decode("utf8")  # serializable string
 def get_url_for_branch(branch=None):
     "Returns the URL for the specified branch."
     url = anvil.server.get_app_origin("published")
-    parsed = urlparse(url)
+    parsed = list(urlparse(url))
     parsed[1] = parsed[1].lower()
     return urlunparse(parsed)
 

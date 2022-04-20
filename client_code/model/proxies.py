@@ -234,21 +234,49 @@ class Filter:
         return f"Filter: '{self.field_name}', with values: {self.applied_values}"
 
     @property
+    def serialized(self):
+        return {"field_name": self.field_name, "values": self.applied_values}
+
+    @property
     def field_name(self):
         return self._proxy.fieldName
 
+    def _categorical_values(self):
+        try:
+            return [v.nativeValue.getDate() for v in self.appliedValues]
+        except AttributeError:
+            return [v.nativeValue for v in self.appliedValues]
+
+    def _range_values(self):
+        try:
+            return (
+                self.minValue.nativeValue.getDate(),
+                self.maxValue.nativeValue.getDate(),
+            )
+        except AttributeError:
+            return (self.minValue.nativeValue, self.maxValue.nativeValue)
+
+    def _relative_date_values(self):
+        return self.periodType
+
+    def _hierarchical_values(self):
+        return "Hierarchical filter"
+
     @property
     def applied_values(self):
-        if self.filter_type == "categorical":
-            result = [v.nativeValue for v in self.appliedValues]
-        elif self.filter_type == "range":
-            result = (self.minValue.nativeValue, self.maxValue.nativeValue)
-        elif self.filter_type == "relative-date":
-            result = self.periodType
-        elif self.filter_type == "hierarchical":
-            result = "Hierarchical filter"
-
-        return result
+        handlers = {
+            "categorical": self._categorical_values,
+            "range": self._range_values,
+            "relativeDate": self._relative_date_values,
+            "hierarchical": self._hierarchical_values,
+        }
+        try:
+            return handlers[self.filterType]()
+        except KeyError:
+            raise ValueError(
+                f"Unrecognized filter type {self.filterType}. "
+                f"Valid filter types: {list(handlers.keys())}"
+            )
 
     @applied_values.setter
     def applied_values(self, new_values):
@@ -282,6 +310,13 @@ class Parameter(TableauProxy):
 
     def __str__(self):
         return f"Parameter: '{self.name}', with current value: {self.value}"
+
+    @property
+    def serialized(self):
+        try:
+            return {"name": self.name, "value": self.value.getDate()}
+        except AttributeError:
+            return {"name": self.name, "value": self.value}
 
     @property
     def domain(self):

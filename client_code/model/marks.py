@@ -22,6 +22,10 @@ class Field:
         return self.name == other.name and self.value == other.value
 
     @property
+    def serialized(self):
+        return {"name": self.name, "value": self.value}
+
+    @property
     def value(self):
         return self._value
 
@@ -68,6 +72,20 @@ class Mark:
         self.values_dict = dict()
         self.dimensions = dimensions
 
+    def __getitem__(self, key):
+        return self.values_dict[clean_record_key(key)]
+
+    def __str__(self):
+        return f"Mark: Identified by {self.dimensions}, values: {self.values_dict}"
+
+    @property
+    def serialized(self):
+        return {
+            "dimensions": [d.serialized for d in self.dimensions],
+            "measures": self.measures,
+            "values": self.values,
+        }
+
     @property
     def identifier(self):
         return tuple([d.value for d in self.dimensions])
@@ -88,14 +106,8 @@ class Mark:
     def measures(self):
         return list(self.values_dict.keys())
 
-    def __getitem__(self, key):
-        return self.values_dict[clean_record_key(key)]
-
     def get(self, key):
         return self.values_dict.get(clean_record_key(key))
-
-    def __str__(self):
-        return f"Mark: Identified by {self.dimensions}, values: {self.values_dict}"
 
 
 aggregation_pattern = re.compile(r"(^agg|sum)\((.*)\)$")

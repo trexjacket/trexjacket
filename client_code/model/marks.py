@@ -6,7 +6,6 @@ from .utils import clean_record_key
 
 class Field:
     """Represents a dimension of a selected Mark"""
-
     def __init__(self, name, value):
         self._value = None
         self.name = name
@@ -27,10 +26,17 @@ class Field:
 
     @property
     def value(self):
+        """Property that returns the Class value"""
         return self._value
 
     @value.setter
     def value(self, value):
+        """Sets the value for the Class
+        
+        Parameters
+        ----------
+        value
+        """
         try:
             iso_string = value.toISOString().replace("Z", "+00:00")
             self._value = dt.datetime.fromisoformat(iso_string)
@@ -76,6 +82,9 @@ class Mark:
         return self.values_dict[clean_record_key(key)]
 
     def __str__(self):
+	    """Representation of the Class object as a string"""
+        return f"Mark: Identified by {self.dimension}, values: {self.values_dict}"
+
         return f"Mark: Identified by {self.dimensions}, values: {self.values_dict}"
 
     @property
@@ -88,25 +97,40 @@ class Mark:
 
     @property
     def identifier(self):
-        return tuple([d.value for d in self.dimensions])
+        """Property that returns the dimension values of the Class"""
+        return list(self.dimension.values())
 
     @property
     def identifying_properties(self):
-        return (d.name for d in self.dimensions)
-
-    @property
-    def value(self):
-        return self.values[0]
+        """Property that returns the names of each dimension"""
+        return (d.name for d in self.dimension)
 
     @property
     def values(self):
-        return list(self.values_dict.values())
+        """Property that returns the Class values"""
+        return self.values_dict
 
     @property
     def measures(self):
+        """Property that returns the Class measures"""
         return list(self.values_dict.keys())
 
+    def __getitem__(self, key):
+        """Getter method for improved readability
+        
+        Parameters
+        ----------
+        key
+        """
+        return self.values_dict[clean_record_key(key)]
+
     def get(self, key):
+        """Getter method for improved readability
+        
+        Parameters
+        ----------
+        key
+        """
         return self.values_dict.get(clean_record_key(key))
 
 

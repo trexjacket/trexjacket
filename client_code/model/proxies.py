@@ -3,32 +3,11 @@ import itertools
 from time import sleep
 
 import anvil
+from anvil import tableau
 from anvil.js import report_exceptions
 
-from .._anvil_extras.injection import HTMLInjector
-from .._anvil_extras.non_blocking import call_async
 from . import events
 from .marks import Field, build_marks
-from .utils import clean_record_key, loading_indicator
-
-CDN_URL = "https://cdn.jsdelivr.net/gh/tableau/extensions-api/lib/tableau.extensions.1.latest.js"  # noqa
-
-def _inject_tableau():
-  """Private??
-  
-  The Tableau Injection creates the Javascript/css cdn file for the Tableau class.
- 
-  Returns
-  ----------
-  tableau
-  
-  #!
-  
-  """
-  injector = HTMLInjector()
-  injector.cdn(CDN_URL)
-  from anvil.js.window import tableau
-  return tableau
 from .utils import clean_record_key, loading_indicator, native_value_date_handler
 
 _event_cache = {}
@@ -54,9 +33,14 @@ def _suppress_duplicate_events(event_handler):
         #!
         """
         now = dt.datetime.now()
+        del_keys = []
         for k, v in _event_cache.items():
             if now - v > dt.timedelta(seconds=0.5):
-                del _event_cache[k]
+                del_keys.append(k)
+        
+        for k in del_keys:
+            del _event_cache[k]
+        
         if event not in _event_cache:
             _event_cache[event] = now
             event_handler(event)
@@ -65,10 +49,7 @@ def _suppress_duplicate_events(event_handler):
 
 
 class TableauProxy:
-    """A base class for those requiring a Tableau proxy object
-    
-    #!
-    
+    """A base class for those requiring a Tableau proxy object.
     """
 
     def __init__(self, proxy):
@@ -144,7 +125,7 @@ class Filter:
 
     @property
     def applied_values(self):
-        """Replaces the set filter values.
+        """Returns the current value applied to the Filter.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/filter.html
         
@@ -265,9 +246,13 @@ class Parameter(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
     """
-
+      
+    def refresh(self, parameter_changed_event=None):
+        """Refreshes the object to reflect any changes in the dashboard"""
+        self._proxy = Tableau.session().dashboard.get_parameter(self.name)._proxy
+        
     def __str__(self):
-        return f"Parameter: '{self.name}', with current value: {self.value}"
+        return f"Parameter: '{self.name}'"
 
     @property
     def serialized(self):
@@ -303,7 +288,6 @@ class Parameter(TableauProxy):
         return self._proxy.dataType
 
     def allowable_values(self):
-        return self._proxy.allowableValues
         """Returns the allowable set of values this parameter can take.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues
@@ -352,6 +336,7 @@ class Parameter(TableauProxy):
         currentValue: DataValue
             DataValue representing the current value of the parameter.
         """
+        self.refresh()
         return self._proxy.currentValue.nativeValue
 
     @value.setter
@@ -368,7 +353,10 @@ class Parameter(TableauProxy):
         self.change_value(new_value)
 
     def register_event_handler(self, handler):
-        """Register an event handling function for a given event type.
+        """Register an event handler that will be called whenever the parameter is changed.
+        
+        Note that the handler must take a ParameterChangedEvent instance as an argument.
+        
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#addeventlistener
         
@@ -550,18 +538,20 @@ class Worksheet(TableauProxy):
         specified_filter.worksheet = self
         return specified_filter
       
-    def clear_filter(self, filter_name):
+    def clear_filter(self, filter):
         """Resets existing filters on the given field.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync
           
         Parameters
         ----------
-        filter_name : str
-            The name of the field to clear filter on.
+        filter : str or Filter
+            The name or Filter Object of the field to clear filter on.
         """
-        self._proxy.clearFilterAsync(filter_name)
-
+        if isinstance(filter, Filter):
+          filter = filter.field_name
+        self._proxy.clearFilterAsync(filter)
+        
     def apply_filter(self, field_name, values, update_type="replace"):
         """Applies the list of provided categorical filter values.
         For more information, see:
@@ -608,7 +598,11 @@ class Worksheet(TableauProxy):
             dimension = [dimension]
         selection = [{'fieldName': k, 'value':[v]} for d in dimension for k,v in d.items()]
         self._proxy.selectMarksByValueAsync(selection, selection_type)
-
+    
+    def clear_selection(self):
+        """Clears the current marks selection."""
+        self._proxy.clearSelectedMarksAsync()
+      
     @property
     def parameters(self):
         """A collection of all the Tableau parameters that are used in this workbook.
@@ -629,20 +623,20 @@ class Worksheet(TableauProxy):
         
         Returns
         ---------
-        parameter: Inference Parameter
+        parameter: Parameter instance
             Represents a parameter in Tableau and provides ways to introspect the parameter and change its values.
         """
-        p = [Parameter(p) for p in self.parameters if p.name == parameter_name]
-        if not p:
+        param_js = self._proxy.findParameterAsync(parameter_name)
+        if not param_js:
             raise KeyError(
                 f"No matching parameter found for {parameter_name}. "
-                f"Parameters on Sheet: {[p.name for p in self.parameters]}"
+                f"Parameters on Dashboard: {[p.name for p in self.parameters]}"
             )
         else:
-            return p[0]
+            return Parameter(param_js)
 
     @property
-    def data_sources(self):
+    def datasources(self):
         """Gets the data sources for this worksheet.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getdatasourcesasync
@@ -656,6 +650,14 @@ class Worksheet(TableauProxy):
 
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
+        
+        You can register 'selection_changed' and 'filter_changed' events at the worksheet level.
+        The handler function will trigger when selections or filters are changed in the worksheet.
+        
+        If filters in one worksheet affect the filter on this worksheet, this event will be raised.
+        
+        The event handler must take a ParameterChangedEvent or FilterChangedEvent as an argument.
+        
         For more information, see:
         https://tableau.github.io/extensions-api/docs/trex_events.html
         
@@ -686,49 +688,23 @@ class Worksheet(TableauProxy):
             )
 
 
-class Dashboard:
+class Dashboard(TableauProxy):
     """Wrapper for a tableau Dashboard
 
     https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html
     """
 
-    def __init__(self):
-        self._proxy = None
-        self._worksheets = {}
+    def __init__(self, proxy):
+        super().__init__(proxy)
+        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
 
     def __getitem__(self, idx):
-        try:
-            return self._worksheets[idx]
-        except KeyError:
-            raise KeyError(
-                f"Worksheet {idx} doesn't exist. "
-                f"Worksheets in dashboard: {self._worksheets}"
-            )
+        return self.get_worksheet(idx)
 
     def refresh(self):
         """Refreshes the worksheets in the live Tableau Instance.
-        
-        #!
         """
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
-
-    @property
-    def proxy(self):
-        """...
-        
-        #!
-        """
-        return self._proxy
-
-    @proxy.setter
-    def proxy(self, value):
-        """
-        
-        #!
-        """
-        self._proxy = value
-        if value is not None:
-            self.refresh()
 
     @property
     def worksheets(self):
@@ -746,9 +722,7 @@ class Dashboard:
         return list(self._worksheets.values())
       
     def get_worksheet(self, sheet_name):
-        """Method that returns the worksheet from the active tableau instance.
-        For more information, see:
-        
+        """Method that returns the specified worksheet from the active tableau instance.
         
         Parameters
         ----------
@@ -760,7 +734,13 @@ class Dashboard:
         worksheet : Sheet.Dashboard.worksheet
             The desired worksheet
         """
-        return self[sheet_name]
+        try:
+            return self._worksheets[sheet_name]
+        except KeyError:
+            raise KeyError(
+                f"Worksheet {sheet_name} doesn't exist. "
+                f"Worksheets in dashboard: {list(self._worksheets.keys())}"
+            )
 
     @property
     def filters(self):
@@ -777,7 +757,7 @@ class Dashboard:
 
     @property
     def parameters(self):
-        """Property that returns the Class Parameters
+        """Property that returns the parameters in the Dashboard.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync
         
@@ -789,7 +769,8 @@ class Dashboard:
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
-        """Returns the given Class parameter
+        """Returns the parameter matchin the provided parameter_name. 
+        
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
         
@@ -803,14 +784,14 @@ class Dashboard:
         Parameters : list of Parameter
             Parameters in Tableau that are used in this workbook.
         """
-        p = [Parameter(p) for p in self.parameters if p.name == parameter_name]
-        if not p:
+        param_js = self._proxy.findParameterAsync(parameter_name)
+        if not param_js:
             raise KeyError(
                 f"No matching parameter found for {parameter_name}. "
-                f"Parameters on Sheet: {[p.name for p in self.parameters]}"
+                f"Parameters on Dashboard: {[p.name for p in self.parameters]}"
             )
         else:
-            return p[0]
+            return Parameter(param_js)
 
     @property
     def name(self):
@@ -905,7 +886,7 @@ class Dashboard:
 
         else:
             raise NotImplementedError(
-                "You can only set selection_changed, filter_changed, or"
+                "You can only set selection_changed, filter_changed, or "
                 f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )
 
@@ -1005,7 +986,7 @@ class DataTable(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/datatable.html
     """
-
+    
     @property
     def records(self):
         keys = [c.fieldName for c in self._proxy.columns]
@@ -1016,7 +997,7 @@ class DataTable(TableauProxy):
                 )
                 for attr in zip(
                     keys,
-                    [data_value.nativeValue for data_value in row],
+                    [native_value_date_handler(data_value.nativeValue) for data_value in row],
                     [data_value.formattedValue for data_value in row],
                 )
             }
@@ -1076,27 +1057,17 @@ class ParameterChangedEvent(TableauProxy):
 
 class EventTypeMapper:
     def __init__(self):
-        self._tableau = None
         self._tableau_event_types = None
         self._proxies = None
-
-    @property
-    def tableau(self):
-        return self._tableau
-
-    @tableau.setter
-    def tableau(self, value):
-        self._tableau = value
-        event_type = self._tableau.TableauEventType
         self._tableau_event_types = {
-            events.FILTER_CHANGED: event_type.FilterChanged,
-            events.PARAMETER_CHANGED: event_type.ParameterChanged,
-            events.SELECTION_CHANGED: event_type.MarkSelectionChanged,
+            events.FILTER_CHANGED: "filter-changed",
+            events.PARAMETER_CHANGED: "parameter-changed",
+            events.SELECTION_CHANGED: "mark-selection-changed",
         }
         self._proxies = {
-            event_type.FilterChanged: FilterChangedEvent,
-            event_type.MarkSelectionChanged: MarksSelectedEvent,
-            event_type.ParameterChanged: ParameterChangedEvent,
+            "filter-changed": FilterChangedEvent,
+            "mark-selection-changed": MarksSelectedEvent,
+            "parameter-changed": ParameterChangedEvent,
         }
 
     def tableau_event(self, event_type):

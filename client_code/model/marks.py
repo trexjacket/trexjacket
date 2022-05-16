@@ -48,19 +48,32 @@ class Measure(Field):
     pass
 
 
-class Dimension(Field):
-    pass
-
+class Dimensions(dict):
+  def __init__(self, frozen_fields):
+      self.fields = frozen_fields
+      super().__init__(**{f.name: f.value for f in self.fields})
+      
+  def __hash__(self):
+      return hash(self.fields)
+  
+  def __eq__(self, other):
+      return self.fields == other.fields
+    
+  def __setitem__(self, value):
+      raise KeyError("Can't update mark dimensions.")
+      
+  def __dict__(self):
+      return {f.name: f.value for f in self.fields}
 
 class Mark:
     """A class to represent a selected mark on a worksheet
 
     Attributes
     ----------
-    dimensions : tuple
-        of the identifying dimensions
+    dimension : Dimensions
+        representation of the identifying dimensions
     identifier : tuple
-        identifying the mark
+        dimension values identifying the mark
     measures : tuple
         of the underlying data
     values : tuple
@@ -74,25 +87,24 @@ class Mark:
       mark measure (Profit)
     """
 
-    def __init__(self, dimensions):
+    def __init__(self, dimension):
+        """Class initialization"""
         self.values_dict = dict()
-        self.dimensions = dimensions
-
-    def __getitem__(self, key):
-        return self.values_dict[clean_record_key(key)]
+        self.dimension = dimension
 
     def __str__(self):
-	    """Representation of the Class object as a string"""
+        """Representation of the Class object as a string"""
         return f"Mark: Identified by {self.dimension}, values: {self.values_dict}"
+      
+    def __repr__(self):
+      return str(self)
 
-        return f"Mark: Identified by {self.dimensions}, values: {self.values_dict}"
-
-    @property
-    def serialized(self):
+    def _to_dict(self):
+        """Representation of the Class object as a dict"""
         return {
-            "dimensions": [d.serialized for d in self.dimensions],
+            "dimension": dict(self.dimension),
             "measures": self.measures,
-            "values": self.values,
+            "values": list(self._values.values()),
         }
 
     @property
@@ -133,10 +145,8 @@ class Mark:
         """
         return self.values_dict.get(clean_record_key(key))
 
-
-aggregation_pattern = re.compile(r"(^agg|sum)\((.*)\)$")
+aggregation_pattern = re.compile(r"(^agg|sum|AGG|SUM)\((.*)\)$")
 datetime_pattern = re.compile(r"(^month)\((.*)\)$")
-
 
 def build_marks(records):
     """Generates Marks
@@ -154,14 +164,16 @@ def build_marks(records):
         all_dimensions = set()
         all_values = dict()
         measure_flag = False
+        measure_name = None
+        measure_value = None
         for key, value in record.items():
             this_value = None
             this_dimension = None
             aggregation_match = aggregation_pattern.search(key)
             datetime_match = datetime_pattern.search(key)
             category_match = isinstance(value, str)
-            is_measure_name = key == "measure_names"
-            is_measure_value = key == "measure_values"
+            is_measure_name = key == "Measure Names"
+            is_measure_value = key == "Measure Values"
 
             if is_measure_name:
                 measure_flag = True
@@ -173,10 +185,10 @@ def build_marks(records):
 
             elif datetime_match:
                 name = datetime_match.group(2)
-                this_dimension = Dimension(name, value)
+                this_dimension = Field(name, value)
 
             elif category_match:
-                this_dimension = Dimension(key, value)
+                this_dimension = Field(key, value)
 
             elif aggregation_match:
                 name = aggregation_match.group(2)
@@ -195,7 +207,7 @@ def build_marks(records):
         if measure_flag:
             all_values[clean_record_key(measure_name)] = measure_value
 
-        all_dimensions = frozenset(all_dimensions)
+        all_dimensions = Dimensions(frozenset(all_dimensions))
 
         if all_dimensions in marks:
             marks[all_dimensions].values_dict.update(all_values)

@@ -1,8 +1,16 @@
 import anvil.js
 import datetime
+
 def clean_record_key(key):
     """Clean the record keys from tableau"""
-    return key.replace("(generated)", "").strip().lower().replace(" ", "_")
+    return key.replace("(generated)", "").strip()
+  
+class loading_indicator:
+  def __enter__(self):
+    anvil.js.call_js('setLoading', True)
+    return self
+  def __exit__(self, exc_type, exc_value, tb):
+    anvil.js.call_js('setLoading', False)
     
 def native_value_date_handler(native_value):
     """Parses native_values into Python types. Floats, ints, strings, and booleans

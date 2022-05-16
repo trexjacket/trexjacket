@@ -397,10 +397,23 @@ class Worksheet(TableauProxy):
 
     https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
     """
-
+    def get_selected_records(self):
+        """Gets the data for the marks which are currently selected on the worksheet.
+        If there are no marks currently selected, an empty list is returned.
+        
+        For more information, see:
+        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync
+        
+        Returns
+        --------
+        records : list
+            Data for the currently selected marks on the worksheet
+        """
+        return self.selected_records
+    
     @property
     def selected_records(self):
-        """Gets the data for the marks which are currently selected on the worksheet.
+        """The data for the marks which are currently selected on the worksheet.
         If there are no marks currently selected, an empty list is returned.
         
         For more information, see:
@@ -428,9 +441,71 @@ class Worksheet(TableauProxy):
         list : Marks
             A list of selected mark(s) on the worksheet
         """
-        data = self._proxy.getSelectedMarksAsync()["data"]
-        datatables = (DataTable(table) for table in data)
-        records = list(itertools.chain(*[dt.records for dt in datatables]))
+        records = self.selected_records
+        return build_marks(records)
+    
+    def get_underlying_records(self, table_id=None):
+        """Get the underlying worksheet data as a list of dictionaries (records). 
+        If more than one "underlying table" exists, the table id must be specified.
+        
+        See also:
+        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getunderlyingtabledataasync
+        
+        Parameters
+        ----------
+        table_id : str
+            The table id for which to get the underlying data. Required if more than one logical table exists.
+            
+        Returns
+        -------
+        records: list of dicts
+        
+        Raises:
+        -------
+        ValueError: If more than one table_id exists, then a table must be specified.
+        """
+        ws = self._proxy
+        
+        if table_id is None:
+            # we need to get the only underlying table id.
+            tables = ws.getUnderlyingTablesAsync()
+            if len(tables) > 1:
+                info = ', '.join([f"{t.caption} (id: {t.id})" for t in tables])
+                raise ValueError("More than one underlying table exists. Need to specify the underlying table. "
+                                "You can get the underlying table information using the get_underlying_tables method. "
+                                f"Valid tables: {info}")
+                
+            table_id = tables[0].id
+            
+        datatable = DataTable(ws.getUnderlyingTableDataAsync(table_id))
+        return datatable.records
+      
+    def get_summary_records(self, ignore_selection=True):
+      datatable = DataTable(self._proxy.getSummaryDataAsync({"ignoreSelection":ignore_selection}))
+      return datatable.records
+      
+    def get_underlying_marks(self, table_id=None):
+        """Get the underlying worksheet data as a list of Marks
+        . 
+        If more than one "underlying table" exists, the table id must be specified.
+        
+        See also:
+        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getunderlyingtabledataasync
+        
+        Parameters
+        ----------
+        table_id : str
+            The table id for which to get the underlying data. Required if more than one logical table exists.
+            
+        Returns
+        -------
+        marks: list of Mark objects
+        
+        Raises:
+        -------
+        ValueError: If more than one table_id exists, then a table must be specified.
+        """
+        records = self.get_underlying_records(table_id)
         return build_marks(records)
 
     @property
@@ -957,9 +1032,14 @@ class MarksSelectedEvent(TableauProxy):
 
     @property
     def worksheet(self):
+        """The Worksheet instance associated generating the Selection Event."""
         return Worksheet(self._proxy._worksheet)
-
-
+      
+    def get_selected_records(self):
+        """Returns the records that were selected in the worksheet."""
+        return self.worksheet.selected_records
+    
+    
 class FilterChangedEvent(TableauProxy):
     """Wrapper for a tableau FilterChangedEvent
 

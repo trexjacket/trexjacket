@@ -824,7 +824,7 @@ class Dashboard(TableauProxy):
                     known_ids.add(ds.id)
                     all_datasources.append(ds)
                     
-        return all_datasources
+        return [Datasource(ds._proxy) for ds in all_datasources]
       
     def get_datasource(self, datasource_name):
         ds = [ds for ds in self.datasources if ds.name == datasource_name]

@@ -705,7 +705,6 @@ class Dashboard(TableauProxy):
         """Refreshes the worksheets in the live Tableau Instance.
         """
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
-        self._worksheets
 
     @property
     def worksheets(self):
@@ -720,7 +719,7 @@ class Dashboard(TableauProxy):
         
         #!
         """
-        return list(self._worksheets.values())
+        return [Worksheet(ws._proxy) for ws in self._worksheets.values()]
       
     def get_worksheet(self, sheet_name):
         """Method that returns the specified worksheet from the active tableau instance.

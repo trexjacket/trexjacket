@@ -29,6 +29,7 @@ def _inject_tableau():
   injector.cdn(CDN_URL)
   from anvil.js.window import tableau
   return tableau
+from .utils import clean_record_key, loading_indicator, native_value_date_handler
 
 _event_cache = {}
 

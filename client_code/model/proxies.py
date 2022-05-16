@@ -804,21 +804,17 @@ class Tableau:
 
     Attributes
     ----------
-    logger : tableau_extension._logging.Logger
-    publisher : anvil_extras.messaging.Publisher
     dashboard : Dashboard
     """
 
     _session = None
 
     @classmethod
-    def session(cls, logger=None, publisher=None, timeout=None):
+    def session(cls):
         """Constructor method for the Tableau class.
 
         Parameters
         ----------
-        logger : tableau_extension._logging.Logger
-        publisher : anvil_extras.messaging.Publisher
         timeout : int
             The number of seconds to wait for the session to be initialized.
 
@@ -827,73 +823,23 @@ class Tableau:
         Tableau
         """
         if cls._session is None:
-            logger.log("Starting new session")
             cls._session = Tableau()
-            cls._session.logger = logger
-            cls._session.publisher = publisher
-            cls._session.timeout = timeout
             cls._session.available
         return cls._session
 
     def __init__(self):
         if self._session is not None:
             raise ValueError("You've already started a session. Use Tableau.session().")
-
-        self.logger = None
-        self.publisher = None
+            
         self.timeout = None
-
-        self._initializing = True
         self.event_type_mapper = EventTypeMapper()
-        self.dashboard = Dashboard()
-        self._tableau = _inject_tableau()
-
-        async_call = call_async(self._tableau.extensions.initializeAsync)
-        async_call.on_result(self._on_init)
-        async_call.on_error(self.handle_error)
-
-    def _on_init(self, result):
-        self.dashboard.proxy = self._tableau.extensions.dashboardContent.dashboard
-        self.event_type_mapper.tableau = self._tableau
-        self._initializing = False
-
-    def handle_error(self, err):
-        self.logger.log(err)
-        anvil.Notification("Failed to initialize tableau", style="danger").show()
-
+        self._proxy = tableau.extensions
+        self.dashboard = Dashboard(tableau.extensions.dashboardContent.dashboard)
+        
     @property
     def available(self):
         """Whether the current sesssion is yet available"""
-        waited = 0
-        step = 0.1
-        if self._initializing:
-            self.logger.log(
-                "Dashboard is still initialising. "
-                f"Waiting for a max of {self.timeout} seconds..."
-            )
-        while self._initializing and waited <= self.timeout:
-            sleep(step)
-            waited += step
-        return self.dashboard.proxy is not None
-
-    @property
-    def extensions_api(self):
-        """This provides access to the raw Tableau Extensions API.
-        This can be used to access parts of the API that is not handled by the
-        Anvil Tableau Extension framework yet.
-
-        For example, if you want to access underlying data for the first sheet,
-        you can call:
-        dashboard = tableau.extensions_api.extensions.dashboardContent.dashboard
-        dashboard.worksheets[0].getUnderlyingDataAsync()
-
-        Note that this maps the Tableau Extensions API, and returns JavaScript
-        Proxy Objects.
-
-        For more information, see:
-        https://anvil.works/docs/client/javascript/accessing-javascript
-        """
-        return self._tableau
+        return self.dashboard._proxy is not None
 
     def register_event_handler(self, event_type, handler, targets):
         """Register an event handling function for a given event type.

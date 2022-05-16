@@ -75,7 +75,17 @@ class TableauProxy:
 
     def __getattr__(self, name):
         return getattr(self._proxy, name)
+      
 
+class Datasource(TableauProxy):
+    """Wrapper for a tableau Datasource
+
+    https://tableau.github.io/extensions-api/docs/interfaces/datasource.html
+    """
+    def refresh(self):
+        # Can we make this happen without blocking? Not sure how, call_async or something?
+        self._proxy.refreshAsync()
+        
 
 class Filter:
     """Wrapper for a tableau Filter
@@ -566,7 +576,7 @@ class Worksheet(TableauProxy):
         data_sources : list
             The primary data source and all of the secondary data sources for this worksheet.
         """
-        return list(self._proxy.getDataSourcesAsync())
+        return [Datasource(ds) for ds in self._proxy.getDataSourcesAsync()]
 
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
@@ -738,34 +748,62 @@ class Dashboard:
 
     @property
     def datasources(self):
-        """Get the data sources for a workbook.
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/workbook.html#getalldatasourcesasync
+        """Returns all datasources in the dashboard.
         
-        Returns
-        DataSources : list of DataSource
-            All data sources used in this workbook.
+        Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we iterate
+        through worksheets to gather all datasources.
+        
+        Returns:
+        --------
+        datasources : list of Datasource instances
         """
-        return self._proxy.getAllDataSourcesAsync()
-
+        known_ids = set()
+        all_datasources = list()
+        for ws in self.worksheets:
+            for ds in ws.datasources:
+                if ds.id in known_ids:
+                    pass
+                else:
+                    known_ids.add(ds.id)
+                    all_datasources.append(ds)
+                    
+        return all_datasources
+      
+    def get_datasource(self, datasource_name):
+        ds = [ds for ds in self.datasources if ds.name == datasource_name]
+        if not ds:
+            raise KeyError(
+                f"No matching datasource found for {datasource_name}. "
+                f"Datasources in Dashboard: {[ds.name for ds in self.datasources]}"
+            )
+        else:
+            return ds[0]
+    
+    def get_datasource_by_id(self, datasource_id):
+        ds = [ds for ds in self.datasources if ds.id == datasource_id]
+        if not ds:
+            raise KeyError(
+                f"No matching datasource found for {datasource_id}. "
+                f"Datasource IDs in Dashboard: {[ds.id for ds in self.datasource_id]}"
+            )
+        else:
+            return ds[0]
+          
     def refresh_data_sources(self):
-        data_sources_generator = (ws.data_sources for ws in self.worksheets)
-        data_sources = set(itertools.chain(*data_sources_generator))
-        for ds in data_sources:
-            ds.refreshAsync()
-
         """This call has the same functionality as clicking the Refresh option on a data source in Tableau.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/datasource.html#refreshasync
         """
-        with loading_indicator():
-            data_sources_generator = (ws.data_sources for ws in self.worksheets)
-            data_sources = set(itertools.chain(*data_sources_generator))
-            for ds in data_sources:
-                ds.refreshAsync()
-    
+        for ds in self.datasources:
+            ds.refresh()
+
+        
     def register_event_handler(self, event_type, handler):
-        """Register an event handling function for a given event type.
+        """Register an event handling function for a given event type. 
+        
+        You can register 'selection_changed' and 'filter_changed' events at the dashboard level.
+        Seletions or filters changed anywhere in the dashboard will be handled.
+        
         For more information, see:
         https://tableau.github.io/extensions-api/docs/trex_events.html
         

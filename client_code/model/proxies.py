@@ -696,7 +696,7 @@ class Dashboard(TableauProxy):
 
     def __init__(self, proxy):
         super().__init__(proxy)
-        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
+        self.refresh()
 
     def __getitem__(self, idx):
         return self.get_worksheet(idx)
@@ -705,6 +705,7 @@ class Dashboard(TableauProxy):
         """Refreshes the worksheets in the live Tableau Instance.
         """
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
+        self._worksheets
 
     @property
     def worksheets(self):

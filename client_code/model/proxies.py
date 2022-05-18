@@ -1,38 +1,36 @@
 import datetime as dt
 import itertools
-from time import sleep
 
-import anvil
 from anvil import tableau
 from anvil.js import report_exceptions
 
 from . import events
 from .marks import Field, build_marks
-from .utils import clean_record_key, loading_indicator, native_value_date_handler
+from .utils import clean_record_key, native_value_date_handler
 
 _event_cache = {}
 
 
 def _suppress_duplicate_events(event_handler):
-    """Supress duplicate events is the .
+    """Wrap an event handler function to cope with duplicate events.
 
-    Private?
-    #!
+    Filter change events are often duplicated. This function is used within the
+    registration of an event handler to replace the function from the user with one
+    that will only fire once for any given event.
 
     Parameters
     ----------
-    event_handler
-        The action that needs to be handled.
+    event_handler : function
+        The event handling function provided by the user
 
     Returns
     ----------
-    supressing_handler
-        The supressed event handler.
+    function
     """
 
     def suppressing_handler(event):
-        """
-        #!
+        """An event handler that caches events and calls the original handler only if
+        the event does not exist in the cache
         """
         now = dt.datetime.now()
         del_keys = []
@@ -68,6 +66,7 @@ class Datasource(TableauProxy):
 
     def refresh(self):
         # Can we make this happen without blocking? Not sure how, call_async or something?
+        # Yes, anvil labs has a non-blocking module which would handle that.
         self._proxy.refreshAsync()
 
 
@@ -100,7 +99,8 @@ class Filter:
         Returns
         --------
         field_name : Filter.FieldName
-            The name of the field being filtered. Note that this is the caption as shown in the UI, and not the actual database field name.
+            The name of the field being filtered. Note that this is the caption as
+            shown in the UI, and not the actual database field name.
         """
         return self._proxy.fieldName
 

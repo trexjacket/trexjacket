@@ -3,18 +3,20 @@ import anvil.js
 
 from .model.proxies import Tableau
 
+
 def get_session():
     """Get a Tableau Session object.
-    
+
     Returns
     -------
     Tableau
     """
     return Tableau.session()
-  
+
+
 def get_dashboard():
     """Gets the instance of Tableau Dashboard that represents the current connection.
-    
+
     Returns
     -------
     dashboard : Dashboard instance
@@ -23,5 +25,3 @@ def get_dashboard():
         since it is an attribute of Session, which deals with a bunch of house-keeping.
     """
     return Tableau.session().dashboard
-    
-    

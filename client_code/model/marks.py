@@ -6,6 +6,7 @@ from .utils import clean_record_key
 
 class Field:
     """Represents a dimension of a selected Mark"""
+
     def __init__(self, name, value):
         self._value = None
         self.name = name
@@ -32,7 +33,7 @@ class Field:
     @value.setter
     def value(self, value):
         """Sets the value for the Class
-        
+
         Parameters
         ----------
         value
@@ -49,21 +50,22 @@ class Measure(Field):
 
 
 class Dimensions(dict):
-  def __init__(self, frozen_fields):
-      self.fields = frozen_fields
-      super().__init__(**{f.name: f.value for f in self.fields})
-      
-  def __hash__(self):
-      return hash(self.fields)
-  
-  def __eq__(self, other):
-      return self.fields == other.fields
-    
-  def __setitem__(self, value):
-      raise KeyError("Can't update mark dimensions.")
-      
-  def __dict__(self):
-      return {f.name: f.value for f in self.fields}
+    def __init__(self, frozen_fields):
+        self.fields = frozen_fields
+        super().__init__(**{f.name: f.value for f in self.fields})
+
+    def __hash__(self):
+        return hash(self.fields)
+
+    def __eq__(self, other):
+        return self.fields == other.fields
+
+    def __setitem__(self, value):
+        raise KeyError("Can't update mark dimensions.")
+
+    def __dict__(self):
+        return {f.name: f.value for f in self.fields}
+
 
 class Mark:
     """A class to represent a selected mark on a worksheet
@@ -95,9 +97,9 @@ class Mark:
     def __str__(self):
         """Representation of the Class object as a string"""
         return f"Mark: Identified by {self.dimension}, values: {self.values_dict}"
-      
+
     def __repr__(self):
-      return str(self)
+        return str(self)
 
     def _to_dict(self):
         """Representation of the Class object as a dict"""
@@ -129,7 +131,7 @@ class Mark:
 
     def __getitem__(self, key):
         """Getter method for improved readability
-        
+
         Parameters
         ----------
         key
@@ -138,15 +140,17 @@ class Mark:
 
     def get(self, key):
         """Getter method for improved readability
-        
+
         Parameters
         ----------
         key
         """
         return self.values_dict.get(clean_record_key(key))
 
+
 aggregation_pattern = re.compile(r"(^agg|sum|AGG|SUM)\((.*)\)$")
 datetime_pattern = re.compile(r"(^month)\((.*)\)$")
+
 
 def build_marks(records):
     """Generates Marks

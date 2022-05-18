@@ -32,5 +32,5 @@ jobs:
         python -m black --check .
     - name: Check imports with isort
       run: |
-        python -m isort --check-only client_code
-        python -m isort --check-only server_code
+        python -m isort --profile=black --check-only client_code
+        python -m isort --profile=black --check-only server_code

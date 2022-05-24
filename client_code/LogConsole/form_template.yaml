@@ -2,6 +2,8 @@ container:
   type: ColumnPanel
   properties: {col_widths: '{}'}
   event_bindings: {show: form_show, hide: form_hide}
+  data_bindings:
+  - {property: visible, code: self.is_visible}
 components:
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
@@ -40,4 +42,14 @@ components:
   layout_properties: {grid_position: 'UTUBBB,OEAYZK'}
 is_package: true
 custom_component: true
-properties: []
+properties:
+- {name: is_visible, type: boolean, default_value: true, default_binding_prop: true,
+  description: '', group: Appearance, allow_binding_writeback: true}
+- {name: log_selection_changed, type: boolean, default_value: true, default_binding_prop: false,
+  group: Logging Behavior, important: true}
+- {name: log_filter_changed, type: boolean, default_value: true, default_binding_prop: false,
+  description: '', group: Logging Behavior, important: true}
+- {name: log_parameter_changed, type: boolean, default_value: true, default_binding_prop: false,
+  group: Logging Behavior, important: true}
+- {name: log_to_console, type: boolean, default_value: false, default_binding_prop: false,
+  group: Logging Behavior, description: Determines whether or not log messages should also be printed to the anvil console.}

@@ -1,7 +1,6 @@
 from time import gmtime, strftime, time
 
 import anvil
-import anvil.server
 
 from .model import events
 
@@ -35,7 +34,6 @@ class Logger:
         self.history = history
         self._consoles = []
         self.prefix = "" if prefix is None else prefix
-        anvil.set_default_error_handling(_LoggingErrorHandler(self))
 
     def register_console(self, component, show_history=True):
         if getattr(component, "text", None) is None:
@@ -118,9 +116,9 @@ def register_default_handlers(session, event_types=_all_event_types):
         logger.log("*" * 50)
 
     dashboard = session.dashboard
-    if events.FILTER_CHANGED in events:
+    if events.FILTER_CHANGED in event_types:
         dashboard.register_event_handler("filter_changed", _on_filter_change)
-    if events.PARAMETER_CHANGED in events:
+    if events.PARAMETER_CHANGED in event_types:
         dashboard.register_event_handler("parameter_changed", _on_parameter_change)
-    if events.SELECTION_CHANGED in events:
+    if events.SELECTION_CHANGED in event_types:
         dashboard.register_event_handler("selection_changed", _on_selection_change)

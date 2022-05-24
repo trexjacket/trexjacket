@@ -1,29 +1,39 @@
 dependencies: []
+exported_table_schema:
+- python_name: trex
+  client: none
+  server: full
+  name: trex
+  columns:
+    KPnz771L9cE=:
+      name: details
+      type: simpleObject
+      admin_ui: {order: 1, width: 1025}
+    ZpklkrOBh8Y=:
+      name: app_id
+      type: string
+      admin_ui: {order: 0, width: 200}
+    dFUfRN3q+z8=:
+      name: logo
+      type: media
+      admin_ui: {order: 2, width: 200}
+    uAyzWX52dvY=:
+      name: file
+      type: media
+      admin_ui: {order: 3, width: 200}
+  id: 1336
 services:
+- source: /runtime/services/anvil/tableau.yml
+  client_config: {}
+  server_config: {}
 - source: /runtime/services/tables.yml
   client_config: {}
   server_config: {}
-startup: {type: form, module: Startup}
 package_name: tableau_extension
-allow_embedding: false
-name: Tableau Extension
-runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_persist: true}
-startup_form: null
-db_schema:
-  trex:
-    title: trex
-    client: none
-    server: full
-    columns:
-    - name: app_id
-      admin_ui: {width: 200}
-      type: string
-    - name: details
-      admin_ui: {width: 1025}
-      type: simpleObject
-    - name: logo
-      admin_ui: {width: 200}
-      type: media
-    - name: file
-      admin_ui: {width: 200}
-      type: media
+allow_embedding: true
+name: Tableau Extension (Service-based)
+runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
+metadata: {}
+startup_form: LogConsole
+db_schema: {}
+renamed: true

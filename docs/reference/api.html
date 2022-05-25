@@ -72,8 +72,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h1>
+  <section id="module-client_code.api">
+<span id="api"></span><h1>API<a class="headerlink" href="#module-client_code.api" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="client_code.api.get_dashboard">
+<span class="sig-prename descclassname"><span class="pre">client_code.api.</span></span><span class="sig-name descname"><span class="pre">get_dashboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_dashboard" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the instance of Tableau Dashboard that represents the current connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>dashboard</strong> – This returns the Dashboard instance associated with the current session.
+It is recommended that this is the only way you ‘get’ the current dashboard,
+since it is an attribute of Session, which deals with a bunch of house-keeping.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dashboard instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="client_code.api.get_session">
+<span class="sig-prename descclassname"><span class="pre">client_code.api.</span></span><span class="sig-name descname"><span class="pre">get_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_session" title="Permalink to this definition"></a></dt>
+<dd><p>Get a Tableau Session object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="model.html#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau">Tableau</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

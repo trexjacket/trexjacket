@@ -868,9 +868,9 @@ class Dashboard(TableauProxy):
         Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we
         iterate through worksheets to gather all datasources.
 
-        Returns:
-        --------
-        datasources : list of Datasource instances
+        Returns
+        -------
+        list of Datasource instances
         """
         known_ids = set()
         all_datasources = list()

@@ -835,7 +835,7 @@ class Dashboard(TableauProxy):
                 f"Datasources in Dashboard: {[ds.name for ds in self.datasources]}"
             )
         else:
-            return ds[0]
+            return Datasource(ds[0]._proxy)
     
     def get_datasource_by_id(self, datasource_id):
         ds = [ds for ds in self.datasources if ds.id == datasource_id]

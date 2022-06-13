@@ -598,6 +598,7 @@ class Worksheet(TableauProxy):
             dimension = [dimension]
         selection = [{'fieldName': k, 'value':[v]} for d in dimension for k,v in d.items()]
         self._proxy.selectMarksByValueAsync(selection, selection_type)
+        return self.selected_records
     
     def clear_selection(self):
         """Clears the current marks selection."""

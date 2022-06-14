@@ -8,3 +8,5 @@ docs_src/_build
 
 # Anvil
 .anvil-data
+
+.vscode/

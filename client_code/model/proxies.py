@@ -871,6 +871,8 @@ class Dashboard(TableauProxy):
         Returns
         -------
         list of Datasource instances
+
+        list of :py:func:`client_code.model.proxies.Datasource` instances.
         """
         known_ids = set()
         all_datasources = list()

@@ -3,7 +3,7 @@ Tableau Extension Library
 
 Overview
 --------
-Welcome to the Tableau Extension Library for Anvil applications.
+Welcome to the Tableau Extension Library for Anvil applications. 
 
 Installation
 ------------

@@ -65,6 +65,9 @@ class Datasource(TableauProxy):
     """
 
     def refresh(self):
+        """
+        Refreshes data source
+        """
         # Can we make this happen without blocking? Not sure how, call_async or something?
         # Yes, anvil labs has a non-blocking module which would handle that.
         self._proxy.refreshAsync()
@@ -536,6 +539,8 @@ class Worksheet(TableauProxy):
     def filters(self):
         """Returns a list of all currently selected filters.
 
+        # TODO: Explain odd behavior when indexing. 
+
         For more informatio, see:
         https://tableau.github.io/extensions-api/docs/interfaces/filter.html
 
@@ -827,7 +832,7 @@ class Dashboard(TableauProxy):
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
-        """Returns the parameter matchin the provided parameter_name.
+        """Returns the parameter matching the provided parameter_name.
 
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
@@ -887,6 +892,8 @@ class Dashboard(TableauProxy):
         return all_datasources
 
     def get_datasource(self, datasource_name):
+        """ Returns a datasource object """
+        # FIXME: Autocomplete fails to recognize return type as Datasource
         ds = [ds for ds in self.datasources if ds.name == datasource_name]
         if not ds:
             raise KeyError(
@@ -894,9 +901,11 @@ class Dashboard(TableauProxy):
                 f"Datasources in Dashboard: {[ds.name for ds in self.datasources]}"
             )
         else:
-            return ds[0]
+            return ds[0]  
 
     def get_datasource_by_id(self, datasource_id):
+        """ Returns a datasource object by id """
+        # FIXME: Autocomplete fails to recognize return type as Datasource
         ds = [ds for ds in self.datasources if ds.id == datasource_id]
         if not ds:
             raise KeyError(
@@ -1004,7 +1013,8 @@ class Tableau:
         Parameters
         ----------
         event_type : str
-            The event type to register the handler for.
+            The event type to register the handler for. 
+            TODO: Valid values are selection_changed, filter_changed, or parameter_changed.
         handler : function
             The function to call when the event is triggered.
         targets : list
@@ -1082,7 +1092,12 @@ class MarksSelectedEvent(TableauProxy):
         return Worksheet(self._proxy._worksheet)
 
     def get_selected_records(self):
-        """Returns the records that were selected in the worksheet."""
+        """Returns the records that were selected in the worksheet.
+    
+        .. seealso::
+
+            Example on the getting started guide :doc:`gettingstarted`
+        """
         return self.worksheet.selected_records
 
 

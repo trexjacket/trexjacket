@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; Tableau Extension  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/design-tabs.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -38,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
@@ -73,18 +77,18 @@
            <div itemprop="articleBody">
              
   <section id="module-client_code.api">
-<span id="api"></span><h1>API<a class="headerlink" href="#module-client_code.api" title="Permalink to this headline"></a></h1>
+<span id="api"></span><h1>API<a class="headerlink" href="#module-client_code.api" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="client_code.api.get_dashboard">
 <span class="sig-prename descclassname"><span class="pre">client_code.api.</span></span><span class="sig-name descname"><span class="pre">get_dashboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_dashboard" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the instance of Tableau Dashboard that represents the current connection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dashboard</strong> – This returns the Dashboard instance associated with the current session.
 It is recommended that this is the only way you ‘get’ the current dashboard,
 since it is an attribute of Session, which deals with a bunch of house-keeping.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Dashboard instance</p>
 </dd>
 </dl>
@@ -95,7 +99,7 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <span class="sig-prename descclassname"><span class="pre">client_code.api.</span></span><span class="sig-name descname"><span class="pre">get_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_session" title="Permalink to this definition"></a></dt>
 <dd><p>Get a Tableau Session object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="model.html#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau">Tableau</a></p>
 </dd>
 </dl>

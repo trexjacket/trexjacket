@@ -86,9 +86,9 @@ More notes
 
     * Events: This is something the user will trigger by clicking a part of the dashboard or modifying something.
 
-        * FilterChangedEvent: User changes a filter
-        * MarkSelectionChangedEvent: User clicks a mark
-        * ParameterChangedEvent: User changes a parameter
+        * Changing a filter (FilterChangedEvent)
+        * Changing a parameter (ParameterChangedEvent)
+        * Selecting marks (MarkSelectionChangedEvent)
 
     * Objects: These are the pieces of the tableau dashboard.
 

@@ -2,7 +2,7 @@ name: release
 
 on:
     push:
-        branches: [docs]
+        branches: [sphinx-additions]
 jobs:
     build:
         runs-on: ubuntu-latest

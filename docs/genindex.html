@@ -6,6 +6,7 @@
   <title>Index &mdash; Tableau Extension  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -13,7 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/design-tabs.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -35,6 +38,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/index.html">Reference</a></li>
@@ -111,20 +115,41 @@
       </ul></li>
       <li><a href="reference/model.html#client_code.model.proxies.Worksheet.clear_selection">clear_selection() (client_code.model.proxies.Worksheet method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     client_code.api
 
       <ul>
-        <li><a href="reference/api.html#module-client_code.api">module</a>
+        <li><a href="reference/api.html#module-client_code.api">module</a>, <a href="reference/generated/client_code.api.html#module-client_code.api">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    client_code.model
+
+      <ul>
+        <li><a href="reference/generated/client_code.model.html#module-client_code.model">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    client_code.model.events
+
+      <ul>
+        <li><a href="reference/generated/client_code.model.events.html#module-client_code.model.events">module</a>
+</li>
+      </ul></li>
+      <li>
+    client_code.model.marks
+
+      <ul>
+        <li><a href="reference/generated/client_code.model.marks.html#module-client_code.model.marks">module</a>
 </li>
       </ul></li>
       <li>
     client_code.model.proxies
 
       <ul>
-        <li><a href="reference/model.html#module-client_code.model.proxies">module</a>
+        <li><a href="reference/generated/client_code.model.proxies.html#module-client_code.model.proxies">module</a>, <a href="reference/model.html#module-client_code.model.proxies">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -189,6 +214,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api.html#client_code.api.get_dashboard">get_dashboard() (in module client_code.api)</a>
 </li>
+      <li><a href="reference/model.html#client_code.model.proxies.Dashboard.get_datasource">get_datasource() (client_code.model.proxies.Dashboard method)</a>
+</li>
+      <li><a href="reference/model.html#client_code.model.proxies.Dashboard.get_datasource_by_id">get_datasource_by_id() (client_code.model.proxies.Dashboard method)</a>
+</li>
       <li><a href="reference/model.html#client_code.model.proxies.Worksheet.get_filter">get_filter() (client_code.model.proxies.Worksheet method)</a>
 </li>
       <li><a href="reference/model.html#client_code.model.proxies.Dashboard.get_parameter">get_parameter() (client_code.model.proxies.Dashboard method)</a>
@@ -197,14 +226,14 @@
         <li><a href="reference/model.html#client_code.model.proxies.Worksheet.get_parameter">(client_code.model.proxies.Worksheet method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/model.html#client_code.model.proxies.MarksSelectedEvent.get_selected_records">get_selected_records() (client_code.model.proxies.MarksSelectedEvent method)</a>
 
       <ul>
         <li><a href="reference/model.html#client_code.model.proxies.Worksheet.get_selected_records">(client_code.model.proxies.Worksheet method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api.html#client_code.api.get_session">get_session() (in module client_code.api)</a>
 </li>
       <li><a href="reference/model.html#client_code.model.proxies.Worksheet.get_underlying_marks">get_underlying_marks() (client_code.model.proxies.Worksheet method)</a>
@@ -225,9 +254,15 @@
     module
 
       <ul>
-        <li><a href="reference/api.html#module-client_code.api">client_code.api</a>
+        <li><a href="reference/api.html#module-client_code.api">client_code.api</a>, <a href="reference/generated/client_code.api.html#module-client_code.api">[1]</a>
 </li>
-        <li><a href="reference/model.html#module-client_code.model.proxies">client_code.model.proxies</a>
+        <li><a href="reference/generated/client_code.model.html#module-client_code.model">client_code.model</a>
+</li>
+        <li><a href="reference/generated/client_code.model.events.html#module-client_code.model.events">client_code.model.events</a>
+</li>
+        <li><a href="reference/generated/client_code.model.marks.html#module-client_code.model.marks">client_code.model.marks</a>
+</li>
+        <li><a href="reference/generated/client_code.model.proxies.html#module-client_code.model.proxies">client_code.model.proxies</a>, <a href="reference/model.html#module-client_code.model.proxies">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -269,6 +304,8 @@
       <li><a href="reference/model.html#client_code.model.proxies.Dashboard.refresh">refresh() (client_code.model.proxies.Dashboard method)</a>
 
       <ul>
+        <li><a href="reference/model.html#client_code.model.proxies.Datasource.refresh">(client_code.model.proxies.Datasource method)</a>
+</li>
         <li><a href="reference/model.html#client_code.model.proxies.Parameter.refresh">(client_code.model.proxies.Parameter method)</a>
 </li>
       </ul></li>

@@ -40,10 +40,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="supported.html">Supported objects and events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Model</a></li>
 </ul>
@@ -79,7 +79,7 @@
 <span id="model"></span><h1>Model<a class="headerlink" href="#module-client_code.model.proxies" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Dashboard</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html">https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html</a></p>
@@ -90,12 +90,8 @@
 <p>Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we
 iterate through worksheets to gather all datasources.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><em>list of Datasource instances</em></p></li>
-<li><p>list of <a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-func docutils literal notranslate"><span class="pre">client_code.model.proxies.Datasource()</span></code></a> instances.</p></li>
-</ul>
-</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a> instances</p>
 </dd>
 </dl>
 </dd></dl>
@@ -111,7 +107,7 @@ iterate through worksheets to gather all datasources.</p>
 <dd class="field-odd"><p><strong>Filters</strong> – Filters in Tableau that are used in this workbook.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list of Filter</p>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -120,12 +116,37 @@ iterate through worksheets to gather all datasources.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.get_datasource">
 <span class="sig-name descname"><span class="pre">get_datasource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasource_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_datasource" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a datasource object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>datasource_name</strong> (<em>str</em>) – Name of the datasource</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>KeyError</strong> – If no datasource matching <cite>datasource_name</cite> is found.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.get_datasource_by_id">
 <span class="sig-name descname"><span class="pre">get_datasource_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasource_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_datasource_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a datasource object by id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>#</strong> (<em>TODO: Check if this is correct</em>) – </p></li>
+<li><p><strong>datasource_id</strong> (<em>str</em>) – ID of the datasource</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>KeyError</strong> – If no datasource matching <cite>datasource_name</cite> is found.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -138,11 +159,8 @@ iterate through worksheets to gather all datasources.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>parameter_name</strong> (<em>str</em>) – Name of the parameter</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>Parameters</strong> – Parameters in Tableau that are used in this workbook.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of Parameter</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -155,11 +173,8 @@ iterate through worksheets to gather all datasources.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sheet_name</strong> (<em>str</em>) – Name of the given worksheet.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>worksheet</strong> – The desired worksheet</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sheet.Dashboard.worksheet</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -177,11 +192,8 @@ iterate through worksheets to gather all datasources.</p>
 <p>For more information, see:
 <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync">https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Parameters</strong></p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -228,11 +240,8 @@ dashboard level.</p>
 <p>For more information, see:
 <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets">https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>worksheets</strong> – The collection of worksheets contained in the dashboard.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -241,7 +250,7 @@ dashboard level.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.DataTable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">DataTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.DataTable" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.DataTable" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau DataTable</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datatable.html">https://tableau.github.io/extensions-api/docs/interfaces/datatable.html</a></p>
@@ -249,7 +258,7 @@ dashboard level.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Datasource">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">Datasource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Datasource" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Datasource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Datasource" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Datasource</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datasource.html">https://tableau.github.io/extensions-api/docs/interfaces/datasource.html</a></p>
@@ -263,7 +272,7 @@ dashboard level.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Filter" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Filter" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Wrapper for a tableau Filter</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html">https://tableau.github.io/extensions-api/docs/interfaces/filter.html</a></p>
@@ -275,10 +284,10 @@ dashboard level.</p>
 <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html">https://tableau.github.io/extensions-api/docs/interfaces/filter.html</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filters</strong> – The existing Filter values</p>
+<dd class="field-odd"><p><strong># TODO</strong></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list of Filter</p>
+<dd class="field-even"><p>I’m not sure about this one</p>
 </dd>
 </dl>
 </dd></dl>
@@ -299,10 +308,15 @@ dashboard level.</p>
 <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync">https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>domain</strong> – The domain for the selected Filter</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list of values</p>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>domain</strong> (<em>list of values</em>) – The domain for the selected Filter</p></li>
+<li><p><em># FIXME</em></p></li>
+<li><p><em># This fails with not a helpful error message when used on a range filter</em></p></li>
+<li><p><strong># AttributeError</strong> (<em>‘e (native JS)’ object has no attribute ‘values’</em>)</p></li>
+<li><p><strong>at app/tableau_extension/model/proxies.py</strong> (<em>180</em>)</p></li>
+<li><p><em>called from Docstrings, line 36</em></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -348,10 +362,19 @@ shown in the UI, and not the actual database field name.</p>
 <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype">https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>type</strong> – The type of the filter.</p>
+<dd class="field-odd"><p><p>The type of filter. One of</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”categorical”</p></li>
+<li><p>”hierarchical”</p></li>
+<li><p>”range”</p></li>
+<li><p>”relative-date”</p></li>
+</ul>
+</div></blockquote>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>filterType</p>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -393,16 +416,30 @@ is restricted by a previous filter</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.FilterChangedEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">FilterChangedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FilterChangedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
+<p>Triggered when a user changes a filter on a dashboard.</p>
 <p>Wrapper for a tableau FilterChangedEvent</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html">https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html</a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.proxies.FilterChangedEvent.filter">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the filter that was changed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.proxies.FilterChangedEvent.worksheet">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worksheet</span></span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent.worksheet" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the worksheet that the filter is on.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.MarksSelectedEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">MarksSelectedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.MarksSelectedEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MarksSelectedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.MarksSelectedEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
+<p>Triggered when a user selects a mark on a dashboard.</p>
 <p>Wrapper for a tableau MarksSelectedEvent</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html">https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html</a></p>
 <dl class="py method">
@@ -425,7 +462,7 @@ is restricted by a previous filter</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Parameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Parameter</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html</a></p>
@@ -469,10 +506,20 @@ parameters, UTC Date objects are expected.</p>
 <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dataType</strong> – The type of data this parameter holds.</p>
+<dd class="field-odd"><p><p><strong>dataType</strong> – The type of data this parameter holds. One of</p>
+<ul class="simple">
+<li><p>bool</p></li>
+<li><p>date</p></li>
+<li><p>date-time</p></li>
+<li><p>float</p></li>
+<li><p>int</p></li>
+<li><p>spatial</p></li>
+<li><p>string</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataType</p>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -558,15 +605,16 @@ parameters, UTC Date objects are expected.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.ParameterChangedEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">ParameterChangedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.ParameterChangedEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParameterChangedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.ParameterChangedEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
+<p>Triggered when a user changes a parameter on a dashboard.</p>
 <p>Wrapper for a tableau ParameterChangedEvent</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html">https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html</a></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Tableau">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">Tableau</span></span><a class="headerlink" href="#client_code.model.proxies.Tableau" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tableau</span></span><a class="headerlink" href="#client_code.model.proxies.Tableau" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The main interface to Tableau.</p>
 <p>Creating an instance of class this will initialize a tableau session and make
@@ -629,14 +677,14 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.TableauProxy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">TableauProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.TableauProxy" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TableauProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.TableauProxy" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A base class for those requiring a Tableau proxy object.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">client_code.model.proxies.</span></span><span class="sig-name descname"><span class="pre">Worksheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Worksheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Worksheet</p>
 <p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html</a></p>
@@ -843,7 +891,7 @@ an argument.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>event_type</strong> (<em>str</em>) – The event type to register the handler for.</p></li>
+<li><p><strong>event_type</strong> (<em>str</em>) – The event type to register the handler for. Valid options are (‘selection_changed’, ‘filter_changed’, or ‘parameter_changed’)</p></li>
 <li><p><strong>handler</strong> (<em>function</em>) – The function to call when the event is triggered.</p></li>
 </ul>
 </dd>

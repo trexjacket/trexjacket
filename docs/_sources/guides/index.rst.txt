@@ -8,4 +8,4 @@ Further guidance on writing how-to guides is available from `diataxis <https://d
 .. toctree::
    :maxdepth: 2
 
-   fake
+   downloadtrex

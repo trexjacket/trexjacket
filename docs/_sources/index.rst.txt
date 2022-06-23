@@ -1,9 +1,8 @@
 .. include:: README.rst
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
-   gettingstarted
    tutorials/index.rst
    guides/index.rst
    reference/index.rst

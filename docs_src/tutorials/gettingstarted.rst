@@ -6,7 +6,7 @@ Getting Started
     The Tableau Extension library simplifies the development of tableau extensions using Anvil. 
 
 .. 
-    TODO: change wording 
+    TODO: change wording
 
 Using **only python**, you can build a Tableau extension that runs arbitrary python code whenever a user...
 

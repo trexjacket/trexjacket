@@ -183,7 +183,7 @@ class Filter:
         domain: list of values
             The domain for the selected Filter
 
-        # FIXME: 
+        # FIXME:
         # This fails with not a helpful error message when used on a range filter
         # AttributeError: 'e (native JS)' object has no attribute 'values'
         at app/tableau_extension/model/proxies.py:180
@@ -220,7 +220,7 @@ class Filter:
         :obj:`str`
             The type of filter. One of
 
-                * "categorical" 
+                * "categorical"
                 * "hierarchical"
                 * "range"
                 * "relative-date"
@@ -310,7 +310,7 @@ class Parameter(TableauProxy):
         Returns
         --------
         dataType : str
-            The type of data this parameter holds. One of 
+            The type of data this parameter holds. One of
 
             * bool
             * date
@@ -911,11 +911,11 @@ class Dashboard(TableauProxy):
         -----
         datasource_name : str
             Name of the datasource
-        
+
         Returns
         -----
         :obj:`Datasource`
-        
+
         Raises
         -----
         KeyError
@@ -933,17 +933,17 @@ class Dashboard(TableauProxy):
 
     def get_datasource_by_id(self, datasource_id):
         """Returns a datasource object by id
-        
+
         Parameters
         ----
         #: TODO: Check if this is correct
         datasource_id : str
             ID of the datasource
-        
+
         Returns
         -----
         :obj:`Datasource`
-        
+
         Raises
         -----
         KeyError
@@ -1125,8 +1125,8 @@ class DataTable(TableauProxy):
 
 
 class MarksSelectedEvent(TableauProxy):
-    """ Triggered when a user selects a mark on a dashboard.
-    
+    """Triggered when a user selects a mark on a dashboard.
+
     Wrapper for a tableau MarksSelectedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html
@@ -1148,8 +1148,8 @@ class MarksSelectedEvent(TableauProxy):
 
 
 class FilterChangedEvent(TableauProxy):
-    """ Triggered when a user changes a filter on a dashboard.
-    
+    """Triggered when a user changes a filter on a dashboard.
+
     Wrapper for a tableau FilterChangedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
@@ -1163,20 +1163,20 @@ class FilterChangedEvent(TableauProxy):
 
     @property
     def filter(self):
-        """ Returns the filter that was changed. """
+        """Returns the filter that was changed."""
         f = Filter(self._proxy.getFilterAsync())
         f.worksheet = self.worksheet
         return f
 
     @property
     def worksheet(self):
-        """ Returns the worksheet that the filter is on. """
+        """Returns the worksheet that the filter is on."""
         return Worksheet(self._proxy._worksheet)
 
 
 class ParameterChangedEvent(TableauProxy):
-    """ Triggered when a user changes a parameter on a dashboard.
-    
+    """Triggered when a user changes a parameter on a dashboard.
+
     Wrapper for a tableau ParameterChangedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html

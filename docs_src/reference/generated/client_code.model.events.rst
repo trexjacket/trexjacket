@@ -1,4 +1,4 @@
-﻿client\_code.model.events
+client\_code.model.events
 =========================
 
 .. automodule:: client_code.model.events

@@ -7,3 +7,4 @@ Reference
    supported.rst
    api.rst
    model.rst
+   summary_table.rst

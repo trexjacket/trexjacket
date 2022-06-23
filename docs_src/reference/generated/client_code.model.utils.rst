@@ -1,7 +1,7 @@
-client\_code.model.marks
+client\_code.model.utils
 ========================
 
-.. automodule:: client_code.model.marks
+.. automodule:: client_code.model.utils
 
    
    
@@ -13,7 +13,8 @@ client\_code.model.marks
 
    .. autosummary::
    
-      build_marks
+      clean_record_key
+      native_value_date_handler
    
    
 
@@ -23,10 +24,7 @@ client\_code.model.marks
 
    .. autosummary::
    
-      Dimensions
-      Field
-      Mark
-      Measure
+      loading_indicator
    
    
 

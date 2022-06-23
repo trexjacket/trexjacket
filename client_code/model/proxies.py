@@ -59,8 +59,9 @@ class TableauProxy:
 
 
 class Datasource(TableauProxy):
-    """Wrapper for a tableau Datasource
+    """Represents a Tableau Datasource.
 
+    This is a wrapper for a tableau Datasource, see more here:
     https://tableau.github.io/extensions-api/docs/interfaces/datasource.html
     """
 
@@ -74,9 +75,9 @@ class Datasource(TableauProxy):
 
 
 class Filter:
-    """Wrapper for a tableau Filter
+    """Represents a Tableau Filter
 
-    https://tableau.github.io/extensions-api/docs/interfaces/filter.html
+    This is a wrapper for a tableau Filter, see more here: :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/filter.html>`
     """
 
     def __init__(self, proxy):
@@ -97,14 +98,12 @@ class Filter:
     def field_name(self):
         """The name of the field being filtered
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname>`
 
         Returns
         --------
-        field_name : Filter.FieldName
-            The name of the field being filtered. Note that this is the caption as
-            shown in the UI, and not the actual database field name.
+        str
+            The name of the field being filtered
         """
         return self._proxy.fieldName
 
@@ -133,8 +132,7 @@ class Filter:
     def applied_values(self):
         """Returns the current value applied to the Filter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/filter.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/filter.html>`
 
         Returns
         ----------
@@ -161,9 +159,9 @@ class Filter:
     def applied_values(self, new_values):
         """Replaces the set filter values.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync>`
 
+        # TODO:
         Parameters
         ----------
         new_values : list of Filter
@@ -175,8 +173,7 @@ class Filter:
     def domain(self):
         """Returns the domain for a Categorical Filter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync>`
 
         Returns
         --------
@@ -195,9 +192,9 @@ class Filter:
     def relevant_domain(self):
         """Returns the 'relevant' values for this specific filter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/enums/tableau.filterdomaintype.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/enums/tableau.filterdomaintype.html>`
 
+        TODO:
         Returns
         --------
         domain : list of values
@@ -212,18 +209,12 @@ class Filter:
     def filter_type(self):
         """Returns the type of Filter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype>`
 
         Returns
         --------
         :obj:`str`
-            The type of filter. One of
-
-                * "categorical"
-                * "hierarchical"
-                * "range"
-                * "relative-date"
+            The type of filter. One of ['categorical', 'hierarchical', 'range', 'relative-date']
         """
         return self._proxy.filterType
 
@@ -231,9 +222,9 @@ class Filter:
     def field(self):
         """Returns a promise containing the field for the filter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getfieldasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getfieldasync>`
 
+        # TODO
         Returns
         --------
         Promise : <field>
@@ -244,9 +235,9 @@ class Filter:
     def set_filter_value(self, new_values, method="replace"):
         """Replaces the list of provided categorical filter values.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync>`
 
+        # TODO
         Parameters
         ----------
         new_values : list
@@ -260,8 +251,7 @@ class Filter:
     def clear_filter(self):
         """Resets the existing filters.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync>`
         """
         self.worksheet.clear_filter(self.field_name)
 
@@ -269,7 +259,7 @@ class Filter:
 class Parameter(TableauProxy):
     """Wrapper for a tableau Parameter
 
-    https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/parameter.html>`
     """
 
     def refresh(self, parameter_changed_event=None):
@@ -290,8 +280,7 @@ class Parameter(TableauProxy):
     def domain(self):
         """Returns the allowable set of values this parameter can take.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues>`
 
         Returns
         --------
@@ -304,29 +293,27 @@ class Parameter(TableauProxy):
     def data_type(self):
         """Returns the type of data this parameter holds.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues>`
 
         Returns
         --------
         dataType : str
             The type of data this parameter holds. One of
 
-            * bool
-            * date
-            * date-time
-            * float
-            * int
-            * spatial
-            * string
+            * 'bool'
+            * 'date'
+            * 'date-time'
+            * 'float'
+            * 'int'
+            * 'spatial'
+            * 'string'
         """
         return self._proxy.dataType
 
     def allowable_values(self):
         """Returns the allowable set of values this parameter can take.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues>`
 
         Returns
         --------
@@ -341,8 +328,7 @@ class Parameter(TableauProxy):
         The new value must fall within the domain restrictions defined by
         allowableValues.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#changevalueasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#changevalueasync>`
 
         Parameters
         ----------
@@ -356,8 +342,7 @@ class Parameter(TableauProxy):
     def name(self):
         """Returns the display name for this parameter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#name
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#name>`
 
         Returns
         ----------
@@ -370,8 +355,7 @@ class Parameter(TableauProxy):
     def value(self):
         """Returns the DataValue representing the current value of the parameter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue>`
 
         Returns
         ----------
@@ -385,8 +369,7 @@ class Parameter(TableauProxy):
     def value(self, new_value):
         """Changes the DataValue representing the current value of the parameter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue>`
 
         Parameters
         ----------
@@ -400,8 +383,7 @@ class Parameter(TableauProxy):
 
         Note that the handler must take a ParameterChangedEvent instance as an argument.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#addeventlistener
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#addeventlistener>`
 
         Parameters
         ----------
@@ -418,8 +400,7 @@ class Parameter(TableauProxy):
 
         If no matching listener exists, the method does nothing.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#removeeventlistener
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#removeeventlistener>`
         """
         if hasattr(self, "_listener") and self._listener:
             self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
@@ -429,15 +410,14 @@ class Parameter(TableauProxy):
 class Worksheet(TableauProxy):
     """Wrapper for a tableau Worksheet
 
-    https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>`
     """
 
     def get_selected_records(self):
         """Gets the data for the marks which are currently selected on the worksheet.
         If there are no marks currently selected, an empty list is returned.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync>`
 
         Returns
         --------
@@ -451,8 +431,7 @@ class Worksheet(TableauProxy):
         """The data for the marks which are currently selected on the worksheet.
         If there are no marks currently selected, an empty list is returned.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync>`
 
         Returns
         --------
@@ -470,8 +449,7 @@ class Worksheet(TableauProxy):
         Generates Marks by iterating through all records. (see 'build_marks in
         model.marks')
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/markscollection.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/markscollection.html>`
 
         Returns
         --------
@@ -544,11 +522,12 @@ class Worksheet(TableauProxy):
 
         Returns
         -------
-        marks: list of Mark objects
+        Mark
+            list of Mark objects
 
-        Raises:
+        Raises
         -------
-        ValueError: If more than one table_id exists, then a table must be specified.
+            ValueError: If more than one table_id exists, then a table must be specified.
         """
         records = self.get_underlying_records(table_id)
         return build_marks(records)
@@ -576,8 +555,7 @@ class Worksheet(TableauProxy):
     def get_filter(self, filter_name):
         """Returns information on a given selected filter.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname>`
 
         Parameters
         ----------
@@ -603,8 +581,7 @@ class Worksheet(TableauProxy):
     def clear_filter(self, filter):
         """Resets existing filters on the given field.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync
+        :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync>`
 
         Parameters
         ----------
@@ -618,8 +595,7 @@ class Worksheet(TableauProxy):
     def apply_filter(self, field_name, values, update_type="replace"):
         """Applies the list of provided categorical filter values.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync
+        :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync>`
 
         Parameters
         ----------
@@ -647,8 +623,9 @@ class Worksheet(TableauProxy):
 
         This version selects by value, using the SelectionCriteria interface.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#selectmarksbyvalueasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#selectmarksbyvalueasync>`
+
+        TODO
 
         Parameters
         ----------
@@ -679,16 +656,14 @@ class Worksheet(TableauProxy):
     def parameters(self):
         """A collection of all the Tableau parameters that are used in this workbook.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getparametersasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getparametersasync>`
         """
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
         """Getting the parameter information for the given parameter name.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html>`
 
         Parameters
         ----------
@@ -714,8 +689,7 @@ class Worksheet(TableauProxy):
     def datasources(self):
         """Gets the data sources for this worksheet.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getdatasourcesasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getdatasourcesasync>`
 
         Returns
         ----------
@@ -740,8 +714,7 @@ class Worksheet(TableauProxy):
         The event handler must take a ParameterChangedEvent or FilterChangedEvent as
         an argument.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/trex_events.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/trex_events.html>`
 
         Parameters
         ----------
@@ -773,7 +746,7 @@ class Worksheet(TableauProxy):
 class Dashboard(TableauProxy):
     """Wrapper for a tableau Dashboard
 
-    https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html>`
     """
 
     def __init__(self, proxy):
@@ -790,13 +763,9 @@ class Dashboard(TableauProxy):
     @property
     def worksheets(self):
         """All Worksheet instances within this Dashboard
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets>`
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets
-
-        Returns
-        --------
-        :obj:`list` of :obj:`Worksheet`
+        :type: :obj:`list` of :obj:`Worksheet`
         """
         return list(self._worksheets.values())
 
@@ -824,13 +793,9 @@ class Dashboard(TableauProxy):
     def filters(self):
         """All Filter instances within all worksheets in this Dashboard
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/filter.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/filter.html>`
 
-        Returns
-        --------
-        Filters : :obj:`list` of :obj:`Filter`
-            Filters in Tableau that are used in this workbook.
+        :type: :obj:`list` of :obj:`Filter`
         """
         return list(itertools.chain(*[ws.filters for ws in self.worksheets]))
 
@@ -838,20 +803,16 @@ class Dashboard(TableauProxy):
     def parameters(self):
         """All Parameter instances within this Dashboard
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync>`
 
-        Returns
-        --------
-        :obj:`list` of :obj:`Parameter`
+        :type: :obj:`list` of :obj:`Parameter`
         """
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
         """Returns the parameter matching the provided parameter_name.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/parameter.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/parameter.html>`
 
         Parameters
         ----------
@@ -860,7 +821,7 @@ class Dashboard(TableauProxy):
 
         Returns
         --------
-        :obj:`list` of :obj:`Parameter`
+        :obj:`Parameter`
         """
         param_js = self._proxy.findParameterAsync(parameter_name)
         if not param_js:
@@ -873,9 +834,9 @@ class Dashboard(TableauProxy):
 
     @property
     def name(self):
-        """
+        """The name of the dashboard
 
-        #!
+        :type: :obj:`str`
         """
         if self.proxy is None:
             return None
@@ -888,9 +849,7 @@ class Dashboard(TableauProxy):
         Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we
         iterate through worksheets to gather all datasources.
 
-        Returns
-        -------
-        :obj:`list` of :obj:`Datasource` instances
+        :type: :obj:`list` of :obj:`Datasource` instances
         """
         known_ids = set()
         all_datasources = list()
@@ -965,8 +924,7 @@ class Dashboard(TableauProxy):
         This call has the same functionality as clicking the Refresh option on a
         data source in Tableau.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/interfaces/datasource.html#refreshasync
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/datasource.html#refreshasync>`
         """
         for ds in self.datasources:
             ds.refresh()
@@ -979,8 +937,7 @@ class Dashboard(TableauProxy):
 
         Seletions or filters changed anywhere in the dashboard will be handled.
 
-        For more information, see:
-        https://tableau.github.io/extensions-api/docs/trex_events.html
+        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/trex_events.html>`
 
         Parameters
         ----------
@@ -1100,11 +1057,15 @@ class Tableau:
 class DataTable(TableauProxy):
     """Wrapper for a tableau DataTable
 
-    https://tableau.github.io/extensions-api/docs/interfaces/datatable.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>`
     """
 
     @property
     def records(self):
+        """The records in the data table
+
+        TODO
+        """
         keys = [c.fieldName for c in self._proxy.columns]
         return [
             {
@@ -1129,7 +1090,7 @@ class MarksSelectedEvent(TableauProxy):
 
     Wrapper for a tableau MarksSelectedEvent
 
-    https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html>`
     """
 
     @property
@@ -1152,7 +1113,7 @@ class FilterChangedEvent(TableauProxy):
 
     Wrapper for a tableau FilterChangedEvent
 
-    https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html>`
     """
 
     def __hash__(self):
@@ -1179,7 +1140,7 @@ class ParameterChangedEvent(TableauProxy):
 
     Wrapper for a tableau ParameterChangedEvent
 
-    https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html>`
     """
 
     @property

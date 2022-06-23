@@ -19,5 +19,6 @@ This library enables the user to listen for *events* on *objects* in a Tableau d
 
 ?? Any event can be listened for by any object, as the image below demonstrates. Check if this is true
 
+TODO: Add things that _cant_ be done using the api: change sort order, change vis colors / etc.
 
 .. image:: eventsonobjects.PNG

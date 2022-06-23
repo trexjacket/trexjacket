@@ -138,8 +138,7 @@ class Filter:
 
         Returns
         ----------
-        filters : list of Filter
-            The existing Filter values
+        # TODO: I'm not sure about this one
         """
         if self.worksheet:
             self._proxy = self.worksheet.get_filter(self.field_name)._proxy
@@ -183,6 +182,12 @@ class Filter:
         --------
         domain: list of values
             The domain for the selected Filter
+
+        # FIXME: 
+        # This fails with not a helpful error message when used on a range filter
+        # AttributeError: 'e (native JS)' object has no attribute 'values'
+        at app/tableau_extension/model/proxies.py:180
+        called from Docstrings, line 36
         """
         return [v.nativeValue for v in self._proxy.getDomainAsync("database").values]
 
@@ -212,8 +217,13 @@ class Filter:
 
         Returns
         --------
-        type : filterType
-            The type of the filter.
+        :obj:`str`
+            The type of filter. One of
+
+                * "categorical" 
+                * "hierarchical"
+                * "range"
+                * "relative-date"
         """
         return self._proxy.filterType
 
@@ -299,8 +309,16 @@ class Parameter(TableauProxy):
 
         Returns
         --------
-        dataType : DataType
-            The type of data this parameter holds.
+        dataType : str
+            The type of data this parameter holds. One of 
+
+            * bool
+            * date
+            * date-time
+            * float
+            * int
+            * spatial
+            * string
         """
         return self._proxy.dataType
 
@@ -728,7 +746,7 @@ class Worksheet(TableauProxy):
         Parameters
         ----------
         event_type : str
-            The event type to register the handler for.
+            The event type to register the handler for. Valid options are ('selection_changed', 'filter_changed', or 'parameter_changed')
         handler : function
             The function to call when the event is triggered.
         """
@@ -778,8 +796,7 @@ class Dashboard(TableauProxy):
 
         Returns
         --------
-        worksheets : list
-            The collection of worksheets contained in the dashboard.
+        :obj:`list` of :obj:`Worksheet`
         """
         return list(self._worksheets.values())
 
@@ -793,8 +810,7 @@ class Dashboard(TableauProxy):
 
         Returns
         ----------
-        worksheet : Sheet.Dashboard.worksheet
-            The desired worksheet
+        :obj:`Worksheet`
         """
         try:
             return self._worksheets[sheet_name]
@@ -813,7 +829,7 @@ class Dashboard(TableauProxy):
 
         Returns
         --------
-        Filters : list of Filter
+        Filters : :obj:`list` of :obj:`Filter`
             Filters in Tableau that are used in this workbook.
         """
         return list(itertools.chain(*[ws.filters for ws in self.worksheets]))
@@ -827,7 +843,7 @@ class Dashboard(TableauProxy):
 
         Returns
         --------
-        Parameters : list
+        :obj:`list` of :obj:`Parameter`
         """
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
@@ -844,8 +860,7 @@ class Dashboard(TableauProxy):
 
         Returns
         --------
-        Parameters : list of Parameter
-            Parameters in Tableau that are used in this workbook.
+        :obj:`list` of :obj:`Parameter`
         """
         param_js = self._proxy.findParameterAsync(parameter_name)
         if not param_js:
@@ -875,9 +890,7 @@ class Dashboard(TableauProxy):
 
         Returns
         -------
-        list of Datasource instances
-
-        list of :py:func:`client_code.model.proxies.Datasource` instances.
+        :obj:`list` of :obj:`Datasource` instances
         """
         known_ids = set()
         all_datasources = list()
@@ -892,7 +905,22 @@ class Dashboard(TableauProxy):
         return all_datasources
 
     def get_datasource(self, datasource_name):
-        """Returns a datasource object"""
+        """Returns a datasource object
+
+        Parameters
+        -----
+        datasource_name : str
+            Name of the datasource
+        
+        Returns
+        -----
+        :obj:`Datasource`
+        
+        Raises
+        -----
+        KeyError
+            If no datasource matching `datasource_name` is found.
+        """
         # FIXME: Autocomplete fails to recognize return type as Datasource
         ds = [ds for ds in self.datasources if ds.name == datasource_name]
         if not ds:
@@ -904,7 +932,23 @@ class Dashboard(TableauProxy):
             return ds[0]
 
     def get_datasource_by_id(self, datasource_id):
-        """Returns a datasource object by id"""
+        """Returns a datasource object by id
+        
+        Parameters
+        ----
+        #: TODO: Check if this is correct
+        datasource_id : str
+            ID of the datasource
+        
+        Returns
+        -----
+        :obj:`Datasource`
+        
+        Raises
+        -----
+        KeyError
+            If no datasource matching `datasource_name` is found.
+        """
         # FIXME: Autocomplete fails to recognize return type as Datasource
         ds = [ds for ds in self.datasources if ds.id == datasource_id]
         if not ds:
@@ -1081,7 +1125,9 @@ class DataTable(TableauProxy):
 
 
 class MarksSelectedEvent(TableauProxy):
-    """Wrapper for a tableau MarksSelectedEvent
+    """ Triggered when a user selects a mark on a dashboard.
+    
+    Wrapper for a tableau MarksSelectedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html
     """
@@ -1102,7 +1148,9 @@ class MarksSelectedEvent(TableauProxy):
 
 
 class FilterChangedEvent(TableauProxy):
-    """Wrapper for a tableau FilterChangedEvent
+    """ Triggered when a user changes a filter on a dashboard.
+    
+    Wrapper for a tableau FilterChangedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html
     """
@@ -1115,17 +1163,21 @@ class FilterChangedEvent(TableauProxy):
 
     @property
     def filter(self):
+        """ Returns the filter that was changed. """
         f = Filter(self._proxy.getFilterAsync())
         f.worksheet = self.worksheet
         return f
 
     @property
     def worksheet(self):
+        """ Returns the worksheet that the filter is on. """
         return Worksheet(self._proxy._worksheet)
 
 
 class ParameterChangedEvent(TableauProxy):
-    """Wrapper for a tableau ParameterChangedEvent
+    """ Triggered when a user changes a parameter on a dashboard.
+    
+    Wrapper for a tableau ParameterChangedEvent
 
     https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html
     """

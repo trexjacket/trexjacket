@@ -9,7 +9,7 @@ def get_session():
 
     Returns
     -------
-    Tableau
+    :obj:`client_code.model.proxies.Tableau`
     """
     return Tableau.session()
 
@@ -19,7 +19,8 @@ def get_dashboard():
 
     Returns
     -------
-    dashboard : Dashboard instance
+
+    dashboard : :obj:`client_code.model.proxies.Dashboard`
         This returns the Dashboard instance associated with the current session.
         It is recommended that this is the only way you 'get' the current dashboard,
         since it is an attribute of Session, which deals with a bunch of house-keeping.

@@ -1,22 +1,6 @@
 Getting Started
 ==================
 
-.. card:: Purpose
-
-    The Tableau Extension library simplifies the development of tableau extensions using Anvil. 
-
-.. 
-    TODO: change wording
-
-Using **only python**, you can build a Tableau extension that runs arbitrary python code whenever a user...
-
-* clicks a mark
-* changes a filter
-* changes a parameter
-
-Demo
--------
-
 Let's build a Tableau Extension that shows the summary data of selected marks when a user clicks or selects part of the dashboard.
 
 .. note:: This demo assumes the Anvil app has a single label called `label_1`.

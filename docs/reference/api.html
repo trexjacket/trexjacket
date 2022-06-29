@@ -47,6 +47,7 @@
 <li class="toctree-l2"><a class="reference internal" href="supported.html">Supported objects and events</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary_table.html">Summary</a></li>
 </ul>
 </li>
 </ul>
@@ -84,14 +85,24 @@
 <dd><p>Gets the instance of Tableau Dashboard that represents the current connection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dashboard</strong> – This returns the Dashboard instance associated with the current session.
+<dd class="field-odd"><p>The Dashboard instance associated with the current session.
 It is recommended that this is the only way you ‘get’ the current dashboard,
 since it is an attribute of Session, which deals with a bunch of house-keeping.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="model.html#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">client_code.model.proxies.Dashboard</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="model.html#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dashboard</span></code></a></p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="k">import</span> <span class="n">get_dashboard</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;mydashboard&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">get_filters</span>
+<span class="go">[abc, def, ghi]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -100,7 +111,7 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <dd><p>Get a Tableau Session object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="model.html#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">client_code.model.proxies.Tableau</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="model.html#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tableau</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

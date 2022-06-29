@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How-To Guides &mdash; Tableau Extension  documentation</title>
+  <title>Style the extension using Tableau workbook formatting &mdash; Tableau Extension  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Download and add a trex file to Tableau" href="downloadtrex.html" />
-    <link rel="prev" title="Getting Started" href="../tutorials/gettingstarted.html" /> 
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Download and add a trex file to Tableau" href="downloadtrex.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,9 +42,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How-To Guides</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="downloadtrex.html">Download and add a trex file to Tableau</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matchtheme.html">Style the extension using Tableau workbook formatting</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Style the extension using Tableau workbook formatting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
@@ -64,9 +64,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>How-To Guides</li>
+          <li><a href="index.html">How-To Guides</a> &raquo;</li>
+      <li>Style the extension using Tableau workbook formatting</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/guides/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guides/matchtheme.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -74,31 +75,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="how-to-guides">
-<h1>How-To Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this heading"></a></h1>
-<p>Instructions to accomplish specific tasks.</p>
-<p>How to…</p>
-<ul class="simple">
-<li><p>Add an extension to Tableau</p></li>
-<li><p>Get the value of a parameter in Anvil from Tableau</p></li>
-<li><p>Get the value of a filter in Anvil from Tableau</p></li>
-<li><p>Get the selected marks</p></li>
-</ul>
-<p>Further guidance on writing how-to guides is available from <a class="reference external" href="https://diataxis.fr/how-to-guides/">diataxis</a>.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="downloadtrex.html">Download and add a trex file to Tableau</a></li>
-<li class="toctree-l1"><a class="reference internal" href="matchtheme.html">Style the extension using Tableau workbook formatting</a></li>
-</ul>
+  <section id="style-the-extension-using-tableau-workbook-formatting">
+<h1>Style the extension using Tableau workbook formatting<a class="headerlink" href="#style-the-extension-using-tableau-workbook-formatting" title="Permalink to this heading"></a></h1>
+<p>It can be helpful to match the Anvil extensions theme to the Tableau workbooks theme. This can be done using custom html in the Anvil app itself.</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tableau-worksheet-title&quot;</span><span class="p">&gt;</span> Subheader, using tableau-worksheet-title class <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</pre></div>
 </div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This doesn’t appear to work with Anvil’s RichText element.</p>
+</div>
+<p>Read more on the Tableau documentation here: <a class="reference external" href="https://tableau.github.io/extensions-api/docs/trex_format.html">https://tableau.github.io/extensions-api/docs/trex_format.html</a></p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../tutorials/gettingstarted.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="downloadtrex.html" class="btn btn-neutral float-right" title="Download and add a trex file to Tableau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="downloadtrex.html" class="btn btn-neutral float-left" title="Download and add a trex file to Tableau" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../reference/index.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

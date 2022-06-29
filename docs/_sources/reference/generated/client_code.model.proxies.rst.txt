@@ -1,4 +1,4 @@
-﻿client\_code.model.proxies
+client\_code.model.proxies
 ==========================
 
 .. automodule:: client_code.model.proxies

@@ -21,6 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Summary" href="summary_table.html" />
     <link rel="prev" title="API" href="api.html" /> 
 </head>
 
@@ -46,6 +47,7 @@
 <li class="toctree-l2"><a class="reference internal" href="supported.html">Supported objects and events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary_table.html">Summary</a></li>
 </ul>
 </li>
 </ul>
@@ -82,7 +84,7 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Dashboard</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html">https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html"><span>Read on Tableau</span></a></p>
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.datasources">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datasources</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.datasources" title="Permalink to this definition"></a></dt>
@@ -90,7 +92,7 @@
 <p>Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we
 iterate through worksheets to gather all datasources.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a> instances</p>
 </dd>
 </dl>
@@ -100,14 +102,10 @@ iterate through worksheets to gather all datasources.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.filters">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filters</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.filters" title="Permalink to this definition"></a></dt>
 <dd><p>All Filter instances within all worksheets in this Dashboard</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html">https://tableau.github.io/extensions-api/docs/interfaces/filter.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/filter.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Filters</strong> – Filters in Tableau that are used in this workbook.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -153,14 +151,13 @@ iterate through worksheets to gather all datasources.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.get_parameter">
 <span class="sig-name descname"><span class="pre">get_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the parameter matching the provided parameter_name.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>parameter_name</strong> (<em>str</em>) – Name of the parameter</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,17 +179,21 @@ iterate through worksheets to gather all datasources.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.name" title="Permalink to this definition"></a></dt>
-<dd><p>#!</p>
+<dd><p>The name of the dashboard</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.parameters">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.parameters" title="Permalink to this definition"></a></dt>
 <dd><p>All Parameter instances within this Dashboard</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync">https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#getparametersasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
 </dl>
@@ -210,8 +211,7 @@ iterate through worksheets to gather all datasources.</p>
 <dd><p>Refresh all Tableau data sources for this Dashboard</p>
 <p>This call has the same functionality as clicking the Refresh option on a
 data source in Tableau.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datasource.html#refreshasync">https://tableau.github.io/extensions-api/docs/interfaces/datasource.html#refreshasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/datasource.html#refreshasync"><span>Read on Tableau</span></a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -221,8 +221,7 @@ data source in Tableau.</p>
 <p>You can register ‘selection_changed’ and ‘filter_changed’ events at the
 dashboard level.</p>
 <p>Seletions or filters changed anywhere in the dashboard will be handled.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/trex_events.html">https://tableau.github.io/extensions-api/docs/trex_events.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/trex_events.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -236,11 +235,10 @@ dashboard level.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Dashboard.worksheets">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worksheets</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.worksheets" title="Permalink to this definition"></a></dt>
-<dd><p>All Worksheet instances within this Dashboard</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets">https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets</a></p>
+<dd><p>All Worksheet instances within this Dashboard
+<a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#worksheets"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
 </dl>
@@ -253,15 +251,23 @@ dashboard level.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.DataTable" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau DataTable</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datatable.html">https://tableau.github.io/extensions-api/docs/interfaces/datatable.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datatable.html"><span>Read on Tableau</span></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.proxies.DataTable.records">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">records</span></span><a class="headerlink" href="#client_code.model.proxies.DataTable.records" title="Permalink to this definition"></a></dt>
+<dd><p>The records in the data table</p>
+<p>TODO</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="client_code.model.proxies.Datasource">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Datasource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Datasource" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
-<p>Wrapper for a tableau Datasource</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datasource.html">https://tableau.github.io/extensions-api/docs/interfaces/datasource.html</a></p>
+<p>Represents a Tableau Datasource.</p>
+<p>This is a wrapper for a tableau Datasource, see more here:
+<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/datasource.html">https://tableau.github.io/extensions-api/docs/interfaces/datasource.html</a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="client_code.model.proxies.Datasource.refresh">
 <span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Datasource.refresh" title="Permalink to this definition"></a></dt>
@@ -274,14 +280,13 @@ dashboard level.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Filter" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper for a tableau Filter</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html">https://tableau.github.io/extensions-api/docs/interfaces/filter.html</a></p>
+<p>Represents a Tableau Filter</p>
+<p>This is a wrapper for a tableau Filter, see more here: <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html"><span>Read on Tableau</span></a></p>
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.applied_values">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">applied_values</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.applied_values" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the current value applied to the Filter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html">https://tableau.github.io/extensions-api/docs/interfaces/filter.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/filter.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong># TODO</strong></p>
@@ -296,16 +301,14 @@ dashboard level.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.clear_filter">
 <span class="sig-name descname"><span class="pre">clear_filter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Filter.clear_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Resets the existing filters.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync"><span>Read on Tableau</span></a></p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.domain">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.domain" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the domain for a Categorical Filter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync">https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getdomainasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -325,31 +328,23 @@ dashboard level.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.field">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.field" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a promise containing the field for the filter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getfieldasync">https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getfieldasync</a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Promise</strong> – a promise containing the field for the filter.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>&lt;field&gt;</p>
-</dd>
-</dl>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#getfieldasync"><span>Read on Tableau</span></a></p>
+<p># TODO
+:returns: <strong>Promise</strong> – a promise containing the field for the filter.
+:rtype: &lt;field&gt;</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.field_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_name</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.field_name" title="Permalink to this definition"></a></dt>
 <dd><p>The name of the field being filtered</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname">https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>field_name</strong> – The name of the field being filtered. Note that this is the caption as
-shown in the UI, and not the actual database field name.</p>
+<dd class="field-odd"><p>The name of the field being filtered</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Filter.FieldName</p>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -358,20 +353,10 @@ shown in the UI, and not the actual database field name.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.filter_type">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter_type</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.filter_type" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the type of Filter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype">https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/filter.html#filtertype"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>The type of filter. One of</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>”categorical”</p></li>
-<li><p>”hierarchical”</p></li>
-<li><p>”range”</p></li>
-<li><p>”relative-date”</p></li>
-</ul>
-</div></blockquote>
-</p>
+<dd class="field-odd"><p>The type of filter. One of [‘categorical’, ‘hierarchical’, ‘range’, ‘relative-date’]</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
@@ -383,15 +368,15 @@ shown in the UI, and not the actual database field name.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.relevant_domain">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">relevant_domain</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.relevant_domain" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the ‘relevant’ values for this specific filter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/enums/tableau.filterdomaintype.html">https://tableau.github.io/extensions-api/docs/enums/tableau.filterdomaintype.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/enums/tableau.filterdomaintype.html"><span>Read on Tableau</span></a></p>
+<p>TODO:
+:returns: <strong>domain</strong> – The domain values that are relevant to the specified filter i.e. the domain</p>
+<blockquote>
+<div><p>is restricted by a previous filter</p>
+</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>domain</strong> – The domain values that are relevant to the specified filter i.e. the domain
-is restricted by a previous filter</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list of values</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of values</p>
 </dd>
 </dl>
 </dd></dl>
@@ -400,16 +385,12 @@ is restricted by a previous filter</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Filter.set_filter_value">
 <span class="sig-name descname"><span class="pre">set_filter_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'replace'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Filter.set_filter_value" title="Permalink to this definition"></a></dt>
 <dd><p>Replaces the list of provided categorical filter values.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync</a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>new_values</strong> (<em>list</em>) – List of values to filter on</p></li>
-<li><p><strong>update_type</strong> (<em>optional</em>) – The type of update to be applied to the filter</p></li>
-</ul>
-</dd>
-</dl>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync"><span>Read on Tableau</span></a></p>
+<p># TODO
+:param new_values: List of values to filter on
+:type new_values: list
+:param optional update_type: The type of update to be applied to the filter
+:type optional update_type: str</p>
 </dd></dl>
 
 </dd></dl>
@@ -420,7 +401,7 @@ is restricted by a previous filter</p>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Triggered when a user changes a filter on a dashboard.</p>
 <p>Wrapper for a tableau FilterChangedEvent</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html">https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html"><span>Read on Tableau</span></a></p>
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.FilterChangedEvent.filter">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent.filter" title="Permalink to this definition"></a></dt>
@@ -441,7 +422,7 @@ is restricted by a previous filter</p>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Triggered when a user selects a mark on a dashboard.</p>
 <p>Wrapper for a tableau MarksSelectedEvent</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html">https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html"><span>Read on Tableau</span></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="client_code.model.proxies.MarksSelectedEvent.get_selected_records">
 <span class="sig-name descname"><span class="pre">get_selected_records</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.MarksSelectedEvent.get_selected_records" title="Permalink to this definition"></a></dt>
@@ -465,13 +446,12 @@ is restricted by a previous filter</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Parameter</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html"><span>Read on Tableau</span></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="client_code.model.proxies.Parameter.allowable_values">
 <span class="sig-name descname"><span class="pre">allowable_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter.allowable_values" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the allowable set of values this parameter can take.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>allowableValues</strong> – The allowable set of values this parameter can take.</p>
@@ -488,8 +468,7 @@ is restricted by a previous filter</p>
 <dd><p>Modifies this parameter and assigns it a new value.</p>
 <p>The new value must fall within the domain restrictions defined by
 allowableValues.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#changevalueasync">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#changevalueasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#changevalueasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>new_value</strong> (<em>string</em><em> | </em><em>number</em><em> | </em><em>boolean</em><em> | </em><em>Date</em>) – The new value to assign to this parameter. Note: For changing Date
@@ -502,19 +481,18 @@ parameters, UTC Date objects are expected.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Parameter.data_type">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span><a class="headerlink" href="#client_code.model.proxies.Parameter.data_type" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the type of data this parameter holds.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p><strong>dataType</strong> – The type of data this parameter holds. One of</p>
 <ul class="simple">
-<li><p>bool</p></li>
-<li><p>date</p></li>
-<li><p>date-time</p></li>
-<li><p>float</p></li>
-<li><p>int</p></li>
-<li><p>spatial</p></li>
-<li><p>string</p></li>
+<li><p>’bool’</p></li>
+<li><p>’date’</p></li>
+<li><p>’date-time’</p></li>
+<li><p>’float’</p></li>
+<li><p>’int’</p></li>
+<li><p>’spatial’</p></li>
+<li><p>’string’</p></li>
 </ul>
 </p>
 </dd>
@@ -528,8 +506,7 @@ parameters, UTC Date objects are expected.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Parameter.domain">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><a class="headerlink" href="#client_code.model.proxies.Parameter.domain" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the allowable set of values this parameter can take.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#allowablevalues"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>allowableValues</strong> – The allowable set of values this parameter can take.</p>
@@ -544,8 +521,7 @@ parameters, UTC Date objects are expected.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Parameter.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#client_code.model.proxies.Parameter.name" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the display name for this parameter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#name">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#name</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#name"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> – The display name for this parameter.</p>
@@ -567,8 +543,7 @@ parameters, UTC Date objects are expected.</p>
 <span class="sig-name descname"><span class="pre">register_event_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter.register_event_handler" title="Permalink to this definition"></a></dt>
 <dd><p>Register an event handler that will be called whenever the parameter is changed.</p>
 <p>Note that the handler must take a ParameterChangedEvent instance as an argument.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#addeventlistener">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#addeventlistener</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#addeventlistener"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>handler</strong> (<em>TableauEventHandlerFn</em>) – The function which will be called when an event happens.</p>
@@ -581,16 +556,14 @@ parameters, UTC Date objects are expected.</p>
 <span class="sig-name descname"><span class="pre">remove_event_handler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter.remove_event_handler" title="Permalink to this definition"></a></dt>
 <dd><p>Removes an event listener if a matching one is found</p>
 <p>If no matching listener exists, the method does nothing.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#removeeventlistener">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#removeeventlistener</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#removeeventlistener"><span>Read on Tableau</span></a></p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="client_code.model.proxies.Parameter.value">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#client_code.model.proxies.Parameter.value" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the DataValue representing the current value of the parameter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html#currentValue"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>currentValue</strong> – DataValue representing the current value of the parameter.</p>
@@ -609,7 +582,7 @@ parameters, UTC Date objects are expected.</p>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Triggered when a user changes a parameter on a dashboard.</p>
 <p>Wrapper for a tableau ParameterChangedEvent</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html">https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html"><span>Read on Tableau</span></a></p>
 </dd></dl>
 
 <dl class="py class">
@@ -687,13 +660,12 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Worksheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#client_code.model.proxies.TableauProxy" title="client_code.model.proxies.TableauProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TableauProxy</span></code></a></p>
 <p>Wrapper for a tableau Worksheet</p>
-<p><a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html"><span>Read on Tableau</span></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.apply_filter">
 <span class="sig-name descname"><span class="pre">apply_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'replace'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.apply_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Applies the list of provided categorical filter values.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#applyfilterasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -709,8 +681,7 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.clear_filter">
 <span class="sig-name descname"><span class="pre">clear_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.clear_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Resets existing filters on the given field.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>str</em><em> or </em><a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><em>Filter</em></a>) – The name or Filter Object of the field to clear filter on.</p>
@@ -728,8 +699,7 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.datasources">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datasources</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.datasources" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the data sources for this worksheet.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getdatasourcesasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getdatasourcesasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getdatasourcesasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data_sources</strong> – The primary data source and all of the secondary data sources for this
@@ -767,8 +737,7 @@ worksheet.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.get_filter">
 <span class="sig-name descname"><span class="pre">get_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.get_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Returns information on a given selected filter.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname">https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter_name</strong> (<em>str</em>) – Name of the filter</p>
@@ -786,8 +755,7 @@ worksheet.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.get_parameter">
 <span class="sig-name descname"><span class="pre">get_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.get_parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Getting the parameter information for the given parameter name.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/parameter.html">https://tableau.github.io/extensions-api/docs/interfaces/parameter.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/parameter.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>parameter_name</strong> (<em>str</em>) – Name of the desired parameter name</p>
@@ -807,8 +775,7 @@ parameter and change its values.</p>
 <span class="sig-name descname"><span class="pre">get_selected_records</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.get_selected_records" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the data for the marks which are currently selected on the worksheet.
 If there are no marks currently selected, an empty list is returned.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>records</strong> – Data for the currently selected marks on the worksheet</p>
@@ -832,13 +799,13 @@ If there are no marks currently selected, an empty list is returned.</p>
 one logical table exists.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>marks</strong> (<em>list of Mark objects</em>)</p></li>
-<li><p><em>Raises</em></p></li>
-<li><p><em>——-</em></p></li>
-<li><p><strong>ValueError</strong> (<em>If more than one table_id exists, then a table must be specified.</em>)</p></li>
-</ul>
-</p>
+<dd class="field-even"><p>list of Mark objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#client_code.model.marks.Mark" title="client_code.model.marks.Mark">Mark</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If more than one table_id exists, then a table must be specified.:</p>
 </dd>
 </dl>
 </dd></dl>
@@ -870,8 +837,7 @@ one logical table exists.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.parameters">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.parameters" title="Permalink to this definition"></a></dt>
 <dd><p>A collection of all the Tableau parameters that are used in this workbook.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getparametersasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getparametersasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getparametersasync"><span>Read on Tableau</span></a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -886,8 +852,7 @@ the worksheet.</p>
 will be raised.</p>
 <p>The event handler must take a ParameterChangedEvent or FilterChangedEvent as
 an argument.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/trex_events.html">https://tableau.github.io/extensions-api/docs/trex_events.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/trex_events.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -903,8 +868,8 @@ an argument.</p>
 <span class="sig-name descname"><span class="pre">select_marks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'select-replace'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.select_marks" title="Permalink to this definition"></a></dt>
 <dd><p>Selects the marks and returns them.</p>
 <p>This version selects by value, using the SelectionCriteria interface.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#selectmarksbyvalueasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#selectmarksbyvalueasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#selectmarksbyvalueasync"><span>Read on Tableau</span></a></p>
+<p>TODO</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -922,8 +887,7 @@ an argument.</p>
 <dd><p>Builds off of ‘selected_records’ method.</p>
 <p>Generates Marks by iterating through all records. (see ‘build_marks in
 model.marks’)</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/markscollection.html">https://tableau.github.io/extensions-api/docs/interfaces/markscollection.html</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/markscollection.html"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>list</strong> – A list of selected mark(s) on the worksheet</p>
@@ -939,8 +903,7 @@ model.marks’)</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected_records</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.selected_records" title="Permalink to this definition"></a></dt>
 <dd><p>The data for the marks which are currently selected on the worksheet.
 If there are no marks currently selected, an empty list is returned.</p>
-<p>For more information, see:
-<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync">https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync</a></p>
+<p><a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href=" https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#getselectedmarksasync"><span>Read on Tableau</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>records</strong> – Data for the currently selected marks on the worksheet</p>
@@ -953,6 +916,148 @@ If there are no marks currently selected, an empty list is returned.</p>
 
 </dd></dl>
 
+<span class="target" id="module-client_code.model.marks"></span><dl class="py class">
+<dt class="sig sig-object py" id="client_code.model.marks.Dimensions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Dimensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frozen_fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.marks.Dimensions" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="client_code.model.marks.Field">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.marks.Field" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a dimension of a selected Mark</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.marks.Field.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#client_code.model.marks.Field.value" title="Permalink to this definition"></a></dt>
+<dd><p>Property that returns the Class value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Mark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.marks.Mark" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to represent a selected mark on a worksheet</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark.dimension">
+<span class="sig-name descname"><span class="pre">dimension</span></span><a class="headerlink" href="#client_code.model.marks.Mark.dimension" title="Permalink to this definition"></a></dt>
+<dd><p>representation of the identifying dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#client_code.model.marks.Dimensions" title="client_code.model.marks.Dimensions">Dimensions</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark.identifier">
+<span class="sig-name descname"><span class="pre">identifier</span></span><a class="headerlink" href="#client_code.model.marks.Mark.identifier" title="Permalink to this definition"></a></dt>
+<dd><p>dimension values identifying the mark</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark.measures">
+<span class="sig-name descname"><span class="pre">measures</span></span><a class="headerlink" href="#client_code.model.marks.Mark.measures" title="Permalink to this definition"></a></dt>
+<dd><p>of the underlying data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark.values">
+<span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#client_code.model.marks.Mark.values" title="Permalink to this definition"></a></dt>
+<dd><p>of the actual data that is associated with this mark
+mapped to measures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Marks</span> <span class="pre">are</span> <span class="pre">accessible</span> <span class="pre">by</span> <span class="pre">case-insensitive</span> <span class="pre">dictionary</span> <span class="pre">lookup</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">i.e.</span> <span class="pre">a</span> <span class="pre">mark</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">accessed</span> <span class="pre">mark['profit']</span> <span class="pre">and</span> <span class="pre">this</span> <span class="pre">will</span> <span class="pre">return</span> <span class="pre">the</span> <span class="pre">value</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">associated</span> <span class="pre">with</span> <span class="pre">any</span> <span class="pre">of</span></span></dt>
+<dd><p>mark measure SUM(Profit)
+mark measure (Profit)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.marks.Mark.get" title="Permalink to this definition"></a></dt>
+<dd><p>Getter method for improved readability</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identifier</span></span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd><p>Property that returns the dimension values of the Class</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.marks.Mark.identifying_properties">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identifying_properties</span></span><a class="headerlink" href="#client_code.model.marks.Mark.identifying_properties" title="Permalink to this definition"></a></dt>
+<dd><p>Property that returns the names of each dimension</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">measures</span></span><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
+<dd><p>Property that returns the Class measures</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
+<dd><p>Property that returns the Class values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="client_code.model.marks.Measure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.marks.Measure" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#client_code.model.marks.Field" title="client_code.model.marks.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="client_code.model.marks.build_marks">
+<span class="sig-name descname"><span class="pre">build_marks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.marks.build_marks" title="Permalink to this definition"></a></dt>
+<dd><p>Generates Marks</p>
+<p>we iterate through all records.
+Some “Marks” can be assembled from multiple records if they share a common
+identifier (frozen set of dimensions)
+This is not really known until we have iterated through all records
+We do rely on a record having a complete set of dimensions, or they will be
+assembled separately (i.e. dimensions
+must fully overlap for us to group them)</p>
+</dd></dl>
+
 </section>
 
 
@@ -960,6 +1065,7 @@ If there are no marks currently selected, an empty list is returned.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="api.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="summary_table.html" class="btn btn-neutral float-right" title="Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -647,7 +647,8 @@ class Worksheet(TableauProxy):
             {"fieldName": k, "value": [v]} for d in dimension for k, v in d.items()
         ]
         self._proxy.selectMarksByValueAsync(selection, selection_type)
-
+        return self.selected_records
+    
     def clear_selection(self):
         """Clears the current marks selection."""
         self._proxy.clearSelectedMarksAsync()
@@ -751,7 +752,7 @@ class Dashboard(TableauProxy):
 
     def __init__(self, proxy):
         super().__init__(proxy)
-        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
+        self.refresh()
 
     def __getitem__(self, idx):
         return self.get_worksheet(idx)
@@ -767,8 +768,8 @@ class Dashboard(TableauProxy):
 
         :type: :obj:`list` of :obj:`Worksheet`
         """
-        return list(self._worksheets.values())
-
+        return [Worksheet(ws._proxy) for ws in self._worksheets.values()]
+      
     def get_worksheet(self, sheet_name):
         """Get the specified worksheet from the active tableau instance.
 
@@ -860,9 +861,9 @@ class Dashboard(TableauProxy):
                 else:
                     known_ids.add(ds.id)
                     all_datasources.append(ds)
-
-        return all_datasources
-
+                    
+        return [Datasource(ds._proxy) for ds in all_datasources]
+      
     def get_datasource(self, datasource_name):
         """Returns a datasource object
 
@@ -888,8 +889,8 @@ class Dashboard(TableauProxy):
                 f"Datasources in Dashboard: {[ds.name for ds in self.datasources]}"
             )
         else:
-            return ds[0]
-
+            return Datasource(ds[0]._proxy)
+    
     def get_datasource_by_id(self, datasource_id):
         """Returns a datasource object by id
 

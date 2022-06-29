@@ -11,4 +11,6 @@ It can be helpful to match the Anvil extensions theme to the Tableau workbooks t
 
     This doesn't appear to work with Anvil's RichText element.
 
+Now whenever you style the workbook titles using Format > Workbook > Worksheet Titles, the anvil app will match the theme.
+
 Read more on the Tableau documentation here: https://tableau.github.io/extensions-api/docs/trex_format.html

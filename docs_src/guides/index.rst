@@ -17,3 +17,4 @@ Further guidance on writing how-to guides is available from `diataxis <https://d
 
    downloadtrex
    matchtheme
+   bind_filter

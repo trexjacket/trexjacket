@@ -92,6 +92,14 @@ class Filter:
         return {"field_name": self.field_name, "values": self.applied_values}
 
     @property
+    def all_selected(self):
+        """Whether or not all filter values are chosen."""
+        if self.filter_type != "categorical":
+            raise AttributeError(f"Not implemented for {self.filter_type}")
+
+        return self._proxy.isAllSelected
+
+    @property
     def field_name(self):
         """The name of the field being filtered
         For more information, see:

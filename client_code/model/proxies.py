@@ -88,7 +88,7 @@ class Filter:
         return getattr(self._proxy, name)
 
     def __str__(self):
-        return f"Filter: '{self.field_name}', with values: {self.applied_values}"
+        return f"Filter: '{self.field_name}'"
 
     @property
     def serialized(self):

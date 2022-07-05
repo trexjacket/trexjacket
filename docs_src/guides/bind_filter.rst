@@ -6,6 +6,8 @@ Use `component.item` and `self.refresh_data_bindings()` to bind an anvil compone
 .. important::
     Need https://github.com/Baker-Tilly-US/Tableau-Extension/issues/42
 
+# TODO: Mention the fact that `applied_values` does not behave exactly the same way as the api.
+
 .. code-block:: python
     :linenos:
 

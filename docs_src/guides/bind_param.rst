@@ -1,7 +1,7 @@
-Changing a parameter when a filter changes
+Change a parameter when a filter changes
 =====
 
-Use `get_parameter` with `register_event_handler`. 
+Use :py:func:`~client_code.model.proxies.Dashboard.get_parameter` inside the callback function and change the value using simple assignment (:code:`param.value = 15`).
 
 .. code-block:: python
     :linenos:

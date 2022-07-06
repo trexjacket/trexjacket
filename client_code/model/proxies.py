@@ -61,8 +61,9 @@ class TableauProxy:
 class Datasource(TableauProxy):
     """Represents a Tableau Datasource.
 
-    This is a wrapper for a tableau Datasource, see more here:
-    https://tableau.github.io/extensions-api/docs/interfaces/datasource.html
+    This is a wrapper for a tableau Datasource
+
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>`
     """
 
     def refresh(self):
@@ -77,7 +78,7 @@ class Datasource(TableauProxy):
 class Filter:
     """Represents a Tableau Filter
 
-    This is a wrapper for a tableau Filter, see more here: :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/filter.html>`
+    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/filter.html>`
     """
 
     def __init__(self, proxy):
@@ -130,7 +131,7 @@ class Filter:
 
     @property
     def applied_values(self):
-        """Returns the current value applied to the Filter.
+        """Returns the current value(s) applied to the Filter.
 
         Returns
         ----------
@@ -173,12 +174,6 @@ class Filter:
         --------
         domain: list of values
             The domain for the selected Filter
-
-        # FIXME:
-        # This fails with not a helpful error message when used on a range filter
-        # AttributeError: 'e (native JS)' object has no attribute 'values'
-        at app/tableau_extension/model/proxies.py:180
-        called from Docstrings, line 36
         """
         return [v.nativeValue for v in self._proxy.getDomainAsync("database").values]
 
@@ -186,7 +181,6 @@ class Filter:
     def relevant_domain(self):
         """Returns the 'relevant' values for this specific filter.
 
-        TODO:
         Returns
         --------
         domain : list of values
@@ -204,7 +198,7 @@ class Filter:
         Returns
         --------
         :obj:`str`
-            The type of filter. One of ['categorical', 'hierarchical', 'range', 'relative-date']
+            The type of filter. One of {'categorical', 'hierarchical', 'range', 'relative-date'}
         """
         return self._proxy.filterType
 
@@ -212,10 +206,9 @@ class Filter:
     def field(self):
         """Returns a promise containing the field for the filter.
 
-        # TODO
         Returns
         --------
-        Promise : <field>
+        Promise : :obj:`~client_code.model.marks.Field`
             a promise containing the field for the filter.
         """
         return Field(self._proxy.getFieldAsync())
@@ -235,17 +228,12 @@ class Filter:
         self.worksheet.apply_filter(self.field_name, new_values, method)
 
     def clear_filter(self):
-        """Resets the existing filters.
-
-        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html#clearfilterasync>`
-        """
+        """Resets the existing filters."""
         self.worksheet.clear_filter(self.field_name)
 
 
 class Parameter(TableauProxy):
-    """Represents a parameter
-
-    """
+    """Represents a parameter"""
 
     def refresh(self, parameter_changed_event=None):
         """Refreshes the object to reflect any changes in the dashboard"""
@@ -495,7 +483,7 @@ class Worksheet(TableauProxy):
 
         Returns
         --------
-        all_filters : list of Filters
+        :obj:`list` of :obj:`Filter`
             The currently selected filters. Valid types of filters include:
                 Categorical, Hierarchical, Range, RelativeDate
         """
@@ -600,8 +588,7 @@ class Worksheet(TableauProxy):
 
     @property
     def parameters(self):
-        """A collection of all the Tableau parameters that are used in this workbook.
-        """
+        """A collection of all the Tableau parameters that are used in this workbook."""
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
@@ -658,8 +645,8 @@ class Worksheet(TableauProxy):
 
         Parameters
         ----------
-        event_type : str
-            The event type to register the handler for. Valid options are ('selection_changed', 'filter_changed', or 'parameter_changed')
+        event_type : 'selection_changed', 'filter_changed', 'parameter_changed'
+            The event type to register the handler for.
         handler : function
             The function to call when the event is triggered.
         """
@@ -782,7 +769,7 @@ class Dashboard(TableauProxy):
         Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we
         iterate through worksheets to gather all datasources.
 
-        :type: :obj:`list` of :obj:`Datasource` instances
+        :type: :obj:`list` of :obj:`Datasource`
         """
         known_ids = set()
         all_datasources = list()
@@ -828,7 +815,6 @@ class Dashboard(TableauProxy):
 
         Parameters
         ----
-        #: TODO: Check if this is correct
         datasource_id : str
             ID of the datasource
 
@@ -867,7 +853,7 @@ class Dashboard(TableauProxy):
         You can register 'selection_changed' and 'filter_changed' events at the
         dashboard level.
 
-        Seletions or filters changed anywhere in the dashboard will be handled.
+        Selections or filters changed anywhere in the dashboard will be handled.
 
         Parameters
         ----------
@@ -994,7 +980,7 @@ class DataTable(TableauProxy):
     def records(self):
         """The records in the data table
 
-        TODO
+        :obj:`list` of :obj:`dict`
         """
         keys = [c.fieldName for c in self._proxy.columns]
         return [

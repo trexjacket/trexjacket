@@ -1,12 +1,7 @@
-Bind a tableau filter to an anvil component
+Bind a tableau categorical filter to an anvil component
 ====
 
-Use `component.item` and `self.refresh_data_bindings()` to bind an anvil component to something like a filter or a parameter.
-
-.. important::
-    Need https://github.com/Baker-Tilly-US/Tableau-Extension/issues/42
-
-# TODO: Mention the fact that `applied_values` does not behave exactly the same way as the api.
+This guide will show how to build a repeating panel in Anvil that contains a row for each value selected in a categorical filter. It assumes that the Anvil app contains a single repeating panel named :code:`repeating_panel_1`.
 
 .. code-block:: python
     :linenos:
@@ -31,3 +26,7 @@ Use `component.item` and `self.refresh_data_bindings()` to bind an anvil compone
 
         self.repeating_panel_1.items = filter_values
         self.refresh_data_bindings()
+
+As always, register an event handler to the dashboard object and set the callback function (:code:`show_values`). 
+
+To retrieve the values of the filter that are currently applied, use :py:attr:`~client_code.model.proxies.Filter.applied_values`. In the callback function, set the repeating panel's :code:`repeating_panel_1.items` to the `applied_values` of the filter.

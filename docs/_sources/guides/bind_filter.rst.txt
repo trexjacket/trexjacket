@@ -1,4 +1,4 @@
-Bind a tableau categorical filter to an anvil component
+Bind a tableau categorical filter to an Anvil component
 ====
 
 This guide will show how to build a repeating panel in Anvil that contains a row for each value selected in a categorical filter. It assumes that the Anvil app contains a single repeating panel named :code:`repeating_panel_1`.

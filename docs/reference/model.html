@@ -81,7 +81,7 @@
              
   <section id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h1>
-<p>Click <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="#"><span>Read on Tableau</span></a> to view the corresponding Tableau documentation when applicable.</p>
+<p>To view the corresponding Tableau documentation click the buttons marked <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference external" href="#"><span>Read on Tableau</span></a></p>
 <section id="id1">
 <h2>api<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <span class="target" id="module-client_code.api"></span><dl class="py function">
@@ -99,13 +99,16 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 </dd>
 </dl>
 <p class="rubric">Examples</p>
+<p>Get the name of the dashboard as a string</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="k">import</span> <span class="n">get_dashboard</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;mydashboard&#39;</span>
+<span class="go">&#39;Example Dashboard&#39;</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">get_filters</span>
-<span class="go">[abc, def, ghi]</span>
+<p>Get a list of all the filters in the dashboard</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="k">import</span> <span class="n">get_dashboard</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">filters</span>
+<span class="go">[&lt;tableau_extension.model.proxies.Filter object&gt;, &lt;tableau_extension.model.proxies.Filter object&gt;]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -115,8 +118,11 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <span class="sig-name descname"><span class="pre">get_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_session" title="Permalink to this definition"></a></dt>
 <dd><p>Get a Tableau Session object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tableau</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current Tableau session.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tableau</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

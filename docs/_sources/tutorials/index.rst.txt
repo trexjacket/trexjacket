@@ -1,11 +1,14 @@
 Tutorials
 =========
 
-Step by step instructions for using the library which assume little or no prior knowledge.
+   "Tutorials are lessons that take the reader by the hand through a series of steps to complete a project of some kind. Tutorials are learning-oriented."
 
-Further guidance on writing tutorials is available from `diataxis <https://diataxis.fr/tutorials/>`_.
+   -- Daniele Procida, https://diataxis.fr/
 
 .. toctree::
    :maxdepth: 1
 
    gettingstarted
+   salesforce
+   chat
+   js_api

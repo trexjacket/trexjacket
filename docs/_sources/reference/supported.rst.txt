@@ -1,7 +1,7 @@
 Supported objects and events
 -------------
 
-This library enables the user to listen for *events* on *objects* in a Tableau dashboard.
+This library enables the user to listen and respond to *events* on *objects* in a Tableau dashboard using *event handlers*.
 
 * **Objects** are the pieces of the Tableau dashboard that a user interacts with. The following objects are supported:
 
@@ -16,9 +16,4 @@ This library enables the user to listen for *events* on *objects* in a Tableau d
     * Changing a parameter (:py:class:`~client_code.model.proxies.ParameterChangedEvent`)
     * Selecting marks (:py:class:`~client_code.model.proxies.MarksSelectedEvent`)
 
-
-?? Any event can be listened for by any object, as the image below demonstrates. Check if this is true
-
-TODO: Add things that _cant_ be done using the api: change sort order, change vis colors / etc.
-
-.. image:: eventsonobjects.PNG
+Dashboard and Worksheet objects currently support registering event handlers for all 3 types of events, while Parameter only supports event handlers on parameter changed events. Adding event handlers to filters is not supported.

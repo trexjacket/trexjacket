@@ -21,8 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="Reference" href="index.html" /> 
+    <link rel="prev" title="API" href="model.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,10 +43,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="model.html">API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Supported objects and events</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model.html">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="summary_table.html">Summary</a></li>
 </ul>
 </li>
 </ul>
@@ -79,7 +76,7 @@
              
   <section id="supported-objects-and-events">
 <h1>Supported objects and events<a class="headerlink" href="#supported-objects-and-events" title="Permalink to this heading"></a></h1>
-<p>This library enables the user to listen for <em>events</em> on <em>objects</em> in a Tableau dashboard.</p>
+<p>This library enables the user to listen and respond to <em>events</em> on <em>objects</em> in a Tableau dashboard using <em>event handlers</em>.</p>
 <ul>
 <li><p><strong>Objects</strong> are the pieces of the Tableau dashboard that a user interacts with. The following objects are supported:</p>
 <blockquote>
@@ -101,17 +98,14 @@
 </div></blockquote>
 </li>
 </ul>
-<p>?? Any event can be listened for by any object, as the image below demonstrates. Check if this is true</p>
-<p>TODO: Add things that _cant_ be done using the api: change sort order, change vis colors / etc.</p>
-<img alt="../_images/eventsonobjects.PNG" src="../_images/eventsonobjects.PNG" />
+<p>Dashboard and Worksheet objects currently support registering event handlers for all 3 types of events, while Parameter only supports event handlers on parameter changed events. Adding event handlers to filters is not supported.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="model.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

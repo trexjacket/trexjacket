@@ -1,7 +1,7 @@
 API
 =====
 
-Click :bdg-link-primary-line:`Read on Tableau <>` to view the corresponding Tableau documentation when applicable.
+To view the corresponding Tableau documentation click the buttons marked :bdg-link-primary-line:`Read on Tableau <>`
 
 api
 ----

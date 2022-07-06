@@ -1,6 +1,10 @@
 How-To Guides
 =============
 
+   "How-to guides are directions that take the reader through the steps required to solve a real-world problem. How-to guides are goal-oriented."
+
+   -- Daniele Procida, https://diataxis.fr/
+
 .. toctree::
    :maxdepth: 2
 
@@ -8,6 +12,5 @@ How-To Guides
    matchtheme
    bind_filter
    bind_param
+   specific_sheet
 
-
-Further guidance on writing how-to guides is available from `diataxis <https://diataxis.fr/how-to-guides/>`_.

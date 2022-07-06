@@ -10,6 +10,7 @@ def get_session():
     Returns
     -------
     :obj:`~client_code.model.proxies.Tableau`
+        The current Tableau session.
     """
     return Tableau.session()
 
@@ -27,11 +28,16 @@ def get_dashboard():
 
     Examples
     --------
+    Get the name of the dashboard as a string
+
     >>> from tableau_extension.api import get_dashboard
     >>> get_dashboard().name
-    'mydashboard'
+    'Example Dashboard'
 
-    >>> get_dashboard().get_filters
-    [abc, def, ghi]
+    Get a list of all the filters in the dashboard
+
+    >>> from tableau_extension.api import get_dashboard
+    >>> get_dashboard().filters
+    [<tableau_extension.model.proxies.Filter object>, <tableau_extension.model.proxies.Filter object>]
     """
     return Tableau.session().dashboard

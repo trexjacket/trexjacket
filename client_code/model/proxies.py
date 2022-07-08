@@ -809,9 +809,9 @@ class Dashboard(TableauProxy):
 
         #!
         """
-        if self.proxy is None:
+        if self._proxy is None:
             return None
-        return self.proxy.name
+        return self._proxy.name
 
     @property
     def datasources(self):

@@ -177,6 +177,11 @@ class Filter:
         domain: list of values
             The domain for the selected Filter
         """
+        if self._proxy.filterType != "categorical":
+            raise NotImplementedError(
+                "domain is currently only available for categorical filters."
+            )
+
         return [v.nativeValue for v in self._proxy.getDomainAsync("database").values]
 
     @property

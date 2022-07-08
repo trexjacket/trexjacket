@@ -299,11 +299,11 @@ class Parameter(TableauProxy):
         allowableValues: ParameterDomainRestriction
             The allowable set of values this parameter can take.
         """
-        if self._proxy.allowableValues.type == 'all':
+        if self._proxy.allowableValues.type == "all":
             raise ValueError(
                 'allowable_values is only available for the "List" and "Range" allowable values. '
-                'See https://tableau.github.io/extensions-api/docs/interfaces/parameterdomainrestriction.html '
-                'for more information.'
+                "See https://tableau.github.io/extensions-api/docs/interfaces/parameterdomainrestriction.html "
+                "for more information."
             )
 
         return [d.nativeValue for d in self._proxy.allowableValues.allowableValues]

@@ -299,14 +299,68 @@ class Parameter(TableauProxy):
         allowableValues: ParameterDomainRestriction
             The allowable set of values this parameter can take.
         """
-        if self._proxy.allowableValues.type == "all":
+        param_type = self._proxy.allowableValues.type  # All, List, or Range
+
+        def _retrieve_value(val):
+            """Retrieve the allowableValue field based on its data type.
+
+            Parameters
+            ------
+            val : DataValue
+
+            Returns
+            ------
+            Value parsed with either .formattedValue(), .nativeValue(), .value() depending on the
+            data type of the parameter.
+            """
+            if self.data_type == "date":
+                return val.formattedValue
+            elif self.data_type == "float":
+                return float(val.formattedValue)
+            else:
+                return val.nativeValue
+
+        def _allvalues():
             raise ValueError(
-                'allowable_values is only available for the "List" and "Range" allowable values. '
-                "See https://tableau.github.io/extensions-api/docs/interfaces/parameterdomainrestriction.html "
-                "for more information."
+                f'allowable_values is only available for "list", or "range" type filters, not {param_type}'
             )
 
-        return [d.nativeValue for d in self._proxy.allowableValues.allowableValues]
+        def _listvalues():
+            """
+            Expected behavior for int but not float, float will return a list of
+            the currently selected value
+
+            Note that there is some very odd behavior happening here. For example:
+
+            >>> allows = self.param._proxy.allowableValues.allowableValues
+            >>> print(f'.value: {[x.value for x in allows]}')
+            >>> print(f'.nativeValue: {[x.nativeValue for x in allows]}')
+            >>> print(f'.formattedValue: {[x.formattedValue for x in allows]}')
+
+            for an int
+            .value: ['1', '150']
+            .nativeValue: [1, 150]
+            .formattedValue: ['1', '150']
+
+            for a float (note that the repeated value is the currently selected value in the tableau UI)
+            .value: ['1', '1']
+            .nativeValue: [1, 1]
+            .formattedValue: ['1', '150']
+            """
+
+            return [
+                _retrieve_value(d) for d in self._proxy.allowableValues.allowableValues
+            ]
+
+        def _rangevalues():
+            mmin = self._proxy.allowableValues.minValue
+            mmax = self._proxy.allowableValues.maxValue
+
+            return {"min": _retrieve_value(mmin), "max": _retrieve_value(mmax)}
+
+        valmapper = {"all": _allvalues, "list": _listvalues, "range": _rangevalues}
+
+        return valmapper[param_type]()
 
     def change_value(self, new_value):
         """Modifies this parameter and assigns it a new value.

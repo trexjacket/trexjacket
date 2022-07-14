@@ -313,41 +313,25 @@ class Parameter(TableauProxy):
             Value parsed with either .formattedValue(), .nativeValue(), .value() depending on the
             data type of the parameter.
             """
-            if self.data_type == "date":
-                return val.formattedValue
+            if self.data_type in ["date", "date-time"]:
+                return native_value_date_handler(val.nativeValue)
             elif self.data_type == "float":
-                return float(val.formattedValue)
+                try:
+                    return float(val.formattedValue)
+                except ValueError:
+                    print(
+                        "Warning, float conversion failed. Returning the formatted value of the parameter."
+                    )
+                    return val.formattedValue
             else:
                 return val.nativeValue
 
         def _allvalues():
             raise ValueError(
-                f'allowable_values is only available for "list", or "range" type filters, not {param_type}'
+                f'allowable_values is only available for "list", or "range" type filters, not "{param_type}"'
             )
 
         def _listvalues():
-            """
-            Expected behavior for int but not float, float will return a list of
-            the currently selected value
-
-            Note that there is some very odd behavior happening here. For example:
-
-            >>> allows = self.param._proxy.allowableValues.allowableValues
-            >>> print(f'.value: {[x.value for x in allows]}')
-            >>> print(f'.nativeValue: {[x.nativeValue for x in allows]}')
-            >>> print(f'.formattedValue: {[x.formattedValue for x in allows]}')
-
-            for an int
-            .value: ['1', '150']
-            .nativeValue: [1, 150]
-            .formattedValue: ['1', '150']
-
-            for a float (note that the repeated value is the currently selected value in the tableau UI)
-            .value: ['1', '1']
-            .nativeValue: [1, 1]
-            .formattedValue: ['1', '150']
-            """
-
             return [
                 _retrieve_value(d) for d in self._proxy.allowableValues.allowableValues
             ]

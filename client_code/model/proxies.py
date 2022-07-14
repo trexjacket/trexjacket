@@ -590,6 +590,22 @@ class Worksheet(TableauProxy):
         self._proxy.applyFilterAsync(field_name, values, update_type)
         print("filter applied")
 
+    def apply_range_filter(self, field_name, min, max):
+        """Applies a range filter.
+
+        Parameters
+        ----------
+        field_name : str
+            Name of the field in Tableau
+
+        min : float
+            Minimum value for the filter
+
+        max : float
+            Maximum value for the filter
+        """
+        self._proxy.applyRangeFilterAsync(field_name, {"min": min, "max": max})
+
     def select_marks(self, dimension, selection_type="select-replace"):
         """Selects the marks and returns them. This version selects by value, using the SelectionCriteria interface.
         For more information, see:

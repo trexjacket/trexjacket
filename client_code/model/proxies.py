@@ -304,7 +304,52 @@ class Parameter(TableauProxy):
         allowableValues: ParameterDomainRestriction
             The allowable set of values this parameter can take.
         """
-        return [d.nativeValue for d in self._proxy.allowableValues.allowableValues]
+        param_type = self._proxy.allowableValues.type  # All, List, or Range
+
+        def _retrieve_value(val):
+            """Retrieve the allowableValue field based on its data type.
+
+            Parameters
+            ------
+            val : DataValue
+
+            Returns
+            ------
+            Value parsed with either .formattedValue(), .nativeValue(), .value() depending on the
+            data type of the parameter.
+            """
+            if self.data_type in ["date", "date-time"]:
+                return native_value_date_handler(val.nativeValue)
+            elif self.data_type == "float":
+                try:
+                    return float(val.formattedValue)
+                except ValueError:
+                    print(
+                        "Warning, float conversion failed. Returning the formatted value of the parameter."
+                    )
+                    return val.formattedValue
+            else:
+                return val.nativeValue
+
+        def _allvalues():
+            raise ValueError(
+                f'allowable_values is only available for "list", or "range" type filters, not "{param_type}"'
+            )
+
+        def _listvalues():
+            return [
+                _retrieve_value(d) for d in self._proxy.allowableValues.allowableValues
+            ]
+
+        def _rangevalues():
+            mmin = self._proxy.allowableValues.minValue
+            mmax = self._proxy.allowableValues.maxValue
+
+            return {"min": _retrieve_value(mmin), "max": _retrieve_value(mmax)}
+
+        valmapper = {"all": _allvalues, "list": _listvalues, "range": _rangevalues}
+
+        return valmapper[param_type]()
 
     def change_value(self, new_value):
         """Modifies this parameter and assigns it a new value.

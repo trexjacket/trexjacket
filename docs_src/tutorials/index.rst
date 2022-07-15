@@ -10,5 +10,6 @@ Tutorials
 
    gettingstarted
    salesforce
-   chat
+   chat-extension/0-main-page
    js_api
+   

@@ -134,9 +134,9 @@ class Filter:
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/filter.html
 
-        Note that for categorical filters, this implementation diverges from the underlying JS api.
-        ``applied_values`` will return a list containing the filters domain, while the JS api
-        will return an empty list. See the section titled ``isAllSelected`` here:
+        Note that for categorical filters that have the "All" box selected, this implementation diverges
+        from the underlying JS api. ``applied_values`` will return a list containing the filters domain,
+        while the JS api will return an empty list. See the section titled ``isAllSelected`` here:
         https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#appliedvalues
         """
         if self.worksheet:

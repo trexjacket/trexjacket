@@ -105,6 +105,9 @@ class Filter:
         return self._proxy.fieldName
 
     def _categorical_values(self):
+        if self._proxy.isAllSelected:
+            return self.domain
+
         try:
             return [v.nativeValue.getDate() for v in self.appliedValues]
         except AttributeError:
@@ -127,14 +130,14 @@ class Filter:
 
     @property
     def applied_values(self):
-        """Returns the current value applied to the Filter.
+        """Returns the current value(s) applied to the Filter.
         For more information, see:
         https://tableau.github.io/extensions-api/docs/interfaces/filter.html
 
-        Returns
-        ----------
-        filters : list of Filter
-            The existing Filter values
+        Note that for categorical filters that have the "All" box selected, this implementation diverges
+        from the underlying JS api. ``applied_values`` will return a list containing the filters domain,
+        while the JS api will return an empty list. See the section titled ``isAllSelected`` here:
+        https://tableau.github.io/extensions-api/docs/interfaces/categoricalfilter.html#appliedvalues
         """
         if self.worksheet:
             self._proxy = self.worksheet.get_filter(self.field_name)._proxy

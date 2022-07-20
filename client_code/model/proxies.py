@@ -567,7 +567,7 @@ class Worksheet(TableauProxy):
 
         This version selects by value, using the SelectionCriteria interface.
 
-        Note that this doesnt work on scatter plots. 
+        Note that this doesnt work on scatter plots.
 
         Parameters
         ----------
@@ -579,7 +579,7 @@ class Worksheet(TableauProxy):
         Example
         ----------
 
-        Assuming ``Bar Chart`` is a bar chart. 
+        Assuming ``Bar Chart`` is a bar chart.
 
         >>> bc = self.dashboard.get_worksheet('Bar Chart')
         >>> bc.select_marks({'Region': 'Asia'})

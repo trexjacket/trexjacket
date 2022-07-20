@@ -59,11 +59,11 @@ class TableauProxy:
 
 
 class Datasource(TableauProxy):
-    """Represents a Tableau Datasource.
+    """A Pythonic representation of a Datasource
 
-    This is a wrapper for a tableau Datasource
+    .. note::
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>`
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
     """
 
     def refresh(self):
@@ -76,9 +76,11 @@ class Datasource(TableauProxy):
 
 
 class Filter:
-    """Represents a Tableau Filter
+    """A Pythonic representation of a Tableau Filter
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/filter.html>`
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/filter.html>` and accessed through the ``Filter`` object's ``._proxy`` attribute.
     """
 
     def __init__(self, proxy):
@@ -135,7 +137,10 @@ class Filter:
 
         Returns
         ----------
-        # TODO: I'm not sure about this one
+        For categorical filters, returns a list of applied values
+        For range filters, returns a tuple of (min, max)
+        For relative date filters, returns period type
+        For hierarchical filters, simply returns the string "Hierarchical filter"
         """
         if self.worksheet:
             self._proxy = self.worksheet.get_filter(self.field_name)._proxy
@@ -158,7 +163,6 @@ class Filter:
     def applied_values(self, new_values):
         """Replaces the set filter values.
 
-        # TODO:
         Parameters
         ----------
         new_values : list of Filter
@@ -216,7 +220,6 @@ class Filter:
     def set_filter_value(self, new_values, method="replace"):
         """Replaces the list of provided categorical filter values.
 
-        # TODO
         Parameters
         ----------
         new_values : list
@@ -233,7 +236,12 @@ class Filter:
 
 
 class Parameter(TableauProxy):
-    """Represents a parameter"""
+    """A Pythonic representation of a Tableau parameter
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/parameter.html>` and accessed through the ``Parameter`` object's ``._proxy`` attribute.
+    """
 
     def refresh(self, parameter_changed_event=None):
         """Refreshes the object to reflect any changes in the dashboard"""
@@ -266,8 +274,7 @@ class Parameter(TableauProxy):
 
         Returns
         --------
-        dataType : str
-            The type of data this parameter holds. One of
+        The type of data this parameter holds. One of
 
             * 'bool'
             * 'date'
@@ -363,9 +370,11 @@ class Parameter(TableauProxy):
 
 
 class Worksheet(TableauProxy):
-    """Wrapper for a tableau Worksheet
+    """A Pythonic representation of a Tableau Worksheet
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>`
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>` and accessed through the ``Worksheet`` object's ``._proxy`` attribute.
     """
 
     def get_selected_records(self):
@@ -558,15 +567,24 @@ class Worksheet(TableauProxy):
 
         This version selects by value, using the SelectionCriteria interface.
 
-        TODO
+        Note that this doesnt work on scatter plots. 
 
         Parameters
         ----------
-        dimension :
-        #!
+        dimension : dict or list of dict
 
         optional selection_type : str
             The type of enum to be applied to the marks
+
+        Example
+        ----------
+
+        Assuming ``Bar Chart`` is a bar chart. 
+
+        >>> bc = self.dashboard.get_worksheet('Bar Chart')
+        >>> bc.select_marks({'Region': 'Asia'})
+
+        And you'll see that the Bar with Region = Asia becomes selected.
         """
         selection_enums = ("select-replace", "select-add", "select-remove")
         if selection_type not in selection_enums:
@@ -671,9 +689,11 @@ class Worksheet(TableauProxy):
 
 
 class Dashboard(TableauProxy):
-    """Wrapper for a tableau Dashboard
+    """A Pythonic representation of a Tableau Dashboard
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html>`
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html>` and accessed through the ``Dashboard`` object's ``._proxy`` attribute.
     """
 
     def __init__(self, proxy):
@@ -766,8 +786,7 @@ class Dashboard(TableauProxy):
     def datasources(self):
         """Returns all datasources in the dashboard.
 
-        Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we
-        iterate through worksheets to gather all datasources.
+        .. Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we iterate through worksheets to gather all datasources.
 
         :type: :obj:`list` of :obj:`Datasource`
         """
@@ -971,9 +990,11 @@ class Tableau:
 
 
 class DataTable(TableauProxy):
-    """Wrapper for a tableau DataTable
+    """A Pythonic representation of a Tableau DataTable
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>`
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``DataTable`` object's ``._proxy`` attribute.
     """
 
     @property

@@ -1,7 +1,7 @@
 Getting Started
-==================
+---------
 
-Let's build a Tableau Extension that shows the summary data of selected marks when a user clicks or selects part of the dashboard.
+The Python Tableau Extensions framework let's you build Tableau Extensions using only Python with Anvil. To get started, let's build a simple Tableau Extension that shows the summary data of selected marks when a user clicks or selects part of the dashboard.
 
 .. note:: This demo assumes the Anvil app has a single label called `label_1`.
 

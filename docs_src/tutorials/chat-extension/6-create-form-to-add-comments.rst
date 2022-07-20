@@ -1,11 +1,7 @@
-How to create a form to add new comments
+Chapter 6: Creating an Interface to Add New Comments
 ===========================================
 
 We have set up an interface to view comments and an event handler that will eventually view comments made for each mark, but we have no comments in our database! This changes now.
-
-.. raw:: html
-
-    <h2>Chapter 6: Creating an Interface to Add New Comments</h2>
 
 
 Let’s start by adding to our form. We are going to accept user’s input in our dashboard!
@@ -40,19 +36,39 @@ In the cancel button method, that function will clear out the comment currently 
 
 In the save button method, we want to keep the comment the user made so we clear out the text box and save text the user entered in the textbox as a variable:
 
-.. image:: images/code-snippets/5.png
+.. code-block:: python
 
+    def button_cancel_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        self.text_box_comment.text = ""
+    
+    def button_save_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        comment = self.text_box_comment.text
+        self.text_box_comment.text = ""
+    
+    
 
 Step 3. Saving the comment to a Data Table
 ~~~~~~~~~~~~~~~~~~~~~
 
 Now, we want to save our comment so that our colleagues can see it. We are going to also want to time-stamp it, so first we need to import datetime at the top of the form, with our other imports.
 
-.. image:: images/code-snippets/6.png
+.. code-block:: python
+
+    import datetime
 
 Because we made our Data Table editable by the client (back in Step 2), we can use Anvil’s Tables to write back to our data table with a single line of code:
 
-.. image:: images/code-snippets/7.png
+.. code-block:: python
+    
+    def button_save_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        comment = self.text_box_comment.text
+        self.text_box_comment.text = ""
+
+        app_tables.comments.add_row(comment=comment, timestamp=datetime.datetime.now())
+
 
 Head back, reload your extension, and save your first comment!
 

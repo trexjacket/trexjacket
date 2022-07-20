@@ -1,11 +1,7 @@
-How to create a web form
+Chapter 1: Build your user interface
 ===================================
 
 Creating a chat extension form using Anvil’s drag-and-drop editor.
-
-.. raw:: html
-
-    <h2>Chapter 1: Build your user interface</h2>
 
 Let’s start by building an application form using Anvil’s drag-and-drop editor.
 
@@ -27,7 +23,7 @@ Step 2: Adding a title to your form
 
 When we create an Anvil app, it is initialized with a Form named ‘Form1’. A Form is a special kind of component that can play the role of a ‘page’ in Anvil. Form1 will serve as the main screen to our web application.
 
-A Form is special because you can drag-and-drop components onto it in the visual designer. More on Forms here: https://anvil.works/beta-docs/client/components/forms
+A Form is special because you can drag-and-drop components onto it in the visual designer. More on Forms `here. <https://anvil.works/beta-docs/client/components/forms>`_
 
 We construct and improve the form by dragging-and-dropping components from the Toolbox.
 

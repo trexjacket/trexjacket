@@ -1,11 +1,7 @@
-How to register an event handler
+Chapter 4: Creating the Event Handler
 ===================================
 
 Event handlers are useful for relaying what are doing in the Tableau Dashboard and communicating with our Anvil app.
-
-.. raw:: html
-
-    <h2>Chapter 4: Creating the Event Handler</h2>
 
 We will be using the selection changed event handler to let our app know when we select/un-select marks in the Tableau dashboard.
 
@@ -16,7 +12,12 @@ Let’s start by writing a method in our Form that will catch events and print t
 
 Events usually come with some information about how they were triggered. For example, ‘selection_changed’ events are always associated with a worksheet. For now, let’s just print the following statement so we can see how the selection appears in Python:
 
-.. image:: images/code-snippets/3.png
+.. code-block:: python
+
+    def selection_changed_event_handler(self, event):
+        user_selection = event.worksheet.selected_records
+        print(f"Got a selected record: {user_selection}, with length: ({len(user_selection)})")
+
 
 Once we get this event handler registered, upon selecting a mark in our Tableau dashboard, the session logger will print the information on the selected marks as well as how many marks we selected to the app Logs. More on this next.
 
@@ -29,7 +30,15 @@ Let’s register the event handler in Form1 by adding the bottom 2 lines of code
 
 Note: I deleted the line of code that we used before to print “Hello World!”. As cool as that was, it is no longer needed.
 
-.. image:: images/code-snippets/4.png
+.. code-block:: python
+
+    def __init__(self, **properties):
+        # Set Form properties and Data Bindings.
+        self.init_components(**properties)
+
+        # Any code you write here will run when the form opens.
+        dashboard.register_event_handler('selection_changed', self.selection_changed_event_handler)
+
 
 The method **register_event_handler** has 2 important arguments:
 

@@ -1,12 +1,7 @@
-How to tie everything together
+Chapter 8: Putting the finishing touches on our chat extension
 ===============================
 
 We have learned several techniques for integrating Tableau with Anvil today. Time to tie it all together so that the chat extension is ready for your team’s use.
-
-.. raw:: html
-
-    <h2>Chapter 8: Putting the finishing touches on our chat extension</h2>
-
 
 
 Let’s start by getting the name of the user currently logged into Tableau.
@@ -28,7 +23,14 @@ Now head back to the Anvil app. We had to add this field as a dimension on our D
 
 We can then grab this username from the record at the same time as grabbing our selected_state and sales:
 
-.. image:: images/code-snippets/10.png
+.. code-block:: python
+
+    else:
+        record = user_selection[0]
+        self.state_name = record['State']
+        self.sales = record['SUM(Sales)']
+        self.logged_in_user = record['logged_in_user']
+
 
 Step 2: Updating the **button_add_comments_click** method to include user and sales
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,7 +39,16 @@ As it currently stands, our comments have no user or value for sales. Let’s ch
 
 Scroll down in main to the button_add_comments_click method. Line 5 is beginning to get too long for easy readability so let’s indent our code so that it looks like this:
 
-.. image:: images/code-snippets/11.png
+.. code-block:: python
+
+    app_tables.comments.add_row(
+        comment=comment,
+        timestamp=datetime.datetime.now(),
+        id=self.state_name,
+        value=self.sales,
+        user=self.logged_in_user)
+
+
 
 Good work! Now when we add comments, the table is properly filled.
 
@@ -50,7 +61,15 @@ Data grids come with their own RepeatingPanel, an iterative list of items that f
 
 I will begin by writing a method in main that will update the repeating panel, when appropriate.
 
-.. image:: images/code-snippets/12.png
+.. code-block:: python
+
+    def update_repeating_panel(self):
+        subset_of_data = app_tables.comments.search(
+            tables.order_by('timestamp', ascending=False),
+            id=q.full_text_match(self.state_name or "", raw=True),
+        )
+        self.repeating_panel_1.items = subset_of_data
+
 
 3 things of importance in this code snippet: 
 
@@ -70,7 +89,23 @@ More on Data Table queries `here. <https://anvil.works/blog/querying-data-tables
 
 Now, call this method in at the end of the **selection_changed_event_handler** method and our application will be good to go:
 
-.. image:: images/code-snippets/13.png
+.. code-block:: python
+    
+    def selection_changed_event_handler(self, event):
+        user_selection = event.worksheet.selected_records
+        print(f"Got a selected record: {user_selection}, with length: ({len(user_selection)})")
+
+        if len(user_selection) == 0:
+            self.state_name = None
+            self.sales = None
+        else:
+            record = user_selection[0]
+            self.state_name = record['State']
+            self.sales = record['SUM(Sales)']
+            self.logged_in_user = record['logged_in_user']
+        
+        self.update_repeating_panel()
+
 
 Done! Let’s try it out.
 

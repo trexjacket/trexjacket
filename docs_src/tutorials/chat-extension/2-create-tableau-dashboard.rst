@@ -1,12 +1,7 @@
-How to create a Tableau dashboard
+Chapter 2: Build your Tableau dashboard
 ===================================
 
 Creating a dashboard with Tableau, an interactive data visualization tool to help people see and understand data.
-
-.. raw:: html
-
-    <h2>Chapter 2: Build your Tableau dashboard</h2>
-
 
 Let’s create a Tableau dashboard that we can use to select marks and easily figure out which comments are pointed towards which marks of the dashboard.
 

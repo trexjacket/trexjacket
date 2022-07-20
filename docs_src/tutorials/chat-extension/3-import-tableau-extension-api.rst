@@ -1,12 +1,8 @@
-How to import the Tableau Dashboard Extension API
+Chapter 3: Using the Tableau Dashboard Extension API
 ====================================================
 
 This is the magic that allows our Tableau dashboard to communicate with the Anvil application form.
 
-.. raw:: html
-
-    <h2>Chapter 3: Using the Tableau Dashboard Extension API</h2>
-    
 
 Let’s start by going through the possibilities that the Tableau Dashboard Extension API offers.
 
@@ -62,7 +58,10 @@ To have our Form communicate with the Tableau Dashboard, we must create the live
 
 Open up Form1 and click on the code (or split) button at the top. At the code near the top of the form, from the **tableau_extension.api** dependency, import **get_dashboard** and create an instance of the dashboard in the form.
 
-.. image:: images/code-snippets/1.png
+.. code-block:: python
+
+    from tableau_extension.api import get_dashboard
+    dashboard = get_dashboard()
 
 This allows our form to have two-way communication with Tableau. We can find more information on the Tableau Extension API `here. <https://tableau.github.io/extensions-api/>`_ 
 
@@ -79,7 +78,14 @@ The first thing that we are going to do is have our Anvil Form print “Hello, W
 
 In the code for Form1’s __init__ method, write the following line of code to have our message relayed to the Tableau Output screen:
 
-.. image:: images/code-snippets/2.png
+.. code-block:: python
+
+    def __init__(self, **properties):
+        # Set Form properties and Data Bindings.
+        self.init_components(**properties)
+
+        # Any code you write here will run when the form opens.
+        print("Hello, World!")
 
 
 Our Anvil Form is now ready to print to the Tableau Dashboard.

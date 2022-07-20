@@ -1,12 +1,7 @@
-How to add a data grid to the view chatter
+Chapter 5: Adding a data grid to view chatter
 ===============================================
 
 We have set up a Form and an event handler that will eventually view comments made for each mark, but we have no way of viewing the comments. This changes now. 
-
-.. raw:: html
-
-    <h2>Chapter 5: Adding a data grid to view chatter</h2>
-
 
 Let’s start by going to our Anvil form and opening the toolbox.
 

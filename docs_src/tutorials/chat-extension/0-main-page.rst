@@ -1,8 +1,5 @@
-Building a chat extension
----------------------------
-
 #################################################
-Building a chat extension with Anvil and Tableau
+Building a chat extension
 #################################################
 
 
@@ -16,11 +13,11 @@ With Anvil of course! Anvil is the easy way to build full stack web apps with no
 
 
 .. Attach picture
-.. image:: images/chat-extension/1-heading.png
+.. image:: images/1-heading.png
 
-
-What are we going to build?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. raw:: html 
+    
+    <h2>What are we going to build?</h2>
 
 
 In this tutorial we are going to build and deploy a web application that lets team members leave comments on selected marks of a Tableau dashboard and then lets your team track who, when and why a comment was left.
@@ -29,37 +26,23 @@ In this tutorial we are going to build and deploy a web application that lets te
 Here’s a basic overview of how our finished Chat Extension will handle each application: 
 
 
+.. raw:: html 
 
-What are we going to learn?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    <h2>What are we going to learn?</h2>
+
+
 .. toctree::
    :maxdepth: 1
 
-   create-web-form
-   create-tableau-dashboard
-   import-tableau-extension-api
-   register-event-handler
-   add-data-grid
-   create-form-to-add-comments
-   improve-event-handler
-   tie-everything-together
-
-•	How to create a web form
-
-•	How to create a Tableau dashboard
-
-•	How to import the Tableau Dashboard Extension API
-
-•	How to register an event handler
-
-•	How to add a data grid to view chatter
-
-•	How to create a form to add new comments
-
-•	How to improve your event handler
-
-•	How to tie everything together
-
+   1-create-web-form
+   2-create-tableau-dashboard
+   3-import-tableau-extension-api
+   4-register-event-handler
+   5-add-data-grid
+   6-create-form-to-add-comments
+   7-improve-event-handler
+   8-tie-everything-together
+..   9-clone-the-app
 
 Let’s get started.
 

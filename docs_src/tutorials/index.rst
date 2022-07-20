@@ -9,4 +9,11 @@ Tutorials
    :maxdepth: 1
    :glob:
 
-   *
+
+   gettingstarted
+   salesforce
+   chat-extension/0-main-page
+   js_api
+   popup
+   
+   

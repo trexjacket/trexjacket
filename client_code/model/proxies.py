@@ -111,6 +111,9 @@ class Filter:
         return self._proxy.fieldName
 
     def _categorical_values(self):
+        if self._proxy.isAllSelected:
+            return self.domain
+
         try:
             return [v.nativeValue.getDate() for v in self.appliedValues]
         except AttributeError:
@@ -179,6 +182,11 @@ class Filter:
         domain: list of values
             The domain for the selected Filter
         """
+        if self._proxy.filterType != "categorical":
+            raise NotImplementedError(
+                "domain is currently only available for categorical filters."
+            )
+
         return [v.nativeValue for v in self._proxy.getDomainAsync("database").values]
 
     @property
@@ -294,7 +302,52 @@ class Parameter(TableauProxy):
         allowableValues: ParameterDomainRestriction
             The allowable set of values this parameter can take.
         """
-        return [d.nativeValue for d in self._proxy.allowableValues.allowableValues]
+        param_type = self._proxy.allowableValues.type  # All, List, or Range
+
+        def _retrieve_value(val):
+            """Retrieve the allowableValue field based on its data type.
+
+            Parameters
+            ------
+            val : DataValue
+
+            Returns
+            ------
+            Value parsed with either .formattedValue(), .nativeValue(), .value() depending on the
+            data type of the parameter.
+            """
+            if self.data_type in ["date", "date-time"]:
+                return native_value_date_handler(val.nativeValue)
+            elif self.data_type == "float":
+                try:
+                    return float(val.formattedValue)
+                except ValueError:
+                    print(
+                        "Warning, float conversion failed. Returning the formatted value of the parameter."
+                    )
+                    return val.formattedValue
+            else:
+                return val.nativeValue
+
+        def _allvalues():
+            raise ValueError(
+                f'allowable_values is only available for "list", or "range" type filters, not "{param_type}"'
+            )
+
+        def _listvalues():
+            return [
+                _retrieve_value(d) for d in self._proxy.allowableValues.allowableValues
+            ]
+
+        def _rangevalues():
+            mmin = self._proxy.allowableValues.minValue
+            mmax = self._proxy.allowableValues.maxValue
+
+            return {"min": _retrieve_value(mmin), "max": _retrieve_value(mmax)}
+
+        valmapper = {"all": _allvalues, "list": _listvalues, "range": _rangevalues}
+
+        return valmapper[param_type]()
 
     def change_value(self, new_value):
         """Modifies this parameter and assigns it a new value.
@@ -562,6 +615,22 @@ class Worksheet(TableauProxy):
         self._proxy.applyFilterAsync(field_name, values, update_type)
         print("filter applied")
 
+    def apply_range_filter(self, field_name, min, max):
+        """Applies a range filter.
+
+        Parameters
+        ----------
+        field_name : str
+            Name of the field in Tableau
+
+        min : float
+            Minimum value for the filter
+
+        max : float
+            Maximum value for the filter
+        """
+        self._proxy.applyRangeFilterAsync(field_name, {"min": min, "max": max})
+
     def select_marks(self, dimension, selection_type="select-replace"):
         """Selects the marks and returns them.
 
@@ -778,9 +847,9 @@ class Dashboard(TableauProxy):
 
         :type: :obj:`str`
         """
-        if self.proxy is None:
+        if self._proxy is None:
             return None
-        return self.proxy.name
+        return self._proxy.name
 
     @property
     def datasources(self):

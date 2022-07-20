@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 3: Using the Tableau Dashboard Extension API &mdash; Tableau Extension  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Chapter 4: Creating the Event Handler" href="4-register-event-handler.html" />
+    <link rel="prev" title="Chapter 2: Build your Tableau dashboard" href="2-create-tableau-dashboard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Tableau Extension
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../salesforce.html">Connecting to Salesforce</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="0-main-page.html">Building a chat extension</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1-create-web-form.html">Chapter 1: Build your user interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2-create-tableau-dashboard.html">Chapter 2: Build your Tableau dashboard</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Chapter 3: Using the Tableau Dashboard Extension API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-adding-a-dependency">Step 1: Adding a dependency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-creating-a-trex-file">Step 2: Creating a .trex file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-importing-the-tableau-dashboard-extension-api-package">Step 3: Importing the Tableau Dashboard Extension API Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-hello-world-for-the-tableau-dashboard-extension-api-package">Step 4: “Hello World!” for the Tableau Dashboard Extension API Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="4-register-event-handler.html">Chapter 4: Creating the Event Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="5-add-data-grid.html">Chapter 5: Adding a data grid to view chatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="6-create-form-to-add-comments.html">Chapter 6: Creating an Interface to Add New Comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="7-improve-event-handler.html">Chapter 7: Making the Event Handler useful</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8-tie-everything-together.html">Chapter 8: Putting the finishing touches on our chat extension</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../js_api.html">Accessing the JavaScript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../popup.html">Displaying a popup within Tableau</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Tableau Extension</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Tutorials</a> &raquo;</li>
+          <li><a href="0-main-page.html">Building a chat extension</a> &raquo;</li>
+      <li>Chapter 3: Using the Tableau Dashboard Extension API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorials/chat-extension/3-import-tableau-extension-api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chapter-3-using-the-tableau-dashboard-extension-api">
+<h1>Chapter 3: Using the Tableau Dashboard Extension API<a class="headerlink" href="#chapter-3-using-the-tableau-dashboard-extension-api" title="Permalink to this heading"></a></h1>
+<p>This is the magic that allows our Tableau dashboard to communicate with the Anvil application form.</p>
+<p>Let’s start by going through the possibilities that the Tableau Dashboard Extension API offers.</p>
+<section id="step-1-adding-a-dependency">
+<h2>Step 1: Adding a dependency<a class="headerlink" href="#step-1-adding-a-dependency" title="Permalink to this heading"></a></h2>
+<p>The first step to allowing the Tableau Dashboard Extension API to interact with our Form is adding a dependency. Anvil apps can use Modules from other apps once they are added as dependencies.</p>
+<p>Note: This step is optional, but the Tableau Extension depenedency provides a much simpler mechanism for interacting with your Tableau Dashboard vs the native JS API.</p>
+<p>On the left-hand side you will see Settings, the gear icon. Click on this and in the drop down for ‘Add a dependency’, select Tableau Extension (Service-based).</p>
+<p>Finally, reload your browser (otherwise the autocomplete won’t work later when writing code).</p>
+<img alt="../../_images/9-adding-dependency.png" src="../../_images/9-adding-dependency.png" />
+</section>
+<section id="step-2-creating-a-trex-file">
+<h2>Step 2: Creating a .trex file<a class="headerlink" href="#step-2-creating-a-trex-file" title="Permalink to this heading"></a></h2>
+<p>For our Anvil app to call the Tableau Dashboard Extensions API it will need to create a .trex file that we import into our Tableau Dashboard as an extension.</p>
+<p>We can generate this .trex file by clicking ‘Test in Tableau’ in the top right of our screen and following the instructions that appear on-screen:</p>
+<img alt="../../_images/10-generate-trex.png" src="../../_images/10-generate-trex.png" />
+<p>Note: Only steps 1 and 3 are necessary if your Tableau Dashboard exists online in Tableau Desktop.</p>
+<p>Step 1 provides a link to download your extension manifest. Clicking that link will direct you to download the extension of your application to your local computer. Once saved, open your Tableau Dashboard.</p>
+<p>Step 3 provides instructions for adding your extension to your Tableau Dashboard. Start by locating the Extension button in the Objects pane.</p>
+<img alt="../../_images/11-click-extension-button.png" src="../../_images/11-click-extension-button.png" />
+<p>Click on this button and drag ‘Extension’ onto the dashboard. This is when the following pop-up will appear:</p>
+<img alt="../../_images/12-access-local-extensions.png" src="../../_images/12-access-local-extensions.png" />
+<p>Click on ‘Access Local Extensions’ in the bottom left and locate the .trex file that you just saved in the previous step. Press Open.</p>
+<p>Finally, you should see this pop-up, to which you press OK.</p>
+<img alt="../../_images/13-allow-extension.png" src="../../_images/13-allow-extension.png" />
+<p>Upon completion of these steps, your Tableau dashboard should now look something like this. We are now ready to have the Tableau Dashboard interact with our Anvil form.</p>
+<img alt="../../_images/14-extension-is-on-screen-now.png" src="../../_images/14-extension-is-on-screen-now.png" />
+</section>
+<section id="step-3-importing-the-tableau-dashboard-extension-api-package">
+<h2>Step 3: Importing the Tableau Dashboard Extension API Package<a class="headerlink" href="#step-3-importing-the-tableau-dashboard-extension-api-package" title="Permalink to this heading"></a></h2>
+<p>To have our Form communicate with the Tableau Dashboard, we must create the live Tableau dashboard in our Anvil form.</p>
+<p>Open up Form1 and click on the code (or split) button at the top. At the code near the top of the form, from the <strong>tableau_extension.api</strong> dependency, import <strong>get_dashboard</strong> and create an instance of the dashboard in the form.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="kn">import</span> <span class="n">get_dashboard</span>
+<span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_dashboard</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This allows our form to have two-way communication with Tableau. We can find more information on the Tableau Extension API <a class="reference external" href="https://tableau.github.io/extensions-api/">here.</a></p>
+</section>
+<section id="step-4-hello-world-for-the-tableau-dashboard-extension-api-package">
+<h2>Step 4: “Hello World!” for the Tableau Dashboard Extension API Package<a class="headerlink" href="#step-4-hello-world-for-the-tableau-dashboard-extension-api-package" title="Permalink to this heading"></a></h2>
+<p>Our Tableau Dashboard and Anvil web app are now able to have communication between each other. Let’s test this out by doing a very simple task, having our Anvil Form print to the Tableau output upon its initialization.</p>
+<p>Each Anvil Form has objects and methods that make them unique. One special method that each Form has is the __init__, or a series of actions that occurs each time the Form is initialized. More on form initialization <a class="reference external" href="https://anvil.works/docs/client/components/forms#how-forms-are-initialised">here.</a></p>
+<p>The first thing that we are going to do is have our Anvil Form print “Hello, World!” to the Tableau Dashboard console, which is viewable at the bottom of the Anvil editor screen:</p>
+<img alt="../../_images/15-bottom-anvil-editor.png" src="../../_images/15-bottom-anvil-editor.png" />
+<p>In the code for Form1’s __init__ method, write the following line of code to have our message relayed to the Tableau Output screen:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+    <span class="c1"># Set Form properties and Data Bindings.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="c1"># Any code you write here will run when the form opens.</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Our Anvil Form is now ready to print to the Tableau Dashboard.</p>
+<p>We must refresh our Anvil application in the Tableau dashboard to reflect the changes we have made. You must do this every time you make changes to your forms to ensure you are running on the most up-to-date version of your app.</p>
+<p>Go back to your Tableau dashboard and click on your Anvil app extension. In the top left, you should see a carat for More Options. Click on that and press Reload.</p>
+<img alt="../../_images/16-tableau-caret.png" src="../../_images/16-tableau-caret.png" />
+<img alt="../../_images/17-tableau-caret-2.png" src="../../_images/17-tableau-caret-2.png" />
+<p>After completing this, go back into your Anvil web editor and look at the Tableau Output.</p>
+<img alt="../../_images/18-tableau-output-hello-world.png" src="../../_images/18-tableau-output-hello-world.png" />
+<p>Nice! We now have proof-of-concept for our Form’s two-way communication with Tableau.</p>
+<p>In Chapter 4 we will build on this by registering an event handler that will make the app even better by allowing it to ‘catch’ when we click marks or make changes in the Tableau dashboard.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="2-create-tableau-dashboard.html" class="btn btn-neutral float-left" title="Chapter 2: Build your Tableau dashboard" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="4-register-event-handler.html" class="btn btn-neutral float-right" title="Chapter 4: Creating the Event Handler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Baker Tilly Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

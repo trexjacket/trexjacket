@@ -7,10 +7,6 @@ How-To Guides
 
 .. toctree::
    :maxdepth: 2
+   :glob:
 
-   downloadtrex
-   matchtheme
-   bind_filter
-   bind_param
-   specific_sheet
-
+   *

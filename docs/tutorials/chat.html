@@ -20,9 +20,7 @@
         <script src="../_static/design-tabs.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Accessing the JavaScript api" href="js_api.html" />
-    <link rel="prev" title="Connecting to Salesforce" href="salesforce.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,14 +38,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="salesforce.html">Connecting to Salesforce</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Building a chat extension</a></li>
-<li class="toctree-l2"><a class="reference internal" href="js_api.html">Accessing the JavaScript api</a></li>
-</ul>
-</li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
 </ul>
@@ -66,7 +60,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Tutorials</a> &raquo;</li>
       <li>Building a chat extension</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorials/chat.rst.txt" rel="nofollow"> View page source</a>
@@ -79,15 +72,40 @@
              
   <section id="building-a-chat-extension">
 <h1>Building a chat extension<a class="headerlink" href="#building-a-chat-extension" title="Permalink to this heading"></a></h1>
+<section id="building-a-chat-extension-with-anvil-and-tableau">
+<h2>Building a chat extension with Anvil and Tableau<a class="headerlink" href="#building-a-chat-extension-with-anvil-and-tableau" title="Permalink to this heading"></a></h2>
+<p>Let’s say your team is building dashboards in Tableau that measure performance over time. You see something worth commenting on one of the marks of the dashboard and you want to be able to document it and share with your team.</p>
+<p>You could invest time and energy into a disconnected, shared document where members of the team write down their thoughts and observations or you could use the tools your business already has to help you organize the commenting process. How can we turn Tableau into an interface where we can quickly share thoughts?</p>
+<p>With Anvil of course! Anvil is the easy way to build full stack web apps with nothing but Python. We can use Anvil with the Tableau API extension to build an application which will turn a Tableau dashboard into a chat interface where members of the team can select marks and leave comments.</p>
+<img alt="tutorials/images/chat-extension/1-heading.png" src="tutorials/images/chat-extension/1-heading.png" />
+<section id="what-are-we-going-to-build">
+<h3>What are we going to build?<a class="headerlink" href="#what-are-we-going-to-build" title="Permalink to this heading"></a></h3>
+<p>In this tutorial we are going to build and deploy a web application that lets team members leave comments on selected marks of a Tableau dashboard and then lets your team track who, when and why a comment was left.</p>
+<p>Here’s a basic overview of how our finished Chat Extension will handle each application:</p>
+</section>
+<section id="what-are-we-going-to-learn">
+<h3>What are we going to learn?<a class="headerlink" href="#what-are-we-going-to-learn" title="Permalink to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+</div>
+<ul class="simple">
+<li><p>How to create a web form</p></li>
+<li><p>How to create a Tableau dashboard</p></li>
+<li><p>How to import the Tableau Dashboard Extension API</p></li>
+<li><p>How to register an event handler</p></li>
+<li><p>How to add a data grid to view chatter</p></li>
+<li><p>How to create a form to add new comments</p></li>
+<li><p>How to improve your event handler</p></li>
+<li><p>How to tie everything together</p></li>
+</ul>
+<p>Let’s get started.</p>
+</section>
+</section>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="salesforce.html" class="btn btn-neutral float-left" title="Connecting to Salesforce" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="js_api.html" class="btn btn-neutral float-right" title="Accessing the JavaScript api" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

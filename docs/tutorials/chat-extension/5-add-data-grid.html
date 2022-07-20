@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 5: Adding a data grid to view chatter &mdash; Tableau Extension  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Chapter 6: Creating an Interface to Add New Comments" href="6-create-form-to-add-comments.html" />
+    <link rel="prev" title="Chapter 4: Creating the Event Handler" href="4-register-event-handler.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Tableau Extension
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../salesforce.html">Connecting to Salesforce</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="0-main-page.html">Building a chat extension</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1-create-web-form.html">Chapter 1: Build your user interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2-create-tableau-dashboard.html">Chapter 2: Build your Tableau dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3-import-tableau-extension-api.html">Chapter 3: Using the Tableau Dashboard Extension API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="4-register-event-handler.html">Chapter 4: Creating the Event Handler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Chapter 5: Adding a data grid to view chatter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-creating-a-comments-interface-form">Step 1: Creating a comments interface form</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="6-create-form-to-add-comments.html">Chapter 6: Creating an Interface to Add New Comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="7-improve-event-handler.html">Chapter 7: Making the Event Handler useful</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8-tie-everything-together.html">Chapter 8: Putting the finishing touches on our chat extension</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../js_api.html">Accessing the JavaScript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../popup.html">Displaying a popup within Tableau</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Tableau Extension</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Tutorials</a> &raquo;</li>
+          <li><a href="0-main-page.html">Building a chat extension</a> &raquo;</li>
+      <li>Chapter 5: Adding a data grid to view chatter</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorials/chat-extension/5-add-data-grid.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chapter-5-adding-a-data-grid-to-view-chatter">
+<h1>Chapter 5: Adding a data grid to view chatter<a class="headerlink" href="#chapter-5-adding-a-data-grid-to-view-chatter" title="Permalink to this heading"></a></h1>
+<p>We have set up a Form and an event handler that will eventually view comments made for each mark, but we have no way of viewing the comments. This changes now.</p>
+<p>Let’s start by going to our Anvil form and opening the toolbox.</p>
+<section id="step-1-creating-a-comments-interface-form">
+<h2>Step 1: Creating a comments interface form<a class="headerlink" href="#step-1-creating-a-comments-interface-form" title="Permalink to this heading"></a></h2>
+<p>Let’s add a data grid into our form.</p>
+<img alt="../../_images/23-data-grid-icon.png" src="../../_images/23-data-grid-icon.png" />
+<p>This data grid will contain all our team’s comments and should end up looking like this:</p>
+<img alt="../../_images/24-data-grid-example-texas.png" src="../../_images/24-data-grid-example-texas.png" />
+<p>Drag and drop a data grid under the blank label and change its Python name to something more descriptive, such as <strong>data_grid_comments</strong>. This is the table that will hold the information for our team’s chatter.</p>
+<p>In properties, add a new column, and change the column names and keys to the following:</p>
+<ul class="simple">
+<li><p>User: user</p></li>
+<li><p>Date: timestamp</p></li>
+<li><p>Comment: comment</p></li>
+<li><p>Sales: value</p></li>
+</ul>
+<img alt="../../_images/25-editing-data-grid.png" src="../../_images/25-editing-data-grid.png" />
+<p>Data grids need data to populate, and here is where the Anvil data tables comes in handy. On the left hand side, click on the ‘Data’ pane and select ‘Add Table’. Rename the Python name as comments and create the following columns with their respective data types:</p>
+<ul class="simple">
+<li><p>user (Text)</p></li>
+<li><p>timestamp (Date and Time)</p></li>
+<li><p>comment (Text)</p></li>
+<li><p>id (Text)</p></li>
+<li><p>value (Number)</p></li>
+</ul>
+<img alt="../../_images/26-editing-data-grid2.png" src="../../_images/26-editing-data-grid2.png" />
+<p>Before finishing, make sure to change the permissions to ‘Can search, edit and delete’ for both Forms and <strong>Server modules</strong>.</p>
+<img alt="../../_images/27-permissions-editing.png" src="../../_images/27-permissions-editing.png" />
+<p>Also, you may encounter this error/notification, which you will want to select ‘Default database is correct’ to verify the changes we just made.</p>
+<img alt="../../_images/28-source-code-error.png" src="../../_images/28-source-code-error.png" />
+<p>That’s it, we’ve created an interface for users to view comments made.</p>
+<p>In Chapter 6 we will walk through how to create and open a form that will allow our chat extension to create comments.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="4-register-event-handler.html" class="btn btn-neutral float-left" title="Chapter 4: Creating the Event Handler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="6-create-form-to-add-comments.html" class="btn btn-neutral float-right" title="Chapter 6: Creating an Interface to Add New Comments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Baker Tilly Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

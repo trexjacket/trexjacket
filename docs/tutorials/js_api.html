@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accessing the JavaScript api &mdash; Tableau Extension  documentation</title>
+  <title>Accessing the JavaScript API &mdash; Tableau Extension  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How-To Guides" href="../guides/index.html" />
-    <link rel="prev" title="Building a chat extension" href="chat.html" /> 
+    <link rel="next" title="Displaying a popup within Tableau" href="popup.html" />
+    <link rel="prev" title="Chapter 8: Putting the finishing touches on our chat extension" href="chat-extension/8-tie-everything-together.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,11 +41,13 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="salesforce.html">Connecting to Salesforce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chat.html">Building a chat extension</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Accessing the JavaScript api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chat-extension/0-main-page.html">Building a chat extension</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Accessing the JavaScript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="popup.html">Displaying a popup within Tableau</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
@@ -67,7 +69,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Tutorials</a> &raquo;</li>
-      <li>Accessing the JavaScript api</li>
+      <li>Accessing the JavaScript API</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorials/js_api.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,15 +80,41 @@
            <div itemprop="articleBody">
              
   <section id="accessing-the-javascript-api">
-<h1>Accessing the JavaScript api<a class="headerlink" href="#accessing-the-javascript-api" title="Permalink to this heading"></a></h1>
+<h1>Accessing the JavaScript API<a class="headerlink" href="#accessing-the-javascript-api" title="Permalink to this heading"></a></h1>
+<p>If there are methods or objects you’d like to use that are not implemented in the Python wrapper, the entire JS API can be accessed directly from the <code class="docutils literal notranslate"><span class="pre">tableau</span></code> module. For a more in depth conversation around accessing JS objects from Anvil, see the <a class="reference external" href="https://anvil.works/docs/client/javascript#using-javascript">Anvil documentation</a>.</p>
+<p>To get a taste of what’s available, let’s take a look at the attributes of <code class="docutils literal notranslate"><span class="pre">tableau.extensions</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This import will be automatically added to your code in Anvil when you create a</span>
+<span class="c1"># new Tableau Extension</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">obs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="p">[</span><span class="s1">&#39;constructor&#39;</span><span class="p">,</span> <span class="s1">&#39;createVizImageAsync&#39;</span><span class="p">,</span> <span class="s1">&#39;dashboardContent&#39;</span><span class="p">,</span> <span class="s1">&#39;dashboardObjectId&#39;</span><span class="p">,</span> <span class="s1">&#39;environment&#39;</span><span class="p">,</span>
+<span class="s1">&#39;extensionImpl&#39;</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;initializeAsync&#39;</span><span class="p">,</span> <span class="s1">&#39;initializeDialogAsync&#39;</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="s1">&#39;setClickThroughAsync&#39;</span><span class="p">,</span>
+<span class="s1">&#39;settings&#39;</span><span class="p">,</span> <span class="s1">&#39;ui&#39;</span><span class="p">,</span> <span class="s1">&#39;workbook&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The corresponding Tableau extension documentation (<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/extensions.html">see here</a>) lists the following:</p>
+<img alt="../_images/tableau_doc.PNG" src="../_images/tableau_doc.PNG" />
+<p>Note that the properties and method names in the above image are also included in <code class="docutils literal notranslate"><span class="pre">dir(tableau.extensions)</span></code>, and these methods can be called from within Python. For example, taking a look at <code class="docutils literal notranslate"><span class="pre">dashboardContent</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">dashboardContent</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">objects</span><span class="p">)</span>
+
+<span class="go">[&lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;,</span>
+<span class="go">&lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;,</span>
+<span class="go">&lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;]</span>
+</pre></div>
+</div>
+<p>And we get some proxy objects back.</p>
+<p>The <a class="reference internal" href="popup.html"><span class="doc">Displaying a popup within Tableau</span></a> guide shows an example of using the underlying JS API instead of the Python wrapper to display a popup window in Tableau.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="chat.html" class="btn btn-neutral float-left" title="Building a chat extension" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../guides/index.html" class="btn btn-neutral float-right" title="How-To Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="chat-extension/8-tie-everything-together.html" class="btn btn-neutral float-left" title="Chapter 8: Putting the finishing touches on our chat extension" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="popup.html" class="btn btn-neutral float-right" title="Displaying a popup within Tableau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

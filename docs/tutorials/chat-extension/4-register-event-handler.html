@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 4: Creating the Event Handler &mdash; Tableau Extension  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Chapter 5: Adding a data grid to view chatter" href="5-add-data-grid.html" />
+    <link rel="prev" title="Chapter 3: Using the Tableau Dashboard Extension API" href="3-import-tableau-extension-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Tableau Extension
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../salesforce.html">Connecting to Salesforce</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="0-main-page.html">Building a chat extension</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1-create-web-form.html">Chapter 1: Build your user interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2-create-tableau-dashboard.html">Chapter 2: Build your Tableau dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3-import-tableau-extension-api.html">Chapter 3: Using the Tableau Dashboard Extension API</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Chapter 4: Creating the Event Handler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-creating-the-event-handler">Step 1: Creating the Event Handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-registering-the-event-handler-with-the-tableau-dashboard-extension-api">Step 2: Registering the Event Handler with the Tableau Dashboard Extension API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-testing-out-the-event-handler">Step 3: Testing out the Event Handler</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="5-add-data-grid.html">Chapter 5: Adding a data grid to view chatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="6-create-form-to-add-comments.html">Chapter 6: Creating an Interface to Add New Comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="7-improve-event-handler.html">Chapter 7: Making the Event Handler useful</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8-tie-everything-together.html">Chapter 8: Putting the finishing touches on our chat extension</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../js_api.html">Accessing the JavaScript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../popup.html">Displaying a popup within Tableau</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Tableau Extension</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Tutorials</a> &raquo;</li>
+          <li><a href="0-main-page.html">Building a chat extension</a> &raquo;</li>
+      <li>Chapter 4: Creating the Event Handler</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorials/chat-extension/4-register-event-handler.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chapter-4-creating-the-event-handler">
+<h1>Chapter 4: Creating the Event Handler<a class="headerlink" href="#chapter-4-creating-the-event-handler" title="Permalink to this heading"></a></h1>
+<p>Event handlers are useful for relaying what are doing in the Tableau Dashboard and communicating with our Anvil app.</p>
+<p>We will be using the selection changed event handler to let our app know when we select/un-select marks in the Tableau dashboard.</p>
+<section id="step-1-creating-the-event-handler">
+<h2>Step 1: Creating the Event Handler<a class="headerlink" href="#step-1-creating-the-event-handler" title="Permalink to this heading"></a></h2>
+<p>Let’s start by writing a method in our Form that will catch events and print the information to the console. An ‘event handler’ is a function that is called whenever an event occurs, for example, when the user makes a selection on the dashboard. It should always accept an ‘event’ argument.</p>
+<p>Events usually come with some information about how they were triggered. For example, ‘selection_changed’ events are always associated with a worksheet. For now, let’s just print the following statement so we can see how the selection appears in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">selection_changed_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="n">user_selection</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">selected_records</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Got a selected record: {user_selection}, with length: ({len(user_selection)})&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once we get this event handler registered, upon selecting a mark in our Tableau dashboard, the session logger will print the information on the selected marks as well as how many marks we selected to the app Logs. More on this next.</p>
+</section>
+<section id="step-2-registering-the-event-handler-with-the-tableau-dashboard-extension-api">
+<h2>Step 2: Registering the Event Handler with the Tableau Dashboard Extension API<a class="headerlink" href="#step-2-registering-the-event-handler-with-the-tableau-dashboard-extension-api" title="Permalink to this heading"></a></h2>
+<p>For our event handler to be of any use, it must be registered with our live instance of Tableau dashboard and worksheets.</p>
+<p>Let’s register the event handler in Form1 by adding the bottom 2 lines of code to our form. We put these lines in the special __init__ method because this automatically runs when the form initializes.</p>
+<p>Note: I deleted the line of code that we used before to print “Hello World!”. As cool as that was, it is no longer needed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+    <span class="c1"># Set Form properties and Data Bindings.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="c1"># Any code you write here will run when the form opens.</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;selection_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_changed_event_handler</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The method <strong>register_event_handler</strong> has 2 important arguments:</p>
+<ol class="arabic simple">
+<li><p>Which type of event we want to be able to catch</p></li>
+<li><p>The name of the method that will catch the event</p></li>
+</ol>
+<p>More on event handlers and listeners <a class="reference external" href="https://tableau.github.io/extensions-api/docs/trex_events.html">here.</a></p>
+</section>
+<section id="step-3-testing-out-the-event-handler">
+<h2>Step 3: Testing out the Event Handler<a class="headerlink" href="#step-3-testing-out-the-event-handler" title="Permalink to this heading"></a></h2>
+<p>Now that our event handler is registered, we want to ensure that our Anvil form and Tableau Dashboard are properly working and be able to see what is getting printed to the console, right?</p>
+<p>First, we must refresh our Anvil application in the Tableau dashboard to reflect the changes we have made. You must do this every time you make changes to your forms to ensure you are running on the most up-to-date version of your app.</p>
+<p>Go back to your Tableau dashboard and click on your Anvil app extension. As we did in Chapter 3, in the top left you should see a carat for More Options. Click on that and press Reload.</p>
+<p>Now that the application is updated, let’s test out our new changes.</p>
+<p>Start by clicking on any mark on the map. (I chose Wisconsin because I grew up there)</p>
+<p>Your screen probably looks like this, and no changes have been made to the Dashboard itself.</p>
+<img alt="../../_images/19-selected-wisconsin.png" src="../../_images/19-selected-wisconsin.png" />
+<p>Why is that? It is because we are currently only asking our event handler to send information on the selected records as well as the length (# of total) selected records.</p>
+<p>As you ‘print’ statements in an Anvil extension, these print statement stream real-time to the Tableau Output pane:</p>
+<img alt="../../_images/20-tableau-output-mn-wi.png" src="../../_images/20-tableau-output-mn-wi.png" />
+<p>In cases of errors and bugs, this will link directly to the line that caused the problem. These tools are very effective for debugging and development purposes, but will be hidden from your end-users.</p>
+<p>Hooray! We got our data to print to the console for viewing. Our data comes in the form of a list of dictionaries, with keys representing the Tableau dimensions and measures, and the values as the associated value (which can be text, a number, a date, etc.).</p>
+<p>Let’s see what happens if we select 2 marks at the same time in Tableau. Open up Tableau and press control while clicking on another mark. (I chose Minnesota since it is our little brother state)</p>
+<img alt="../../_images/21-selected-mn-AND-wi.png" src="../../_images/21-selected-mn-AND-wi.png" />
+<p>Un-select both marks and go back to the Tableau Output.
+You should now see that the logger printed information on both Wisconsin and Minnesota (the selected record with length of 2), the most recent record printed is an empty list with length 0.</p>
+<img alt="../../_images/22-another-mn-wi-output.png" src="../../_images/22-another-mn-wi-output.png" />
+<p>Good work! You have successfully set up a 2-way conversation between your Anvil app and your Tableau dashboard.</p>
+<p>In Chapter 5 we will walk through how to create a data grid that will allow our comments data to appear on the screen.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="3-import-tableau-extension-api.html" class="btn btn-neutral float-left" title="Chapter 3: Using the Tableau Dashboard Extension API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="5-add-data-grid.html" class="btn btn-neutral float-right" title="Chapter 5: Adding a data grid to view chatter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Baker Tilly Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -30,3 +30,6 @@ This guide will show how to build a repeating panel in Anvil that contains a row
 As always, register an event handler to the dashboard object and set the callback function (:code:`show_values`). 
 
 To retrieve the values of the filter that are currently applied, use :py:attr:`~client_code.model.proxies.Filter.applied_values`. In the callback function, set the repeating panel's :code:`repeating_panel_1.items` to the `applied_values` of the filter.
+
+.. literalinclude:: filters.py
+  :linenos:

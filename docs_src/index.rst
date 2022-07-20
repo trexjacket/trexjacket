@@ -3,6 +3,8 @@
 .. toctree::
    :maxdepth: 1
 
+   whatisthis.rst
+   getting_started.rst
    tutorials/index.rst
    guides/index.rst
    reference/index.rst

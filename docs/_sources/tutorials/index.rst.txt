@@ -14,6 +14,6 @@ Tutorials
    salesforce
    chat-extension/0-main-page
    js_api
-   popup
+   popup/popup
    
    

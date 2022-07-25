@@ -10,3 +10,4 @@ How-To Guides
    :glob:
 
    *
+   */*

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Getting Started &mdash; Tableau Extension  documentation</title>
@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorials" href="tutorials/index.html" />
-    <link rel="prev" title="What is this?" href="whatisthis.html" /> 
+    <link rel="prev" title="Tableau Extension Overview" href="whatisthis.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,7 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whatisthis.html">Tableau Extension Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/index.html">How-To Guides</a></li>
@@ -74,12 +74,15 @@
              
   <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
-<p>The Python Tableau Extensions framework let’s you build Tableau Extensions using only Python with Anvil. To get started, let’s build a simple Tableau Extension that shows the summary data of selected marks when a user clicks or selects part of the dashboard.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This demo assumes the Anvil app has a single label called <cite>label_1</cite>.</p>
-</div>
-<p>Paste the following in the code section of the initial Anvil form</p>
+<p>Let’s build a simple extension that displays the summary data from Tableau within Anvil when a user clicks a bar in a bar chart.</p>
+<p>First create a new extension in Anvil by selecting “Blank app” and then “Tableau Extension”:</p>
+<a class="reference internal image-reference" href="_images/blank_app.PNG"><img alt="_images/blank_app.PNG" src="_images/blank_app.PNG" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="_images/tableau_extension.PNG"><img alt="_images/tableau_extension.PNG" src="_images/tableau_extension.PNG" style="width: 300px;" /></a>
+<ul class="simple">
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">Form1</span></code> to <code class="docutils literal notranslate"><span class="pre">MainForm</span></code></p></li>
+<li><p>Add a label to the UI and change its python name to <code class="docutils literal notranslate"><span class="pre">label_1</span></code></p></li>
+<li><p>Paste the following in the code section of the initial Anvil form</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="c1"># client_code/MainForm/__init__.py</span>
 <span class="lineno"> 2 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">MainFormTemplate</span>
 <span class="lineno"> 3 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="o">*</span>
@@ -88,31 +91,29 @@
 <span class="lineno"> 6 </span><span class="k">class</span> <span class="nc">MainForm</span><span class="p">(</span><span class="n">MainFormTemplate</span><span class="p">):</span>
 <span class="lineno"> 7 </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
 <span class="lineno"> 8 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
-<span class="lineno"> 9 </span>        <span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;selection_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_selections</span><span class="p">)</span>
-<span class="lineno">10 </span>
-<span class="lineno">11 </span>    <span class="k">def</span> <span class="nf">show_selections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="lineno">12 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">label_1</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">selected_records</span><span class="p">)</span>
+<span class="lineno"> 9 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_dashboard</span><span class="p">()</span>
+<span class="lineno">10 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;selection_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_selections</span><span class="p">)</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span>    <span class="k">def</span> <span class="nf">show_selections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<span class="lineno">13 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">label_1</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">selected_records</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Above, we</p>
-<ul>
-<li><p>Get the current dashboard using <a class="reference internal" href="reference/model.html#client_code.api.get_dashboard" title="client_code.api.get_dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dashboard</span></code></a> (line 9).</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>This returns a Dashboard object that contains many useful things such as the datasources, filters, parameters, and worksheets. You can read more about those attributes here: <a class="reference internal" href="reference/model.html#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dashboard</span></code></a></p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>Bind the <cite>show_selections</cite> function to the ‘selection_changed’ event. This function will run whenever a user changes the selection on the dashboard.</p></li>
-</ul>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>The <a class="reference internal" href="reference/model.html#client_code.model.proxies.Dashboard.register_event_handler" title="client_code.model.proxies.Dashboard.register_event_handler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_event_handler</span></code></a> method is the primary way to connect an action on a Tableau dashboard with Python code in the extension itself.</p>
-</div>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>TODO: Missing trex file download</p>
-</div>
+<p>In the form code above, we do 2 important things:</p>
+<ol class="arabic simple">
+<li><p>Get the current Tableau dashboard using <a class="reference internal" href="reference/model.html#client_code.api.get_dashboard" title="client_code.api.get_dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dashboard</span></code></a>. <a class="reference internal" href="reference/model.html#client_code.api.get_dashboard" title="client_code.api.get_dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dashboard</span></code></a> returns a <a class="reference internal" href="reference/model.html#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dashboard</span></code></a> object and contains many useful attributes and methods such as datasources, filters, parameters, and worksheets.</p></li>
+<li><p>Bind the <code class="docutils literal notranslate"><span class="pre">show_selections</span></code> method of our Anvil form to the <code class="docutils literal notranslate"><span class="pre">selection_changed</span></code> event of the Tableau dashboard using <code class="docutils literal notranslate"><span class="pre">register_event_handler</span></code>. The <code class="docutils literal notranslate"><span class="pre">selection_changed</span></code> event is triggered from Tableau whenever the user selects / unselects marks, and every time this event is triggered the <code class="docutils literal notranslate"><span class="pre">show_selections</span></code> method is executed.</p></li>
+</ol>
+<p>Once you’ve added that code to the Form, we’ll need to connect the extension to our dashboard with a <code class="docutils literal notranslate"><span class="pre">.trex</span></code> file. A <code class="docutils literal notranslate"><span class="pre">.trex</span></code> file is a single configuration file we drop into our dashboard to connect the extension. To do this:</p>
+<p>First, in Anvil:</p>
+<ol class="arabic simple">
+<li><p>Click the green “Test in Tableau” button in the top right.</p></li>
+<li><p>A popup will appear, click “Click here to download the manifest file for your extension”. The trex file should appear in your downloads.</p></li>
+</ol>
+<p>Then, in Tableau:</p>
+<ol class="arabic simple" start="4">
+<li><p>Go to the dashboard, drag and drop the “Extension” object wherever you’d like.</p></li>
+<li><p>In the bottom left of the alert that appears, select “Access Local Extensions” and locate the <code class="docutils literal notranslate"><span class="pre">.trex</span></code> file from step 2.</p></li>
+</ol>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
 <summary class="sd-summary-title sd-card-header">
 Congrats, you now have a working Tableau extension!<div class="sd-summary-down docutils">
@@ -120,15 +121,17 @@ Congrats, you now have a working Tableau extension!<div class="sd-summary-down d
 <div class="sd-summary-up docutils">
 <svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
 </summary><div class="sd-summary-content sd-card-body docutils">
-<img alt="firstexample.gif" src="firstexample.gif" />
+<img alt="_images/firstexample.gif" src="_images/firstexample.gif" />
 </div>
-</details></section>
+</details><p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference external" href="https://anvil.works/build#clone:UZAM5LB6X3KTWC6G=LRO6QQ5553FPXKPB7VBR55MP"><span>Click here to clone the Anvil App</span></a></p>
+<p>And <a class="reference download internal" download="" href="_downloads/43c40274bf568864b30d529b354b729a/getting_started_workbook.twb"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a> for the Tableau workbook</p>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="whatisthis.html" class="btn btn-neutral float-left" title="What is this?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="whatisthis.html" class="btn btn-neutral float-left" title="Tableau Extension Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="tutorials/index.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

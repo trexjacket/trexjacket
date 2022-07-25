@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; Tableau Extension  documentation</title>
@@ -39,7 +39,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">Tableau Extension Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
@@ -75,7 +75,8 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="client_code.api.get_dashboard">
 <span class="sig-name descname"><span class="pre">get_dashboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_dashboard" title="Permalink to this definition"></a></dt>
-<dd><p>Gets the instance of Tableau Dashboard that represents the current connection.</p>
+<dd><p>Gets the instance of Tableau Dashboard that represents the current connection. This is
+the recommended entry point to the Tableau Extensions API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The Dashboard instance associated with the current session.
@@ -86,25 +87,13 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <dd class="field-even"><p><a class="reference internal" href="model.html#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dashboard</span></code></a></p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>Get the name of the dashboard as a string</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="k">import</span> <span class="n">get_dashboard</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;Example Dashboard&#39;</span>
-</pre></div>
-</div>
-<p>Get a list of all the filters in the dashboard</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="k">import</span> <span class="n">get_dashboard</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">get_dashboard</span><span class="p">()</span><span class="o">.</span><span class="n">filters</span>
-<span class="go">[&lt;tableau_extension.model.proxies.Filter object&gt;, &lt;tableau_extension.model.proxies.Filter object&gt;]</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="client_code.api.get_session">
 <span class="sig-name descname"><span class="pre">get_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.api.get_session" title="Permalink to this definition"></a></dt>
 <dd><p>Get a Tableau Session object.</p>
+<p>This is not a recommended entry point into the Tableau Extensions API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The current Tableau session.</p>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accessing the JavaScript API &mdash; Tableau Extension  documentation</title>
@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Displaying a popup within Tableau" href="popup.html" />
+    <link rel="next" title="Displaying a popup within Tableau" href="popup/popup.html" />
     <link rel="prev" title="Chapter 8: Putting the finishing touches on our chat extension" href="chat-extension/8-tie-everything-together.html" /> 
 </head>
 
@@ -41,13 +41,12 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">What is this?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">Tableau Extension Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="salesforce.html">Connecting to Salesforce</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chat-extension/0-main-page.html">Building a chat extension</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Accessing the JavaScript API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="popup.html">Displaying a popup within Tableau</a></li>
+<li class="toctree-l2"><a class="reference internal" href="popup/popup.html">Displaying a popup within Tableau</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
@@ -96,7 +95,7 @@
 </div>
 <p>The corresponding Tableau extension documentation (<a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/extensions.html">see here</a>) lists the following:</p>
 <img alt="../_images/tableau_doc.PNG" src="../_images/tableau_doc.PNG" />
-<p>Note that the properties and method names in the above image are also included in <code class="docutils literal notranslate"><span class="pre">dir(tableau.extensions)</span></code>, and these methods can be called from within Python. For example, taking a look at <code class="docutils literal notranslate"><span class="pre">dashboardContent</span></code>:</p>
+<p>Note that the properties and method names in the above image are also included in <code class="docutils literal notranslate"><span class="pre">dir(tableau.extensions)</span></code>, and these methods can be called from within Python. For example, taking a look at <code class="docutils literal notranslate"><span class="pre">dashboardContent</span></code> returns:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">dashboardContent</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">objects</span><span class="p">)</span>
 
@@ -105,8 +104,26 @@
 <span class="go">&lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;, &lt;e (native JS) proxyobject&gt;]</span>
 </pre></div>
 </div>
-<p>And we get some proxy objects back.</p>
-<p>The <a class="reference internal" href="popup.html"><span class="doc">Displaying a popup within Tableau</span></a> guide shows an example of using the underlying JS API instead of the Python wrapper to display a popup window in Tableau.</p>
+<p>These <code class="docutils literal notranslate"><span class="pre">proxyobject</span></code> can be interacted with in Python, usually by accessing their attributes by name. For example, according to <a class="reference external" href="https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html#objects">the documentation</a>, <code class="docutils literal notranslate"><span class="pre">dashboard.objects</span></code> is an Array of <code class="docutils literal notranslate"><span class="pre">DashboardObject</span></code>. Each of these objects has properties such as <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, and <code class="docutils literal notranslate"><span class="pre">isVisible</span></code>. Let’s see what happens when I try to access these properties from Python.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The autocompleter in Anvil will help you out even when navigating through the underlying methods of the <code class="docutils literal notranslate"><span class="pre">tableau</span></code> module from <code class="docutils literal notranslate"><span class="pre">anvil</span></code>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">objs</span> <span class="o">=</span> <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">dashboardContent</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">objects</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;name: {x.name}, type: {x.type}, isVisible: {x.isVisible}&#39;</span><span class="p">)</span>
+
+<span class="go">name: Viz, type: worksheet, isVisible: True</span>
+<span class="go">name: Tiled, type: blank, isVisible: True</span>
+<span class="go">name: Underlying Data Demo, type: extension, isVisible: True</span>
+<span class="go">name: Tiled, type: blank, isVisible: True</span>
+<span class="go">name: Vertical, type: blank, isVisible: True</span>
+<span class="go">name: Horizontal, type: blank, isVisible: True</span>
+<span class="go">name: Ship Mode, type: quick-filter, isVisible: True</span>
+</pre></div>
+</div>
+<p>Nice! Even though I got a list of proxy objects, I am still able to access their properties and even methods using Python code. If you’re looking for further use of the underlying JS api, the <a class="reference internal" href="popup/popup.html"><span class="doc">Displaying a popup within Tableau</span></a> guide demonstrates displaying a popup window inside Tableau.</p>
 </section>
 
 
@@ -114,7 +131,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="chat-extension/8-tie-everything-together.html" class="btn btn-neutral float-left" title="Chapter 8: Putting the finishing touches on our chat extension" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="popup.html" class="btn btn-neutral float-right" title="Displaying a popup within Tableau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="popup/popup.html" class="btn btn-neutral float-right" title="Displaying a popup within Tableau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

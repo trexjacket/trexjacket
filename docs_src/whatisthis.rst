@@ -1,8 +1,12 @@
-What is this?
+Tableau Extension Overview
 ------
 
 This is a python library that allows users to create Tableau extensions with Anvil using only Python. 
 
+:octicon:`question` What's Anvil?
+=======
+
+Anvil is a Python-based, full stack web framework used to rapidly develop and deploy web applications. 
 
 :octicon:`question` What's a Tableau extension?
 =======
@@ -45,7 +49,7 @@ Because Tableau extensions are web applications, there is a wide variety of diff
 * Enable write-back functionality so users can modify data in a viz and have that change automatically update the source data 
 * Build custom viz and interactivity types, such as a filter replacement and custom interfaces
   
-To get a taste of what other people have built, feel free to check out the `Dashboard Extension on Tableau Exchange <https://exchange.tableau.com/extensions>`_
+To get a taste of what other people have built, check out some `dashboard extensions on the Tableau Exchange <https://exchange.tableau.com/extensions>`_
 
 
 :octicon:`file-diff` Extension API vs. Embedding JavaScript API
@@ -65,35 +69,33 @@ The python documentation you are currently reading is related to the Extensions 
 :octicon:`alert` Challenges with Extension Development
 =======
 
-While the Tableau extension JS api is powerful, extension development has challenges. For data teams with Tableau and Python experience,
+While the Tableau extension JS API is powerful, extension development has challenges. For data teams with Tableau and Python experience,
 
 * There is a significant learning curve to get started
 * Extensions require a significant amount of technical knowledge and supporting tools to operate. This includes networking, dev ops, JS programing, security, etc.
 * During several attended in-person trainings from Tableau, it's rare for developers to make it through the tutorial and many gave up along the way
-* Lots of effort is required to stand up a developement environment (chrome headless / npm / sdks)
+* Lots of effort is required to stand up a development environment (chrome headless / npm / sdks)
 
 :octicon:`credit-card` :octicon:`arrow-right` :octicon:`light-bulb` This Library's Objective: Investment to Insight
 =======
 
-The primary purpose of this extension is to reduce the amount of time to go from investment to insight. 
-
-* Simplify extension development so that it is efficient and aligned with the core capabilities we have as analysts and data scientists
-* Unlock the doors to new integrations, data tools, sophisticated user interfaces, and much more
-
+The primary purpose of this Python library is to reduce the amount of time required to go from investment to insight
 
 .. important::
 
-    Goal is to make Extensions accessible to organizations, and let unleash Dashboard Developers to do more.
+    By making Tableau Extensions more accessible to organizations, Dashboard Developers are unleashed to do more. "More" includes new integrations, sophisticated user interfaces, and more advanced data tools.
     
-This library accomplishes this by:
+This Python library accomplishes this by:
 
 - Creating a Pythonic representation of the Tableau Dashboard
-- One-Click extension deployment
+- Enabling one-Click extension deployment
 - A modern, efficient development experience
 - Enterprise-ready user management and access controls
 - Transparent, real-time logging and error handling
 - Secure Server environment
+
+The below image outlines how this Python library is related to Anvil and Tableau.
   
 .. image:: media/extension_architecture.PNG  
 
-Now that you have a good handle on what this is, feel free to take a look at the :doc:`getting_started` guide.
+Now that you have a good handle on the extensions framework, head over to the :doc:`getting_started` guide for a short walkthrough of what the development experience is like.

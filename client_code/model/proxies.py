@@ -101,12 +101,7 @@ class Filter:
     def field_name(self):
         """The name of the field being filtered
 
-        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/interfaces/filter.html#fieldname>`
-
-        Returns
-        --------
-        str
-            The name of the field being filtered
+        :type: str
         """
         return self._proxy.fieldName
 
@@ -168,19 +163,20 @@ class Filter:
 
         Parameters
         ----------
-        new_values : list of Filter
+        new_values : :obj:`list` of :obj:`Filter`
             The new Filter values
         """
         self.set_filter_value(new_values)
 
     @property
     def domain(self):
-        """Returns the domain for a Categorical Filter.
+        """The list of values that the filter can take
 
-        Returns
-        --------
-        domain: list of values
-            The domain for the selected Filter
+        .. note::
+
+            Only supported for categorical filters, see: https://github.com/Baker-Tilly-US/Tableau-Extension/issues/52
+
+        :type: list
         """
         if self._proxy.filterType != "categorical":
             raise NotImplementedError(
@@ -205,12 +201,9 @@ class Filter:
 
     @property
     def filter_type(self):
-        """Returns the type of Filter.
+        """The type of the Filter, one of (categorical | hierarchical | range | relative-date)
 
-        Returns
-        --------
-        :obj:`str`
-            The type of filter. One of {'categorical', 'hierarchical', 'range', 'relative-date'}
+        :type: str
         """
         return self._proxy.filterType
 
@@ -218,10 +211,7 @@ class Filter:
     def field(self):
         """Returns a promise containing the field for the filter.
 
-        Returns
-        --------
-        Promise : :obj:`~client_code.model.marks.Field`
-            a promise containing the field for the filter.
+        :type: :obj:`~client_code.model.marks.Field`
         """
         return Field(self._proxy.getFieldAsync())
 
@@ -230,7 +220,7 @@ class Filter:
 
         Parameters
         ----------
-        new_values : list
+        new_values : :obj:`list`
             List of values to filter on
 
         optional update_type : str
@@ -239,7 +229,7 @@ class Filter:
         self.worksheet.apply_filter(self.field_name, new_values, method)
 
     def clear_filter(self):
-        """Resets the existing filters."""
+        """Resets the filter. Categorical filters are reset to 'All', range filters are reset to the full range."""
         self.worksheet.clear_filter(self.field_name)
 
 
@@ -266,31 +256,10 @@ class Parameter(TableauProxy):
             return {"name": self.name, "value": self.value}
 
     @property
-    def domain(self):
-        """Returns the allowable set of values this parameter can take.
-
-        Returns
-        --------
-        allowableValues: ParameterDomainRestriction
-            The allowable set of values this parameter can take.
-        """
-        return self.allowable_values()
-
-    @property
     def data_type(self):
-        """Returns the type of data this parameter holds.
+        """The type of data this parameter holds. One of (bool | date | date-time | float | int | spatial | string)
 
-        Returns
-        --------
-        The type of data this parameter holds. One of
-
-            * 'bool'
-            * 'date'
-            * 'date-time'
-            * 'float'
-            * 'int'
-            * 'spatial'
-            * 'string'
+        :type: str
         """
         return self._proxy.dataType
 
@@ -299,8 +268,7 @@ class Parameter(TableauProxy):
 
         Returns
         --------
-        allowableValues: ParameterDomainRestriction
-            The allowable set of values this parameter can take.
+        The allowable set of values this parameter can take.
         """
         param_type = self._proxy.allowableValues.type  # All, List, or Range
 
@@ -365,24 +333,15 @@ class Parameter(TableauProxy):
 
     @property
     def name(self):
-        """Returns the display name for this parameter.
+        """The display name for this parameter.
 
-        Returns
-        ----------
-        name : str
-            The display name for this parameter.
+        :type: str
         """
         return self._proxy.name
 
     @property
     def value(self):
-        """Returns the DataValue representing the current value of the parameter.
-
-        Returns
-        ----------
-        currentValue: DataValue
-            DataValue representing the current value of the parameter.
-        """
+        """The current value of the parameter."""
         self.refresh()
         return self._proxy.currentValue.nativeValue
 
@@ -404,8 +363,8 @@ class Parameter(TableauProxy):
 
         Parameters
         ----------
-        handler : TableauEventHandlerFn
-            The function which will be called when an event happens.
+        handler : function
+            Function that is called whenever the parameter is changed.
         """
         session = Tableau.session()
         self._listener = session.register_event_handler(
@@ -482,11 +441,12 @@ class Worksheet(TableauProxy):
 
         Returns
         -------
-        records: list of dicts
+        :obj:`list` of :obj:`dicts`
 
-        Raises:
+        Raises
         -------
-        ValueError: If more than one table_id exists, then a table must be specified.
+        ValueError
+            If more than one table_id exists, then a table must be specified.
         """
         ws = self._proxy
 
@@ -509,6 +469,17 @@ class Worksheet(TableauProxy):
         return datatable.records
 
     def get_summary_records(self, ignore_selection=True):
+        """Returns the summary data from a worksheet.
+
+        Parameters
+        ---------
+        ignore_selection : bool
+            Whether or not to ignore the selected marks when getting summary data
+
+        Returns
+        ---------
+        :obj:`list` of :obj:`dict`
+        """
         datatable = DataTable(
             self._proxy.getSummaryDataAsync({"ignoreSelection": ignore_selection})
         )
@@ -675,7 +646,10 @@ class Worksheet(TableauProxy):
 
     @property
     def parameters(self):
-        """A collection of all the Tableau parameters that are used in this workbook."""
+        """All the Tableau parameters that are used in this workbook.
+
+        :type: :obj:`list`
+        """
         return [Parameter(p) for p in self._proxy.getParametersAsync()]
 
     def get_parameter(self, parameter_name):
@@ -688,9 +662,12 @@ class Worksheet(TableauProxy):
 
         Returns
         ---------
-        parameter: Parameter instance
-            Represents a parameter in Tableau and provides ways to introspect the
-            parameter and change its values.
+        :obj:`Parameter`
+
+        Raises
+        ---------
+        KeyError
+            If no matching parameter is found.
         """
         param_js = self._proxy.findParameterAsync(parameter_name)
         if not param_js:
@@ -707,7 +684,7 @@ class Worksheet(TableauProxy):
 
         Returns
         ----------
-        data_sources : list
+        data_sources : :obj:`list` of :obj:`Datasource`
             The primary data source and all of the secondary data sources for this
             worksheet.
         """
@@ -727,8 +704,6 @@ class Worksheet(TableauProxy):
 
         The event handler must take a ParameterChangedEvent or FilterChangedEvent as
         an argument.
-
-        :bdg-link-primary-line:`Read on Tableau < https://tableau.github.io/extensions-api/docs/trex_events.html>`
 
         Parameters
         ----------
@@ -785,7 +760,7 @@ class Dashboard(TableauProxy):
         return [Worksheet(ws._proxy) for ws in self._worksheets.values()]
 
     def get_worksheet(self, sheet_name):
-        """Get the specified worksheet from the active tableau instance.
+        """Gets a dashboard worksheet by name.
 
         Parameters
         ----------
@@ -795,6 +770,11 @@ class Dashboard(TableauProxy):
         Returns
         ----------
         :obj:`Worksheet`
+
+        Raises
+        ----------
+        KeyError
+            If no matching worksheet is found
         """
         try:
             return self._worksheets[sheet_name]
@@ -831,6 +811,11 @@ class Dashboard(TableauProxy):
         Returns
         --------
         :obj:`Parameter`
+
+        Raises
+        --------
+        KeyError
+            If no matching parameter is found
         """
         param_js = self._proxy.findParameterAsync(parameter_name)
         if not param_js:
@@ -1059,7 +1044,7 @@ class Tableau:
 
 
 class DataTable(TableauProxy):
-    """A Pythonic representation of a Tableau DataTable
+    """A Pythonic representation of a Tableau DataTable, used internally.
 
     .. note::
 
@@ -1094,14 +1079,17 @@ class DataTable(TableauProxy):
 class MarksSelectedEvent(TableauProxy):
     """Triggered when a user selects a mark on a dashboard.
 
-    Wrapper for a tableau MarksSelectedEvent
+    .. note::
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html>`
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html>` and accessed through the ``MarksSelectedEvent`` object's ``._proxy`` attribute.
     """
 
     @property
     def worksheet(self):
-        """The Worksheet instance associated generating the Selection Event."""
+        """The Worksheet instance associated generating the Selection Event.
+
+        :type: :obj:`Worksheet`
+        """
         return Worksheet(self._proxy._worksheet)
 
     def get_selected_records(self):
@@ -1117,9 +1105,9 @@ class MarksSelectedEvent(TableauProxy):
 class FilterChangedEvent(TableauProxy):
     """Triggered when a user changes a filter on a dashboard.
 
-    Wrapper for a tableau FilterChangedEvent
+    .. note::
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html>`
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html>` and accessed through the ``FilterChangedEvent`` object's ``._proxy`` attribute.
     """
 
     def __hash__(self):
@@ -1130,27 +1118,37 @@ class FilterChangedEvent(TableauProxy):
 
     @property
     def filter(self):
-        """Returns the filter that was changed."""
+        """Returns the filter that was changed.
+
+        :type: :obj:`Filter`
+        """
         f = Filter(self._proxy.getFilterAsync())
         f.worksheet = self.worksheet
         return f
 
     @property
     def worksheet(self):
-        """Returns the worksheet that the filter is on."""
+        """Returns the worksheet that the filter is on.
+
+        :type: :obj:`Worksheet`
+        """
         return Worksheet(self._proxy._worksheet)
 
 
 class ParameterChangedEvent(TableauProxy):
     """Triggered when a user changes a parameter on a dashboard.
 
-    Wrapper for a tableau ParameterChangedEvent
+    .. note::
 
-    :bdg-link-primary-line:`Read on Tableau <https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html>`
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html>` and accessed through the ``ParameterChangedEvent`` object's ``._proxy`` attribute.
     """
 
     @property
     def parameter(self):
+        """The parameter that was changed.
+
+        :type: :obj:`Parameter`
+        """
         return Parameter(self._proxy.getParameterAsync())
 
 

@@ -1,5 +1,8 @@
 .. include:: README.rst
 
+Outline
+---------
+
 .. toctree::
    :maxdepth: 1
 

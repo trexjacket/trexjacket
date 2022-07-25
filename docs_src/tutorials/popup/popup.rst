@@ -1,11 +1,13 @@
 Displaying a popup within Tableau
 ------
 
+.. https://anvil.works/new-build/apps/REN6GWNXX6Y5PODR/code/forms/Homepage
+
 Anvil apps can use the ``alert`` function to create a popup window inside the App. However, alerts are confined to the space the extension takes up in the dashboard and can't be opened independently of the dashboard. To create a popup from our extension that opens outside of the extension itself, we'll need to use the underlying JS api. 
 
 Once we're done, we'll have something that looks like this:
 
-.. image:: media/popup.PNG
+.. image:: popup.PNG
 
 To start, you'll need to create 2 forms in Anvil.
 
@@ -55,8 +57,11 @@ Once we've got those 2 forms created, we'll add the code in each. Let's start wi
 This is a bit chicken and the egg but I'll start with the ``btn_config_click``. When a user loads the extension, they'll see the configure button which will open the popup. We open the popup by:
 
 - First call ``tableau.extensions.initializeDialogAsync()``
-- Then, use ``displayDialogAsync`` and pass the apps url, along with "#!?entry=popup" appended
+
+- Then, use ``displayDialogAsync`` and pass the apps url, along with ``#!?entry=popup`` appended
+
   - We'll save this into a variable called ``out`` which will contain a string that we define in the ``Configure`` form
+
 - Finally, we set the text of ``lbl_config_setting`` to be the value returned from the popup
 
 Let's move to the ``Configure`` form. Add the following:
@@ -75,9 +80,19 @@ Let's move to the ``Configure`` form. Add the following:
       """This method is called when the Submit Configuration button is clicked"""
       tableau.extensions.ui.closeDialog(self.tb_config.text)
    
+   
+Now add the trex file to the dashboard (see :doc:`/guides/download_trex/downloadtrex`) and click "Configure". The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with "Submit Configuration".
 
+.. dropdown:: Here's what your extension should look like now
+    :open:
+
+    .. image:: popupdemo.gif
+
+  
 .. button-link:: https://anvil.works/build#clone:REN6GWNXX6Y5PODR=5UYQ4J4JS3U3X7O2LJEVOHRZ
    :color: primary
    :shadow:
    
    Click here to clone the Anvil app
+
+And :download:`here <popup_workbook.twb>` for the Tableau workbook

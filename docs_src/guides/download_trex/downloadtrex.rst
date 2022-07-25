@@ -11,9 +11,9 @@ In Anvil:
 In Tableau:
 
 4. Go to the dashboard, drag and drop the "Extension" object wherever you'd like.
-5. In the bottom right of the alert that appears, select "Access Local Extensions" and locate the `.trex` file from step 2.
+5. In the bottom left of the alert that appears, select "Access Local Extensions" and locate the `.trex` file from step 2.
 
 .. dropdown:: Full walkthrough
     :open:
 
-    .. image:: media/download_trex.gif
+    .. image:: download_trex.gif

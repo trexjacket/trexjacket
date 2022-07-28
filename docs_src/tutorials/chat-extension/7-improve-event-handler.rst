@@ -5,7 +5,7 @@ We have successfully created an event handler that logs information to the conso
 
 Our goal now is to have our event handler know which mark(s) are selected so that it can tell our Anvil app which marks are being selected and eventually what data to put on the screen.
 
-Step 1: Add functionality to the Event 
+Step 1: Add functionality to the Event Handler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now that we can access state, let’s have state updated every time we click on a mark in the Tableau dashboard.

@@ -11,5 +11,7 @@ Tutorials
    gettingstarted
    salesforce
    chat-extension/0-main-page
+   reactive-image-display/0-main-page
    js_api
+   
    

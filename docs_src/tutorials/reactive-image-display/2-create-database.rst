@@ -1,7 +1,8 @@
 Chapter 2: Create your database table
 ===================================
 
-Creating a database using Anvil's built-in Data Tables.
+Let's create our database using Anvil's built-in Data Tables.
+
 
 Step 1: Adding a database table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,13 +30,13 @@ Now set up your **houses** table with the following columns:
 
 - image (Media column)
 
-Here’s how to do that:
+Here's how to do that:
 
 Click on the 'Add Table' button. You should now see an empty Data Table named **Table 1**. Double click on that name and rename your new data table to **houses**.
 
-Next, add a column for the row ID, by clicking ‘+ New Column’ and choosing ‘Add number column…’. Call this column row_id’.
+Next, add a column for the row ID, by clicking '+ New Column' and choosing 'Add number column…'. Call this column row_id'.
 
-Keep adding columns until your Data Table has the structure we described above. Column titles are case sensitive, so let’s stick to lower case.
+Keep adding columns until your Data Table has the structure we described above. Column titles are case sensitive, so let's stick to lower case.
 
 Your Data Table should look something like this:
 

@@ -1,16 +1,14 @@
 Chapter 3: Build your Tableau dashboard
 ===================================
 
-Creating a dashboard with Tableau, an interactive data visualization tool to help people see and understand data.
-
-Let’s create a Tableau dashboard that we can use to select marks and have images reactively appear on the dashboard screen.
+Let's create a Tableau dashboard that we can use to select marks and have images reactively appear on the dashboard screen.
 
 Step 1: Getting started with Tableau
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To follow along with this section it would help to know the basics of how to create and use Tableau worksheets and dashboards, but is not required. 
 
-If you’re brand new to Tableau, `Tableau’s Desktop Tutorial <https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm>`_ has sections which will teach you everything you need to connect your data and make visualizations that are relevant to your company’s goals.
+If you're brand new to Tableau, `Tableau's Desktop Tutorial <https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm>`_ has sections which will teach you everything you need to connect your data and make visualizations that are relevant to your company's goals.
 
 For this tutorial, I have included an example dashboard that you may use to get familiar with Tableau and see the potential use-cases:
 
@@ -81,7 +79,7 @@ Tableau has a number of marks, filters and parameters that you can edit to perso
 
 To change the size of dots for our scatterplot, we must change it at the sheet level. In the bottom left you can see that we are currently on the Home dashboard, now switch over to the Scatterplot sheet. 
 
-On the left-hand side, as we discussed before, quantitative variables are in green, categorical variables in blue. We want the houses with higher price darker bigger, so let’s drag the quantitative variable Price’ over the 'Size' box in the Marks section.
+On the left-hand side, as we discussed before, quantitative variables are in green, categorical variables in blue. We want the houses with higher price darker bigger, so let's drag the quantitative variable Price' over the 'Size' box in the Marks section.
 
 .. image:: images/24-sheet-with-size.png
 
@@ -98,6 +96,6 @@ Now, when hovering over a mark, we are able to see all of the relevant attribute
 .. image:: images/24-detail-shown.png
 
 
-That’s it, we now have a Tableau dashboard ready to use alongside our Anvil app. Next up, let's get our Tableau dashboard's API credentials that we need to authenticate our API calls.
+That's it, we now have a Tableau dashboard ready to use alongside our Anvil app. Next up, let's get our Tableau dashboard's API credentials that we need to authenticate our API calls.
 
-In Chapter 4, we’ll begin sending the details of your actions in Tableau using the Tableau API.
+In Chapter 4, we'll begin sending the details of your actions in Tableau using the Tableau API.

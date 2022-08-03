@@ -1,17 +1,16 @@
 Chapter 7: Putting the finishing touches on our chat extension
 ===============================
 
-We have learned several techniques for integrating Tableau with Anvil today. Time to tie it all together so that the reactive image display extension is ready for your team’s use.
-
+We have learned several techniques for integrating Tableau with Anvil today. Let's tie it all together so that the reactive image display extension is ready for your team's use.
 
 
 Step 1: Adding a reactive header 
 ~~~~~~~~~~~~~~~~~~~~
-Let’s start by adding a Header so that our form has something more than just the reactive image display.
+Let's start by adding a Header so that our form has something more than just the reactive image display.
 
 When we click on a mark, we want the House's location to appear on the Form. Otherwise, we do not want a location. How can we go about doing this reactively?
 
-How can we do this you might ask? Data Bindings. Data Bindings are a way of keeping a component’s properties in sync with the underlying data with minimal effort. More on this `here. <https://anvil.works/docs/client/data-bindings>`_
+How can we do this you might ask? Data Bindings. Data Bindings are a way of keeping a component's properties in sync with the underlying data with minimal effort. More on this `here. <https://anvil.works/docs/client/data-bindings>`_
 
 Remember, we already have an attribute (self.location) in our Form for this task. self.location is a blank string when nothing is selected, and updates when a mark is selected in Tableau.
 
@@ -29,7 +28,7 @@ Your screen should now look something like this:
 
 One last thing before we test this out. Data Bindings are set when a Form is opened and do not refresh or update unless explicitly told to do so. 
 
-Let's add some code to the bottom of our **selection_changed_event_handler** method to make sure our data bindings refresh every time we select a mark in Tableau.
+Let's add some code to the bottom of our **selection_changed_event_handler** method to make sure our data bindings refresh every time we select a mark in Tableau. Each time 'self.refresh_data_bindings()' is called in the code, the Form's data bindings will refresh.
 
 .. code-block:: python
 
@@ -55,7 +54,7 @@ Let's add some code to the bottom of our **selection_changed_event_handler** met
         
         self.refresh_data_bindings()
 
-Done! Let’s try it out. Go into Tableau, refresh your app and try clicking on a mark.
+Done! Let's try it out. Go into Tableau, refresh your app and try clicking on a mark.
 
 .. image:: images/44-done-1.png
 
@@ -74,13 +73,5 @@ You can click the following link and explore it yourself or read on as we take a
 
 `Click to clone the app. <https://anvil.works/build#clone:22IOPICN5NFTLGAG=NWE55F7OY5T6MIK3K73OQ5L3|7NA5SUPERPMMYP3A=2JADDUGUJKHP3VC5U6AI4IV5>`_
 
-.. raw:: html
-
-    <h2>New to Anvil?</h2>
 
 
-If you’re new here, welcome! Anvil is a platform for building full-stack web apps with nothing but Python. No need to wrestle with JS, HTML, CSS, Python, SQL and all their frameworks – just **build it all in Python**.
-
-Yes – Python that runs in the browser. Python that runs on the server. Python that builds your UI. A drag-and-drop UI editor. We even have a built-in Python database; in case you don’t have your own.
-
-Why not have a play with the app builder? **It’s free!** `Click here <https://anvil.works/>`_ to get started:

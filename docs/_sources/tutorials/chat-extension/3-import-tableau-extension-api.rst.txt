@@ -11,7 +11,7 @@ Step 1: Adding a dependency
 
 The first step to allowing the Tableau Dashboard Extension API to interact with our Form is adding a dependency. Anvil apps can use Modules from other apps once they are added as dependencies. 
 
-Note: This step is optional, but the Tableau Extension depenedency provides a much simpler mechanism for interacting with your Tableau Dashboard vs the native JS API.
+Note: This step is optional, but the Tableau Extension dependency provides a much simpler mechanism for interacting with your Tableau Dashboard vs the native JS API.
 
 On the left-hand side you will see Settings, the gear icon. Click on this and in the drop down for ‘Add a dependency’, select Tableau Extension (Service-based). 
 

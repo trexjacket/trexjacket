@@ -44,7 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../whatisthis.html">Tableau Extension Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="0-main-page.html">Building a chat extension</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="0-main-page.html">Building a Chat Extension</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="1-create-web-form.html">Chapter 1: Build your user interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="2-create-tableau-dashboard.html">Chapter 2: Build your Tableau dashboard</a></li>
 <li class="toctree-l3"><a class="reference internal" href="3-import-tableau-extension-api.html">Chapter 3: Using the Tableau Dashboard Extension API</a></li>
@@ -52,12 +52,13 @@
 <li class="toctree-l3"><a class="reference internal" href="5-add-data-grid.html">Chapter 5: Adding a data grid to view chatter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="6-create-form-to-add-comments.html">Chapter 6: Creating an Interface to Add New Comments</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Chapter 7: Making the Event Handler useful</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#step-1-add-functionality-to-the-event">Step 1: Add functionality to the Event</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-add-functionality-to-the-event-handler">Step 1: Add functionality to the Event Handler</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="8-tie-everything-together.html">Chapter 8: Putting the finishing touches on our chat extension</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../reactive-image-display/0-main-page.html">Building a Reactive Image Display Extension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../js_api.html">Accessing the JavaScript API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../popup/popup.html">Displaying a popup within Tableau</a></li>
 </ul>
@@ -81,7 +82,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">Tutorials</a> &raquo;</li>
-          <li><a href="0-main-page.html">Building a chat extension</a> &raquo;</li>
+          <li><a href="0-main-page.html">Building a Chat Extension</a> &raquo;</li>
       <li>Chapter 7: Making the Event Handler useful</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/tutorials/chat-extension/7-improve-event-handler.rst.txt" rel="nofollow"> View page source</a>
@@ -96,8 +97,8 @@
 <h1>Chapter 7: Making the Event Handler useful<a class="headerlink" href="#chapter-7-making-the-event-handler-useful" title="Permalink to this heading"></a></h1>
 <p>We have successfully created an event handler that logs information to the console. Let’s build on that by decking out our event handler to further interact with our Anvil app.</p>
 <p>Our goal now is to have our event handler know which mark(s) are selected so that it can tell our Anvil app which marks are being selected and eventually what data to put on the screen.</p>
-<section id="step-1-add-functionality-to-the-event">
-<h2>Step 1: Add functionality to the Event<a class="headerlink" href="#step-1-add-functionality-to-the-event" title="Permalink to this heading"></a></h2>
+<section id="step-1-add-functionality-to-the-event-handler">
+<h2>Step 1: Add functionality to the Event Handler<a class="headerlink" href="#step-1-add-functionality-to-the-event-handler" title="Permalink to this heading"></a></h2>
 <p>Now that we can access state, let’s have state updated every time we click on a mark in the Tableau dashboard.</p>
 <p>Note that we’ll take the first (0th index) state that was selected; this will work great if a user selects a single state. If a user selects more than one, we’ll just take the first and record the comment associated with that; you could to more with the full selection, but we’ll keep it simple for now.</p>
 <p>We also need to handle the instance when the user unselects on the dashboard; in this case, there will be no marks selected, so we will handle that by clearing our selection.</p>

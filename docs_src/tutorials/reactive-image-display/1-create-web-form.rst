@@ -39,7 +39,7 @@ Click on this button to close the toolbox:
 
 .. image:: images/6-close-toolbox.png
 
-Now, open the properties panel on the right. Click on the name **self.image_1** and replace **label_1** with a more descriptive the name.
+Now, open the properties panel on the right. Click on the name **self.image_1** and replace **label_1** with a more descriptive name.
 
 
 .. image:: images/7-image-properties.png

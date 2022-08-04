@@ -6,12 +6,11 @@ Let's set up a selection changed event handler to let our app know when we selec
 Step 1: Creating the Event Handler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Event handlers are useful for relaying what are doing in the Tableau Dashboard and communicating with our Anvil app.
+In this chapter, we will be using something called an event handler. Event handlers are useful for relaying what are doing in the Tableau Dashboard and communicating with our Anvil app. Let's start by writing a method in our Form that will catch events and print the information to the console. An 'event handler' is a function that is called whenever an event occurs, for example, when the user makes a selection on the dashboard. It should always accept an 'event' argument.
 
+Events usually come with some information about how they were triggered. For example, 'selection_changed' events are always associated with a worksheet. 
 
-Let's start by writing a method in our Form that will catch events and print the information to the console. An 'event handler' is a function that is called whenever an event occurs, for example, when the user makes a selection on the dashboard. It should always accept an 'event' argument.
-
-Events usually come with some information about how they were triggered. For example, 'selection_changed' events are always associated with a worksheet. For now, let's just print the following statement so we can see how the selection appears in Python:
+For now, let's just print the following statement so we can see how the selection appears in Python. Add this code chunk to Form1:
 
 .. code-block:: python
 

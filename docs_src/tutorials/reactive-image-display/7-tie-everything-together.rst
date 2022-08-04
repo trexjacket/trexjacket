@@ -28,7 +28,8 @@ Your screen should now look something like this:
 
 One last thing before we test this out. Data Bindings are set when a Form is opened and do not refresh or update unless explicitly told to do so. 
 
-Let's add some code to the bottom of our **selection_changed_event_handler** method to make sure our data bindings refresh every time we select a mark in Tableau. Each time 'self.refresh_data_bindings()' is called in the code, the Form's data bindings will refresh.
+Let's add some code to the bottom of our **selection_changed_event_handler** method to make sure our data bindings refresh every time we select a mark in Tableau.
+
 
 .. code-block:: python
 
@@ -53,6 +54,9 @@ Let's add some code to the bottom of our **selection_changed_event_handler** met
           self.image_display.source = selected_house['image']
         
         self.refresh_data_bindings()
+
+
+See the bottom line of the code chunk. Each time 'self.refresh_data_bindings()' is called in the code, the Form's data bindings will refresh.
 
 Done! Let's try it out. Go into Tableau, refresh your app and try clicking on a mark.
 

@@ -107,11 +107,12 @@ Now that we know how what Server Modules are for and how to call the methods ins
         row = app_tables.houses.get(row_id=image_id)
         return row
 
-If this looks confusing, I can walk you through exactly what this code block does:
+
+The above code does a few things:
 
 1. @anvil.server.callable allows us to call the method from any Form 
 2. the method 'get_img_path' access the **app_tables.houses** Data Table by way of app_tables.houses
-3. The .get() function takes a Data Table and find the row that matches the constraints. In this case, we are looking in the Data Table for the row where the row_id column matches in input, image_id.
+3. The .get() method takes a Data Table and find the row that matches the constraints. In this case, we are looking in the Data Table for the row where the row_id column matches in input, image_id.
 4. The information from this row in the Data Table is returned to the Form it is called from.
 
 Now that you have an idea of how this server function works, let's add it to our Form.

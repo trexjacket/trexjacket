@@ -8,8 +8,7 @@ Let’s say your team is building dashboards in Tableau that measure performance
 You could invest time and energy into a disconnected, shared document where members of the team write down their thoughts and observations or you could use the tools your business already has to help you organize the commenting process. How can we turn Tableau into an interface where we can quickly share thoughts?
 
 
-
-With Anvil of course! Anvil is the easy way to build full stack web apps with nothing but Python. We can use Anvil with the Tableau API extension to build an application which will turn a Tableau dashboard into a chat interface where members of the team can select marks and leave comments.
+We can use Anvil with the Tableau API extension to build an application which will turn a Tableau dashboard into a chat interface where members of the team can select marks and leave comments.
 
 
 .. Attach picture

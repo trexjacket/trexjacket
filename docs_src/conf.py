@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 # -- Project information -----------------------------------------------------
 
-project = "Tableau Extension"
+project = "Tableau Extension Platform"
 copyright = "2022, Baker Tilly Inc."
 author = "Baker Tilly Inc."
 

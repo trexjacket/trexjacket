@@ -12,6 +12,32 @@ First create a new extension in Anvil by selecting "Blank app" and then "Tableau
 .. image:: media/tableau_extension.PNG
     :width: 300
 
+
+Download and add a trex file to Tableau
+=====
+
+In order to add an extension built in Anvil to Tableau it needs to be added to the dashboard using a `.trex` file. The trex file is first downloaded from Anvil and then uploaded to Tableau.
+
+In Anvil:
+
+1. Click the green "Test in Tableau" button in the top right.
+2. A popup will appear, click "Click here to download the manifest file for your extension", the trex file should appear in your downloads.
+
+In Tableau:
+
+4. Go to the dashboard, drag and drop the "Extension" object wherever you'd like.
+5. In the bottom left of the alert that appears, select "Access Local Extensions" and locate the `.trex` file from step 2.
+
+.. dropdown::
+    :open:
+
+    .. image:: media/download_trex.gif
+
+Write some code 
+=====
+
+Now that our Anvil app is connected to our dashboard, we'll need to modify the code.
+
 - Rename ``Form1`` to ``MainForm``
 - Add a label to the UI and change its python name to ``label_1``
 - Paste the following in the code section of the initial Anvil form
@@ -39,17 +65,6 @@ In the form code above, we do 2 important things:
 
 2. Bind the ``show_selections`` method of our Anvil form to the ``selection_changed`` event of the Tableau dashboard using ``register_event_handler``. The ``selection_changed`` event is triggered from Tableau whenever the user selects / unselects marks, and every time this event is triggered the ``show_selections`` method is executed. 
 
-Once you've added that code to the Form, we'll need to connect the extension to our dashboard with a ``.trex`` file. A ``.trex`` file is a single configuration file we drop into our dashboard to connect the extension. To do this:
-
-First, in Anvil:
-
-1. Click the green "Test in Tableau" button in the top right.
-2. A popup will appear, click "Click here to download the manifest file for your extension". The trex file should appear in your downloads.
-
-Then, in Tableau:
-
-4. Go to the dashboard, drag and drop the "Extension" object wherever you'd like.
-5. In the bottom left of the alert that appears, select "Access Local Extensions" and locate the ``.trex`` file from step 2.
 
 .. dropdown:: Congrats, you now have a working Tableau extension!
     :open:

@@ -1,9 +1,7 @@
 Tutorials
 =========
 
-   "Tutorials are lessons that take the reader by the hand through a series of steps to complete a project of some kind. Tutorials are learning-oriented."
-
-   -- Daniele Procida, https://diataxis.fr/
+Guided tutorials meant to give explicit instructions in order to build something.
 
 .. toctree::
    :maxdepth: 1

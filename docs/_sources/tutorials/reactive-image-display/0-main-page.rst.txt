@@ -7,7 +7,7 @@ Let's say you are working in Tableau with data that has media, such as pictures.
 
 This could save you a lot of time and energy. How can we turn Tableau into an interface where we can quickly share photos?
 
-With Anvil of course! Anvil is the easy way to build full stack web apps with nothing but Python. We can use Anvil with the Tableau API extension to build an application which will turn a Tableau dashboard into a reactive image display where depending on which mark you select in your Tableau Dashboard, a relevant photo will appear on the screen.
+We can use Anvil with the Tableau API extension to build an application which will turn a Tableau dashboard into a reactive image display where depending on which mark you select in your Tableau Dashboard, a relevant photo will appear on the screen.
 
 
 .. Attach picture

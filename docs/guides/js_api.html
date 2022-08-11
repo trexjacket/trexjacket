@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accessing the JavaScript API &mdash; Tableau Extension  documentation</title>
+  <title>Accessing the JavaScript API &mdash; Tableau Extension Platform  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Displaying a popup within Tableau" href="popup/popup.html" />
-    <link rel="prev" title="Chapter 7: Putting the finishing touches on our chat extension" href="reactive-image-display/7-tie-everything-together.html" /> 
+    <link rel="next" title="Bind Anvil components to Tableau filters and parameters" href="binding_components/binding_components.html" />
+    <link rel="prev" title="How-To Guides" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,7 +30,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Tableau Extension
+            <a href="../index.html" class="icon icon-home"> Tableau Extension Platform
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -41,16 +41,17 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">Tableau Extension Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatisthis.html">Platform Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="chat-extension/0-main-page.html">Building a Chat Extension</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reactive-image-display/0-main-page.html">Building a Reactive Image Display Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howthisworks.html">How does it work?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Accessing the JavaScript API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="popup/popup.html">Displaying a popup within Tableau</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binding_components/binding_components.html">Bind Anvil components to Tableau filters and parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_data/getdata.html">Getting summary / underlying data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="match_theme/matchtheme.html">Style the extension using Tableau workbook formatting</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
 </ul>
 
@@ -60,7 +61,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Tableau Extension</a>
+          <a href="../index.html">Tableau Extension Platform</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -68,10 +69,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Tutorials</a> &raquo;</li>
+          <li><a href="index.html">How-To Guides</a> &raquo;</li>
       <li>Accessing the JavaScript API</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/tutorials/js_api.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guides/js_api.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -81,7 +82,8 @@
              
   <section id="accessing-the-javascript-api">
 <h1>Accessing the JavaScript API<a class="headerlink" href="#accessing-the-javascript-api" title="Permalink to this heading"></a></h1>
-<p>If there are methods or objects you’d like to use that are not implemented in the Python wrapper, the entire JS API can be accessed directly from the <code class="docutils literal notranslate"><span class="pre">tableau</span></code> module. For a more in depth conversation around accessing JS objects from Anvil, see the <a class="reference external" href="https://anvil.works/docs/client/javascript#using-javascript">Anvil documentation</a>.</p>
+<p>If there are methods or objects you’d like to use that are not implemented in the Python wrapper, the entire JS API can be accessed directly from the <code class="docutils literal notranslate"><span class="pre">tableau</span></code> module. Documentation for the Tableau JS API can be found <a class="reference external" href="https://tableau.github.io/extensions-api/">here</a>.</p>
+<p>For a more in depth conversation around accessing JS objects from Anvil, see the <a class="reference external" href="https://anvil.works/docs/client/javascript#using-javascript">Anvil documentation</a>.</p>
 <p>To get a taste of what’s available, let’s take a look at the attributes of <code class="docutils literal notranslate"><span class="pre">tableau.extensions</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This import will be automatically added to your code in Anvil when you create a</span>
 <span class="c1"># new Tableau Extension</span>
@@ -124,15 +126,15 @@
 <span class="go">name: Ship Mode, type: quick-filter, isVisible: True</span>
 </pre></div>
 </div>
-<p>Nice! Even though I got a list of proxy objects, I am still able to access their properties and even methods using Python code. If you’re looking for further use of the underlying JS api, the <a class="reference internal" href="popup/popup.html"><span class="doc">Displaying a popup within Tableau</span></a> guide demonstrates displaying a popup window inside Tableau.</p>
+<p>Nice! Even though I got a list of proxy objects, I am still able to access their properties and even methods using Python code. If you’re looking for further use of the underlying JS api, the <span class="xref std std-doc">popup/popup</span> guide demonstrates displaying a popup window inside Tableau.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="reactive-image-display/7-tie-everything-together.html" class="btn btn-neutral float-left" title="Chapter 7: Putting the finishing touches on our chat extension" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="popup/popup.html" class="btn btn-neutral float-right" title="Displaying a popup within Tableau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="How-To Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="binding_components/binding_components.html" class="btn btn-neutral float-right" title="Bind Anvil components to Tableau filters and parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

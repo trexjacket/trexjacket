@@ -1,9 +1,7 @@
 How-To Guides
 =============
 
-   "How-to guides are directions that take the reader through the steps required to solve a real-world problem. How-to guides are goal-oriented."
-
-   -- Daniele Procida, https://diataxis.fr/
+Relatively brief documents that outline specific approaches to solving real world problems.
 
 .. toctree::
    :maxdepth: 2

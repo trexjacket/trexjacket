@@ -1,7 +1,9 @@
 Accessing the JavaScript API
 ----
 
-If there are methods or objects you'd like to use that are not implemented in the Python wrapper, the entire JS API can be accessed directly from the ``tableau`` module. For a more in depth conversation around accessing JS objects from Anvil, see the `Anvil documentation <https://anvil.works/docs/client/javascript#using-javascript>`_.
+If there are methods or objects you'd like to use that are not implemented in the Python wrapper, the entire JS API can be accessed directly from the ``tableau`` module. Documentation for the Tableau JS API can be found `here <https://tableau.github.io/extensions-api/>`_.
+
+For a more in depth conversation around accessing JS objects from Anvil, see the `Anvil documentation <https://anvil.works/docs/client/javascript#using-javascript>`_.
 
 To get a taste of what's available, let's take a look at the attributes of ``tableau.extensions``.
 

@@ -126,7 +126,8 @@
 <span class="lineno">10 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;selection_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_selections</span><span class="p">)</span>
 <span class="lineno">11 </span>
 <span class="lineno">12 </span>    <span class="k">def</span> <span class="nf">show_selections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="lineno">13 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">label_1</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">selected_records</span><span class="p">)</span>
+<span class="lineno">13 </span>        <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">selected_records</span><span class="p">)</span>
+<span class="lineno">14 </span>        <span class="bp">self</span><span class="o">.</span><span class="n">label_1</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">selected_records</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In the form code above, we do 2 important things:</p>
@@ -143,7 +144,9 @@ Congrats, you now have a working Tableau extension!<div class="sd-summary-down d
 </summary><div class="sd-summary-content sd-card-body docutils">
 <img alt="_images/firstexample.gif" src="_images/firstexample.gif" />
 </div>
-</details><p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference external" href="https://anvil.works/build#clone:UZAM5LB6X3KTWC6G=LRO6QQ5553FPXKPB7VBR55MP"><span>Click here to clone the Anvil App</span></a></p>
+</details><p>Additionally, output from the <code class="docutils literal notranslate"><span class="pre">print</span></code> statement also appears in the Anvil IDE:</p>
+<img alt="_images/output_in_anvil.PNG" src="_images/output_in_anvil.PNG" />
+<p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference external" href="https://anvil.works/build#clone:UZAM5LB6X3KTWC6G=LRO6QQ5553FPXKPB7VBR55MP"><span>Click here to clone the Anvil App</span></a></p>
 <p>And <a class="reference download internal" download="" href="_downloads/43c40274bf568864b30d529b354b729a/getting_started_workbook.twb"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a> for the Tableau workbook</p>
 </section>
 </section>

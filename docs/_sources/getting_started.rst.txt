@@ -57,6 +57,7 @@ Now that our Anvil app is connected to our dashboard, we'll need to modify the c
             self.dashboard.register_event_handler('selection_changed', self.show_selections)
 
         def show_selections(self, event):
+            print(event.worksheet.selected_records)
             self.label_1.text = str(event.worksheet.selected_records)
 
 In the form code above, we do 2 important things:
@@ -70,6 +71,10 @@ In the form code above, we do 2 important things:
     :open:
 
     .. image:: media/firstexample.gif
+
+Additionally, output from the ``print`` statement also appears in the Anvil IDE:
+
+.. image:: media/output_in_anvil.PNG
 
 
 .. button-link:: https://anvil.works/build#clone:UZAM5LB6X3KTWC6G=LRO6QQ5553FPXKPB7VBR55MP

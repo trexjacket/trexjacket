@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; Tableau Extension Platform  documentation</title>
@@ -91,12 +91,12 @@
 <dd><p>Gets the instance of Tableau Dashboard that represents the current connection. This is
 the recommended entry point to the Tableau Extensions API.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The Dashboard instance associated with the current session.
 It is recommended that this is the only way you ‘get’ the current dashboard,
 since it is an attribute of Session, which deals with a bunch of house-keeping.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dashboard</span></code></a></p>
 </dd>
 </dl>
@@ -108,10 +108,10 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <dd><p>Get a Tableau Session object.</p>
 <p>This is not a recommended entry point into the Tableau Extensions API.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The current Tableau session.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tableau</span></code></a></p>
 </dd>
 </dl>
@@ -134,7 +134,7 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datasources</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.datasources" title="Permalink to this definition"></a></dt>
 <dd><p>Returns all datasources in the dashboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a></p>
 </dd>
 </dl>
@@ -145,7 +145,7 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filters</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.filters" title="Permalink to this definition"></a></dt>
 <dd><p>All Filter instances within all worksheets in this Dashboard</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p>
 </dd>
 </dl>
@@ -156,13 +156,13 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <span class="sig-name descname"><span class="pre">get_datasource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasource_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_datasource" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a datasource object</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>datasource_name</strong> (<em>str</em>) – Name of the datasource</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>KeyError</strong> – If no datasource matching <cite>datasource_name</cite> is found.</p>
 </dd>
 </dl>
@@ -173,13 +173,13 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <span class="sig-name descname"><span class="pre">get_datasource_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasource_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_datasource_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a datasource object by id</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>datasource_id</strong> (<em>str</em>) – ID of the datasource</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>KeyError</strong> – If no datasource matching <cite>datasource_name</cite> is found.</p>
 </dd>
 </dl>
@@ -190,13 +190,13 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <span class="sig-name descname"><span class="pre">get_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the parameter matching the provided parameter_name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>parameter_name</strong> (<em>str</em>) – Name of the parameter</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>KeyError</strong> – If no matching parameter is found</p>
 </dd>
 </dl>
@@ -207,13 +207,13 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <span class="sig-name descname"><span class="pre">get_worksheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Dashboard.get_worksheet" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a dashboard worksheet by name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>sheet_name</strong> (<em>str</em>) – Name of the given worksheet.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>KeyError</strong> – If no matching worksheet is found</p>
 </dd>
 </dl>
@@ -224,7 +224,7 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.name" title="Permalink to this definition"></a></dt>
 <dd><p>The name of the dashboard</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
 </dd>
 </dl>
@@ -235,7 +235,7 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.parameters" title="Permalink to this definition"></a></dt>
 <dd><p>All Parameter instances within this Dashboard</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
 </dl>
@@ -263,7 +263,7 @@ data source in Tableau.</p>
 dashboard level.</p>
 <p>Selections or filters changed anywhere in the dashboard will be handled.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event_type</strong> (<em>str</em>) – The event type to register the handler for.</p></li>
 <li><p><strong>handler</strong> (<em>function</em>) – The function to call when the event is triggered.</p></li>
@@ -277,7 +277,7 @@ dashboard level.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worksheets</span></span><a class="headerlink" href="#client_code.model.proxies.Dashboard.worksheets" title="Permalink to this definition"></a></dt>
 <dd><p>All Worksheet instances within this Dashboard</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
 </dl>
@@ -334,7 +334,7 @@ dashboard level.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">applied_values</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.applied_values" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the current value(s) applied to the Filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><ul class="simple">
 <li><p><em>For categorical filters, returns a list of applied values</em></p></li>
 <li><p><em>For range filters, returns a tuple of (min, max)</em></p></li>
@@ -361,7 +361,7 @@ dashboard level.</p>
 <p>Only supported for categorical filters, see: <a class="reference external" href="https://github.com/Baker-Tilly-US/Tableau-Extension/issues/52">https://github.com/Baker-Tilly-US/Tableau-Extension/issues/52</a></p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -372,7 +372,7 @@ dashboard level.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.field" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a promise containing the field for the filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Field</span></code></p>
 </dd>
 </dl>
@@ -383,7 +383,7 @@ dashboard level.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_name</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.field_name" title="Permalink to this definition"></a></dt>
 <dd><p>The name of the field being filtered</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -394,7 +394,7 @@ dashboard level.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter_type</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.filter_type" title="Permalink to this definition"></a></dt>
 <dd><p>The type of the Filter, one of (categorical | hierarchical | range | relative-date)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -405,11 +405,11 @@ dashboard level.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">relevant_domain</span></span><a class="headerlink" href="#client_code.model.proxies.Filter.relevant_domain" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the ‘relevant’ values for this specific filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>domain</strong> – The domain values that are relevant to the specified filter i.e. the domain
 is restricted by a previous filter</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>list of values</p>
 </dd>
 </dl>
@@ -420,7 +420,7 @@ is restricted by a previous filter</p>
 <span class="sig-name descname"><span class="pre">set_filter_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'replace'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Filter.set_filter_value" title="Permalink to this definition"></a></dt>
 <dd><p>Replaces the list of provided categorical filter values.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>new_values</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of values to filter on</p></li>
 <li><p><strong>update_type</strong> (<em>optional</em>) – The type of update to be applied to the filter</p></li>
@@ -445,7 +445,7 @@ is restricted by a previous filter</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent.filter" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the filter that was changed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p>
 </dd>
 </dl>
@@ -456,7 +456,7 @@ is restricted by a previous filter</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worksheet</span></span><a class="headerlink" href="#client_code.model.proxies.FilterChangedEvent.worksheet" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the worksheet that the filter is on.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
 </dl>
@@ -488,7 +488,7 @@ is restricted by a previous filter</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worksheet</span></span><a class="headerlink" href="#client_code.model.proxies.MarksSelectedEvent.worksheet" title="Permalink to this definition"></a></dt>
 <dd><p>The Worksheet instance associated generating the Selection Event.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Worksheet" title="client_code.model.proxies.Worksheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Worksheet</span></code></a></p>
 </dd>
 </dl>
@@ -510,7 +510,7 @@ is restricted by a previous filter</p>
 <span class="sig-name descname"><span class="pre">allowable_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Parameter.allowable_values" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the allowable set of values this parameter can take.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>The allowable set of values this parameter can take.</p>
 </dd>
 </dl>
@@ -523,7 +523,7 @@ is restricted by a previous filter</p>
 <p>The new value must fall within the domain restrictions defined by
 allowableValues.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>new_value</strong> (<em>string</em><em> | </em><em>number</em><em> | </em><em>boolean</em><em> | </em><em>Date</em>) – The new value to assign to this parameter. Note: For changing Date
 parameters, UTC Date objects are expected.</p>
 </dd>
@@ -535,7 +535,7 @@ parameters, UTC Date objects are expected.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_type</span></span><a class="headerlink" href="#client_code.model.proxies.Parameter.data_type" title="Permalink to this definition"></a></dt>
 <dd><p>The type of data this parameter holds. One of (bool | date | date-time | float | int | spatial | string)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -546,7 +546,7 @@ parameters, UTC Date objects are expected.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#client_code.model.proxies.Parameter.name" title="Permalink to this definition"></a></dt>
 <dd><p>The display name for this parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -564,7 +564,7 @@ parameters, UTC Date objects are expected.</p>
 <dd><p>Register an event handler that will be called whenever the parameter is changed.</p>
 <p>Note that the handler must take a ParameterChangedEvent instance as an argument.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>handler</strong> (<em>function</em>) – Function that is called whenever the parameter is changed.</p>
 </dd>
 </dl>
@@ -599,7 +599,7 @@ parameters, UTC Date objects are expected.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter</span></span><a class="headerlink" href="#client_code.model.proxies.ParameterChangedEvent.parameter" title="Permalink to this definition"></a></dt>
 <dd><p>The parameter that was changed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
 </dl>
@@ -618,7 +618,7 @@ available a Dashboard instances with its related objects and methods.</p>
 <dt class="sig sig-object py" id="client_code.model.proxies.Tableau.dashboard">
 <span class="sig-name descname"><span class="pre">dashboard</span></span><a class="headerlink" href="#client_code.model.proxies.Tableau.dashboard" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard">Dashboard</a></p>
 </dd>
 </dl>
@@ -629,7 +629,7 @@ available a Dashboard instances with its related objects and methods.</p>
 <span class="sig-name descname"><span class="pre">timeout</span></span><a class="headerlink" href="#client_code.model.proxies.Tableau.timeout" title="Permalink to this definition"></a></dt>
 <dd><p>The number of seconds to wait for the session to be initialized.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -646,7 +646,7 @@ available a Dashboard instances with its related objects and methods.</p>
 <span class="sig-name descname"><span class="pre">register_event_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Tableau.register_event_handler" title="Permalink to this definition"></a></dt>
 <dd><p>Register an event handling function for a given event type.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event_type</strong> (<em>str</em>) – The event type to register the handler for.
 TODO: Valid values are selection_changed, filter_changed, or parameter_changed.</p></li>
@@ -662,7 +662,7 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Tableau.session" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor method for the Tableau class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#client_code.model.proxies.Tableau" title="client_code.model.proxies.Tableau">Tableau</a></p>
 </dd>
 </dl>
@@ -691,7 +691,7 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <span class="sig-name descname"><span class="pre">apply_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'replace'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.apply_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Applies the list of provided categorical filter values.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>field_name</strong> (<em>str</em>) – Name of the field in Tableau</p></li>
 <li><p><strong>values</strong> (<em>list</em>) – List of values to filter on</p></li>
@@ -706,7 +706,7 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <span class="sig-name descname"><span class="pre">apply_range_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.apply_range_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Applies a range filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>field_name</strong> (<em>str</em>) – Name of the field in Tableau</p></li>
 <li><p><strong>min</strong> (<em>float</em>) – Minimum value for the filter</p></li>
@@ -721,7 +721,7 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <span class="sig-name descname"><span class="pre">clear_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.clear_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Resets existing filters on the given field.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>str</em><em> or </em><a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><em>Filter</em></a>) – The name or Filter Object of the field to clear filter on.</p>
 </dd>
 </dl>
@@ -738,11 +738,11 @@ TODO: Valid values are selection_changed, filter_changed, or parameter_changed.<
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datasources</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.datasources" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the data sources for this worksheet.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>data_sources</strong> – The primary data source and all of the secondary data sources for this
 worksheet.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Datasource" title="client_code.model.proxies.Datasource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasource</span></code></a></p>
 </dd>
 </dl>
@@ -753,14 +753,14 @@ worksheet.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filters</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.filters" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of all currently selected filters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><dl class="simple">
 <dt>The currently selected filters. Valid types of filters include:</dt><dd><p>Categorical, Hierarchical, Range, RelativeDate</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#client_code.model.proxies.Filter" title="client_code.model.proxies.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p>
 </dd>
 </dl>
@@ -771,13 +771,13 @@ worksheet.</p>
 <span class="sig-name descname"><span class="pre">get_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.get_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Returns information on a given selected filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filter_name</strong> (<em>str</em>) – Name of the filter</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>specified_filter</strong> – The selected filter</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>FieldName</p>
 </dd>
 </dl>
@@ -788,13 +788,13 @@ worksheet.</p>
 <span class="sig-name descname"><span class="pre">get_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.get_parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Getting the parameter information for the given parameter name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>parameter_name</strong> (<em>str</em>) – Name of the desired parameter name</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#client_code.model.proxies.Parameter" title="client_code.model.proxies.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>KeyError</strong> – If no matching parameter is found.</p>
 </dd>
 </dl>
@@ -806,10 +806,10 @@ worksheet.</p>
 <dd><p>Gets the data for the marks which are currently selected on the worksheet.
 If there are no marks currently selected, an empty list is returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>records</strong> – Data for the currently selected marks on the worksheet</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>list</p>
 </dd>
 </dl>
@@ -820,10 +820,10 @@ If there are no marks currently selected, an empty list is returned.</p>
 <span class="sig-name descname"><span class="pre">get_summary_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_selection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Worksheet.get_summary_records" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the summary data from a worksheet.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>ignore_selection</strong> (<em>bool</em>) – Whether or not to ignore the selected marks when getting summary data</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
@@ -835,17 +835,17 @@ If there are no marks currently selected, an empty list is returned.</p>
 <dd><p>Get the underlying worksheet data as a list of Marks</p>
 <p>If more than one “underlying table” exists, the table id must be specified.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>table_id</strong> (<em>str</em>) – The table id for which to get the underlying data. Required if more than
 one logical table exists.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>list of Mark objects</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Mark</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If more than one table_id exists, then a table must be specified.:</p>
 </dd>
 </dl>
@@ -857,13 +857,13 @@ one logical table exists.</p>
 <dd><p>Get the underlying worksheet data as a list of dictionaries (records).</p>
 <p>If more than one “underlying table” exists, the table id must be specified.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>table_id</strong> (<em>str</em>) – The table id for which to get the underlying data. Required if more than one logical table exists.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">dicts</span></code></p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>ValueError</strong> – If more than one table_id exists, then a table must be specified.</p>
 </dd>
 </dl>
@@ -874,7 +874,7 @@ one logical table exists.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.parameters" title="Permalink to this definition"></a></dt>
 <dd><p>All the Tableau parameters that are used in this workbook.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></p>
 </dd>
 </dl>
@@ -893,7 +893,7 @@ will be raised.</p>
 <p>The event handler must take a ParameterChangedEvent or FilterChangedEvent as
 an argument.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event_type</strong> (<em>'selection_changed'</em><em>, </em><em>'filter_changed'</em><em>, </em><em>'parameter_changed'</em>) – The event type to register the handler for.</p></li>
 <li><p><strong>handler</strong> (<em>function</em>) – The function to call when the event is triggered.</p></li>
@@ -909,7 +909,7 @@ an argument.</p>
 <p>This version selects by value, using the SelectionCriteria interface.</p>
 <p>Note that this doesnt work on scatter plots.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dimension</strong> (<em>dict</em><em> or </em><em>list of dict</em>) – </p></li>
 <li><p><strong>selection_type</strong> (<em>optional</em>) – The type of enum to be applied to the marks</p></li>
@@ -932,10 +932,10 @@ an argument.</p>
 <p>Generates Marks by iterating through all records. (see ‘build_marks in
 model.marks’)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>list</strong> – A list of selected mark(s) on the worksheet</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Marks</p>
 </dd>
 </dl>
@@ -947,10 +947,10 @@ model.marks’)</p>
 <dd><p>The data for the marks which are currently selected on the worksheet.
 If there are no marks currently selected, an empty list is returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>records</strong> – Data for the currently selected marks on the worksheet</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>list</p>
 </dd>
 </dl>

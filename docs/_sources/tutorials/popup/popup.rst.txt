@@ -5,7 +5,7 @@ Displaying a popup within Tableau
 
 Anvil apps can use the ``alert`` function to create a popup window inside the App. However, alerts are confined to the space the extension takes up in the dashboard and can't be opened independently of the dashboard. To create a popup from our extension that opens outside of the extension itself, we'll need to use the underlying JS api. 
 
-Once we're done, we'll have something that looks like this:
+Once we're done, we'll have an extension that looks like this:
 
 .. image:: popup.PNG
 

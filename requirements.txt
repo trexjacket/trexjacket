@@ -3,3 +3,4 @@ sphinx==5.0.1
 sphinx-autobuild
 sphinx-rtd-theme==1.0.0
 sphinx-design
+docutils==0.17.1

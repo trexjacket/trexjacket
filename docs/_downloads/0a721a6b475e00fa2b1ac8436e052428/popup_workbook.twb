@@ -3002,8 +3002,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='700' minheight='700' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='11' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='10' param='vert' type-v2='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='13' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='12' param='vert' type-v2='layout-flow' w='98400' x='800' y='1000'>
                 <zone fixed-size='280' h='49000' id='5' is-fixed='true' name='Profit' w='98400' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -3077,7 +3077,7 @@
       <viewpoints>
         <viewpoint name='Profit' />
       </viewpoints>
-      <active id='-1' />
+      <active id='3' />
       <simple-id uuid='{36E3197F-44F5-4535-B59F-71AB78957F06}' />
     </window>
   </windows>

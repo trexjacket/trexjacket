@@ -1,0 +1,3 @@
+[submodule "docs_src/tutorials/popup/AnvilPopupDemo"]
+	path = docs_src/tutorials/popup/AnvilPopupDemo
+	url = https://github.com/Baker-Tilly-US/AnvilPopupDemo.git

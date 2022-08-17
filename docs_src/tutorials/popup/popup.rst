@@ -47,27 +47,72 @@ Because we'll be showing different forms based on some initial conditions, we'll
 
 Let's start by adding some code into the ``startup`` module:
 
-.. literalinclude:: AnvilPopupDemo/client_code/startup.py
-  :language: python
+.. code-block:: python
   :linenos:
+
+  # startup
+  import anvil
+  
+  url_hash = anvil.get_url_hash()
+  
+  if isinstance(url_hash, dict):
+    anvil.open_form('Configure')
+  else:
+    anvil.open_form('Homepage')
+
 
 We take advantage of the ``get_url_hash`` method to route the user appropriately. As we'll see in the Homepage form, when a user clicks the "Configure" button ``get_url_hash`` will return a dictionary. In that case, we want to open the configure form. Otherwise they're just opening the extension for the first time so we serve the home page.
 
 Now let's add some code into the ``Homepage`` form.
 
 
-.. literalinclude:: AnvilPopupDemo/client_code/Homepage/__init__.py
-  :language: python
+.. code-block:: python
   :linenos:
+
+  # Homepage
+  from ._anvil_designer import HomepageTemplate
+  import anvil
+  from anvil import tableau
+
+  class Homepage(HomepageTemplate):
+    def __init__(self, **properties):
+      self.init_components(**properties)
+
+    def btn_config_click(self, **event_args):
+      # Define the url that should appear in the popup
+      popup_url = f"{anvil.server.get_app_origin()}/#?entry=popup"
+
+      # Initialize the popup window
+      tableau.extensions.initializeDialogAsync()
+
+      # Show popup_url in a popup window. 
+      # This will return a string value that we can define, and 
+      # it's saved into "out" when the dialogue box is closed by the user
+      out = tableau.extensions.ui.displayDialogAsync(popup_url)
+
+      # Update the label so we can see the value returned from the 
+      # popup
+      self.lbl_config_setting.text = out
 
 The homepage has a single button that calls the ``btn_config_click`` method on click. That method opens the popup window. The "thing" that is served by the popup window is ``anvil.server.get_app_origin`` which makes the url hash a dict (this is handled in the startup module) and the "Configure" form is opened.
 
 Let's move to the ``Configure`` form. Add the following:
 
-.. literalinclude:: AnvilPopupDemo/client_code/Configure/__init__.py
-  :language: python
+.. code-block:: python
   :linenos:
    
+  # Configure
+  from ._anvil_designer import ConfigureTemplate
+  from anvil import tableau
+
+  class Configure(ConfigureTemplate):
+    def __init__(self, **properties):
+      self.init_components(**properties)
+
+    def btn_submit_click(self, **event_args):
+      tableau.extensions.ui.closeDialog(self.tb_config.text)
+
+
 Now add the trex file to the Tableau dashboard (see :doc:`/getting_started`) and click the "Configure" button. The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with "Submit Configuration".
 
 .. dropdown:: Here's what your extension should look like now

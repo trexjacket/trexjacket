@@ -125,10 +125,59 @@
 <img alt="../../_images/sidebar.PNG" src="../../_images/sidebar.PNG" />
 <p>Because we’ll be showing different forms based on some initial conditions, we’ll use a startup module instead of a startup form.</p>
 <p>Let’s start by adding some code into the <code class="docutils literal notranslate"><span class="pre">startup</span></code> module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="c1"># startup</span>
+<span class="lineno">2 </span><span class="kn">import</span> <span class="nn">anvil</span>
+<span class="lineno">3 </span>
+<span class="lineno">4 </span><span class="n">url_hash</span> <span class="o">=</span> <span class="n">anvil</span><span class="o">.</span><span class="n">get_url_hash</span><span class="p">()</span>
+<span class="lineno">5 </span>
+<span class="lineno">6 </span><span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_hash</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="lineno">7 </span>  <span class="n">anvil</span><span class="o">.</span><span class="n">open_form</span><span class="p">(</span><span class="s1">&#39;Configure&#39;</span><span class="p">)</span>
+<span class="lineno">8 </span><span class="k">else</span><span class="p">:</span>
+<span class="lineno">9 </span>  <span class="n">anvil</span><span class="o">.</span><span class="n">open_form</span><span class="p">(</span><span class="s1">&#39;Homepage&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>We take advantage of the <code class="docutils literal notranslate"><span class="pre">get_url_hash</span></code> method to route the user appropriately. As we’ll see in the Homepage form, when a user clicks the “Configure” button <code class="docutils literal notranslate"><span class="pre">get_url_hash</span></code> will return a dictionary. In that case, we want to open the configure form. Otherwise they’re just opening the extension for the first time so we serve the home page.</p>
 <p>Now let’s add some code into the <code class="docutils literal notranslate"><span class="pre">Homepage</span></code> form.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="c1"># Homepage</span>
+<span class="lineno"> 2 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">HomepageTemplate</span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="nn">anvil</span>
+<span class="lineno"> 4 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span><span class="k">class</span> <span class="nc">Homepage</span><span class="p">(</span><span class="n">HomepageTemplate</span><span class="p">):</span>
+<span class="lineno"> 7 </span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+<span class="lineno"> 8 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span>  <span class="k">def</span> <span class="nf">btn_config_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">event_args</span><span class="p">):</span>
+<span class="lineno">11 </span>    <span class="c1"># Define the url that should appear in the popup</span>
+<span class="lineno">12 </span>    <span class="n">popup_url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{anvil.server.get_app_origin()}/#?entry=popup&quot;</span>
+<span class="lineno">13 </span>
+<span class="lineno">14 </span>    <span class="c1"># Initialize the popup window</span>
+<span class="lineno">15 </span>    <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">initializeDialogAsync</span><span class="p">()</span>
+<span class="lineno">16 </span>
+<span class="lineno">17 </span>    <span class="c1"># Show popup_url in a popup window.</span>
+<span class="lineno">18 </span>    <span class="c1"># This will return a string value that we can define, and</span>
+<span class="lineno">19 </span>    <span class="c1"># it&#39;s saved into &quot;out&quot; when the dialogue box is closed by the user</span>
+<span class="lineno">20 </span>    <span class="n">out</span> <span class="o">=</span> <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">displayDialogAsync</span><span class="p">(</span><span class="n">popup_url</span><span class="p">)</span>
+<span class="lineno">21 </span>
+<span class="lineno">22 </span>    <span class="c1"># Update the label so we can see the value returned from the</span>
+<span class="lineno">23 </span>    <span class="c1"># popup</span>
+<span class="lineno">24 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_config_setting</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">out</span>
+</pre></div>
+</div>
 <p>The homepage has a single button that calls the <code class="docutils literal notranslate"><span class="pre">btn_config_click</span></code> method on click. That method opens the popup window. The “thing” that is served by the popup window is <code class="docutils literal notranslate"><span class="pre">anvil.server.get_app_origin</span></code> which makes the url hash a dict (this is handled in the startup module) and the “Configure” form is opened.</p>
 <p>Let’s move to the <code class="docutils literal notranslate"><span class="pre">Configure</span></code> form. Add the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="c1"># Configure</span>
+<span class="lineno"> 2 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">ConfigureTemplate</span>
+<span class="lineno"> 3 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="k">class</span> <span class="nc">Configure</span><span class="p">(</span><span class="n">ConfigureTemplate</span><span class="p">):</span>
+<span class="lineno"> 6 </span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+<span class="lineno"> 7 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span>  <span class="k">def</span> <span class="nf">btn_submit_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">event_args</span><span class="p">):</span>
+<span class="lineno">10 </span>    <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">closeDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tb_config</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Now add the trex file to the Tableau dashboard (see <a class="reference internal" href="../../getting_started.html"><span class="doc">Getting Started</span></a>) and click the “Configure” button. The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with “Submit Configuration”.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
 <summary class="sd-summary-title sd-card-header">

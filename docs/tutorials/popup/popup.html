@@ -84,47 +84,65 @@
 <p>In this tutorial we’ll add a Tableau pop-up that allows us to set an Anvil variable. To do this, we’ll learn about a few things:</p>
 <ol class="arabic simple">
 <li><p>Accessing the underlying JS API</p></li>
-<li><p>Trigger a pop-up dialogue box from Anvil</p></li>
-<li><p>Encode URLs in Anvil</p></li>
+<li><p>Triggering a pop-up dialogue box from Anvil</p></li>
+<li><p>Adding parameters to URLs in Anvil</p></li>
 <li><p>Using a startup module instead of a startup form in Anvil</p></li>
 </ol>
 <p>Once we’re done, we’ll have something that looks like this:</p>
 <img alt="../../_images/popup.PNG" src="../../_images/popup.PNG" />
 <p>You can download the Tableau dashboard <a class="reference download internal" download="" href="../../_downloads/0a721a6b475e00fa2b1ac8436e052428/popup_workbook.twb"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a> if you’d like to follow along.</p>
-<p>To start, you’ll need to create 1 module and 2 forms in Anvil.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">startup</span></code> (module)</p>
-<ul>
-<li><p>This is a module that will contain some code that initializes the extension and routes the user to the appropriate page</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Homepage</span></code> (form)</p>
-<ul>
-<li><p>This is main extension page, it has the following components:</p>
+<hr>
+<h2>Adding Anvil Code</h2><p>To start, you’ll need to create 1 module and 2 forms in Anvil.</p>
+<h3>startup (module)</h3><p>We’ll use this to determine which form to show the user.</p>
+<h3>Homepage (form)</h3><p>This is main page of the extension, and it has the following components:</p>
 <ul>
 <li><p>Button named <code class="docutils literal notranslate"><span class="pre">btn_config</span></code>, click bound to <code class="docutils literal notranslate"><span class="pre">btn_config_click</span></code></p></li>
 <li><p>Label named <code class="docutils literal notranslate"><span class="pre">lbl_config_setting</span></code></p></li>
-<li><p>Label named <code class="docutils literal notranslate"><span class="pre">lbl_home</span></code></p></li>
-</ul>
+<li><p>Label named <code class="docutils literal notranslate"><span class="pre">lbl_home</span></code></p>
+<blockquote>
+<div><img alt="../../_images/homepage.PNG" src="../../_images/homepage.PNG" />
+</div></blockquote>
 </li>
 </ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Configure</span></code> (form)</p>
-<ul>
-<li><p>This is the form that will appear in the popup window, it has the following components:</p>
+<h3>Configure (form)</h3><p>This is the form that will appear in the popup window, and it has the following components:</p>
 <ul>
 <li><p>Button named: <code class="docutils literal notranslate"><span class="pre">btn_submit</span></code>, click bound to <code class="docutils literal notranslate"><span class="pre">btn_submit_click</span></code></p></li>
 <li><p>Label named: <code class="docutils literal notranslate"><span class="pre">lbl_config</span></code></p></li>
-<li><p>Text box named: <code class="docutils literal notranslate"><span class="pre">tb_config</span></code></p></li>
-</ul>
+<li><p>Text box named: <code class="docutils literal notranslate"><span class="pre">tb_config</span></code></p>
+<blockquote>
+<div><img alt="../../_images/config.PNG" src="../../_images/config.PNG" />
+</div></blockquote>
 </li>
 </ul>
-</li>
-</ul>
-<p>Once you’re done, the “Client Code” section of the Anvil IDE should look like this:</p>
+<p>Once you’ve added the above components, the “Client Code” section of the Anvil IDE should look like this:</p>
 <img alt="../../_images/sidebar.PNG" src="../../_images/sidebar.PNG" />
-<p>Because we’ll be showing different forms based on some initial conditions, we’ll use a startup module instead of a startup form.</p>
-<p>Let’s start by adding some code into the <code class="docutils literal notranslate"><span class="pre">startup</span></code> module:</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">startup</span></code> module has the lightning bolt next to it, indicating that it has been selected as the startup module.</p>
+<hr>
+<h2>How is this going to work?</h2><p>Before we dive into the code, let’s discuss at a high level how this will work.</p>
+<ul class="simple">
+<li><p>When the extension is loaded, the <code class="docutils literal notranslate"><span class="pre">startup</span></code> module will look at the url of the Anvil app and determine whether to open the <code class="docutils literal notranslate"><span class="pre">Homepage</span></code> or <code class="docutils literal notranslate"><span class="pre">Configure</span></code> form.</p>
+<ul>
+<li><p>If the URL is the root URL of the app, open <code class="docutils literal notranslate"><span class="pre">Homepage</span></code></p></li>
+<li><p>If the URL has parameters, open <code class="docutils literal notranslate"><span class="pre">Configure</span></code></p>
+<ul>
+<li><p>Whether or not the URL has parameters is something we will control in our form code</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">startup</span></code> module is loaded on 2 occasions:</p>
+<ol class="arabic simple">
+<li><p>When the Tableau dashboard is opened for the first time</p></li>
+<li><p>When the user clicks the “Configure” button and opens the popup</p></li>
+</ol>
+</div>
+<p>Because the startup form opens forms based on the URL, we will be able to determine whether the extension was loaded inside the dashboard or the popup window.</p>
+<p>Now that we have a general idea of how this’ll work, let’s dive into the details.</p>
+<hr>
+<h2>The startup module</h2><p>Let’s start by adding some code into the <code class="docutils literal notranslate"><span class="pre">startup</span></code> module:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="c1"># startup</span>
 <span class="lineno">2 </span><span class="kn">import</span> <span class="nn">anvil</span>
 <span class="lineno">3 </span>
@@ -136,36 +154,40 @@
 <span class="lineno">9 </span>  <span class="n">anvil</span><span class="o">.</span><span class="n">open_form</span><span class="p">(</span><span class="s1">&#39;Homepage&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We take advantage of the <code class="docutils literal notranslate"><span class="pre">get_url_hash</span></code> method to route the user appropriately. As we’ll see in the Homepage form, when a user clicks the “Configure” button <code class="docutils literal notranslate"><span class="pre">get_url_hash</span></code> will return a dictionary. In that case, we want to open the configure form. Otherwise they’re just opening the extension for the first time so we serve the home page.</p>
-<p>Now let’s add some code into the <code class="docutils literal notranslate"><span class="pre">Homepage</span></code> form.</p>
+<p>Here we see the conditional logic discussed earlier. By using <code class="docutils literal notranslate"><span class="pre">anvil.get_url_hash()</span></code> we can determine whether or not the URL has parameters and route the user appropriately.</p>
+<h2>The Homepage Form</h2><p>Now let’s add some code into the <code class="docutils literal notranslate"><span class="pre">Homepage</span></code> form.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="c1"># Homepage</span>
 <span class="lineno"> 2 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">HomepageTemplate</span>
 <span class="lineno"> 3 </span><span class="kn">import</span> <span class="nn">anvil</span>
 <span class="lineno"> 4 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="k">class</span> <span class="nc">Homepage</span><span class="p">(</span><span class="n">HomepageTemplate</span><span class="p">):</span>
-<span class="lineno"> 7 </span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-<span class="lineno"> 8 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
-<span class="lineno"> 9 </span>
-<span class="lineno">10 </span>  <span class="k">def</span> <span class="nf">btn_config_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">event_args</span><span class="p">):</span>
-<span class="lineno">11 </span>    <span class="c1"># Define the url that should appear in the popup</span>
-<span class="lineno">12 </span>    <span class="n">popup_url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{anvil.server.get_app_origin()}/#?entry=popup&quot;</span>
-<span class="lineno">13 </span>
-<span class="lineno">14 </span>    <span class="c1"># Initialize the popup window</span>
+<span class="lineno"> 5 </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="kn">import</span> <span class="n">get_dashboard</span>
+<span class="lineno"> 6 </span>
+<span class="lineno"> 7 </span><span class="k">class</span> <span class="nc">Homepage</span><span class="p">(</span><span class="n">HomepageTemplate</span><span class="p">):</span>
+<span class="lineno"> 8 </span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+<span class="lineno"> 9 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+<span class="lineno">10 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_dashboard</span><span class="p">()</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span>  <span class="k">def</span> <span class="nf">btn_config_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">event_args</span><span class="p">):</span>
+<span class="lineno">13 </span>    <span class="n">popup_url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{anvil.server.get_app_origin()}/#?entry=popup&quot;</span>
+<span class="lineno">14 </span>
 <span class="lineno">15 </span>    <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">initializeDialogAsync</span><span class="p">()</span>
-<span class="lineno">16 </span>
-<span class="lineno">17 </span>    <span class="c1"># Show popup_url in a popup window.</span>
-<span class="lineno">18 </span>    <span class="c1"># This will return a string value that we can define, and</span>
-<span class="lineno">19 </span>    <span class="c1"># it&#39;s saved into &quot;out&quot; when the dialogue box is closed by the user</span>
-<span class="lineno">20 </span>    <span class="n">out</span> <span class="o">=</span> <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">displayDialogAsync</span><span class="p">(</span><span class="n">popup_url</span><span class="p">)</span>
-<span class="lineno">21 </span>
-<span class="lineno">22 </span>    <span class="c1"># Update the label so we can see the value returned from the</span>
-<span class="lineno">23 </span>    <span class="c1"># popup</span>
-<span class="lineno">24 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_config_setting</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">out</span>
+<span class="lineno">16 </span>    <span class="n">out</span> <span class="o">=</span> <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">displayDialogAsync</span><span class="p">(</span><span class="n">popup_url</span><span class="p">)</span>
+<span class="lineno">17 </span>
+<span class="lineno">18 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_config_setting</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">out</span>
+<span class="lineno">19 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="s1">&#39;config_value&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">out</span>
 </pre></div>
 </div>
-<p>The homepage has a single button that calls the <code class="docutils literal notranslate"><span class="pre">btn_config_click</span></code> method on click. That method opens the popup window. The “thing” that is served by the popup window is <code class="docutils literal notranslate"><span class="pre">anvil.server.get_app_origin</span></code> which makes the url hash a dict (this is handled in the startup module) and the “Configure” form is opened.</p>
-<p>Let’s move to the <code class="docutils literal notranslate"><span class="pre">Configure</span></code> form. Add the following:</p>
+<p>When the user clicks the “Configure” button, the <code class="docutils literal notranslate"><span class="pre">btn_config_click</span></code> method is called, which:</p>
+<ul class="simple">
+<li><p>Adds parameters to the url (<code class="docutils literal notranslate"><span class="pre">popup_url</span></code>) and shows the popup using <code class="docutils literal notranslate"><span class="pre">displayDialogAsync</span></code></p>
+<ul>
+<li><p>Note that this is what causes the <code class="docutils literal notranslate"><span class="pre">startup</span></code> module to show the <code class="docutils literal notranslate"><span class="pre">Configure</span></code> form!</p></li>
+</ul>
+</li>
+<li><p>Saves the response into a variable (<code class="docutils literal notranslate"><span class="pre">out</span></code>)</p></li>
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">out</span></code> to set the label text and updates a parameter in Tableau</p></li>
+</ul>
+<h2>Configure form</h2><p>Let’s move to the <code class="docutils literal notranslate"><span class="pre">Configure</span></code> form. Add the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="c1"># Configure</span>
 <span class="lineno"> 2 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">ConfigureTemplate</span>
 <span class="lineno"> 3 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
@@ -178,7 +200,12 @@
 <span class="lineno">10 </span>    <span class="n">tableau</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">closeDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tb_config</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now add the trex file to the Tableau dashboard (see <a class="reference internal" href="../../getting_started.html"><span class="doc">Getting Started</span></a>) and click the “Configure” button. The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with “Submit Configuration”.</p>
+<p>When the submit button in the popup window is clicked, <code class="docutils literal notranslate"><span class="pre">btn_submit_click</span></code> is called and we return whatever the user entered in the text box using <code class="docutils literal notranslate"><span class="pre">closeDialog</span></code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Note that whatever is passed to <code class="docutils literal notranslate"><span class="pre">closeDialog</span></code> in the <code class="docutils literal notranslate"><span class="pre">Configure</span></code> form will be returned by <code class="docutils literal notranslate"><span class="pre">displayDialogAsync</span></code> in the <code class="docutils literal notranslate"><span class="pre">Homepage</span></code> form.</p>
+</div>
+<hr><p>Now add the trex file to the Tableau dashboard (see <a class="reference internal" href="../../getting_started.html"><span class="doc">Getting Started</span></a>) and click the “Configure” button. The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with “Submit Configuration”.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
 <summary class="sd-summary-title sd-card-header">
 Here’s what your extension should look like now<div class="sd-summary-down docutils">

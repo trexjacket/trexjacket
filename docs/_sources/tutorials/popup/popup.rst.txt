@@ -6,8 +6,8 @@ Displaying a popup within Tableau
 In this tutorial we'll add a Tableau pop-up that allows us to set an Anvil variable. To do this, we'll learn about a few things:
 
 1. Accessing the underlying JS API
-2. Trigger a pop-up dialogue box from Anvil
-3. Encode URLs in Anvil
+2. Triggering a pop-up dialogue box from Anvil
+3. Adding parameters to URLs in Anvil
 4. Using a startup module instead of a startup form in Anvil
 
 Once we're done, we'll have something that looks like this:
@@ -17,33 +17,79 @@ Once we're done, we'll have something that looks like this:
 
 You can download the Tableau dashboard :download:`here <popup_workbook.twb>` if you'd like to follow along.
 
+.. raw:: html
+
+  <hr>
+  <h2>Adding Anvil Code</h2>
+
 To start, you'll need to create 1 module and 2 forms in Anvil.
 
-- ``startup`` (module) 
+.. raw:: html
 
-  - This is a module that will contain some code that initializes the extension and routes the user to the appropriate page
+  <h3>startup (module)</h3>
 
-- ``Homepage`` (form) 
 
-  - This is main extension page, it has the following components:
+We'll use this to determine which form to show the user.
 
-    - Button named ``btn_config``, click bound to ``btn_config_click``
-    - Label named ``lbl_config_setting``
-    - Label named ``lbl_home``
+.. raw:: html
 
-- ``Configure`` (form) 
+  <h3>Homepage (form)</h3>
 
-  - This is the form that will appear in the popup window, it has the following components:
+This is main page of the extension, and it has the following components:
 
-    - Button named: ``btn_submit``, click bound to ``btn_submit_click``
-    - Label named: ``lbl_config``
-    - Text box named: ``tb_config``
+- Button named ``btn_config``, click bound to ``btn_config_click``
+- Label named ``lbl_config_setting``
+- Label named ``lbl_home``
 
-Once you're done, the "Client Code" section of the Anvil IDE should look like this:
+    .. image:: media/homepage.PNG
+
+.. raw:: html
+
+  <h3>Configure (form)</h3>
+
+This is the form that will appear in the popup window, and it has the following components:
+
+- Button named: ``btn_submit``, click bound to ``btn_submit_click``
+- Label named: ``lbl_config``
+- Text box named: ``tb_config``
+
+    .. image:: media/config.PNG
+
+Once you've added the above components, the "Client Code" section of the Anvil IDE should look like this:
 
 .. image:: media/sidebar.PNG
 
-Because we'll be showing different forms based on some initial conditions, we'll use a startup module instead of a startup form. 
+Note that the ``startup`` module has the lightning bolt next to it, indicating that it has been selected as the startup module.
+
+
+.. raw:: html
+
+  <hr>
+  <h2>How is this going to work?</h2>
+
+Before we dive into the code, let's discuss at a high level how this will work.
+
+- When the extension is loaded, the ``startup`` module will look at the url of the Anvil app and determine whether to open the ``Homepage`` or ``Configure`` form. 
+
+  - If the URL is the root URL of the app, open ``Homepage``
+  - If the URL has parameters, open ``Configure``
+
+    - Whether or not the URL has parameters is something we will control in our form code
+
+
+.. important:: The ``startup`` module is loaded on 2 occasions:
+
+    1. When the Tableau dashboard is opened for the first time
+    2. When the user clicks the "Configure" button and opens the popup
+
+Because the startup form opens forms based on the URL, we will be able to determine whether the extension was loaded inside the dashboard or the popup window. 
+
+Now that we have a general idea of how this'll work, let's dive into the details.
+
+.. raw:: html
+
+  <hr>
+  <h2>The startup module</h2>
 
 Let's start by adding some code into the ``startup`` module:
 
@@ -61,7 +107,11 @@ Let's start by adding some code into the ``startup`` module:
     anvil.open_form('Homepage')
 
 
-We take advantage of the ``get_url_hash`` method to route the user appropriately. As we'll see in the Homepage form, when a user clicks the "Configure" button ``get_url_hash`` will return a dictionary. In that case, we want to open the configure form. Otherwise they're just opening the extension for the first time so we serve the home page.
+Here we see the conditional logic discussed earlier. By using ``anvil.get_url_hash()`` we can determine whether or not the URL has parameters and route the user appropriately.
+
+.. raw:: html
+
+  <h2>The Homepage Form</h2>
 
 Now let's add some code into the ``Homepage`` form.
 
@@ -73,28 +123,34 @@ Now let's add some code into the ``Homepage`` form.
   from ._anvil_designer import HomepageTemplate
   import anvil
   from anvil import tableau
+  from tableau_extension.api import get_dashboard
 
   class Homepage(HomepageTemplate):
     def __init__(self, **properties):
       self.init_components(**properties)
+      self.dashboard = get_dashboard()
 
     def btn_config_click(self, **event_args):
-      # Define the url that should appear in the popup
       popup_url = f"{anvil.server.get_app_origin()}/#?entry=popup"
 
-      # Initialize the popup window
       tableau.extensions.initializeDialogAsync()
-
-      # Show popup_url in a popup window. 
-      # This will return a string value that we can define, and 
-      # it's saved into "out" when the dialogue box is closed by the user
       out = tableau.extensions.ui.displayDialogAsync(popup_url)
 
-      # Update the label so we can see the value returned from the 
-      # popup
       self.lbl_config_setting.text = out
+      self.dashboard.get_parameter('config_value').value = out
 
-The homepage has a single button that calls the ``btn_config_click`` method on click. That method opens the popup window. The "thing" that is served by the popup window is ``anvil.server.get_app_origin`` which makes the url hash a dict (this is handled in the startup module) and the "Configure" form is opened.
+When the user clicks the "Configure" button, the ``btn_config_click`` method is called, which: 
+
+- Adds parameters to the url (``popup_url``) and shows the popup using ``displayDialogAsync``
+
+  - Note that this is what causes the ``startup`` module to show the ``Configure`` form!
+
+- Saves the response into a variable (``out``)
+- Uses ``out`` to set the label text and updates a parameter in Tableau
+
+.. raw:: html
+
+  <h2>Configure form</h2>
 
 Let's move to the ``Configure`` form. Add the following:
 
@@ -112,6 +168,13 @@ Let's move to the ``Configure`` form. Add the following:
     def btn_submit_click(self, **event_args):
       tableau.extensions.ui.closeDialog(self.tb_config.text)
 
+When the submit button in the popup window is clicked, ``btn_submit_click`` is called and we return whatever the user entered in the text box using ``closeDialog``.
+
+.. important:: Note that whatever is passed to ``closeDialog`` in the ``Configure`` form will be returned by ``displayDialogAsync`` in the ``Homepage`` form.
+
+.. raw:: html
+
+  <hr>
 
 Now add the trex file to the Tableau dashboard (see :doc:`/getting_started`) and click the "Configure" button. The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with "Submit Configuration".
 

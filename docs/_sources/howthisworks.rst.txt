@@ -1,4 +1,4 @@
-How does it work?
+How does this work?
 =======
 
 The Baker Tilly Extensions Platform works by establishing 2-way communication between an Anvil app and a Tableau Dashboard.

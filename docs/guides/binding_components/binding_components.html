@@ -7,7 +7,7 @@
   <title>Bind Anvil components to Tableau filters and parameters &mdash; Tableau Extension Platform  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -43,7 +43,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../whatisthis.html">Platform Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../howthisworks.html">How does it work?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howthisworks.html">How does this work?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">How-To Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../js_api.html">Accessing the JavaScript API</a></li>
@@ -82,54 +82,37 @@
              
   <section id="bind-anvil-components-to-tableau-filters-and-parameters">
 <h1>Bind Anvil components to Tableau filters and parameters<a class="headerlink" href="#bind-anvil-components-to-tableau-filters-and-parameters" title="Permalink to this heading"></a></h1>
-<p>In order to keep Anvil components in sync with components on the dashboard (like filters and parameters), use the <code class="docutils literal notranslate"><span class="pre">register_event_handler</span></code> method of a <a class="reference internal" href="../../reference/model.html#client_code.model.proxies.Dashboard" title="client_code.model.proxies.Dashboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dashboard</span></code></a> object to set the properties of an Anvil component. In one sentence, we are saying: “Whenever the filter changes on the Tableau dashboard, go and upate this Anvil component”.</p>
-<p>For this how-to we’ll assume there is a single Anvil form that contains some labels (prepended with <code class="docutils literal notranslate"><span class="pre">lbl_</span></code>) and a single button with a function named <code class="docutils literal notranslate"><span class="pre">btn_change_param_click</span></code> bound to its click event. There is also a text box named <code class="docutils literal notranslate"><span class="pre">text_box_1</span></code> that will allow a user to input a new value for the parameter.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="c1"># Form code for a Form named &quot;BindComponents&quot;</span>
-<span class="lineno"> 2 </span>
-<span class="lineno"> 3 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">BindComponentsTemplate</span>
-<span class="lineno"> 4 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
-<span class="lineno"> 5 </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="kn">import</span> <span class="n">get_dashboard</span>
-<span class="lineno"> 6 </span>
-<span class="lineno"> 7 </span><span class="k">class</span> <span class="nc">BindComponents</span><span class="p">(</span><span class="n">BindComponentsTemplate</span><span class="p">):</span>
-<span class="lineno"> 8 </span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-<span class="lineno"> 9 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
-<span class="lineno">10 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_dashboard</span><span class="p">()</span>
+<p>Keeping Anvil components in sync with components on the dashboard is straight forward and simple using Anvil data bindings.</p>
+<p>For this how-to, we’ll assume that our Tableau dashboard has a single filter and a single parameter, and our Anvil extension has a text box and a multi-select drop down component.</p>
+<p>Let’s look at some form code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="kn">from</span> <span class="nn">._anvil_designer</span> <span class="kn">import</span> <span class="n">BindComponentsTemplate</span>
+<span class="lineno"> 2 </span><span class="kn">from</span> <span class="nn">anvil</span> <span class="kn">import</span> <span class="n">tableau</span>
+<span class="lineno"> 3 </span>
+<span class="lineno"> 4 </span><span class="kn">from</span> <span class="nn">tableau_extension.api</span> <span class="kn">import</span> <span class="n">get_dashboard</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span><span class="k">class</span> <span class="nc">BindComponents</span><span class="p">(</span><span class="n">BindComponentsTemplate</span><span class="p">):</span>
+<span class="lineno"> 7 </span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+<span class="lineno"> 8 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_dashboard</span><span class="p">()</span>
+<span class="lineno"> 9 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="s1">&#39;myparam&#39;</span><span class="p">)</span>
+<span class="lineno">10 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="lineno">11 </span>
-<span class="lineno">12 </span>    <span class="c1"># Register event handlers</span>
-<span class="lineno">13 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;filter_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_change</span><span class="p">)</span>
-<span class="lineno">14 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;parameter_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_change</span><span class="p">)</span>
-<span class="lineno">15 </span>
-<span class="lineno">16 </span>    <span class="c1"># &quot;myparam&quot; is the name of the parameter</span>
-<span class="lineno">17 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="s1">&#39;myparam&#39;</span><span class="p">)</span>
-<span class="lineno">18 </span>
-<span class="lineno">19 </span>    <span class="c1"># Get the first filter on the dashboard</span>
-<span class="lineno">20 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="lineno">21 </span>
-<span class="lineno">22 </span>  <span class="k">def</span> <span class="nf">filter_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="lineno">23 </span>    <span class="sd">&quot;&quot;&quot; This function runs whenever a Tableau filter changes. &quot;&quot;&quot;</span>
-<span class="lineno">24 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_filter_name</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">field_name</span>
-<span class="lineno">25 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_filter_value</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">applied_values</span>
-<span class="lineno">26 </span>
-<span class="lineno">27 </span>  <span class="k">def</span> <span class="nf">param_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="lineno">28 </span>    <span class="sd">&quot;&quot;&quot; This function runs whenever a Tableau parameter changes. &quot;&quot;&quot;</span>
-<span class="lineno">29 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_param_name</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">name</span>
-<span class="lineno">30 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">lbl_param_value</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">value</span>
-<span class="lineno">31 </span>
-<span class="lineno">32 </span>  <span class="k">def</span> <span class="nf">btn_change_param_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">event_args</span><span class="p">):</span>
-<span class="lineno">33 </span>    <span class="sd">&quot;&quot;&quot; This function is bound to the click event of the &#39;Apply&#39; button and</span>
-<span class="lineno">34 </span><span class="sd">    updates a parameter in Tableau from Anvil. &quot;&quot;&quot;</span>
-<span class="lineno">35 </span>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_box_1</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
-<span class="lineno">36 </span>      <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_box_1</span><span class="o">.</span><span class="n">text</span>
+<span class="lineno">12 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">init_components</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+<span class="lineno">13 </span>
+<span class="lineno">14 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;parameter_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_data_bindings</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">register_event_handler</span><span class="p">(</span><span class="s1">&#39;filter_changed&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_data_bindings</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">filter_changed</span></code> and <code class="docutils literal notranslate"><span class="pre">parameter_changed</span></code> events are registered to methods that simply update text labels in Anvil. i.e.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">lbl_filter_name</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">field_name</span>
-</pre></div>
-</div>
-<p>To update the Tableau parameter from Anvil, we assign the <code class="docutils literal notranslate"><span class="pre">value</span></code> property of the parameter in the click event handler (<code class="docutils literal notranslate"><span class="pre">btn_change_param_click</span></code>) for an Anvil button.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_box_1</span><span class="o">.</span><span class="n">text</span>
-</pre></div>
-</div>
+<p>Notice that I’ve registered <code class="docutils literal notranslate"><span class="pre">refresh_data_bindings</span></code> to both the parameter_changed and filter_changed events. The only other step is to define the data bindings using the Anvil editor.</p>
+<p>For the text box, bind the <code class="docutils literal notranslate"><span class="pre">text</span></code> property of the text box to <code class="docutils literal notranslate"><span class="pre">self.param.value</span></code> and enable write back.</p>
+<img alt="../../_images/anvil_databinding.PNG" src="../../_images/anvil_databinding.PNG" />
+<p>Checking the “Write back” box allows this assignment to go both ways and thus keeping Tableau and our Anvil extension in sync with each other.</p>
+<p>The multi-select dropdown works similarly, but we’ll need to bind the following:</p>
+<ul class="simple">
+<li><p>Drop down’s <code class="docutils literal notranslate"><span class="pre">items</span></code> to <code class="docutils literal notranslate"><span class="pre">self.filter.domain</span></code></p></li>
+<li><p>Drop down’s <code class="docutils literal notranslate"><span class="pre">selected</span></code> to <code class="docutils literal notranslate"><span class="pre">self.filter.applied_values</span></code>, and enable write back</p></li>
+</ul>
+<img alt="../../_images/ms_bindings.PNG" src="../../_images/ms_bindings.PNG" />
+<p>Once you’ve added the data bindings, your drop down and text box should be in sync with the Tableau dashboard!</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
 <summary class="sd-summary-title sd-card-header">
 Here’s what the extension should look like<div class="sd-summary-down docutils">
@@ -139,7 +122,8 @@ Here’s what the extension should look like<div class="sd-summary-down docutils
 </summary><div class="sd-summary-content sd-card-body docutils">
 <img alt="../../_images/bindingdemo.gif" src="../../_images/bindingdemo.gif" />
 </div>
-</details><p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference external" href="https://anvil.works/build#clone:5C66DY2E5OEFWOTZ=N6AIAMZ6S2BXNTBPXWKTAIBM"><span>Click here to clone the Anvil used for this howto</span></a></p>
+</details><p>For more information on data bindings, see the <a class="reference external" href="https://anvil.works/docs/client/data-bindings">anvil docs here</a>.</p>
+<p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference external" href="https://anvil.works/build#clone:5C66DY2E5OEFWOTZ=N6AIAMZ6S2BXNTBPXWKTAIBM"><span>Click here to clone the Anvil used for this howto</span></a></p>
 <p>Click <a class="reference download internal" download="" href="../../_downloads/9444bd2d7a50197d3a49883343b80e4d/component_binding.twb"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a> to download the Tableau workbook.</p>
 </section>
 

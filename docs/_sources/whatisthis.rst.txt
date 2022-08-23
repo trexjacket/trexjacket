@@ -67,14 +67,8 @@ Now that you have a good handle on the extensions framework, head over to the :d
 
 .. raw:: html
 
-    <hr>
-
-Further topics
-=======
-
-
-.. raw:: html
-
+  <hr>
+  <h2>Further Topics</h2>
   <h3>Extension API vs. Embedding JavaScript API</h3>
 
 Related, but separate from the Extensions API is the Embedding JavaScript API.

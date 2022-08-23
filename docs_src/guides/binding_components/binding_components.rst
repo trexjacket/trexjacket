@@ -1,73 +1,57 @@
 Bind Anvil components to Tableau filters and parameters
 ----------
 
-In order to keep Anvil components in sync with components on the dashboard (like filters and parameters), use the ``register_event_handler`` method of a :obj:`~client_code.model.proxies.Dashboard` object to set the properties of an Anvil component. In one sentence, we are saying: "Whenever the filter changes on the Tableau dashboard, go and upate this Anvil component".
+Keeping Anvil components in sync with components on the dashboard is straight forward and simple using Anvil data bindings.
 
-For this how-to we'll assume there is a single Anvil form that contains some labels (prepended with ``lbl_``) and a single button with a function named ``btn_change_param_click`` bound to its click event. There is also a text box named ``text_box_1`` that will allow a user to input a new value for the parameter.
+For this how-to, we'll assume that our Tableau dashboard has a single filter and a single parameter, and our Anvil extension has a text box and a multi-select drop down component.
+
+Let's look at some form code:
 
 .. https://anvil.works/new-build/apps/5C66DY2E5OEFWOTZ/code/forms/BindComponents
 
 .. code-block:: python
-   :linenos:
+  :linenos:
 
-   # Form code for a Form named "BindComponents"
+  from ._anvil_designer import BindComponentsTemplate
+  from anvil import tableau
 
-   from ._anvil_designer import BindComponentsTemplate
-   from anvil import tableau
-   from tableau_extension.api import get_dashboard
-   
-   class BindComponents(BindComponentsTemplate):
-     def __init__(self, **properties):
-       self.init_components(**properties)
-       self.dashboard = get_dashboard()
-       
-       # Register event handlers
-       self.dashboard.register_event_handler('filter_changed', self.filter_change)
-       self.dashboard.register_event_handler('parameter_changed', self.param_change)
-       
-       # "myparam" is the name of the parameter
-       self.param = self.dashboard.get_parameter('myparam')
-       
-       # Get the first filter on the dashboard
-       self.filter = self.dashboard.filters[0]
-       
-     def filter_change(self, event):
-       """ This function runs whenever a Tableau filter changes. """
-       self.lbl_filter_name.text = event.filter.field_name
-       self.lbl_filter_value.text = self.filter.applied_values
-       
-     def param_change(self, event):
-       """ This function runs whenever a Tableau parameter changes. """
-       self.lbl_param_name.text = event.parameter.name
-       self.lbl_param_value.text = self.param.value
-       
-     def btn_change_param_click(self, **event_args):
-       """ This function is bound to the click event of the 'Apply' button and
-       updates a parameter in Tableau from Anvil. """
-       if self.text_box_1.text:
-         self.param.value = self.text_box_1.text
+  from tableau_extension.api import get_dashboard
 
-The ``filter_changed`` and ``parameter_changed`` events are registered to methods that simply update text labels in Anvil. i.e.
+  class BindComponents(BindComponentsTemplate):
+    def __init__(self, **properties):
+      self.dashboard = get_dashboard()
+      self.param = self.dashboard.get_parameter('myparam')
+      self.filter = self.dashboard.filters[0]
 
-.. WARNING: this is annoying to maintain
+      self.init_components(**properties)
 
-.. code-block:: python
+      self.dashboard.register_event_handler('parameter_changed', self.refresh_data_bindings)
+      self.dashboard.register_event_handler('filter_changed', self.refresh_data_bindings)
 
-    self.lbl_filter_name.text = event.filter.field_name
+Notice that I've registered ``refresh_data_bindings`` to both the parameter_changed and filter_changed events. The only other step is to define the data bindings using the Anvil editor. 
 
+For the text box, bind the ``text`` property of the text box to ``self.param.value`` and enable write back. 
 
-To update the Tableau parameter from Anvil, we assign the ``value`` property of the parameter in the click event handler (``btn_change_param_click``) for an Anvil button.
+.. image:: anvil_databinding.PNG
 
+Checking the "Write back" box allows this assignment to go both ways and thus keeping Tableau and our Anvil extension in sync with each other.
 
-.. code-block:: python
+The multi-select dropdown works similarly, but we'll need to bind the following:
 
-    self.param.value = self.text_box_1.text
-       
-       
+- Drop down's ``items`` to ``self.filter.domain``
+- Drop down's ``selected`` to ``self.filter.applied_values``, and enable write back
+
+.. image:: ms_bindings.PNG
+
+Once you've added the data bindings, your drop down and text box should be in sync with the Tableau dashboard!
+
 .. dropdown:: Here's what the extension should look like
     :open:
 
     .. image:: bindingdemo.gif
+
+For more information on data bindings, see the `anvil docs here <https://anvil.works/docs/client/data-bindings>`_.
+
 
 .. button-link:: https://anvil.works/build#clone:5C66DY2E5OEFWOTZ=N6AIAMZ6S2BXNTBPXWKTAIBM
    :color: primary

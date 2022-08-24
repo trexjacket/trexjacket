@@ -7,20 +7,25 @@ from .model.proxies import Tableau
 def get_session():
     """Get a Tableau Session object.
 
+    This is not a recommended entry point into the Tableau Extensions API.
+
     Returns
     -------
-    Tableau
+    :obj:`~client_code.model.proxies.Tableau`
+        The current Tableau session.
     """
     return Tableau.session()
 
 
 def get_dashboard():
-    """Gets the instance of Tableau Dashboard that represents the current connection.
+    """Gets the instance of Tableau Dashboard that represents the current connection. This is
+    the recommended entry point to the Tableau Extensions API.
 
     Returns
     -------
-    dashboard : Dashboard instance
-        This returns the Dashboard instance associated with the current session.
+
+    :obj:`~client_code.model.proxies.Dashboard`
+        The Dashboard instance associated with the current session.
         It is recommended that this is the only way you 'get' the current dashboard,
         since it is an attribute of Session, which deals with a bunch of house-keeping.
     """

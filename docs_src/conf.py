@@ -66,3 +66,8 @@ add_module_names = False
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 # html_static_path = ["_static"]
+
+
+# Show methods / classes / functions by their order in the source code
+# instead of aphabetically
+autodoc_member_order = 'bysource'

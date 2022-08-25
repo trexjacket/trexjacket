@@ -49,7 +49,10 @@ def _suppress_duplicate_events(event_handler):
 
 
 class TableauProxy:
-    """A base class for those requiring a Tableau proxy object."""
+    """A base class for those requiring a Tableau proxy object. 
+    
+    Allows for access of the underlying Tableau JS object using the ``_proxy`` attribute.
+    """
 
     def __init__(self, proxy):
         self._proxy = proxy
@@ -59,7 +62,7 @@ class TableauProxy:
 
 
 class Datasource(TableauProxy):
-    """A Pythonic representation of a Datasource
+    """Represents a Tableau data source. Only refreshing data sources is implemented with this API.
 
     .. note::
 
@@ -76,7 +79,8 @@ class Datasource(TableauProxy):
 
 
 class Filter:
-    """A Pythonic representation of a Tableau Filter
+    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change 
+    filter values.
 
     .. note::
 
@@ -99,7 +103,7 @@ class Filter:
 
     @property
     def field_name(self):
-        """The name of the field being filtered
+        """The name of the field being filtered.
 
         :type: str
         """
@@ -131,7 +135,7 @@ class Filter:
 
     @property
     def applied_values(self):
-        """Returns the current value(s) applied to the Filter.
+        """The current value(s) applied to the Filter.
 
         Returns
         ----------
@@ -170,7 +174,7 @@ class Filter:
 
     @property
     def domain(self):
-        """The list of values that the filter can take
+        """The list of values that the filter can take.
 
         .. note::
 
@@ -187,7 +191,7 @@ class Filter:
 
     @property
     def relevant_domain(self):
-        """Returns the 'relevant' values for this specific filter.
+        """The 'relevant' values for this specific filter.
 
         Returns
         --------
@@ -201,7 +205,7 @@ class Filter:
 
     @property
     def filter_type(self):
-        """The type of the Filter, one of (categorical | hierarchical | range | relative-date)
+        """The type of the Filter, one of (categorical | hierarchical | range | relative-date).
 
         :type: str
         """
@@ -209,7 +213,7 @@ class Filter:
 
     @property
     def field(self):
-        """Returns a promise containing the field for the filter.
+        """The field for the filter.
 
         :type: :obj:`~client_code.model.marks.Field`
         """
@@ -234,7 +238,7 @@ class Filter:
 
 
 class Parameter(TableauProxy):
-    """A Pythonic representation of a Tableau parameter
+    """Represents a parameter in Tableau. Parameter values can be modified and read using this class.
 
     .. note::
 
@@ -242,7 +246,7 @@ class Parameter(TableauProxy):
     """
 
     def refresh(self, parameter_changed_event=None):
-        """Refreshes the object to reflect any changes in the dashboard"""
+        """Refreshes the object to reflect any changes in the dashboard."""
         self._proxy = Tableau.session().dashboard.get_parameter(self.name)._proxy
 
     def __str__(self):
@@ -257,7 +261,7 @@ class Parameter(TableauProxy):
 
     @property
     def data_type(self):
-        """The type of data this parameter holds. One of (bool | date | date-time | float | int | spatial | string)
+        """The type of data this parameter holds. One of (bool | date | date-time | float | int | spatial | string).
 
         :type: str
         """
@@ -372,7 +376,7 @@ class Parameter(TableauProxy):
         )
 
     def remove_event_handler(self):
-        """Removes an event listener if a matching one is found
+        """Removes an event listener if a matching one is found.
 
         If no matching listener exists, the method does nothing.
         """
@@ -382,7 +386,8 @@ class Parameter(TableauProxy):
 
 
 class Worksheet(TableauProxy):
-    """A Pythonic representation of a Tableau Worksheet
+    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to 
+    get underlying data, filters, and parameters.
 
     .. note::
 
@@ -486,7 +491,7 @@ class Worksheet(TableauProxy):
         return datatable.records
 
     def get_underlying_marks(self, table_id=None):
-        """Get the underlying worksheet data as a list of Marks
+        """Get the underlying worksheet data as a list of Marks.
 
         If more than one "underlying table" exists, the table id must be specified.
 
@@ -511,7 +516,7 @@ class Worksheet(TableauProxy):
 
     @property
     def filters(self):
-        """Returns a list of all currently selected filters.
+        """A list of all currently selected filters.
 
 
         Returns
@@ -680,7 +685,7 @@ class Worksheet(TableauProxy):
 
     @property
     def datasources(self):
-        """Gets the data sources for this worksheet.
+        """The data sources for this worksheet.
 
         Returns
         ----------
@@ -693,24 +698,23 @@ class Worksheet(TableauProxy):
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
 
-        You can register 'selection_changed' and 'filter_changed' events at the
+        You can register ``selection_changed`` and ``filter_changed`` events at the
         worksheet level.
 
-        The handler function will trigger when selections or filters are changed in
+        The handler function will be called when selections or filters (depending on ``event_type``) are changed in
         the worksheet.
 
-        If filters in one worksheet affect the filter on this worksheet, this event
-        will be raised.
+        If filters in another worksheet affect the filter on this worksheet, this event
+        will be called.
 
-        The event handler must take a ParameterChangedEvent or FilterChangedEvent as
-        an argument.
+        The function you pass to ``register_event_handler`` must take an event instance as an argument (either a :obj:`ParameterChangedEvent` or :obj:`FilterChangedEvent` depending on ``event_type``).
 
         Parameters
         ----------
         event_type : 'selection_changed', 'filter_changed', 'parameter_changed'
             The event type to register the handler for.
         handler : function
-            The function to call when the event is triggered.
+            The function to call when the event is triggered. ``handler`` must take an event instance as an argument.
         """
         session = Tableau.session()
         if event_type in [
@@ -733,7 +737,8 @@ class Worksheet(TableauProxy):
 
 
 class Dashboard(TableauProxy):
-    """A Pythonic representation of a Tableau Dashboard
+    """This represents the Tableau dashboard within which the extension is embedded. Contains
+    methods to retrieve parameters, filters, and data sources. 
 
     .. note::
 
@@ -753,7 +758,7 @@ class Dashboard(TableauProxy):
 
     @property
     def worksheets(self):
-        """All Worksheet instances within this Dashboard
+        """All worksheets within the Tableau dashboard.
 
         :type: :obj:`list` of :obj:`Worksheet`
         """
@@ -765,7 +770,7 @@ class Dashboard(TableauProxy):
         Parameters
         ----------
         sheet_name : str
-            Name of the given worksheet.
+            Name of the worksheet.
 
         Returns
         ----------
@@ -786,7 +791,7 @@ class Dashboard(TableauProxy):
 
     @property
     def filters(self):
-        """All Filter instances within all worksheets in this Dashboard
+        """All filters within all worksheets in the Tableau dashboard.
 
         :type: :obj:`list` of :obj:`Filter`
         """
@@ -794,7 +799,7 @@ class Dashboard(TableauProxy):
 
     @property
     def parameters(self):
-        """All Parameter instances within this Dashboard
+        """All parameters within the Tableau dashboard.
 
         :type: :obj:`list` of :obj:`Parameter`
         """
@@ -828,7 +833,7 @@ class Dashboard(TableauProxy):
 
     @property
     def name(self):
-        """The name of the dashboard
+        """The name of the Tableau dashboard (as it appears in the Tableau UI).
 
         :type: :obj:`str`
         """
@@ -838,9 +843,9 @@ class Dashboard(TableauProxy):
 
     @property
     def datasources(self):
-        """Returns all datasources in the dashboard.
+        """All data sources in the Tableau dashboard.
 
-        .. Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we iterate through worksheets to gather all datasources.
+        .. Note that the Workbook method getAllDataSourcesAsync appears unreliable, so we iterate through worksheets to gather all data sources.
 
         :type: :obj:`list` of :obj:`Datasource`
         """
@@ -857,12 +862,12 @@ class Dashboard(TableauProxy):
         return [Datasource(ds._proxy) for ds in all_datasources]
 
     def get_datasource(self, datasource_name):
-        """Returns a datasource object
+        """Returns a Tableau data source by its name (case sensitive).
 
         Parameters
         -----
         datasource_name : str
-            Name of the datasource
+            Name of the data source
 
         Returns
         -----
@@ -871,7 +876,7 @@ class Dashboard(TableauProxy):
         Raises
         -----
         KeyError
-            If no datasource matching `datasource_name` is found.
+            If no data source matching `datasource_name` is found.
         """
         # FIXME: Autocomplete fails to recognize return type as Datasource
         ds = [ds for ds in self.datasources if ds.name == datasource_name]
@@ -884,12 +889,12 @@ class Dashboard(TableauProxy):
             return Datasource(ds[0]._proxy)
 
     def get_datasource_by_id(self, datasource_id):
-        """Returns a datasource object by id
+        """Returns a Tableau data source object by id.
 
         Parameters
         ----
         datasource_id : str
-            ID of the datasource
+            ID of the data source
 
         Returns
         -----
@@ -898,7 +903,7 @@ class Dashboard(TableauProxy):
         Raises
         -----
         KeyError
-            If no datasource matching `datasource_name` is found.
+            If no datasource matching `datasource_id` is found.
         """
         # FIXME: Autocomplete fails to recognize return type as Datasource
         ds = [ds for ds in self.datasources if ds.id == datasource_id]
@@ -911,7 +916,7 @@ class Dashboard(TableauProxy):
             return ds[0]
 
     def refresh_data_sources(self):
-        """Refresh all Tableau data sources for this Dashboard
+        """Refresh all data sources for the Tableau dashboard.
 
         This call has the same functionality as clicking the Refresh option on a
         data source in Tableau.
@@ -923,7 +928,7 @@ class Dashboard(TableauProxy):
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
 
-        You can register 'selection_changed' and 'filter_changed' events at the
+        You can register ``selection_changed`` and ``filter_changed`` events at the
         dashboard level.
 
         Selections or filters changed anywhere in the dashboard will be handled.
@@ -994,7 +999,7 @@ class Tableau:
 
     @property
     def available(self):
-        """Whether the current sesssion is yet available"""
+        """Whether the current sesssion is yet available."""
         return self.dashboard._proxy is not None
 
     def register_event_handler(self, event_type, handler, targets):
@@ -1044,7 +1049,7 @@ class Tableau:
 
 
 class DataTable(TableauProxy):
-    """A Pythonic representation of a Tableau DataTable, used internally.
+    """Should be private
 
     .. note::
 
@@ -1053,7 +1058,7 @@ class DataTable(TableauProxy):
 
     @property
     def records(self):
-        """The records in the data table
+        """The records in the data table.
 
         :obj:`list` of :obj:`dict`
         """
@@ -1077,7 +1082,7 @@ class DataTable(TableauProxy):
 
 
 class MarksSelectedEvent(TableauProxy):
-    """Triggered when a user selects a mark on a dashboard.
+    """Triggered when a user selects a mark on the Tableau dashboard.
 
     .. note::
 
@@ -1086,7 +1091,7 @@ class MarksSelectedEvent(TableauProxy):
 
     @property
     def worksheet(self):
-        """The Worksheet instance associated generating the Selection Event.
+        """The Tableau worksheet associated with generating the Selection Event.
 
         :type: :obj:`Worksheet`
         """
@@ -1118,7 +1123,7 @@ class FilterChangedEvent(TableauProxy):
 
     @property
     def filter(self):
-        """Returns the filter that was changed.
+        """The filter that was changed.
 
         :type: :obj:`Filter`
         """
@@ -1128,7 +1133,7 @@ class FilterChangedEvent(TableauProxy):
 
     @property
     def worksheet(self):
-        """Returns the worksheet that the filter is on.
+        """The worksheet that the filter is on.
 
         :type: :obj:`Worksheet`
         """

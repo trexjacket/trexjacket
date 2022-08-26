@@ -75,12 +75,17 @@ class Datasource(TableauProxy):
         self._proxy.refreshAsync()
 
     @property
-    def underlying_tables(self):
-        """The tables that make up the datasource.
+    def underlying_table_info(self):
+        """Returns information on each table contained in the datasource.
 
-        type : :obj:`list` of :obj:`DataTable`
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau.
+
+        type : :obj:`list` of :obj:`tuple` (caption, id)
         """
-        return [DataTable(x) for x in self._proxy.getLogicalTablesAsync()]
+        return [
+            (table.caption, table.id) for table in self._proxy.getLogicalTablesAsync()
+        ]
 
     def get_underlying_records(self, table_id=None):
         """Get the underlying data from a datasource as a list of dictionaries.
@@ -112,13 +117,12 @@ class Datasource(TableauProxy):
         if table_id is None:
             tables = ds.getLogicalTablesAsync()
             if len(tables) > 1:
-                info = ", ".join([f"{t.caption} (id: {t.id})" for t in tables])
                 raise ValueError(
                     "More than one underlying table exists."
                     "Need to specify the underlying table. "
                     "You can get the underlying table information using the "
-                    "underlying_tables property. "
-                    f"Valid tables: {info}"
+                    "underlying_table_info property. "
+                    f"\nValid tables: {self.underlying_table_info}"
                 )
 
             table_id = tables[0].id

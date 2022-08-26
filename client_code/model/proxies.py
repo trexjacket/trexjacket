@@ -430,14 +430,18 @@ class Worksheet(TableauProxy):
         return build_marks(records)
 
     @property
-    def underlying_tables(self):
-        """The tables that are used in the worksheet.
+    def underlying_table_info(self):
+        """Returns information on each table contained in the datasource.
 
-        Note that tableau only supports retrieval of 10,000 rows.
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau.
 
-        type : :obj:`list` of :obj:`DataTable`
+        type : :obj:`list` of :obj:`tuple` (caption, id)
         """
-        return [DataTable(x) for x in self._proxy.getUnderlyingTablesAsync()]
+        return [
+            (table.caption, table.id)
+            for table in self._proxy.getUnderlyingTablesAsync()
+        ]
 
     def get_underlying_records(self, table_id=None):
         """Get the underlying worksheet data as a list of dictionaries (records).
@@ -464,13 +468,12 @@ class Worksheet(TableauProxy):
             # we need to get the only underlying table id.
             tables = ws.getUnderlyingTablesAsync()
             if len(tables) > 1:
-                info = ", ".join([f"{t.caption} (id: {t.id})" for t in tables])
                 raise ValueError(
                     "More than one underlying table exists."
                     "Need to specify the underlying table. "
                     "You can get the underlying table information using the "
-                    "underlying_tables property. "
-                    f"Valid tables: {info}"
+                    "underlying_table_info property. "
+                    f"\nValid tables: {self.underlying_table_info}"
                 )
 
             table_id = tables[0].id

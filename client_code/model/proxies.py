@@ -74,6 +74,42 @@ class Datasource(TableauProxy):
         # Yes, anvil labs has a non-blocking module which would handle that.
         self._proxy.refreshAsync()
 
+    def get_underlying_records(self, table_id=None):
+      """Get the underlying data from a datasource as a list of dictionaries.
+      
+      If more than one "underlying table" exists, the table id must be specified.
+      
+      Parameters
+      --------
+      table_id : str
+        The table id for which to get the underlying data. Required if more than one logical
+        table exists
+        
+      Returns
+      --------
+      :obj:`list` of :obj:`dicts`
+      """
+      ds = self._proxy
+
+      if table_id is None:
+        tables = ds.getLogicalTablesAsync()
+        if len(tables) > 1:
+          info = ", ".join([f"{t.caption} (id: {t.id})" for t in tables])
+          raise ValueError(
+            "More than one underlying table exists."
+            "Need to specify the underlying table. "
+            "You can get the underlying table information using the "
+            "get_underlying_tables method. "
+            f"Valid tables: {info}"
+          )
+          
+        table_id = tables[0].id
+
+      datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
+
+      return datatable.records
+        
+
 
 class Filter:
     """A Pythonic representation of a Tableau Filter

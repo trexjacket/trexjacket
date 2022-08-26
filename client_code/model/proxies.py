@@ -429,6 +429,16 @@ class Worksheet(TableauProxy):
         records = self.selected_records
         return build_marks(records)
 
+    @property
+    def underlying_tables(self):
+        """The tables that are used in the worksheet.
+
+        Note that tableau only supports retrieval of 10,000 rows.
+
+        type : :obj:`list` of :obj:`DataTable`
+        """
+        return [DataTable(x) for x in self._proxy.getUnderlyingTablesAsync()]
+
     def get_underlying_records(self, table_id=None):
         """Get the underlying worksheet data as a list of dictionaries (records).
 
@@ -459,7 +469,7 @@ class Worksheet(TableauProxy):
                     "More than one underlying table exists."
                     "Need to specify the underlying table. "
                     "You can get the underlying table information using the "
-                    "get_underlying_tables method. "
+                    "underlying_tables property. "
                     f"Valid tables: {info}"
                 )
 

@@ -76,57 +76,56 @@ class Datasource(TableauProxy):
 
     @property
     def underlying_tables(self):
-      """The tables that make up the datasource.
-      
-      type : :obj:`list` of :obj:`DataTable`
-      """
-      return [DataTable(x) for x in self._proxy.getLogicalTablesAsync()]
-      
+        """The tables that make up the datasource.
+
+        type : :obj:`list` of :obj:`DataTable`
+        """
+        return [DataTable(x) for x in self._proxy.getLogicalTablesAsync()]
+
     def get_underlying_records(self, table_id=None):
-      """Get the underlying data from a datasource as a list of dictionaries.
-      
-      If more than one "underlying table" exists, the table id must be specified.
-      
-      Parameters
-      --------
-      table_id : str
-        The table id for which to get the underlying data. Required if more than one logical
-        table exists
-        
-      Returns
-      --------
-      :obj:`list` of :obj:`dicts`
+        """Get the underlying data from a datasource as a list of dictionaries.
 
-      Example
-      --------
+        If more than one "underlying table" exists, the table id must be specified.
 
-      >>> self.dashboard = get_dashboard()
-      >>> datasource = self.dashboard.get_datasource('Sample - Superstore')
-      >>> recs = datasource.get_underlying_records('People_D73023733B004CC1B3CB1ACF62F4A965')
-      >>> print(recs)
+        Parameters
+        --------
+        table_id : str
+          The table id for which to get the underlying data. Required if more than one logical
+          table exists
 
-      [{'Regional Manager': 'Sadie Pawthorne'}, {'Regional Manager': 'Chuck Magee'}, {'Regional Manager': 'Roxanne Rodriguez'}, {'Regional Manager': 'Fred Suzuki'}]
-      """
-      ds = self._proxy
+        Returns
+        --------
+        :obj:`list` of :obj:`dicts`
 
-      if table_id is None:
-        tables = ds.getLogicalTablesAsync()
-        if len(tables) > 1:
-          info = ", ".join([f"{t.caption} (id: {t.id})" for t in tables])
-          raise ValueError(
-            "More than one underlying table exists."
-            "Need to specify the underlying table. "
-            "You can get the underlying table information using the "
-            "underlying_tables property. "
-            f"Valid tables: {info}"
-          )
-          
-        table_id = tables[0].id
+        Example
+        --------
 
-      datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
+        >>> self.dashboard = get_dashboard()
+        >>> datasource = self.dashboard.get_datasource('Sample - Superstore')
+        >>> recs = datasource.get_underlying_records('People_D73023733B004CC1B3CB1ACF62F4A965')
+        >>> print(recs)
 
-      return datatable.records
-        
+        [{'Regional Manager': 'Sadie Pawthorne'}, {'Regional Manager': 'Chuck Magee'}, {'Regional Manager': 'Roxanne Rodriguez'}, {'Regional Manager': 'Fred Suzuki'}]
+        """
+        ds = self._proxy
+
+        if table_id is None:
+            tables = ds.getLogicalTablesAsync()
+            if len(tables) > 1:
+                info = ", ".join([f"{t.caption} (id: {t.id})" for t in tables])
+                raise ValueError(
+                    "More than one underlying table exists."
+                    "Need to specify the underlying table. "
+                    "You can get the underlying table information using the "
+                    "underlying_tables property. "
+                    f"Valid tables: {info}"
+                )
+
+            table_id = tables[0].id
+
+        datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
+
+        return datatable.records
 
 
 class Filter:

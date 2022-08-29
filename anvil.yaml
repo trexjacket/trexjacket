@@ -29,11 +29,12 @@ services:
 - source: /runtime/services/tables.yml
   client_config: {}
   server_config: {}
+startup: {type: form, module: Startup}
 package_name: tableau_extension
 allow_embedding: true
 name: Tableau Extension (Service-based)
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
 metadata: {}
-startup_form: LogConsole
+startup_form: null
 db_schema: {}
 renamed: true

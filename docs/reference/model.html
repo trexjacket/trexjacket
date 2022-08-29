@@ -143,6 +143,39 @@ since it is an attribute of Session, which deals with a bunch of house-keeping.<
 <dd><p>Refreshes data source</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.proxies.Datasource.underlying_table_info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">underlying_table_info</span></span><a class="headerlink" href="#client_code.model.proxies.Datasource.underlying_table_info" title="Permalink to this definition"></a></dt>
+<dd><p>Returns information on each table contained in the datasource.</p>
+<p>“caption” is the name of the table in the Tableau UI, while “id” is the unique
+identifier for the table in Tableau.</p>
+<p>type : <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> (caption, id)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="client_code.model.proxies.Datasource.get_underlying_records">
+<span class="sig-name descname"><span class="pre">get_underlying_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#client_code.model.proxies.Datasource.get_underlying_records" title="Permalink to this definition"></a></dt>
+<dd><p>Get the underlying data from a datasource as a list of dictionaries.</p>
+<p>If more than one “underlying table” exists, the table id must be specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>table_id</strong> (<em>str</em>) – The table id for which to get the underlying data. Required if more than one logical
+table exists</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">dicts</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_dashboard</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datasource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashboard</span><span class="o">.</span><span class="n">get_datasource</span><span class="p">(</span><span class="s1">&#39;Sample - Superstore&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recs</span> <span class="o">=</span> <span class="n">datasource</span><span class="o">.</span><span class="n">get_underlying_records</span><span class="p">(</span><span class="s1">&#39;People_D73023733B004CC1B3CB1ACF62F4A965&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">recs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>[{‘Regional Manager’: ‘Sadie Pawthorne’}, {‘Regional Manager’: ‘Chuck Magee’}, {‘Regional Manager’: ‘Roxanne Rodriguez’}, {‘Regional Manager’: ‘Fred Suzuki’}]</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -400,6 +433,15 @@ model.marks’)</p>
 <dd class="field-even"><p>Marks</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="client_code.model.proxies.Worksheet.underlying_table_info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">underlying_table_info</span></span><a class="headerlink" href="#client_code.model.proxies.Worksheet.underlying_table_info" title="Permalink to this definition"></a></dt>
+<dd><p>Returns information on each table contained in the datasource.</p>
+<p>“caption” is the name of the table in the Tableau UI, while “id” is the unique
+identifier for the table in Tableau.</p>
+<p>type : <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> (caption, id)</p>
 </dd></dl>
 
 <dl class="py method">

@@ -77,6 +77,63 @@ class Datasource(TableauProxy):
         # Yes, anvil labs has a non-blocking module which would handle that.
         self._proxy.refreshAsync()
 
+    @property
+    def underlying_table_info(self):
+        """Returns information on each table contained in the datasource.
+
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau.
+
+        type : :obj:`list` of :obj:`tuple` (caption, id)
+        """
+        return [
+            (table.caption, table.id) for table in self._proxy.getLogicalTablesAsync()
+        ]
+
+    def get_underlying_records(self, table_id=None):
+        """Get the underlying data from a datasource as a list of dictionaries.
+
+        If more than one "underlying table" exists, the table id must be specified.
+
+        Parameters
+        --------
+        table_id : str
+          The table id for which to get the underlying data. Required if more than one logical
+          table exists
+
+        Returns
+        --------
+        :obj:`list` of :obj:`dicts`
+
+        Example
+        --------
+
+        >>> self.dashboard = get_dashboard()
+        >>> datasource = self.dashboard.get_datasource('Sample - Superstore')
+        >>> recs = datasource.get_underlying_records('People_D73023733B004CC1B3CB1ACF62F4A965')
+        >>> print(recs)
+
+        [{'Regional Manager': 'Sadie Pawthorne'}, {'Regional Manager': 'Chuck Magee'}, {'Regional Manager': 'Roxanne Rodriguez'}, {'Regional Manager': 'Fred Suzuki'}]
+        """
+        ds = self._proxy
+
+        if table_id is None:
+            tables = ds.getLogicalTablesAsync()
+            if len(tables) > 1:
+                raise ValueError(
+                    "More than one underlying table exists."
+                    "Need to specify the underlying table. "
+                    "You can get the underlying table information using the "
+                    "underlying_table_info property. "
+                    f"\nValid tables: {self.underlying_table_info}"
+                )
+
+            table_id = tables[0].id
+
+        datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
+
+        return datatable.records
+
 
 class Filter:
     """Represents a Tableau filter. Similar to parameters, you can use this class to read and change 
@@ -434,6 +491,20 @@ class Worksheet(TableauProxy):
         records = self.selected_records
         return build_marks(records)
 
+    @property
+    def underlying_table_info(self):
+        """Returns information on each table contained in the datasource.
+
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau.
+
+        type : :obj:`list` of :obj:`tuple` (caption, id)
+        """
+        return [
+            (table.caption, table.id)
+            for table in self._proxy.getUnderlyingTablesAsync()
+        ]
+
     def get_underlying_records(self, table_id=None):
         """Get the underlying worksheet data as a list of dictionaries (records).
 
@@ -459,13 +530,12 @@ class Worksheet(TableauProxy):
             # we need to get the only underlying table id.
             tables = ws.getUnderlyingTablesAsync()
             if len(tables) > 1:
-                info = ", ".join([f"{t.caption} (id: {t.id})" for t in tables])
                 raise ValueError(
                     "More than one underlying table exists."
                     "Need to specify the underlying table. "
                     "You can get the underlying table information using the "
-                    "get_underlying_tables method. "
-                    f"Valid tables: {info}"
+                    "underlying_table_info property. "
+                    f"\nValid tables: {self.underlying_table_info}"
                 )
 
             table_id = tables[0].id

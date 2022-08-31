@@ -6,7 +6,7 @@ from anvil.js import report_exceptions
 
 from . import events
 from .marks import Field, build_marks
-from .utils import clean_record_key, native_value_date_handler
+from ._utils import clean_record_key, native_value_date_handler
 
 _event_cache = {}
 
@@ -49,8 +49,8 @@ def _suppress_duplicate_events(event_handler):
 
 
 class TableauProxy:
-    """A base class for those requiring a Tableau proxy object. 
-    
+    """A base class for those requiring a Tableau proxy object.
+
     Allows for access of the underlying Tableau JS object using the ``_proxy`` attribute.
     """
 
@@ -130,13 +130,13 @@ class Datasource(TableauProxy):
 
             table_id = tables[0].id
 
-        datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
+        datatable = _DataTable(ds.getLogicalTableDataAsync(table_id))
 
         return datatable.records
 
 
 class Filter:
-    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change 
+    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change
     filter values.
 
     .. note::
@@ -302,9 +302,9 @@ class Parameter(TableauProxy):
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/parameter.html>` and accessed through the ``Parameter`` object's ``._proxy`` attribute.
     """
 
-    def refresh(self, parameter_changed_event=None):
+    def _refresh(self, parameter_changed_event=None):
         """Refreshes the object to reflect any changes in the dashboard."""
-        self._proxy = Tableau.session().dashboard.get_parameter(self.name)._proxy
+        self._proxy = _Tableau.session().dashboard.get_parameter(self.name)._proxy
 
     def __str__(self):
         return f"Parameter: '{self.name}'"
@@ -403,7 +403,7 @@ class Parameter(TableauProxy):
     @property
     def value(self):
         """The current value of the parameter."""
-        self.refresh()
+        self._refresh()
         return self._proxy.currentValue.nativeValue
 
     @value.setter
@@ -427,7 +427,7 @@ class Parameter(TableauProxy):
         handler : function
             Function that is called whenever the parameter is changed.
         """
-        session = Tableau.session()
+        session = _Tableau.session()
         self._listener = session.register_event_handler(
             events.PARAMETER_CHANGED, handler, self
         )
@@ -443,7 +443,7 @@ class Parameter(TableauProxy):
 
 
 class Worksheet(TableauProxy):
-    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to 
+    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to
     get underlying data, filters, and parameters.
 
     .. note::
@@ -473,7 +473,7 @@ class Worksheet(TableauProxy):
             Data for the currently selected marks on the worksheet
         """
         data = self._proxy.getSelectedMarksAsync()["data"]
-        datatables = (DataTable(table) for table in data)
+        datatables = (_DataTable(table) for table in data)
         return list(itertools.chain(*[dt.records for dt in datatables]))
 
     @property
@@ -540,7 +540,7 @@ class Worksheet(TableauProxy):
 
             table_id = tables[0].id
 
-        datatable = DataTable(ws.getUnderlyingTableDataAsync(table_id))
+        datatable = _DataTable(ws.getUnderlyingTableDataAsync(table_id))
         return datatable.records
 
     def get_summary_records(self, ignore_selection=True):
@@ -555,7 +555,7 @@ class Worksheet(TableauProxy):
         ---------
         :obj:`list` of :obj:`dict`
         """
-        datatable = DataTable(
+        datatable = _DataTable(
             self._proxy.getSummaryDataAsync({"ignoreSelection": ignore_selection})
         )
         return datatable.records
@@ -786,7 +786,7 @@ class Worksheet(TableauProxy):
         handler : function
             The function to call when the event is triggered. ``handler`` must take an event instance as an argument.
         """
-        session = Tableau.session()
+        session = _Tableau.session()
         if event_type in [
             "selection_changed",
             "filter_changed",
@@ -808,7 +808,7 @@ class Worksheet(TableauProxy):
 
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
-    methods to retrieve parameters, filters, and data sources. 
+    methods to retrieve parameters, filters, and data sources.
 
     .. note::
 
@@ -1030,7 +1030,7 @@ class Dashboard(TableauProxy):
             )
 
 
-class Tableau:
+class _Tableau:
     """The main interface to Tableau.
 
     Creating an instance of class this will initialize a tableau session and make
@@ -1054,7 +1054,7 @@ class Tableau:
         Tableau
         """
         if cls._session is None:
-            cls._session = Tableau()
+            cls._session = _Tableau()
             cls._session.available
         return cls._session
 
@@ -1118,12 +1118,12 @@ class Tableau:
         return handler_fn
 
 
-class DataTable(TableauProxy):
-    """Should be private
+class _DataTable(TableauProxy):
+    """Represents a datatable in Tableau.
 
     .. note::
 
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``DataTable`` object's ``._proxy`` attribute.
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``_DataTable`` object's ``._proxy`` attribute.
     """
 
     @property

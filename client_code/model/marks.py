@@ -1,7 +1,7 @@
 import datetime as dt
 import re
 
-from .utils import clean_record_key
+from ._utils import clean_record_key
 
 
 class Field:

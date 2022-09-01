@@ -4,7 +4,7 @@ API Reference
 Overview
 -----
 
-Technical reference is divided into 3 major sections:
+This reference documentation is divided into 3 major sections:
 
 1. Connecting to the dashboard
 2. Tableau objects
@@ -34,6 +34,7 @@ You will encounter these classes when registering event handlers. For example, w
 
 .. code-block:: python
 
+   # in some form code
    def __init__(self):
       # setup code omitted
       self.dashboard.register_event_handler('filter_changed', self.my_event_handler)

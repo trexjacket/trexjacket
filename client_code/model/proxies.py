@@ -130,7 +130,7 @@ class Datasource(TableauProxy):
 
             table_id = tables[0].id
 
-        datatable = _DataTable(ds.getLogicalTableDataAsync(table_id))
+        datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
 
         return datatable.records
 
@@ -473,7 +473,7 @@ class Worksheet(TableauProxy):
             Data for the currently selected marks on the worksheet
         """
         data = self._proxy.getSelectedMarksAsync()["data"]
-        datatables = (_DataTable(table) for table in data)
+        datatables = (DataTable(table) for table in data)
         return list(itertools.chain(*[dt.records for dt in datatables]))
 
     @property
@@ -540,7 +540,7 @@ class Worksheet(TableauProxy):
 
             table_id = tables[0].id
 
-        datatable = _DataTable(ws.getUnderlyingTableDataAsync(table_id))
+        datatable = DataTable(ws.getUnderlyingTableDataAsync(table_id))
         return datatable.records
 
     def get_summary_records(self, ignore_selection=True):
@@ -555,7 +555,7 @@ class Worksheet(TableauProxy):
         ---------
         :obj:`list` of :obj:`dict`
         """
-        datatable = _DataTable(
+        datatable = DataTable(
             self._proxy.getSummaryDataAsync({"ignoreSelection": ignore_selection})
         )
         return datatable.records
@@ -1118,7 +1118,7 @@ class _Tableau:
         return handler_fn
 
 
-class _DataTable(TableauProxy):
+class DataTable(TableauProxy):
     """Represents a datatable in Tableau.
 
     .. note::

@@ -5,8 +5,8 @@ from anvil import tableau
 from anvil.js import report_exceptions
 
 from . import events
-from .marks import Field, build_marks
 from ._utils import clean_record_key, native_value_date_handler
+from .marks import Field, build_marks
 
 _event_cache = {}
 

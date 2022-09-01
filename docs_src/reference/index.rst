@@ -4,16 +4,16 @@ API Reference
 Overview
 -----
 
-The classes and other objects here are divided into 3 major sections:
+Technical reference is divided into 3 major sections:
 
-1. Entry point
+1. Connecting to the dashboard
 2. Tableau objects
 3. Change event classes
 
-Entry point
+Connecting to the dashboard
 -----
 
-These are things you use to first connect to your dashboard.
+``api.get_dashboard`` is the recommended way to connect to the Tableau Dashboard.
 
 .. automodule:: client_code.api
    :members:
@@ -21,7 +21,7 @@ These are things you use to first connect to your dashboard.
 Tableau objects
 -----
 
-These are the things you can see on the dashboard.
+These are the things you can see on the dashboard (filters, parameters, worksheets, etc.).
 
 .. automodule:: client_code.model.proxies
    :members: Dashboard, Parameter, Filter, Datasource, Worksheet
@@ -30,7 +30,18 @@ These are the things you can see on the dashboard.
 Change event classes
 -----
 
-These are classes you will interact with after registering an event handler.
+You will encounter these classes when registering event handlers. For example, when registering the 'filter_changed' event:
+
+.. code-block:: python
+
+   def __init__(self):
+      # setup code omitted
+      self.dashboard.register_event_handler('filter_changed', self.my_event_handler)
+
+   def my_event_handler(self, event):
+      filter = event.filter
+
+``event`` in this case will be an instance of the :obj:`~client_code.model.proxies.FilterChangedEvent` class.
 
 .. automodule:: client_code.model.proxies
    :members: MarksSelectedEvent, FilterChangedEvent, ParameterChangedEvent

@@ -49,8 +49,8 @@ def _suppress_duplicate_events(event_handler):
 
 
 class TableauProxy:
-    """A base class for those requiring a Tableau proxy object. 
-    
+    """A base class for those requiring a Tableau proxy object.
+
     Allows for access of the underlying Tableau JS object using the ``_proxy`` attribute.
     """
 
@@ -68,14 +68,6 @@ class Datasource(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
     """
-
-    def refresh(self):
-        """
-        Refreshes data source
-        """
-        # Can we make this happen without blocking? Not sure how, call_async or something?
-        # Yes, anvil labs has a non-blocking module which would handle that.
-        self._proxy.refreshAsync()
 
     @property
     def underlying_table_info(self):
@@ -134,9 +126,17 @@ class Datasource(TableauProxy):
 
         return datatable.records
 
+    def refresh(self):
+        """
+        Refreshes data source
+        """
+        # Can we make this happen without blocking? Not sure how, call_async or something?
+        # Yes, anvil labs has a non-blocking module which would handle that.
+        self._proxy.refreshAsync()
+
 
 class Filter:
-    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change 
+    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change
     filter values.
 
     .. note::
@@ -166,30 +166,6 @@ class Filter:
         """
         return self._proxy.fieldName
 
-    def _categorical_values(self):
-        if self._proxy.isAllSelected:
-            return self.domain
-
-        try:
-            return [v.nativeValue.getDate() for v in self.appliedValues]
-        except AttributeError:
-            return [v.nativeValue for v in self.appliedValues]
-
-    def _range_values(self):
-        try:
-            return (
-                self.minValue.nativeValue.getDate(),
-                self.maxValue.nativeValue.getDate(),
-            )
-        except AttributeError:
-            return (self.minValue.nativeValue, self.maxValue.nativeValue)
-
-    def _relative_date_values(self):
-        return self.periodType
-
-    def _hierarchical_values(self):
-        return "Hierarchical filter"
-
     @property
     def applied_values(self):
         """The current value(s) applied to the Filter.
@@ -217,17 +193,6 @@ class Filter:
                 f"Unrecognized filter type {self.filterType}. "
                 f"Valid filter types: {list(handlers.keys())}"
             )
-
-    @applied_values.setter
-    def applied_values(self, new_values):
-        """Replaces the set filter values.
-
-        Parameters
-        ----------
-        new_values : :obj:`list` of :obj:`Filter`
-            The new Filter values
-        """
-        self.set_filter_value(new_values)
 
     @property
     def domain(self):
@@ -289,6 +254,41 @@ class Filter:
         """
         self.worksheet.apply_filter(self.field_name, new_values, method)
 
+    def _categorical_values(self):
+        if self._proxy.isAllSelected:
+            return self.domain
+
+        try:
+            return [v.nativeValue.getDate() for v in self.appliedValues]
+        except AttributeError:
+            return [v.nativeValue for v in self.appliedValues]
+
+    def _range_values(self):
+        try:
+            return (
+                self.minValue.nativeValue.getDate(),
+                self.maxValue.nativeValue.getDate(),
+            )
+        except AttributeError:
+            return (self.minValue.nativeValue, self.maxValue.nativeValue)
+
+    def _relative_date_values(self):
+        return self.periodType
+
+    def _hierarchical_values(self):
+        return "Hierarchical filter"
+
+    @applied_values.setter
+    def applied_values(self, new_values):
+        """Replaces the set filter values.
+
+        Parameters
+        ----------
+        new_values : :obj:`list` of :obj:`Filter`
+            The new Filter values
+        """
+        self.set_filter_value(new_values)
+
     def clear_filter(self):
         """Resets the filter. Categorical filters are reset to 'All', range filters are reset to the full range."""
         self.worksheet.clear_filter(self.field_name)
@@ -302,12 +302,22 @@ class Parameter(TableauProxy):
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/parameter.html>` and accessed through the ``Parameter`` object's ``._proxy`` attribute.
     """
 
-    def refresh(self, parameter_changed_event=None):
-        """Refreshes the object to reflect any changes in the dashboard."""
-        self._proxy = Tableau.session().dashboard.get_parameter(self.name)._proxy
-
     def __str__(self):
         return f"Parameter: '{self.name}'"
+
+    @property
+    def name(self):
+        """The display name for this parameter.
+
+        :type: str
+        """
+        return self._proxy.name
+
+    @property
+    def value(self):
+        """The current value of the parameter."""
+        self.refresh()
+        return self._proxy.currentValue.nativeValue
 
     @property
     def serialized(self):
@@ -392,20 +402,6 @@ class Parameter(TableauProxy):
         """
         self._proxy.changeValueAsync(new_value)
 
-    @property
-    def name(self):
-        """The display name for this parameter.
-
-        :type: str
-        """
-        return self._proxy.name
-
-    @property
-    def value(self):
-        """The current value of the parameter."""
-        self.refresh()
-        return self._proxy.currentValue.nativeValue
-
     @value.setter
     def value(self, new_value):
         """Changes the DataValue representing the current value of the parameter.
@@ -441,26 +437,19 @@ class Parameter(TableauProxy):
             self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
             self._listener = None
 
+    def refresh(self, parameter_changed_event=None):
+        """Refreshes the object to reflect any changes in the dashboard."""
+        self._proxy = Tableau.session().dashboard.get_parameter(self.name)._proxy
+
 
 class Worksheet(TableauProxy):
-    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to 
+    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to
     get underlying data, filters, and parameters.
 
     .. note::
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>` and accessed through the ``Worksheet`` object's ``._proxy`` attribute.
     """
-
-    def get_selected_records(self):
-        """Gets the data for the marks which are currently selected on the worksheet.
-        If there are no marks currently selected, an empty list is returned.
-
-        Returns
-        --------
-        records : list
-            Data for the currently selected marks on the worksheet
-        """
-        return self.selected_records
 
     @property
     def selected_records(self):
@@ -490,20 +479,6 @@ class Worksheet(TableauProxy):
         """
         records = self.selected_records
         return build_marks(records)
-
-    @property
-    def underlying_table_info(self):
-        """Returns information on each table contained in the datasource.
-
-        "caption" is the name of the table in the Tableau UI, while "id" is the unique
-        identifier for the table in Tableau.
-
-        type : :obj:`list` of :obj:`tuple` (caption, id)
-        """
-        return [
-            (table.caption, table.id)
-            for table in self._proxy.getUnderlyingTablesAsync()
-        ]
 
     def get_underlying_records(self, table_id=None):
         """Get the underlying worksheet data as a list of dictionaries (records).
@@ -583,6 +558,59 @@ class Worksheet(TableauProxy):
         """
         records = self.get_underlying_records(table_id)
         return build_marks(records)
+
+    def get_selected_records(self):
+        """Gets the data for the marks which are currently selected on the worksheet.
+        If there are no marks currently selected, an empty list is returned.
+
+        Returns
+        --------
+        records : list
+            Data for the currently selected marks on the worksheet
+        """
+        return self.selected_records
+
+    def select_marks(self, dimension, selection_type="select-replace"):
+        """Selects the marks and returns them.
+
+        This version selects by value, using the SelectionCriteria interface.
+
+        Note that this doesnt work on scatter plots.
+
+        Parameters
+        ----------
+        dimension : dict or list of dict
+
+        optional selection_type : str
+            The type of enum to be applied to the marks
+
+        Example
+        ----------
+
+        Assuming ``Bar Chart`` is a bar chart.
+
+        >>> bc = self.dashboard.get_worksheet('Bar Chart')
+        >>> bc.select_marks({'Region': 'Asia'})
+
+        And you'll see that the Bar with Region = Asia becomes selected.
+        """
+        selection_enums = ("select-replace", "select-add", "select-remove")
+        if selection_type not in selection_enums:
+            raise ValueError(
+                f"Invalid selection type '{selection_type}'. "
+                f"Valid values: {', '.join(selection_enums)}"
+            )
+        if not isinstance(dimension, list):
+            dimension = [dimension]
+        selection = [
+            {"fieldName": k, "value": [v]} for d in dimension for k, v in d.items()
+        ]
+        self._proxy.selectMarksByValueAsync(selection, selection_type)
+        return self.selected_records
+
+    def clear_selection(self):
+        """Clears the current marks selection."""
+        self._proxy.clearSelectedMarksAsync()
 
     @property
     def filters(self):
@@ -677,48 +705,6 @@ class Worksheet(TableauProxy):
         """
         self._proxy.applyRangeFilterAsync(field_name, {"min": min, "max": max})
 
-    def select_marks(self, dimension, selection_type="select-replace"):
-        """Selects the marks and returns them.
-
-        This version selects by value, using the SelectionCriteria interface.
-
-        Note that this doesnt work on scatter plots.
-
-        Parameters
-        ----------
-        dimension : dict or list of dict
-
-        optional selection_type : str
-            The type of enum to be applied to the marks
-
-        Example
-        ----------
-
-        Assuming ``Bar Chart`` is a bar chart.
-
-        >>> bc = self.dashboard.get_worksheet('Bar Chart')
-        >>> bc.select_marks({'Region': 'Asia'})
-
-        And you'll see that the Bar with Region = Asia becomes selected.
-        """
-        selection_enums = ("select-replace", "select-add", "select-remove")
-        if selection_type not in selection_enums:
-            raise ValueError(
-                f"Invalid selection type '{selection_type}'. "
-                f"Valid values: {', '.join(selection_enums)}"
-            )
-        if not isinstance(dimension, list):
-            dimension = [dimension]
-        selection = [
-            {"fieldName": k, "value": [v]} for d in dimension for k, v in d.items()
-        ]
-        self._proxy.selectMarksByValueAsync(selection, selection_type)
-        return self.selected_records
-
-    def clear_selection(self):
-        """Clears the current marks selection."""
-        self._proxy.clearSelectedMarksAsync()
-
     @property
     def parameters(self):
         """All the Tableau parameters that are used in this workbook.
@@ -765,6 +751,20 @@ class Worksheet(TableauProxy):
         """
         return [Datasource(ds) for ds in self._proxy.getDataSourcesAsync()]
 
+    @property
+    def underlying_table_info(self):
+        """Returns information on each table contained in the datasource.
+
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau.
+
+        type : :obj:`list` of :obj:`tuple` (caption, id)
+        """
+        return [
+            (table.caption, table.id)
+            for table in self._proxy.getUnderlyingTablesAsync()
+        ]
+
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
 
@@ -808,7 +808,7 @@ class Worksheet(TableauProxy):
 
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
-    methods to retrieve parameters, filters, and data sources. 
+    methods to retrieve parameters, filters, and data sources.
 
     .. note::
 
@@ -822,9 +822,15 @@ class Dashboard(TableauProxy):
     def __getitem__(self, idx):
         return self.get_worksheet(idx)
 
-    def refresh(self):
-        """Refreshes the worksheets in the live Tableau Instance."""
-        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
+    @property
+    def name(self):
+        """The name of the Tableau dashboard (as it appears in the Tableau UI).
+
+        :type: :obj:`str`
+        """
+        if self._proxy is None:
+            return None
+        return self._proxy.name
 
     @property
     def worksheets(self):
@@ -900,16 +906,6 @@ class Dashboard(TableauProxy):
             )
         else:
             return Parameter(param_js)
-
-    @property
-    def name(self):
-        """The name of the Tableau dashboard (as it appears in the Tableau UI).
-
-        :type: :obj:`str`
-        """
-        if self._proxy is None:
-            return None
-        return self._proxy.name
 
     @property
     def datasources(self):
@@ -1028,6 +1024,10 @@ class Dashboard(TableauProxy):
                 "You can only set selection_changed, filter_changed, or "
                 f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )
+
+    def refresh(self):
+        """Refreshes the worksheets in the live Tableau Instance."""
+        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
 
 
 class Tableau:

@@ -1,10 +1,10 @@
 Getting Started
 ---------
 
-Let's build a simple extension that displays the summary data from Tableau within Anvil when a user clicks a bar in a bar chart. 
+Let's build a simple extension that displays the summary data from Tableau within Anvil when a user clicks a bar in a bar chart.
 
 First create a new extension in Anvil by selecting "Blank app" and then "Tableau Extension":
-  
+
 .. image:: media/blank_app.PNG
     :width: 300
 
@@ -33,13 +33,13 @@ In Tableau:
 
     .. image:: media/download_trex.gif
 
-Write some code 
+Write some code
 =====
 
 Now that our Anvil app is connected to our dashboard, we'll need to modify the code.
 
 - Rename ``Form1`` to ``MainForm``
-- Add a label to the UI and change its python name to ``label_1``
+- Add a label to the UI and change its Python name to ``label_1``
 - Paste the following in the code section of the initial Anvil form
 
 .. code-block:: python
@@ -64,7 +64,7 @@ In the form code above, we do 2 important things:
 
 1. Get the current Tableau dashboard using :obj:`~client_code.api.get_dashboard`. :obj:`~client_code.api.get_dashboard` returns a :obj:`~client_code.model.proxies.Dashboard` object and contains many useful attributes and methods such as datasources, filters, parameters, and worksheets.
 
-2. Bind the ``show_selections`` method of our Anvil form to the ``selection_changed`` event of the Tableau dashboard using ``register_event_handler``. The ``selection_changed`` event is triggered from Tableau whenever the user selects / unselects marks, and every time this event is triggered the ``show_selections`` method is executed. 
+2. Bind the ``show_selections`` method of our Anvil form to the ``selection_changed`` event of the Tableau dashboard using ``register_event_handler``. The ``selection_changed`` event is triggered from Tableau whenever the user selects / unselects marks, and every time this event is triggered the ``show_selections`` method is executed.
 
 
 .. dropdown:: Congrats, you now have a working Tableau extension!
@@ -80,7 +80,7 @@ Additionally, output from the ``print`` statement also appears in the Anvil IDE:
 .. button-link:: https://anvil.works/build#clone:UZAM5LB6X3KTWC6G=LRO6QQ5553FPXKPB7VBR55MP
    :color: primary
    :shadow:
-   
+
    Click here to clone the Anvil App
 
 And :download:`here <media/getting_started_workbook.twb>` for the Tableau workbook

@@ -1,7 +1,7 @@
 How-To Guides
 =============
 
-Relatively brief documents that outline specific approaches to solving real world problems.
+Brief guides that describe specific approaches to performing common tasks with the Extensions Framework.
 
 .. toctree::
    :maxdepth: 2

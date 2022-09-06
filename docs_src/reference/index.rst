@@ -1,14 +1,23 @@
 API Reference
 =======
 
-Overview
------
-
 This reference documentation is divided into 3 major sections:
 
 1. Connecting to the dashboard
+
+   - Documents how to initally connect to the Tableau dashboard
+
 2. Tableau objects
+
+   - Classes that represent things you can see on the dashboard (filters, parameters, marks, etc.)
+
 3. Change event classes
+
+   - Classes that represent change events on the dashboard (mark selection, filter change, parameter change, etc.)
+
+4. Technical reference
+
+   - Details of some under the hood functionality.
 
 Connecting to the dashboard
 -----
@@ -50,7 +59,7 @@ You will encounter these classes when registering event handlers. For example, w
 Technical Reference
 -----
 
-Things you probably don't need to know about.
+Documentation for developers requiring a lower level of functionality.
 
 .. automodule:: client_code.model.proxies
    :members: TableauProxy

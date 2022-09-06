@@ -1,7 +1,7 @@
 Tutorials
 =========
 
-Guided tutorials meant to give explicit instructions in order to build something.
+These tutorials guide you through examples from start to finish. By the end of each you'll have a working extension built with the Extensions Framework!
 
 .. toctree::
    :maxdepth: 1
@@ -14,6 +14,3 @@ Guided tutorials meant to give explicit instructions in order to build something
    reactive-image-display/0-main-page
    js_api
    popup/popup
-   
-   
-   

@@ -1,4 +1,4 @@
-client\_code.model.proxies
+﻿client\_code.model.proxies
 ==========================
 
 .. automodule:: client_code.model.proxies
@@ -26,7 +26,6 @@ client\_code.model.proxies
       MarksSelectedEvent
       Parameter
       ParameterChangedEvent
-      Tableau
       TableauProxy
       Worksheet
    

@@ -1,19 +1,19 @@
 Platform Overview
 ------
 
-This is a python library that allows users to create Tableau extensions with Anvil using only Python. 
+This is a Python library that allows users to create Tableau extensions with Anvil using only Python.
 
 .. raw:: html
 
   <h3>What's Anvil?</h3>
 
-Anvil is a Python-based, full stack web framework used to rapidly develop and deploy web applications. 
+Anvil is a Python-based, full stack web framework used to rapidly develop and deploy web applications.
 
 .. raw:: html
 
   <h3>What's a Tableau extension?</h3>
 
-In Tableau's own words, 
+In Tableau's own words,
 
     "The Extension API enables customer to integrate and interact with data from other applications directly in Tableau"
 
@@ -21,7 +21,7 @@ In Tableau's own words,
 
     <h4>...in other words</h4>
 
-Tableau dashboard extensions are web applications that have two-way communication with the dashboard. They enable all sorts of scenarios, like letting you integrate Tableau with custom applications, making possible for you to modify the data for a viz, or even creating custom visualizations inside the dashboard. 
+Tableau dashboard extensions are web applications that have two-way communication with the dashboard. They enable all sorts of scenarios, like letting you integrate Tableau with custom applications, making possible for you to modify the data for a viz, or even creating custom visualizations inside the dashboard.
 
 .. image:: media/sampleextension.png
 
@@ -33,9 +33,9 @@ Because Tableau extensions are web applications, there is a wide variety of diff
 
 * Integrate with third-party APIs inside the dashboard
 * Use third-party charting libraries like ``visjs`` or ``d3`` to add custom visualizations
-* Enable write-back functionality so users can modify data in a viz and have that change automatically update the source data 
+* Enable write-back functionality so users can modify data in a viz and have that change automatically update the source data
 * Build custom viz and interactivity types, such as a filter replacement and custom interfaces
-  
+
 To get a taste of what other people have built, check out some `dashboard extensions on the Tableau Exchange <https://exchange.tableau.com/extensions>`_
 
 .. raw:: html
@@ -47,7 +47,7 @@ The primary purpose of this Python library is to reduce the amount of time requi
 .. important::
 
     By making Tableau Extensions more accessible to organizations, Dashboard Developers are unleashed to do more. "More" includes new integrations, sophisticated user interfaces, and more advanced data tools.
-    
+
 This Python library accomplishes this by:
 
 - Creating a Pythonic representation of the Tableau Dashboard
@@ -58,8 +58,8 @@ This Python library accomplishes this by:
 - Secure Server environment
 
 The below image outlines how this Python library is related to Anvil and Tableau.
-  
-.. image:: media/extension_architecture.PNG  
+
+.. image:: media/extension_architecture.PNG
 
 
 Now that you have a good handle on the extensions framework, head over to the :doc:`getting_started` guide for a short walkthrough of what the development experience is like.
@@ -77,8 +77,8 @@ While the Extension API puts web applications into a tableau dashboard, the Embe
 
 * You can use the Embedding JavaScript API for embedding Tableau dashboards in web pages (for example, blog posts), or in line of business applications.
 * You can use the Extensions API for integrating web applications into zones in Tableau dashboards.
-  
-The python documentation you are currently reading is related to the Extensions API and **not** the Embedding Javascript API.
+
+The Python documentation you are currently reading is related to the Extensions API and **not** the Embedding Javascript API.
 
 .. raw:: html
 
@@ -90,5 +90,3 @@ While the Tableau extension JS API is powerful, extension development has challe
 * Extensions require a significant amount of technical knowledge and supporting tools to operate. This includes networking, dev ops, JS programing, security, etc.
 * During several attended in-person trainings from Tableau, it's rare for developers to make it through the tutorial and many gave up along the way
 * Lots of effort is required to stand up a development environment (chrome headless / npm / sdks)
-
-

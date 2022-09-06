@@ -60,7 +60,7 @@ pygments_style = "sphinx"
 #
 html_theme = "sphinx_rtd_theme"
 
-add_module_names = False
+#add_module_names = False
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -70,4 +70,4 @@ add_module_names = False
 
 # Show methods / classes / functions by their order in the source code
 # instead of aphabetically
-autodoc_member_order = 'bysource'
+autodoc_member_order = "bysource"

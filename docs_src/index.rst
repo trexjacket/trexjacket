@@ -11,6 +11,7 @@ Outline
    howthisworks.rst
    tutorials/index.rst
    guides/index.rst
+   reference/supported.rst
    reference/index.rst
 
 Indices and tables

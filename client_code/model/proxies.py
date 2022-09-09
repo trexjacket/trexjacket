@@ -48,9 +48,13 @@ def _suppress_duplicate_events(event_handler):
     return suppressing_handler
 
 
+class NoDefault:
+    pass
+
+
 class TableauProxy:
-    """A base class for those requiring a Tableau proxy object. 
-    
+    """A base class for those requiring a Tableau proxy object.
+
     Allows for access of the underlying Tableau JS object using the ``_proxy`` attribute.
     """
 
@@ -136,7 +140,7 @@ class Datasource(TableauProxy):
 
 
 class Filter:
-    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change 
+    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change
     filter values.
 
     .. note::
@@ -443,7 +447,7 @@ class Parameter(TableauProxy):
 
 
 class Worksheet(TableauProxy):
-    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to 
+    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to
     get underlying data, filters, and parameters.
 
     .. note::
@@ -654,12 +658,7 @@ class Worksheet(TableauProxy):
         if not isinstance(values, list):
             values = [values]
 
-        print(
-            f"applying filter async: {field_name} "
-            f"filtered to {values} with method {update_type}"
-        )
         self._proxy.applyFilterAsync(field_name, values, update_type)
-        print("filter applied")
 
     def apply_range_filter(self, field_name, min, max):
         """Applies a range filter.
@@ -808,7 +807,7 @@ class Worksheet(TableauProxy):
 
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
-    methods to retrieve parameters, filters, and data sources. 
+    methods to retrieve parameters, filters, and data sources.
 
     .. note::
 
@@ -1028,6 +1027,114 @@ class Dashboard(TableauProxy):
                 "You can only set selection_changed, filter_changed, or "
                 f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )
+
+    @property
+    def settings(self):
+        return Settings(tableau.extensions.settings)
+
+    @property
+    def author_mode(self):
+        return tableau.extensions.environment.mode == "authoring"
+
+
+class Settings(TableauProxy):
+    """Dict-like representation of Tableau Settings. Settings are persisted in the workbook but can only be modified
+    in authoring mode.
+
+    Settings behaves like a dict, with all the standard methods.
+
+    Settings can be accessed and set through standard dict notation:
+    my_setting = settings['my_setting']
+    settings['my_new_setting'] = 'my_new_setting'
+
+    Typically accessed through dashboard.settings.
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Filter`` object's ``._proxy`` attribute.
+    """
+
+    def keys(self):
+        return self.dict().keys()
+
+    def values(self):
+        return self.dict().values()
+
+    def items(self):
+        return self.dict().items()
+
+    def get(self, item, default=None):
+        value = self._proxy.get(item)
+        return value if value is not None else default
+
+    def __getitem__(self, item):
+        value = self._proxy.get(item)
+        if value is None:
+            raise KeyError(
+                f"Setting {item} wasn't found, or is None (which is not allowed)."
+            )
+        return value
+
+    def __setitem__(self, item, value):
+        self._proxy.set(item, str(value) if value is not None else "")
+        self._proxy.saveAsync()
+
+    def update(self, update_dict):
+        for k, v in update_dict.items():
+            self._proxy.set(k, str(v) if v is not None else "")
+        self._proxy.saveAsync()
+
+    def pop(self, key, default=NoDefault):
+        value = self._proxy.get(key)
+        if value is None and default is NoDefault:
+            raise KeyError(
+                f"No setting for {key} in Tableau workbook settings. Available settings: {self.keys()}"
+            )
+        elif value is None:
+            value = default
+
+        self.delete(key)
+        return value
+
+    def delete(self, key):
+        # A bug exists in the Extension API (or is introduced by the anvil.js framework)
+        # where keys set to an empty string cannot be deleted.
+        if self.get(key) == "":
+            self._proxy.set(key, "TO BE DELETED")
+        self._proxy.erase(key)
+        self._proxy.saveAsync()
+
+    def clear(self):
+        for key in list(self.keys()):
+            self.delete(key)
+
+    def dict(self):
+        return dict(self._proxy.getAll())
+
+    def __repr__(self):
+        return f"Tableau Workbook Settings: {self.dict()}"
+
+    def __str__(self):
+        return str(self.dict())
+
+    def setdefault(self, key, default_value=""):
+        if key in self.keys():
+            return self[key]
+
+        else:
+            self[key] = default_value
+            return default_value
+
+    def setdefaults(self, defaults_dict):
+        initial_keys = list(self.keys())
+        for k, v in defaults_dict.items():
+            if k not in initial_keys:
+                self._proxy.set(k, v if v is not None else "")
+
+        self._proxy.saveAsync()
+
+    def refresh(self):
+        self._proxy = tableau.extensions.settings
 
 
 class Tableau:

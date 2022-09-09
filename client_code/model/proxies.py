@@ -1071,7 +1071,6 @@ class Settings(TableauProxy):
             jsonified = json.dumps(f"ISODateTime({obj.isoformat()})")
         else:
             jsonified = json.dumps(obj)
-        print(f"obj {obj} of type {type(obj)} jsonified to: {jsonified}")
         return jsonified
 
     @staticmethod

@@ -10,6 +10,8 @@ from .utils import clean_record_key, native_value_date_handler
 
 _event_cache = {}
 
+import json
+
 
 def _suppress_duplicate_events(event_handler):
     """Wrap an event handler function to cope with duplicate events.
@@ -1041,11 +1043,18 @@ class Settings(TableauProxy):
     """Dict-like representation of Tableau Settings. Settings are persisted in the workbook but can only be modified
     in authoring mode.
 
-    Settings behaves like a dict, with all the standard methods.
-
-    Settings can be accessed and set through standard dict notation:
+    Settings behaves like a dict, and can be accessed and set through standard dict notation:
     my_setting = settings['my_setting']
     settings['my_new_setting'] = 'my_new_setting'
+
+    Most of the standard dict methods are implemented. "pop" is not implemented; settings cannot be changed when
+    the dashboard is not in 'author' mode, so probably, this isn't what you want.
+
+    Additional methods:
+        delete(key): Removes that key from settings if it exists.
+        setdefaults(dict): Similar to setdefault and update, where all of the keys in the passed dictionary are
+            updated only if they don't exist. This avoids repeated writes to the dashboard if many defaults need
+            setting at once.
 
     Typically accessed through dashboard.settings.
 
@@ -1054,49 +1063,97 @@ class Settings(TableauProxy):
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Filter`` object's ``._proxy`` attribute.
     """
 
+    @staticmethod
+    def _jsonify(obj):
+        if type(obj) is dt.date:
+            jsonified = json.dumps(f"ISODate({obj.isoformat()})")
+        elif type(obj) is dt.datetime:
+            jsonified = json.dumps(f"ISODateTime({obj.isoformat()})")
+        else:
+            jsonified = json.dumps(obj)
+        print(f"obj {obj} of type {type(obj)} jsonified to: {jsonified}")
+        return jsonified
+
+    @staticmethod
+    def _dejsonify(text):
+        if text == "":
+            return ""
+        elif text is None:
+            return None
+        else:
+            value = json.loads(text)
+            if isinstance(value, str) and value.startswith("ISODate("):
+                value = dt.date.fromisoformat(value[8:-1])
+            elif isinstance(value, str) and value.startswith("ISODateTime("):
+                value = dt.datetime.fromisoformat(value[12:-1])
+            return value
+
+    def _setkey(self, key, value):
+        if key is None:
+            raise KeyError("'None' is not a valid key for settings.")
+        elif not isinstance(key, str):
+            raise KeyError(
+                f"Key {key} is not a string. Only string keys are allowed in Settings."
+            )
+
+        if not any(
+            [
+                isinstance(value, t)
+                for t in [int, float, str, dict, list, tuple, dt.date, dt.datetime]
+            ]
+        ):
+            print(
+                f"Warning: Settings {key} (with value {value}) is of type {type(value)}! Settings persisted in the "
+                f"workbook are stored as JSON. Make sure the serialization and deserialization "
+                f"of {key} occurs as you expect. Otherwise, consider converting to a simple object type."
+            )
+
+        self._proxy.set(key, self._jsonify(value))
+
     def keys(self):
+        """Identical to dict.keys()."""
         return self.dict().keys()
 
     def values(self):
+        """Identical to dict.values()."""
         return self.dict().values()
 
     def items(self):
+        """Identical to dict.items()."""
         return self.dict().items()
 
     def get(self, item, default=None):
-        value = self._proxy.get(item)
+        """Identical to dict.get(key, default_value)."""
+        value = self._dejsonify(self._proxy.get(item))
         return value if value is not None else default
 
     def __getitem__(self, item):
-        value = self._proxy.get(item)
-        if value is None:
+        if item not in self.keys():
             raise KeyError(
                 f"Setting {item} wasn't found, or is None (which is not allowed)."
             )
+        value = self.get(item)
         return value
 
     def __setitem__(self, item, value):
-        self._proxy.set(item, str(value) if value is not None else "")
+        self._setkey(item, value)
         self._proxy.saveAsync()
 
     def update(self, update_dict):
+        """Identical to dict.update(dict). This is a little more efficient than updating many keys
+        one at a time, since setting each key requires writing to the dashboard."""
         for k, v in update_dict.items():
-            self._proxy.set(k, str(v) if v is not None else "")
+            self._setkey(k, v)
         self._proxy.saveAsync()
 
-    def pop(self, key, default=NoDefault):
-        value = self._proxy.get(key)
-        if value is None and default is NoDefault:
-            raise KeyError(
-                f"No setting for {key} in Tableau workbook settings. Available settings: {self.keys()}"
-            )
-        elif value is None:
-            value = default
-
-        self.delete(key)
-        return value
-
     def delete(self, key):
+        """This deletes the key from settings.
+
+        Parameters
+        ----------
+        key : str
+            They key to be deleted.
+        """
         # A bug exists in the Extension API (or is introduced by the anvil.js framework)
         # where keys set to an empty string cannot be deleted.
         if self.get(key) == "":
@@ -1105,11 +1162,22 @@ class Settings(TableauProxy):
         self._proxy.saveAsync()
 
     def clear(self):
+        """Identical to dict.clear()."""
         for key in list(self.keys()):
             self.delete(key)
 
     def dict(self):
-        return dict(self._proxy.getAll())
+        """Converts settings to a dictionary.
+
+        Returns
+        -------
+        settings_dict : a dictionary copy of settings.
+            Note that this makes a copy of settings. Changing settings_dict will not affect
+            the settings in the dashboard.
+        """
+        settings_dict = dict(self._proxy.getAll())
+        settings_dict = {k: self._dejsonify(v) for k, v in settings_dict.items()}
+        return settings_dict
 
     def __repr__(self):
         return f"Tableau Workbook Settings: {self.dict()}"
@@ -1118,6 +1186,7 @@ class Settings(TableauProxy):
         return str(self.dict())
 
     def setdefault(self, key, default_value=""):
+        """Identical to dict.setdefault(key, default_value)."""
         if key in self.keys():
             return self[key]
 
@@ -1126,15 +1195,21 @@ class Settings(TableauProxy):
             return default_value
 
     def setdefaults(self, defaults_dict):
+        """Sets all the defaults in the defaults_dict provided. If a key does not
+        exist in settings, it is set to the default provided; otherwise, they value is not changed.
+
+        Parameters
+        ----------
+        defaults_dict : dict
+            Key value pairs representing the setting key and the default value to use
+            if the key does not exist in settings.
+        """
         initial_keys = list(self.keys())
         for k, v in defaults_dict.items():
             if k not in initial_keys:
-                self._proxy.set(k, v if v is not None else "")
+                self._setkey(k, v)
 
         self._proxy.saveAsync()
-
-    def refresh(self):
-        self._proxy = tableau.extensions.settings
 
 
 class Tableau:

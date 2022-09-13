@@ -6,7 +6,7 @@ from anvil.js import report_exceptions
 
 from . import events
 from .marks import Field, build_marks
-from .utils import clean_record_key, native_value_date_handler
+from .utils import clean_record_key, native_value_date_handler, unique_id
 
 _event_cache = {}
 
@@ -49,8 +49,8 @@ def _suppress_duplicate_events(event_handler):
 
 
 class TableauProxy:
-    """A base class for those requiring a Tableau proxy object. 
-    
+    """A base class for those requiring a Tableau proxy object.
+
     Allows for access of the underlying Tableau JS object using the ``_proxy`` attribute.
     """
 
@@ -136,7 +136,7 @@ class Datasource(TableauProxy):
 
 
 class Filter:
-    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change 
+    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change
     filter values.
 
     .. note::
@@ -443,7 +443,7 @@ class Parameter(TableauProxy):
 
 
 class Worksheet(TableauProxy):
-    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to 
+    """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to
     get underlying data, filters, and parameters.
 
     .. note::
@@ -808,7 +808,7 @@ class Worksheet(TableauProxy):
 
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
-    methods to retrieve parameters, filters, and data sources. 
+    methods to retrieve parameters, filters, and data sources.
 
     .. note::
 
@@ -1065,6 +1065,7 @@ class Tableau:
         self.timeout = None
         self.event_type_mapper = EventTypeMapper()
         self._proxy = tableau.extensions
+        self.callbacks = {}
         self.dashboard = Dashboard(tableau.extensions.dashboardContent.dashboard)
 
     @property
@@ -1111,11 +1112,21 @@ class Tableau:
             wrapped_event = self.event_type_mapper.proxy(event)
             handler(wrapped_event)
 
-        handler_fn = None
+        identifiers = []
         for target in targets:
-            handler_fn = target._proxy.addEventListener(tableau_event, wrapper)
+            identifier = unique_id()
+            identifiers.append(identifier)
+            self.callbacks[identifier] = target._proxy.addEventListener(
+                tableau_event, wrapper
+            )
 
-        return handler_fn
+        try:
+            return identifiers if len(identifiers) > 1 else identifiers[1]
+        except IndexError:
+            return None
+
+    def unregister_event_handler(self, id):
+        self.callbacks.pop(id)()
 
 
 class DataTable(TableauProxy):

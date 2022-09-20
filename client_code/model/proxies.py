@@ -438,18 +438,17 @@ class Parameter(TableauProxy):
             Function that is called whenever the parameter is changed.
         """
         session = Tableau.session()
-        self._listener = session.register_event_handler(
+        session.register_event_handler(
             events.PARAMETER_CHANGED, handler, self
         )
 
-    def remove_event_handler(self):
-        """Removes an event listener if a matching one is found.
+    def unregister_event_handler(self, handler):
+        session = Tableau.session()
+        session.unregister_event_handler(self, handler)
 
-        If no matching listener exists, the method does nothing.
-        """
-        if hasattr(self, "_listener") and self._listener:
-            self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
-            self._listener = None
+    def unregister_all_event_handlers(self):
+        session = Tableau.session()
+        session.unregister_all_event_handlers(self)
 
 
 class Worksheet(TableauProxy):
@@ -817,6 +816,16 @@ class Worksheet(TableauProxy):
                 f"parameter_changed from the Sheet object. You tried: {event_type}"
             )
 
+    def unregister_event_handler(self, handler):
+        session = Tableau.session()
+        session.unregister_event_handler(self, handler)
+
+    def unregister_all_event_handlers(self):
+        session = Tableau.session()
+        session.unregister_all_event_handlers(self)
+        for p in self.parameters:
+            p.unregister_all_event_handlers()
+
 
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
@@ -1042,6 +1051,12 @@ class Dashboard(TableauProxy):
                 "You can only set selection_changed, filter_changed, or "
                 f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )
+
+    def unregister_all_event_handlers(self):
+        for w in self.worksheets:
+            w.unregister_all_event_handlers()
+        for p in self.parameters:
+            p.unregister_all_event_handlers()
 
 
 class Tableau:

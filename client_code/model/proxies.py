@@ -49,6 +49,7 @@ def _suppress_duplicate_events(event_handler):
 
 
 class TableauProxy:
+    identifier = None
     """A base class for those requiring a Tableau proxy object.
 
     Allows for access of the underlying Tableau JS object using the ``_proxy`` attribute.
@@ -56,6 +57,10 @@ class TableauProxy:
 
     def __init__(self, proxy):
         self._proxy = proxy
+        try:
+            self.id = getattr(proxy, self.identifier)
+        except AttributeError:
+            self.id = None
 
     def __getattr__(self, name):
         return getattr(self._proxy, name)
@@ -295,6 +300,8 @@ class Filter:
 
 
 class Parameter(TableauProxy):
+    identifier = "id"
+
     """Represents a parameter in Tableau. Parameter values can be modified and read using this class.
 
     .. note::
@@ -450,6 +457,7 @@ class Worksheet(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>` and accessed through the ``Worksheet`` object's ``._proxy`` attribute.
     """
+    identifier = "name"
 
     def get_selected_records(self):
         """Gets the data for the marks which are currently selected on the worksheet.
@@ -814,6 +822,7 @@ class Dashboard(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html>` and accessed through the ``Dashboard`` object's ``._proxy`` attribute.
     """
+    identifier = "id"
 
     def __init__(self, proxy):
         super().__init__(proxy)

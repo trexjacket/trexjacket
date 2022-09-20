@@ -1030,15 +1030,6 @@ class Dashboard(TableauProxy):
             )
 
 
-class Registration:
-    def __init__(self, session, uid):
-        self.session = session
-        self.uid = uid
-
-    def unregister(self):
-        self.session.unregister_event_handler(self.uid)
-
-
 class Tableau:
     """The main interface to Tableau.
 
@@ -1130,11 +1121,7 @@ class Tableau:
             )
 
         try:
-            return (
-                [Registration(self, i) for i in identifiers]
-                if len(identifiers) > 1
-                else Registration(self, identifiers[1])
-            )
+            return identifiers if len(identifiers) > 1 else identifiers[1]
         except IndexError:
             return None
 

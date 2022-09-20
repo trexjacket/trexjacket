@@ -65,6 +65,9 @@ class TableauProxy:
     def __getattr__(self, name):
         return getattr(self._proxy, name)
 
+    def __eq__(self, other):
+        self.id == other.id
+
 
 class Datasource(TableauProxy):
     """Represents a Tableau data source. Only refreshing data sources is implemented with this API.

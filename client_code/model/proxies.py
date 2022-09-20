@@ -6,7 +6,7 @@ from anvil.js import report_exceptions
 
 from . import events
 from .marks import Field, build_marks
-from .utils import clean_record_key, native_value_date_handler, unique_id
+from .utils import clean_record_key, native_value_date_handler
 
 _event_cache = {}
 
@@ -457,6 +457,7 @@ class Worksheet(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>` and accessed through the ``Worksheet`` object's ``._proxy`` attribute.
     """
+
     identifier = "name"
 
     def get_selected_records(self):
@@ -822,6 +823,7 @@ class Dashboard(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html>` and accessed through the ``Dashboard`` object's ``._proxy`` attribute.
     """
+
     identifier = "id"
 
     def __init__(self, proxy):
@@ -1112,30 +1114,32 @@ class Tableau:
         except TypeError:
             targets = (targets,)
 
-        handler = report_exceptions(handler)
+        reporting_handler = report_exceptions(handler)
         if event_type == events.FILTER_CHANGED:
-            handler = _suppress_duplicate_events(handler)
+            reporting_handler = _suppress_duplicate_events(reporting_handler)
         tableau_event = self.event_type_mapper.tableau_event(event_type)
 
         def wrapper(event):
             wrapped_event = self.event_type_mapper.proxy(event)
-            handler(wrapped_event)
+            reporting_handler(wrapped_event)
 
-        identifiers = []
         for target in targets:
-            identifier = unique_id()
-            identifiers.append(identifier)
+            identifier = (target.__class__, target.id, handler)
             self.callbacks[identifier] = target._proxy.addEventListener(
                 tableau_event, wrapper
             )
 
-        try:
-            return identifiers if len(identifiers) > 1 else identifiers[1]
-        except IndexError:
-            return None
+    def unregister_event_handler(self, target, handler):
+        identifier = (target.__class__, target.id, handler)
+        self.callbacks.pop(identifier)()
 
-    def unregister_event_handler(self, id):
-        self.callbacks.pop(id)()
+    def unregister_all_event_handlers(self, target):
+        identifiers = [
+            k for k in self.callbacks
+            if target.__class__ == k[0] and target.id == k[1]
+        ]
+        for identifier in identifiers:
+            self.callbacks.pop(identifier)()
 
 
 class DataTable(TableauProxy):

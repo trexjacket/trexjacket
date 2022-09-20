@@ -1,9 +1,6 @@
 import datetime
-import random
 
 import anvil.js
-
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 
 def clean_record_key(key):
@@ -41,7 +38,3 @@ def native_value_date_handler(native_value):
         return datetime_obj.date()
     else:
         return datetime_obj
-
-
-def unique_id(length=8):
-    return "".join([random.choice(ALPHABET) for _ in range(length)])

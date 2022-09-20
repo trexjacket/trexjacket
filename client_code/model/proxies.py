@@ -12,7 +12,6 @@ _event_cache = {}
 
 import json
 
-
 def _suppress_duplicate_events(event_handler):
     """Wrap an event handler function to cope with duplicate events.
 
@@ -1129,13 +1128,27 @@ class Settings(TableauProxy):
     def __getitem__(self, item):
         if item not in self.keys():
             raise KeyError(
-                f"Setting {item} wasn't found, or is None (which is not allowed)."
+                f"Setting {item} wasn't found."
             )
         value = self.get(item)
         return value
 
     def __setitem__(self, item, value):
         self._setkey(item, value)
+        self._proxy.saveAsync()
+
+    def __len__(self):
+        return len(self.keys())
+
+    def __contains__(self, item):
+        return item in self.keys()
+
+    def __delitem__(self, item):
+        # A bug exists in the Extension API (or is introduced by the anvil.js framework)
+        # where keys set to an empty string cannot be deleted.
+        if self.get(key) == "":
+            self._proxy.set(key, "TO BE DELETED")
+        self._proxy.erase(key)
         self._proxy.saveAsync()
 
     def update(self, update_dict):
@@ -1153,12 +1166,7 @@ class Settings(TableauProxy):
         key : str
             They key to be deleted.
         """
-        # A bug exists in the Extension API (or is introduced by the anvil.js framework)
-        # where keys set to an empty string cannot be deleted.
-        if self.get(key) == "":
-            self._proxy.set(key, "TO BE DELETED")
-        self._proxy.erase(key)
-        self._proxy.saveAsync()
+        self.__delitem__(key)
 
     def clear(self):
         """Identical to dict.clear()."""
@@ -1210,6 +1218,11 @@ class Settings(TableauProxy):
 
         self._proxy.saveAsync()
 
+    def __bool__(self):
+        return bool(self.dict())
+
+    def __iter__(self):
+        return iter(self.dict())
 
 class Tableau:
     """The main interface to Tableau.

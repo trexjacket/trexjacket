@@ -1031,10 +1031,24 @@ class Dashboard(TableauProxy):
 
     @property
     def settings(self):
+        """The current dashboard settings. Dashboard settings provide a simple way to persist 
+        configuration variables in the workbook. Using Settings you can make your Extensions 
+        flexible and adaptable between  workbooks. Settings cannot be changed unless the 
+        Dashboard is opened in edit-mode or through Tableau Desktop.
+        
+        :type: :obj:`Settings` object.
+         """
         return Settings(tableau.extensions.settings)
 
     @property
     def author_mode(self):
+        """ Whether or not the dashboard in which the Extension is embedded is in author-mode.
+        Dashboards are in author-mode when web-authoring or opened in Tableau Desktop.
+        
+        Settings can only be changed or updated when the workbook is in author_mode.
+        
+        :type: :obj:`bool`
+        """
         return tableau.extensions.environment.mode == "authoring"
 
 
@@ -1059,7 +1073,7 @@ class Settings(TableauProxy):
 
     .. note::
 
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Filter`` object's ``._proxy`` attribute.
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Setting`` object's ``._proxy`` attribute.
     """
 
     @staticmethod
@@ -1203,7 +1217,7 @@ class Settings(TableauProxy):
 
     def setdefaults(self, defaults_dict):
         """Sets all the defaults in the defaults_dict provided. If a key does not
-        exist in settings, it is set to the default provided; otherwise, they value is not changed.
+        exist in settings, it is set to the default provided; otherwise, the value is not changed.
 
         Parameters
         ----------

@@ -1160,9 +1160,9 @@ class Settings(TableauProxy):
     def __delitem__(self, item):
         # A bug exists in the Extension API (or is introduced by the anvil.js framework)
         # where keys set to an empty string cannot be deleted.
-        if self.get(key) == "":
-            self._proxy.set(key, "TO BE DELETED")
-        self._proxy.erase(key)
+        if self.get(item) == "":
+            self._proxy.set(item, "TO BE DELETED")
+        self._proxy.erase(item)
         self._proxy.saveAsync()
 
     def update(self, update_dict):

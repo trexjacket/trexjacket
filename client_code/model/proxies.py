@@ -442,7 +442,7 @@ class Parameter(TableauProxy):
 
     def unregister_event_handler(self, handler):
         session = Tableau.session()
-        session.unregister_event_handler(self, handler)
+        session.unregister_event_handler(self, handler, events.PARAMETER_CHANGED)
 
     def unregister_all_event_handlers(self):
         session = Tableau.session()
@@ -814,9 +814,9 @@ class Worksheet(TableauProxy):
                 f"parameter_changed from the Sheet object. You tried: {event_type}"
             )
 
-    def unregister_event_handler(self, handler):
+    def unregister_event_handler(self, handler, event_type=None):
         session = Tableau.session()
-        session.unregister_event_handler(self, handler)
+        session.unregister_event_handler(self, handler, event_type)
 
     def unregister_all_event_handlers(self):
         session = Tableau.session()
@@ -1155,7 +1155,9 @@ class Tableau:
                 if target.__class__ == k[0] and target.id == k[1] and handler == k[2]
             ]
             if len(identifiers) > 1:
-                raise ValueError("Handler has multiple registrations. Specify the event type")
+                raise ValueError(
+                    "Handler has multiple registrations. Specify the event type"
+                )
             identifier = identifiers[0]
         self.callbacks.pop(identifier)()
 

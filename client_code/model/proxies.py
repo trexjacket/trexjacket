@@ -438,9 +438,7 @@ class Parameter(TableauProxy):
             Function that is called whenever the parameter is changed.
         """
         session = Tableau.session()
-        session.register_event_handler(
-            events.PARAMETER_CHANGED, handler, self
-        )
+        session.register_event_handler(events.PARAMETER_CHANGED, handler, self)
 
     def unregister_event_handler(self, handler):
         session = Tableau.session()
@@ -1153,8 +1151,7 @@ class Tableau:
 
     def unregister_all_event_handlers(self, target):
         identifiers = [
-            k for k in self.callbacks
-            if target.__class__ == k[0] and target.id == k[1]
+            k for k in self.callbacks if target.__class__ == k[0] and target.id == k[1]
         ]
         for identifier in identifiers:
             self.callbacks.pop(identifier)()

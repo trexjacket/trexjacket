@@ -1140,13 +1140,23 @@ class Tableau:
             reporting_handler(wrapped_event)
 
         for target in targets:
-            identifier = (target.__class__, target.id, handler)
+            identifier = (target.__class__, target.id, handler, event_type)
             self.callbacks[identifier] = target._proxy.addEventListener(
                 tableau_event, wrapper
             )
 
-    def unregister_event_handler(self, target, handler):
-        identifier = (target.__class__, target.id, handler)
+    def unregister_event_handler(self, target, handler, event_type=None):
+        if event_type is not None:
+            identifier = (target.__class__, target.id, handler, event_type)
+        else:
+            identifiers = [
+                k
+                for k in self.callbacks
+                if target.__class__ == k[0] and target.id == k[1] and handler == k[2]
+            ]
+            if len(identifiers) > 1:
+                raise ValueError("Handler has multiple registrations. Specify the event type")
+            identifier = identifiers[0]
         self.callbacks.pop(identifier)()
 
     def unregister_all_event_handlers(self, target):

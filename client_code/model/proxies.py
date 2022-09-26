@@ -12,6 +12,7 @@ _event_cache = {}
 
 import json
 
+
 def _suppress_duplicate_events(event_handler):
     """Wrap an event handler function to cope with duplicate events.
 
@@ -1031,22 +1032,22 @@ class Dashboard(TableauProxy):
 
     @property
     def settings(self):
-        """The current dashboard settings. Dashboard settings provide a simple way to persist 
-        configuration variables in the workbook. Using Settings you can make your Extensions 
-        flexible and adaptable between  workbooks. Settings cannot be changed unless the 
+        """The current dashboard settings. Dashboard settings provide a simple way to persist
+        configuration variables in the workbook. Using Settings you can make your Extensions
+        flexible and adaptable between  workbooks. Settings cannot be changed unless the
         Dashboard is opened in edit-mode or through Tableau Desktop.
-        
+
         :type: :obj:`Settings` object.
-         """
+        """
         return Settings(tableau.extensions.settings)
 
     @property
     def author_mode(self):
-        """ Whether or not the dashboard in which the Extension is embedded is in author-mode.
+        """Whether or not the dashboard in which the Extension is embedded is in author-mode.
         Dashboards are in author-mode when web-authoring or opened in Tableau Desktop.
-        
+
         Settings can only be changed or updated when the workbook is in author_mode.
-        
+
         :type: :obj:`bool`
         """
         return tableau.extensions.environment.mode == "authoring"
@@ -1141,9 +1142,7 @@ class Settings(TableauProxy):
 
     def __getitem__(self, item):
         if item not in self.keys():
-            raise KeyError(
-                f"Setting {item} wasn't found."
-            )
+            raise KeyError(f"Setting {item} wasn't found.")
         value = self.get(item)
         return value
 
@@ -1237,6 +1236,7 @@ class Settings(TableauProxy):
 
     def __iter__(self):
         return iter(self.dict())
+
 
 class Tableau:
     """The main interface to Tableau.

@@ -754,7 +754,7 @@ class Worksheet(TableauProxy):
             return Parameter(param_js)
 
     @property
-    def datasources(self):
+    def datasources(self) -> str:
         """The data sources for this worksheet.
 
         Returns

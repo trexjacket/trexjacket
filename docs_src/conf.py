@@ -62,5 +62,5 @@ html_theme = "sphinx_rtd_theme"
 
 # Show methods / classes / functions by their order in the source code
 # instead of aphabetically
-autodoc_member_order = 'bysource'
-autodoc_member_order = 'bysource'
+autodoc_member_order = "bysource"
+autodoc_member_order = "bysource"

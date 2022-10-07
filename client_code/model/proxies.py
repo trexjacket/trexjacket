@@ -5,8 +5,8 @@ from anvil import tableau
 from anvil.js import report_exceptions
 
 from . import events
+from ._utils import clean_record_key, native_value_date_handler
 from .marks import Field, build_marks
-from .utils import clean_record_key, native_value_date_handler
 
 _event_cache = {}
 
@@ -423,7 +423,7 @@ class Parameter(TableauProxy):
         handler : function
             Function that is called whenever the parameter is changed.
         """
-        session = Tableau.session()
+        session = _Tableau.session()
         self._listener = session.register_event_handler(
             events.PARAMETER_CHANGED, handler, self
         )
@@ -437,9 +437,9 @@ class Parameter(TableauProxy):
             self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
             self._listener = None
 
-    def refresh(self, parameter_changed_event=None):
+    def _refresh(self, parameter_changed_event=None):
         """Refreshes the object to reflect any changes in the dashboard."""
-        self._proxy = Tableau.session().dashboard.get_parameter(self.name)._proxy
+        self._proxy = _Tableau.session().dashboard.get_parameter(self.name)._proxy
 
 
 class Worksheet(TableauProxy):
@@ -786,7 +786,7 @@ class Worksheet(TableauProxy):
         handler : function
             The function to call when the event is triggered. ``handler`` must take an event instance as an argument.
         """
-        session = Tableau.session()
+        session = _Tableau.session()
         if event_type in [
             "selection_changed",
             "filter_changed",
@@ -1030,7 +1030,7 @@ class Dashboard(TableauProxy):
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
 
 
-class Tableau:
+class _Tableau:
     """The main interface to Tableau.
 
     Creating an instance of class this will initialize a tableau session and make
@@ -1054,7 +1054,7 @@ class Tableau:
         Tableau
         """
         if cls._session is None:
-            cls._session = Tableau()
+            cls._session = _Tableau()
             cls._session.available
         return cls._session
 
@@ -1119,11 +1119,11 @@ class Tableau:
 
 
 class DataTable(TableauProxy):
-    """Should be private
+    """Represents a datatable in Tableau.
 
     .. note::
 
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``DataTable`` object's ``._proxy`` attribute.
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``_DataTable`` object's ``._proxy`` attribute.
     """
 
     @property

@@ -1,20 +1,7 @@
 import anvil
 import anvil.js
 
-from .model.proxies import Tableau
-
-
-def get_session():
-    """Get a Tableau Session object.
-
-    This is not a recommended entry point into the Tableau Extensions API.
-
-    Returns
-    -------
-    :obj:`~client_code.model.proxies.Tableau`
-        The current Tableau session.
-    """
-    return Tableau.session()
+from .model.proxies import _Tableau
 
 
 def get_dashboard():
@@ -29,4 +16,4 @@ def get_dashboard():
         It is recommended that this is the only way you 'get' the current dashboard,
         since it is an attribute of Session, which deals with a bunch of house-keeping.
     """
-    return Tableau.session().dashboard
+    return _Tableau.session().dashboard

@@ -1025,7 +1025,7 @@ class Dashboard(TableauProxy):
                 "You can only set selection_changed, filter_changed, or "
                 f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )
-            
+
     def refresh(self):
         """Refreshes the worksheets in the live Tableau Instance."""
         self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}

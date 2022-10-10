@@ -444,11 +444,11 @@ class Parameter(TableauProxy):
         )
 
     def unregister_event_handler(self, handler):
-        session = Tableau.session()
+        session = _Tableau.session()
         session.unregister_event_handler(self, handler, events.PARAMETER_CHANGED)
 
     def unregister_all_event_handlers(self):
-        session = Tableau.session()
+        session = _Tableau.session()
         session.unregister_all_event_handlers(self)
 
     def _refresh(self, parameter_changed_event=None):
@@ -815,11 +815,11 @@ class Worksheet(TableauProxy):
             )
 
     def unregister_event_handler(self, handler, event_type=None):
-        session = Tableau.session()
+        session = _Tableau.session()
         session.unregister_event_handler(self, handler, event_type)
 
     def unregister_all_event_handlers(self):
-        session = Tableau.session()
+        session = _Tableau.session()
         session.unregister_all_event_handlers(self)
         for p in self.parameters:
             p.unregister_all_event_handlers()

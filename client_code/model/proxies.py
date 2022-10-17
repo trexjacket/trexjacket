@@ -62,9 +62,16 @@ class TableauProxy:
 
     def __init__(self, proxy):
         self._proxy = proxy
+        try:
+            self.id = getattr(proxy, self.identifier)
+        except AttributeError:
+            self.id = None
 
     def __getattr__(self, name):
         return getattr(self._proxy, name)
+
+    def __eq__(self, other):
+        self.id == other.id
 
 
 class Datasource(TableauProxy):
@@ -301,6 +308,8 @@ class Filter:
 
 
 class Parameter(TableauProxy):
+    identifier = "id"
+
     """Represents a parameter in Tableau. Parameter values can be modified and read using this class.
 
     .. note::
@@ -434,14 +443,13 @@ class Parameter(TableauProxy):
             events.PARAMETER_CHANGED, handler, self
         )
 
-    def remove_event_handler(self):
-        """Removes an event listener if a matching one is found.
+    def unregister_event_handler(self, handler):
+        session = _Tableau.session()
+        session.unregister_event_handler(self, handler, events.PARAMETER_CHANGED)
 
-        If no matching listener exists, the method does nothing.
-        """
-        if hasattr(self, "_listener") and self._listener:
-            self._proxy.removeEventListener(events.PARAMETER_CHANGED, self._listener)
-            self._listener = None
+    def unregister_all_event_handlers(self):
+        session = _Tableau.session()
+        session.unregister_all_event_handlers(self)
 
     def _refresh(self, parameter_changed_event=None):
         """Refreshes the object to reflect any changes in the dashboard."""
@@ -806,6 +814,25 @@ class Worksheet(TableauProxy):
                 f"parameter_changed from the Sheet object. You tried: {event_type}"
             )
 
+    def unregister_event_handler(self, handler, event_type=None):
+        if isinstance(event_type, str):
+            try:
+                event_type = events.event_types[event_type]
+            except KeyError:
+                raise KeyError(
+                    f"Unrecognized event_type {event_type}. "
+                    f"Valid events: {list(events.event_types.keys())}"
+                )
+
+        session = _Tableau.session()
+        session.unregister_event_handler(self, handler, event_type)
+
+    def unregister_all_event_handlers(self):
+        session = _Tableau.session()
+        session.unregister_all_event_handlers(self)
+        for p in self.parameters:
+            p.unregister_all_event_handlers()
+
 
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
@@ -815,6 +842,8 @@ class Dashboard(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/dashboard.html>` and accessed through the ``Dashboard`` object's ``._proxy`` attribute.
     """
+
+    identifier = "id"
 
     def __init__(self, proxy):
         super().__init__(proxy)
@@ -1025,6 +1054,12 @@ class Dashboard(TableauProxy):
                 "You can only set selection_changed, filter_changed, or "
                 f"parameter_changed from the Dashboard object. You passed: {event_type}"
             )
+
+    def unregister_all_event_handlers(self):
+        for w in self.worksheets:
+            w.unregister_all_event_handlers()
+        for p in self.parameters:
+            p.unregister_all_event_handlers()
 
     def refresh(self):
         """Refreshes the worksheets in the live Tableau Instance."""
@@ -1273,6 +1308,7 @@ class _Tableau:
         self.timeout = None
         self.event_type_mapper = EventTypeMapper()
         self._proxy = tableau.extensions
+        self.callbacks = {}
         self.dashboard = Dashboard(tableau.extensions.dashboardContent.dashboard)
 
     @property
@@ -1310,20 +1346,43 @@ class _Tableau:
         except TypeError:
             targets = (targets,)
 
-        handler = report_exceptions(handler)
+        reporting_handler = report_exceptions(handler)
         if event_type == events.FILTER_CHANGED:
-            handler = _suppress_duplicate_events(handler)
+            reporting_handler = _suppress_duplicate_events(reporting_handler)
         tableau_event = self.event_type_mapper.tableau_event(event_type)
 
         def wrapper(event):
             wrapped_event = self.event_type_mapper.proxy(event)
-            handler(wrapped_event)
+            reporting_handler(wrapped_event)
 
-        handler_fn = None
         for target in targets:
-            handler_fn = target._proxy.addEventListener(tableau_event, wrapper)
+            identifier = (target.__class__, target.id, handler, event_type)
+            self.callbacks[identifier] = target._proxy.addEventListener(
+                tableau_event, wrapper
+            )
 
-        return handler_fn
+    def unregister_event_handler(self, target, handler, event_type=None):
+        if event_type is not None:
+            identifier = (target.__class__, target.id, handler, event_type)
+        else:
+            identifiers = [
+                k
+                for k in self.callbacks
+                if target.__class__ == k[0] and target.id == k[1] and handler == k[2]
+            ]
+            if len(identifiers) > 1:
+                raise ValueError(
+                    "Handler has multiple registrations. Specify the event type"
+                )
+            identifier = identifiers[0]
+        self.callbacks.pop(identifier)()
+
+    def unregister_all_event_handlers(self, target):
+        identifiers = [
+            k for k in self.callbacks if target.__class__ == k[0] and target.id == k[1]
+        ]
+        for identifier in identifiers:
+            self.callbacks.pop(identifier)()
 
 
 class DataTable(TableauProxy):

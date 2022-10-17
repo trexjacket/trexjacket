@@ -815,6 +815,15 @@ class Worksheet(TableauProxy):
             )
 
     def unregister_event_handler(self, handler, event_type=None):
+        if isinstance(event_type, str):
+            try:
+                event_type = events.event_types[event_type]
+            except KeyError:
+                raise KeyError(
+                    f"Unrecognized event_type {event_type}. "
+                    f"Valid events: {list(events.event_types.keys())}"
+                )
+
         session = _Tableau.session()
         session.unregister_event_handler(self, handler, event_type)
 

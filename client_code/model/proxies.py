@@ -4,6 +4,7 @@ import itertools
 from anvil import tableau
 from anvil.js import report_exceptions
 
+from .._utils import _dejsonify, _jsonify
 from . import events
 from ._utils import clean_record_key, native_value_date_handler
 from .marks import Field, build_marks
@@ -1113,30 +1114,6 @@ class Settings(TableauProxy):
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Setting`` object's ``._proxy`` attribute.
     """
 
-    @staticmethod
-    def _jsonify(obj):
-        if type(obj) is dt.date:
-            jsonified = json.dumps(f"ISODate({obj.isoformat()})")
-        elif type(obj) is dt.datetime:
-            jsonified = json.dumps(f"ISODateTime({obj.isoformat()})")
-        else:
-            jsonified = json.dumps(obj)
-        return jsonified
-
-    @staticmethod
-    def _dejsonify(text):
-        if text == "":
-            return ""
-        elif text is None:
-            return None
-        else:
-            value = json.loads(text)
-            if isinstance(value, str) and value.startswith("ISODate("):
-                value = dt.date.fromisoformat(value[8:-1])
-            elif isinstance(value, str) and value.startswith("ISODateTime("):
-                value = dt.datetime.fromisoformat(value[12:-1])
-            return value
-
     def _setkey(self, key, value):
         if key is None:
             raise KeyError("'None' is not a valid key for settings.")
@@ -1157,7 +1134,7 @@ class Settings(TableauProxy):
                 f"of {key} occurs as you expect. Otherwise, consider converting to a simple object type."
             )
 
-        self._proxy.set(key, self._jsonify(value))
+        self._proxy.set(key, _jsonify(value))
 
     def keys(self):
         """Identical to dict.keys()."""
@@ -1173,7 +1150,7 @@ class Settings(TableauProxy):
 
     def get(self, item, default=None):
         """Identical to dict.get(key, default_value)."""
-        value = self._dejsonify(self._proxy.get(item))
+        value = _dejsonify(self._proxy.get(item))
         return value if value is not None else default
 
     def __getitem__(self, item):
@@ -1232,7 +1209,7 @@ class Settings(TableauProxy):
             the settings in the dashboard.
         """
         settings_dict = dict(self._proxy.getAll())
-        settings_dict = {k: self._dejsonify(v) for k, v in settings_dict.items()}
+        settings_dict = {k: _dejsonify(v) for k, v in settings_dict.items()}
         return settings_dict
 
     def __repr__(self):
@@ -1314,7 +1291,7 @@ class _Tableau:
 
     @property
     def available(self):
-        """Whether the current sesssion is yet available."""
+        """Whether the current session is yet available."""
         return self.dashboard._proxy is not None
 
     def register_event_handler(self, event_type, handler, targets):

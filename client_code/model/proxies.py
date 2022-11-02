@@ -949,10 +949,11 @@ class Dashboard(TableauProxy):
         all_datasources = list()
         for ws in self.worksheets:
             for ds in ws.datasources:
-                if ds.id in known_ids:
-                    pass
+                uid = (ds.id, ds.name)
+                if uid in known_ids:
+                    continue
                 else:
-                    known_ids.add(ds.id)
+                    known_ids.add(uid)
                     all_datasources.append(ds)
 
         return [Datasource(ds._proxy) for ds in all_datasources]

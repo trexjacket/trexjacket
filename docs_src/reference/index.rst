@@ -33,7 +33,7 @@ Tableau objects
 These are the things you can see on the dashboard (filters, parameters, worksheets, etc.).
 
 .. automodule:: client_code.model.proxies
-   :members: Dashboard, Parameter, Filter, Datasource, Worksheet
+   :members: Dashboard, Parameter, Filter, Datasource, Worksheet, Settings
    :show-inheritance:
 
 Change event classes

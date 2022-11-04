@@ -10,7 +10,7 @@ jobs:
             - uses: actions/checkout@v2
               with:
                 ref: docs
-                fecth-depth: 0
+                fetch-depth: 0
             - name: Merge master in
               run: |
                   git fetch --all

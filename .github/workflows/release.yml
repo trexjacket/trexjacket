@@ -13,6 +13,8 @@ jobs:
                 fetch-depth: 0
             - name: Merge master in
               run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
                   git fetch --all
                   git merge origin/master
             - name: Install dependencies

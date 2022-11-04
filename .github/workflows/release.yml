@@ -2,14 +2,19 @@ name: release
 
 on:
     push:
-        branches: [sphinx-additions]
+        branches: [master]
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
               with:
-                fetch-depth: 0
+                ref: docs
+                fecth-depth: 0
+            - name: Merge master in
+              run: |
+                  git fetch --all
+                  git merge origin/master
             - name: Install dependencies
               run: python3 -m pip install -r requirements.txt
             - name: Build docs

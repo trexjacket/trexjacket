@@ -15,6 +15,7 @@ roles:
   components: [DropDown, TextBox]
 - name: text
   components: [DropDown]
+- {name: my-tableau-role}
 color_scheme:
   preset_groups:
   - name: Primary Colour

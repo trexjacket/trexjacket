@@ -332,7 +332,7 @@ class Parameter(TableauProxy):
     @property
     def value(self):
         """The current value of the parameter."""
-        self.refresh()
+        self._refresh()
         return self._proxy.currentValue.nativeValue
 
     @property

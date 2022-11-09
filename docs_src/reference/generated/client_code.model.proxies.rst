@@ -3,20 +3,20 @@
 
 .. automodule:: client_code.model.proxies
 
-   
-   
-   
 
-   
-   
-   
 
-   
-   
+
+
+
+
+
+
+
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       Dashboard
       DataTable
       Datasource
@@ -24,16 +24,9 @@
       Filter
       FilterChangedEvent
       MarksSelectedEvent
+      NoDefault
       Parameter
       ParameterChangedEvent
+      Settings
       TableauProxy
       Worksheet
-   
-   
-
-   
-   
-   
-
-
-

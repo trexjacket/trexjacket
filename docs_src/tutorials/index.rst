@@ -14,3 +14,4 @@ These tutorials guide you through examples from start to finish. By the end of e
    reactive-image-display/0-main-page
    js_api
    popup/popup
+   dashboard-settings/index

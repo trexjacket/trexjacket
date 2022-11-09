@@ -1091,23 +1091,26 @@ class Dashboard(TableauProxy):
 
 
 class Settings(TableauProxy):
-    """Dict-like representation of Tableau Settings. Settings are persisted in the workbook but can only be modified
+    """Dict-like representation of Tableau Settings. Settings are persisted in the workbook between sessions but can only be modified
     in authoring mode.
 
-    Settings behaves like a dict, and can be accessed and set through standard dict notation:
-    my_setting = settings['my_setting']
-    settings['my_new_setting'] = 'my_new_setting'
+    Typically accessed through dashboard.settings.
 
-    Most of the standard dict methods are implemented. "pop" is not implemented; settings cannot be changed when
+    Settings behaves like a dict and can be accessed and set through standard dict notation:
+
+    >>> settings = get_dashboard().settings
+    >>> my_setting = settings['my_setting']
+    >>> settings['my_new_setting'] = 'a_new_value'
+
+    Most of the standard dict methods are implemented. ``pop`` is not implemented; settings cannot be changed when
     the dashboard is not in 'author' mode, so probably, this isn't what you want.
 
-    Additional methods:
-        delete(key): Removes that key from settings if it exists.
-        setdefaults(dict): Similar to setdefault and update, where all of the keys in the passed dictionary are
-            updated only if they don't exist. This avoids repeated writes to the dashboard if many defaults need
-            setting at once.
+    Non-standard dict methods
 
-    Typically accessed through dashboard.settings.
+    * :obj:`Settings.delete`: Removes that key from settings if it exists.
+
+    * :obj:`Settings.setdefaults`: Similar to ``setdefault`` and ``update``, where all of the keys in the passed dictionary are updated only if they don't exist. This avoids repeated writes to the dashboard if many defaults need setting at once.
+
 
     .. note::
 

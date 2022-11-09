@@ -40,7 +40,7 @@ This is the page we'll show to the user for them to select a Field:
 - Label named ``label_1``
 - dropdown named ``dropdown_field_options``
 
-    .. image:: media/1-settings-page.PNG
+    .. image:: media/1-settings-page.png
 
 .. raw:: html
 
@@ -52,7 +52,7 @@ This is the form that will appear in the popup window, and it has the following 
 - Label named: ``lbl_config``
 - Text box named: ``tb_config``
 
-    .. image:: media/1-settings-page.PNG
+    .. image:: media/1-settings-page.png
 
 Once you've added the above components, the "Client Code" section of the Anvil IDE should look like this:
 

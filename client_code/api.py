@@ -3,6 +3,8 @@ import anvil.js
 
 from .model.proxies import _Tableau
 
+__version__ = "0.0.1"
+
 
 def get_dashboard():
     """Gets the instance of Tableau Dashboard that represents the current connection. This is

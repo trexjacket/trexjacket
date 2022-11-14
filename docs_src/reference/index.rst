@@ -63,7 +63,3 @@ Documentation for developers requiring a lower level of functionality.
 
 .. automodule:: client_code.model.proxies
    :members: TableauProxy
-
-
-.. autoclass:: client_code.model.proxies.Dashboard
-   :members:

@@ -118,7 +118,6 @@ class Datasource(TableauProxy):
         >>> datasource = self.dashboard.get_datasource('Sample - Superstore')
         >>> recs = datasource.get_underlying_records('People_D73023733B004CC1B3CB1ACF62F4A965')
         >>> print(recs)
-
         [{'Regional Manager': 'Sadie Pawthorne'}, {'Regional Manager': 'Chuck Magee'}, {'Regional Manager': 'Roxanne Rodriguez'}, {'Regional Manager': 'Fred Suzuki'}]
         """
         ds = self._proxy

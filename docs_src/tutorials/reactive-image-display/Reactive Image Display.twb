@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20221.22.1017.0914                               -->
+<workbook original-version='18.1' source-build='2022.1.8 (20221.22.1017.0914)' source-platform='win' version='18.1' xml:base='https://dashboarding.bakertilly.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_.fcp.AccessibleZoneTabOrder.true...AccessibleZoneTabOrder />
+    <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <_.fcp.MarkAnimation.true...MarkAnimation />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <repository-location id='ReactiveImageDisplay' path='/t/BTDemoSite/workbooks' revision='1.0' site='BTDemoSite' />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <_.fcp.AnimationOnByDefault.false...style>
+    <_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule element='animation'>
+      <_.fcp.AnimationOnByDefault.false...format attr='animation-on' value='ao-on' />
+    </_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule>
+  </_.fcp.AnimationOnByDefault.false...style>
+  <datasources>
+    <datasource caption='export (1) (export (1))' inline='true' name='federated.0kqc57d11sgrnq12ha4i50asgz7y' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='export (1)' name='excel-direct.1hmkcbp16psz02168enyn04n9dci'>
+            <connection class='excel-direct' cleaning='no' compat='no' dataRefreshTime='' filename='C:/Users/AY26322/Downloads/Reactive Image Display.twb Files/Data/Houses/House Data.xlsx' interpretationMode='0' server='' validate='no' workgroup-auth-mode='as-is' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='excel-direct.1hmkcbp16psz02168enyn04n9dci' name='1' table='[&apos;1$&apos;]' type='table'>
+          <columns gridOrigin='A1:F11:no:A1:F11:0' header='yes' outcome='6'>
+            <column datatype='string' name='ID' ordinal='0' />
+            <column datatype='integer' name='row_id' ordinal='1' />
+            <column datatype='string' name='location' ordinal='2' />
+            <column datatype='integer' name='sq_ft' ordinal='3' />
+            <column datatype='integer' name='price' ordinal='4' />
+            <column datatype='string' name='img' ordinal='5' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation connection='excel-direct.1hmkcbp16psz02168enyn04n9dci' name='1' table='[&apos;1$&apos;]' type='table'>
+          <columns gridOrigin='A1:F11:no:A1:F11:0' header='yes' outcome='6'>
+            <column datatype='string' name='ID' ordinal='0' />
+            <column datatype='integer' name='row_id' ordinal='1' />
+            <column datatype='string' name='location' ordinal='2' />
+            <column datatype='integer' name='sq_ft' ordinal='3' />
+            <column datatype='integer' name='price' ordinal='4' />
+            <column datatype='string' name='img' ordinal='5' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[1]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:F11:no:A1:F11:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>6</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ID</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[ID]</local-name>
+            <parent-name>[1]</parent-name>
+            <remote-alias>ID</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[1_EBF40A7BE1B344CAB75509FDF431EF38]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>row_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[row_id]</local-name>
+            <parent-name>[1]</parent-name>
+            <remote-alias>row_id</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[1_EBF40A7BE1B344CAB75509FDF431EF38]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>location</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[location]</local-name>
+            <parent-name>[1]</parent-name>
+            <remote-alias>location</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[1_EBF40A7BE1B344CAB75509FDF431EF38]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>sq_ft</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[sq_ft]</local-name>
+            <parent-name>[1]</parent-name>
+            <remote-alias>sq_ft</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[1_EBF40A7BE1B344CAB75509FDF431EF38]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>price</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[price]</local-name>
+            <parent-name>[1]</parent-name>
+            <remote-alias>price</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[1_EBF40A7BE1B344CAB75509FDF431EF38]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>img</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[img]</local-name>
+            <parent-name>[1]</parent-name>
+            <remote-alias>img</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[1_EBF40A7BE1B344CAB75509FDF431EF38]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <_.fcp.ObjectModelTableType.true...column caption='1' datatype='table' name='[__tableau_internal_object_id__].[1_EBF40A7BE1B344CAB75509FDF431EF38]' role='measure' type='quantitative' />
+      <column caption='Img' datatype='string' name='[img]' role='dimension' type='nominal' />
+      <column caption='Location' datatype='string' name='[location]' role='dimension' type='nominal' />
+      <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
+      <column caption='Row Id' datatype='integer' name='[row_id]' role='dimension' type='ordinal' />
+      <column caption='Sq Ft' datatype='integer' name='[sq_ft]' role='measure' type='quantitative' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='1' id='1_EBF40A7BE1B344CAB75509FDF431EF38'>
+            <properties context=''>
+              <relation connection='excel-direct.1hmkcbp16psz02168enyn04n9dci' name='1' table='[&apos;1$&apos;]' type='table'>
+                <columns gridOrigin='A1:F11:no:A1:F11:0' header='yes' outcome='6'>
+                  <column datatype='string' name='ID' ordinal='0' />
+                  <column datatype='integer' name='row_id' ordinal='1' />
+                  <column datatype='string' name='location' ordinal='2' />
+                  <column datatype='integer' name='sq_ft' ordinal='3' />
+                  <column datatype='integer' name='price' ordinal='4' />
+                  <column datatype='string' name='img' ordinal='5' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Scatterplot'>
+      <repository-location id='Scatterplot' path='/t/BTDemoSite/workbooks/ReactiveImageDisplay' revision='' site='BTDemoSite' />
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='export (1) (export (1))' name='federated.0kqc57d11sgrnq12ha4i50asgz7y' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0kqc57d11sgrnq12ha4i50asgz7y'>
+            <column caption='Location' datatype='string' name='[location]' role='dimension' type='nominal' />
+            <column-instance column='[location]' derivation='None' name='[none:location:nk]' pivot='key' type='nominal' />
+            <column-instance column='[row_id]' derivation='None' name='[none:row_id:ok]' pivot='key' type='ordinal' />
+            <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
+            <column caption='Row Id' datatype='integer' name='[row_id]' role='dimension' type='ordinal' />
+            <column caption='Sq Ft' datatype='integer' name='[sq_ft]' role='measure' type='quantitative' />
+            <column-instance column='[price]' derivation='Sum' name='[sum:price:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[sq_ft]' derivation='Sum' name='[sum:sq_ft:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='false' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <size column='[federated.0kqc57d11sgrnq12ha4i50asgz7y].[sum:price:qk]' />
+              <lod column='[federated.0kqc57d11sgrnq12ha4i50asgz7y].[none:row_id:ok]' />
+              <lod column='[federated.0kqc57d11sgrnq12ha4i50asgz7y].[none:location:nk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.0kqc57d11sgrnq12ha4i50asgz7y].[sum:price:qk]</rows>
+        <cols>[federated.0kqc57d11sgrnq12ha4i50asgz7y].[sum:sq_ft:qk]</cols>
+      </table>
+      <simple-id uuid='{C9C5B694-D200-468D-AB20-7837AABAB44A}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard _.fcp.AccessibleZoneTabOrder.true...enable-sort-zone-taborder='true' name='Dynamic Image Dashboard'>
+      <repository-location id='DynamicImageDashboard' path='/t/BTDemoSite/workbooks/ReactiveImageDisplay' revision='' site='BTDemoSite' />
+      <style />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' />
+      <zones>
+        <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='98000' id='3' name='Scatterplot' w='98400' x='800' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='700' minheight='700' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='23' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='22' param='vert' type-v2='layout-flow' w='98400' x='800' y='1000'>
+                <zone fixed-size='280' h='98000' id='3' is-fixed='true' name='Scatterplot' w='98400' x='800' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{4B9CCD29-9F3C-4211-8B13-DB377A004100}' />
+    </dashboard>
+  </dashboards>
+  <windows source-height='37'>
+    <window class='worksheet' name='Scatterplot'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='2' param='[federated.0kqc57d11sgrnq12ha4i50asgz7y].[sum:price:qk]' type='size' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.0kqc57d11sgrnq12ha4i50asgz7y].[none:location:nk]</field>
+            <field>[federated.0kqc57d11sgrnq12ha4i50asgz7y].[none:row_id:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{F8EC2F8A-CA44-4CD3-9E99-AB1C463A715E}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Dynamic Image Dashboard'>
+      <viewpoints>
+        <viewpoint name='Scatterplot'>
+          <zoom type='entire-view' />
+        </viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{43D8B1B9-2954-4023-A078-335FDA63ADB4}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Dynamic Image Dashboard' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
+      AAAOwklEQVR4nO3d23Mb533G8S9OXJxBHHgASdG2DpRkRbYTjavKitN4kszkIjOZdJrMdPq3
+      9abTTnvhmbSZZnrRtGM7jj215diiJB4kkiJBgSBAkDifsbu9kO2JLMjC0sSCq/f3uRIoPHhf
+      7uoRsNgXWJdpmiZCKMo97gkIMU5SAKE0KYBQmhRAKE0KIJT2RAEOchk+/fQWm5ncwDv3WzUa
+      XQPoU600hnj4Liv31p/4SaVSPe5chThx3r+8cfvuOj/+yU9xY1LY22EnW2BpaYn7Dx4QiiZx
+      Fe+y2kjxxrkwf/rgAT//5c/I76yjT0Q5N+Unc9RjKhFkbXUbXyDA9TcvUa3W2d99SCZX4NzF
+      y/zXb/+D16/f4Orl8+P6nYX42hMFePvmX/HJxx8yEU7Rrhb54dtv029VMQyT5S9u8/M3z2AG
+      rnB2tk0h5yHUzvDFwxKe6irBa2ep+s7zasRkIzjL+ViR1f0WABsPs/zwRzf58I8fce7CBfnH
+      L06NJ14CZXcfMaEFaLcbaF6TW7dusbF6n6bpxuf1oIUn2Vj+lFrbQ2F/g6oRIhX2sXTlNQJu
+      mJmZAeDhxipfbBZZSPgB8Lp6fPLJJwTjU3jocGd1w/7fVIgBXCd+Jri9z8f3Wty49sqJPqwQ
+      o3DyBRDCQeRtUKG0EyvAcZ9IjpOTjGzvk8qcWAEMwzhWTtd1ydiUsXMsp2TkJZBQmhRAKE0K
+      IJQmBRBKkwIIpUkBhNKkAEJpUgChtOELYPRYv79Jq17h7u1ltjbXKLf63L69PMLpCTFa3uff
+      5UtuH7FIkEAwiKH3cWlJChvL6L4YhmFgGMaxTksbhkG/35eMDRk7x3JKZvgC6B0OikV0Q2ci
+      GCIWidLxuJkOBHC73ZimicfjsTQRgH6/j9c7/DQkc/yMnWM5JTN80qNx9erVJ38Wi1gaWIjT
+      Rg6ChdKkAEJpUgChNCmAUJoUQChNCiCUJgUQSpMCCKVZWgv0cHuXdqPC6uo6uewuLd1ke3t7
+      dLMTYsQsrQUKaF60YIRI4IiuaZDfWidXM1hclLVATsjYOZZTMpbWAmX39mjUqrR0SCZT1Bod
+      Xp6Ly1ogh2TsHMspGUtrga5du/bEj9LTSUsDC3HayEGwUJoUQChNCiCUJgUQSpMCCKVJAYTS
+      pABCaVIAoTQLBTAplUqYhk65XKFWLqObUCqVRzc7IUZs+DPBRp+jUpVQQKPWaODp16g0GjzM
+      5Ll5/Q1ZC+SAjJ1jOSUzfAFMg0J+j1BQ41Fmh/T8IuVcjnR6StYCOSRj51hOyVhaC3Tjxg0A
+      ZmdnH/9scd7SwEKcNnIQLJQmBRBKkwIIpUkBhNKkAEJpUgChNCmAUJoUQChNCiCUZmEtUI87
+      KxukUxF2HxXwB90k0udYu3OHv/nRWyOcohCj4zItrGDbz+Uw+l08pk6ZAN2DDO7JWS6/cgZd
+      13G5XJYnYBgGbre1JyLJHC9j51hOyVj6YqxKtcpMOk2j3uSVZJxeMorH45HFcA7J2DmWUzKW
+      FsNdvHgRgMloFIAJTbM0sBCnjRwEC6VJAYTSpABCaVIAoTQpgFCaFEAoTQoglCYFEEqzXIBS
+      Mc+9e2vsbK5RbvW5fXt5FPMSwhaWz6X7vF76tSL10Ct0NpbRfTEMQy6S54SMnWM5JWO9ABMT
+      +FPzzCej1DQ304GArAVySMbOsZySsbwFtWCEi+cjAIQjEatxIU4VOQgWSpMCCKVJAYTSpABC
+      aVIAoTQpgFCaFEAoTQoglGa5AOXDPPfu3GVzQ9YCCeezfCa43+vR7XbwT8YpyFogR2XsHMsp
+      GcsFCAZDBEJh4tEoHa+sBXJSxs6xnJKxXoBonEvR+OMbMVkLJJxNDoKF0qQAQmlSAKE0KYBQ
+      mhRAKE0KIJT2zAK0qkfs5g6wfmpLCOd4ZgFW127x7//0O9p2zkYImz2zADNzl/nl377z1B3q
+      lSPuLS+zu7tLSzfZ3t4e7QyFGKFnngl26R22C0csXDj7xM/DsQSReAOf2yC/tU6uZrC4KGuB
+      nJCxcyynZJ5RgC6PMnkwPeh842nC6OH3h/C6Tar1Di/PxWUt0LdkTNNkZ79CIhogGhp8SSlZ
+      CzS+zOCXQKaXVv0QwzPggd0+pqcSJJJJli4ukZ6dsTS4Sro9nX/8/eckogE2skf8z2db456S
+      +IaBBcje/RzvTBK3K4z1/9PFV3YLFV47N0M0pPGDpTSFUnPcUxLfMLAAyVfOE/VFiUdMDLtn
+      9AI5Mx1jeTNPtdHhz/dzTMdDdHs6m9kjuj193NMTWLxQ9rfRdV2OAQZkyvU2Hy5nSKcinJuL
+      8+57K7x2boblzTx/9+NXmQz75RhgjBnrW1BYMhn284u3lgD4z4/u85t3rhANaVxaTPHB7Z2v
+      /06MhyyFsFE6FWEjewTARvaIdEo+UDRuUgAbXVtKU6q1+Nc/3KVUa3FtKT3uKSlPXgLZ7CfX
+      zj7/TsI28gwglGa5AHq3ydr9LQp7shZIOJ/lt0EzWxs0un2CoQBmu0WuZnD9jUvouo7L5bI8
+      AcMwcLut9VAyx8vYOZZTMpaPAZKpBI3dLHiTdA1ZC+SkjJ1jOSVjeQuGogkuX0k8vpGeshoX
+      4lSRg2ChNCmAUJoUQChNCiCUJgUQSpMCCKVJAYTSpABCaZYLYPTarK9vUi6X0U0olcqjmJcQ
+      trC8Fugos8W+oTHpqmN4wzzM5Ll5/Q1ZC+SAjJ1jOSVjeSmEP56gs7JGfe4lmrks6fSUrAVy
+      SMbOsZySsX6NsMgk37/+149vnJFPNAlnk4NgoTQpgFCaFEAoTQoglCYFEEqTAgilSQGE0qQA
+      QmlSAKG0Yywm6fH+Bx/ycO0L8qUa73/w0QimJYQ9LC+FyO1mMDAwAykKWyuk5ucxDLlInhMy
+      do7llMyxLpDRbrdxu1z0+n08Hg9+v18ukOGAjJ1jOSVzrG+H9vv9AExog696KIRTyEGwUJoU
+      QChNCiCUJgUQSpMCCKVJAYTSpABCaVIAMRTTNDkoN491tv80s3wirFWvsLm5QzA8QWLuPDv3
+      V3j99ddGMTdxirz73gqRkEat0eHX71wZ93ROjOUCBIJBDL2PS0tS2FhG98VkLZBDMt9lrEa7
+      y6/evsg///edofKneTv8ZcZyARq1GhPBELFIlI7HzXQgIF+M5ZDMdxnr5tVF/u1/V7h5dXGo
+      /GneDt/tInmxBJdiX14kLxaxGhcOdWEhyYWF5LinceLkIFgoTQoglCYFGMA0TX77xzV+96f7
+      L9zbfuJJUoABsgc1EpEAk2GNbLE27umIEZICDDA/FeGo1qLc6DCfkgP9F9mxPhH2onO5XPzq
+      7Uv0+/1jXfRDOIc8AwilyTOA4jrdPv/yhzsA/MPPrqL51PonYfkZoN2osLq6Ti67S0s32d7e
+      HsG0hF1K9TbTkyGmJ0OUau1xT8d2luuuBSNEAkd0TYP81jq5msHioqwFckJmUC4V9TMTD379
+      50GPeZp/J9u/F+gwlyFXbpFMpqiVDonEYqRnZ+R7gRyQsXMsp2Qsb8FkepHkl9fGS0+/eGtD
+      hFrkXSChNCmAUJoUQChNCiCUJgUQSpMCCKVJAYTSpABCaZYLYBo65XKFWrmMbkKpVB7FvISw
+      heWlEN12k/xhGU+/huEN8zCT5+b1N9B1/Vhr5w3DwO221kPJHC9j51hOyVheCmH0ezzK7JCe
+      X6Scy5FOT52q7wUyTcgd1pgM+wn6fSMbx4kZO8dySsbyFvSHY9y4cePxjcV5q/GRa3d7vPv+
+      ClOxEH//0++NezrilHvhPv3gn/Dy5qU5XpqZHPdUhAO8cAVwuVzcuHJm3NMQDiFvgwqlSQGE
+      0pQvwLvvrXBrfW/c0xBjonwB5lIRUrHguKchxsTyQbBp9MnmisRCfoKxSarlMvG4c99xeet7
+      csCsMsvPALlsFp/e5FExT24vy921rVHMSwhbWC7AhM/D3kEZfyBKMZcjnZYPxgvnsvwSKDW7
+      QGp24fGN+fRJz+e5fv/xA86mJ7n88pTtY4sXj+XFcIMYhoGu67I465Rn7BzLKZkTORP81YMd
+      Z4e4XC7LOckcL2PnWE7JnMgzgBBOdaJrgTbWV+i6NF5dOvet98tsb9BDw+zU6Lo0jFaZYDzN
+      2cW5gfdvN2pk9otorh6VloHm6uLSArTKNeLpBRbnpp8OGT3urGzwUjLEVqVHTDOp1LsEvQaG
+      N8ilC2efzugd1tbXafc9mN0OoXiUZvM5GWB3e4Nm30X9sMjU7AylwyITkTitVpsfvDb4otLF
+      fJbt3BEhr4HX76deaeLXJuj0Wrx06fvEA08vLf8qE/T0Sc7Msre7/9yMqXf44KM/8/J8cvht
+      B9z67DNSsTBoETq14nMzxUc75Fs6QU+f2rDjmG0+/b+7LMwkyHfMofaR2a3y+UqGqUSEYuFw
+      6H20evcLphdeZnt9/Yl9dKInwnxaiIDv+Q8Z8Ac4ODj4+v6RWAKX3nvm/f2hCNGgH9MzQSSo
+      oYWi+Nx9YokZ9F5ncMjtYyo5icsfwKgcUNd9xMIBJgIRNO+zP7ijhZJMxcPMTU/SNobLeDxe
+      XlqYRQsE2MsVmZ9J0ui7mYw8+wSb1+vDr2kEIjG8ZofJqTka9RoLc9O0u/q3Zvz+AMVCbqhM
+      dicDZo+24Rt627UrBYrFEng1Dg6KQ2V8gQDNYpGOa/h9ZPR0/EEfR83e0PvI6LZp93rsZvOW
+      9lGz2SS/t/vUPjrRl0D1yhF9t/9bdzxAu1HlsNYhFvDQd/vpNyuEE9P4fYM/UNOsldndyzM3
+      N0e7ZzBBF7c/SrNSJDE9h88z4BfXO6xvbJOamqJWbzE/HeOo3ifo7WN4w8TC/qciRq/Ng60d
+      ZufmqdfqTCfCz80AZLYeMBFJ0G1USZ9ZJL9fYDYVo1htMzuVGJgpFfN0mMBPF284Qf2oQGo2
+      zX5un4X5wc+EX2U8/SZaJEmzcvjcDEC73cZl9Ki2h9x2X2b0botaBwKe/nMz/U6L7EGZ2UR4
+      +HFMg53tHdLzafb2D4faRwC5RxmSs2kOCodD76PyYQGXFqZSzD+xj+QYQChN+bVAQm1SAKG0
+      /wfWfnFkypurrQAAAABJRU5ErkJggg==
+    </thumbnail>
+  </thumbnails>
+</workbook>

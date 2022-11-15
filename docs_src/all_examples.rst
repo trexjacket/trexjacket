@@ -1,7 +1,7 @@
 All Examples
 ----------
 
-A list of cloneable examples is below:
+The table below contains all extension examples and their clone links.
 
 .. csv-table::
     :file: examples.csv

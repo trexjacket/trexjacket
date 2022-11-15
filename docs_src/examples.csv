@@ -1,9 +1,9 @@
-Name," Clone Link"," Tableau Workbook",Tutorial
-Chat extension,":bdg-link-primary:`Clone <https://anvil.works/build#clone:GAQT6MCXCLNUCH5Q=YLZRLKEEQKAPDA4ZAT64R762>`",":bdg-link-primary:`Workbook <https://example.com>`",:doc:`tutorials/chat-extension/0-main-page`
-Sales Forecasting,":bdg-link-primary:`Clone <https://example.com>`",":bdg-link-primary:`Workbook <https://example.com>`",TODO
-Image Display,":bdg-link-primary:`Clone <https://anvil.works/build#clone:22IOPICN5NFTLGAG=NWE55F7OY5T6MIK3K73OQ5L3|7NA5SUPERPMMYP3A=2JADDUGUJKHP3VC5U6AI4IV5>`",":bdg-link-primary:`Workbook <https://example.com>`",:doc:`tutorials/reactive-image-display/0-main-page`
-Showing Popup,":bdg-link-primary:`Clone <https://anvil.works/build#clone:REN6GWNXX6Y5PODR=5UYQ4J4JS3U3X7O2LJEVOHRZ>`",":bdg-link-primary:`Workbook <https://example.com>`",:doc:`tutorials/popup/popup`
-Configure settings,":bdg-link-primary:`Clone <https://example.com>`",":bdg-link-primary:`Workbook <https://example.com>`",:doc:`tutorials/dashboard-settings/index`
-Value Override,":bdg-link-primary:`Clone <https://example.com>`",":bdg-link-primary:`Workbook <https://example.com>`",No tutorial available.
-Salesforce Writeback,":bdg-link-primary:`Clone <https://example.com>`",":bdg-link-primary:`Workbook <https://example.com>`",No tutorial available.
-Starter App,":bdg-link-primary:`Clone <https://anvil.works/build#clone:VF5S7JN44C73R3F7=LSJGG6X65OFWFP2I2RKYI5YN>`","None",No tutorial available
+Name,Description,"Clone Link","Tableau Workbook",Tutorial
+Image Display,Dynamically show an image when a user clicks a mark on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:H6KTXT5CIJWB5AEW=O4PMZVRIQ6VZEETDJCOAYYMQ>`",":download:`Download<tutorials/reactive-image-display/Reactive Image Display.twb>`",:doc:`tutorials/reactive-image-display/0-main-page`
+Showing a Popup,Create a popup window from your extension.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:REN6GWNXX6Y5PODR=5UYQ4J4JS3U3X7O2LJEVOHRZ>`",":download:`Download<tutorials/popup/popup_workbook.twb>`",:doc:`tutorials/popup/popup`
+Configure Settings,Persist data in a workbook using settings.,":bdg-link-primary:`todo<https://example.com>`","todo",:doc:`tutorials/dashboard-settings/index`
+Chat extension,Allow users to comment on marks on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:GAQT6MCXCLNUCH5Q=YLZRLKEEQKAPDA4ZAT64R762>`",":download:`Download <tutorials/chat-extension/Chat Extension.twb>`",:doc:`tutorials/chat-extension/0-main-page`
+Starter App,A starter extension that contains code for common use cases.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:VF5S7JN44C73R3F7=LSJGG6X65OFWFP2I2RKYI5YN>`","None",None
+Value Override,todo,":bdg-link-primary:`todo<https://example.com>`","todo",None
+Salesforce Writeback,todo,":bdg-link-primary:`todo<https://example.com>`","todo",None
+Sales Forecasting,todo,"todo","todo",todo

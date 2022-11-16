@@ -43,6 +43,8 @@ autodoc_mock_imports = [
     "anvil.js",
     "anvil.tableau",
     "client_code._trex.Viewer._anvil_designer",
+    "client_code.dialogs._standard_alert._anvil_designer",
+    "client_code.dialogs._standard_confirm._anvil_designer",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

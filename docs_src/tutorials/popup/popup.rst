@@ -1,191 +1,146 @@
 Displaying a popup within Tableau
 ------
 
-.. https://anvil.works/new-build/apps/REN6GWNXX6Y5PODR/code/forms/Homepage
+.. Anvil link here: https://anvil.works/new-build/apps/REN6GWNXX6Y5PODR
 
-In this tutorial we'll add a Tableau pop-up that allows us to set an Anvil variable. To do this, we'll learn about a few things:
+In this tutorial we'll create a pop-up window that appears outside the Tableau dashboard. We'll use the :obj:`~client_code.dialogs` module from the Tableau Extensions framework.
 
-1. Accessing the underlying JS API
-2. Triggering a pop-up dialogue box from Anvil
-3. Adding parameters to URLs in Anvil
-4. Using a startup module instead of a startup form in Anvil
+Let's get started!
 
-Once we're done, we'll have something that looks like this:
+Create a new Anvil App
+======
 
-.. image:: media/popup.PNG
+To begin, create a new Anvil app with the following:
 
+- A Form named ``Home``
 
-You can download the Tableau dashboard :download:`here <popup_workbook.twb>` if you'd like to follow along.
+    - Button ``btn_config``, click bound to ``btn_config_click``
+    - Button ``btn_alert``, click bound to ``btn_alert_click``
+    - Button ``btn_confirm``, click bound to ``btn_confirm_click``
 
-.. raw:: html
+- A Form named ``ShowMe``
 
-  <hr>
-  <h2>Adding Anvil Code</h2>
+    - Text Box ``tb_config``
+    - Button ``btn_submit``, click bound to ``btn_submit_click``
 
-To start, you'll need to create 1 module and 2 forms in Anvil.
+- A Module named ``startup``
 
-.. raw:: html
+    - Set as the startup module in Anvil
 
-  <h3>startup (module)</h3>
-
-
-We'll use this to determine which form to show the user.
-
-.. raw:: html
-
-  <h3>Homepage (form)</h3>
-
-This is main page of the extension, and it has the following components:
-
-- Button named ``btn_config``, click bound to ``btn_config_click``
-- Label named ``lbl_config_setting``
-- Label named ``lbl_home``
-
-    .. image:: media/homepage.PNG
-
-.. raw:: html
-
-  <h3>Configure (form)</h3>
-
-This is the form that will appear in the popup window, and it has the following components:
-
-- Button named: ``btn_submit``, click bound to ``btn_submit_click``
-- Label named: ``lbl_config``
-- Text box named: ``tb_config``
-
-    .. image:: media/config.PNG
-
-Once you've added the above components, the "Client Code" section of the Anvil IDE should look like this:
+Once you're done, the Client Code pane should now look like this:
 
 .. image:: media/sidebar.PNG
 
-Note that the ``startup`` module has the lightning bolt next to it, indicating that it has been selected as the startup module.
+Now let's configure our startup module.
 
+Startup Module
+=======
 
-.. raw:: html
-
-  <hr>
-  <h2>How is this going to work?</h2>
-
-Before we dive into the code, let's discuss at a high level how this will work.
-
-- When the extension is loaded, the ``startup`` module will look at the url of the Anvil app and determine whether to open the ``Homepage`` or ``Configure`` form. 
-
-  - If the URL is the root URL of the app, open ``Homepage``
-  - If the URL has parameters, open ``Configure``
-
-    - Whether or not the URL has parameters is something we will control in our form code
-
-
-.. important:: The ``startup`` module is loaded on 2 occasions:
-
-    1. When the Tableau dashboard is opened for the first time
-    2. When the user clicks the "Configure" button and opens the popup
-
-Because the startup form opens forms based on the URL, we will be able to determine whether the extension was loaded inside the dashboard or the popup window. 
-
-Now that we have a general idea of how this'll work, let's dive into the details.
-
-.. raw:: html
-
-  <hr>
-  <h2>The startup module</h2>
-
-Let's start by adding some code into the ``startup`` module:
+Click on the "startup" module and add the following code:
 
 .. code-block:: python
-  :linenos:
+    :linenos:
 
-  # startup
-  import anvil
-  
-  url_hash = anvil.get_url_hash()
-  
-  if isinstance(url_hash, dict):
-    anvil.open_form('Configure')
-  else:
-    anvil.open_form('Homepage')
+    # startup
+    import anvil
+    from tableau_extension import dialogs
 
+    from .ShowMe import ShowMe
 
-Here we see the conditional logic discussed earlier. By using ``anvil.get_url_hash()`` we can determine whether or not the URL has parameters and route the user appropriately.
+    dialogs.open_start_form('Home')
 
-.. raw:: html
+That's it for the startup module! In order to open dialogue boxes, we need to open whatever form we'd like to load when the extension is opened using the ``open_start_form`` function. ``open_start_form`` takes the name (as a string) of the form we'd like to open when the app starts.
 
-  <h2>The Homepage Form</h2>
+Now let's move to the Home form.
 
-Now let's add some code into the ``Homepage`` form.
+Home Form
+=======
 
+Open the "Home" form and add the following code:
 
 .. code-block:: python
-  :linenos:
+    :linenos:
 
-  # Homepage
-  from ._anvil_designer import HomepageTemplate
-  import anvil
-  from anvil import tableau
-  from tableau_extension.api import get_dashboard
+    # Home
+    from ._anvil_designer import HomeTemplate
+    import anvil
+    from anvil import tableau
+    from tableau_extension.api import get_dashboard
+    from tableau_extension import dialogs
 
-  class Homepage(HomepageTemplate):
-    def __init__(self, **properties):
-      self.init_components(**properties)
-      self.dashboard = get_dashboard()
+    class Home(HomeTemplate):
+        def __init__(self, **properties):
+            self.init_components(**properties)
+            self.dashboard = get_dashboard()
+            self.param = self.dashboard.get_parameter('config_value')
 
-    def btn_config_click(self, **event_args):
-      popup_url = f"{anvil.server.get_app_origin()}/#?entry=popup"
+        def btn_config_click(self, **event_args):
+            """ Executes when the 'Open a custom form' button is clicked. """
+            resp = dialogs.show_form('alert_form')
+            # Set the parameter on our dashboard to whatever the user
+            # puts in the dialogue box.
+            self.param.value = resp
 
-      tableau.extensions.initializeDialogAsync()
-      out = tableau.extensions.ui.displayDialogAsync(popup_url)
+        def btn_alert_click(self, **event_args):
+            """ Executes when the 'Open an alert' button is clicked. """
+            dialogs.alert('Heres a sample alert.')
 
-      self.lbl_config_setting.text = out
-      self.dashboard.get_parameter('config_value').value = out
+        def btn_confirm_click(self, **event_args):
+            """ Executes when the 'Open a confirm' button is clicked. """
+            if dialogs.confirm('Are you sure?'):
+                anvil.alert('You chose yes!')
+            return
+                anvil.alert('You chose no.')
 
-When the user clicks the "Configure" button, the ``btn_config_click`` method is called, which: 
+``btn_alert_click`` and ``btn_confirm_click`` work like the standard Anvil alerts, while ``btn_config_click`` opens a custom form. You might be wondering how I decided to pass the string "alert_form" to ``dialogs.show_form``. We'll cover that in the next section!
 
-- Adds parameters to the url (``popup_url``) and shows the popup using ``displayDialogAsync``
+ShowMe Form
+=======
 
-  - Note that this is what causes the ``startup`` module to show the ``Configure`` form!
-
-- Saves the response into a variable (``out``)
-- Uses ``out`` to set the label text and updates a parameter in Tableau
-
-.. raw:: html
-
-  <h2>Configure form</h2>
-
-Let's move to the ``Configure`` form. Add the following:
+Finally we'll add the following code to the ``ShowMe`` form.
 
 .. code-block:: python
-  :linenos:
-   
-  # Configure
-  from ._anvil_designer import ConfigureTemplate
-  from anvil import tableau
+    :linenos:
 
-  class Configure(ConfigureTemplate):
-    def __init__(self, **properties):
-      self.init_components(**properties)
+    # ShowMe
+    from ._anvil_designer import ShowMeTemplate
+    from anvil import tableau
+    from tableau_extension import dialogs
 
-    def btn_submit_click(self, **event_args):
-      tableau.extensions.ui.closeDialog(self.tb_config.text)
+    # use this decorator to register our form
+    @dialogs.dialog_form('alert_form')
+    class ShowMe(ShowMeTemplate):
+        def __init__(self, **properties):
+          self.init_components(**properties)
 
-When the submit button in the popup window is clicked, ``btn_submit_click`` is called and we return whatever the user entered in the text box using ``closeDialog``.
+        def btn_submit_click(self, **event_args):
+          self.raise_event('x-close-alert', value=self.tb_config.text)
 
-.. important:: Note that whatever is passed to ``closeDialog`` in the ``Configure`` form will be returned by ``displayDialogAsync`` in the ``Homepage`` form.
+There are 2 important things happening in this form.
 
-.. raw:: html
+1. We register the form as a popup using ``@dialogs.dialog_form``
+    - Note that the string we passed this is the value we pass to ``dialogs.show_form`` in the Home form.
+2. On the submit click, we return ``self.tb_config.text``.
 
-  <hr>
+View the results
+======
 
-Now add the trex file to the Tableau dashboard (see :doc:`/getting_started`) and click the "Configure" button. The popup should appear, and whatever text you enter in the text box will appear once you close the dialog box with "Submit Configuration".
-
-.. dropdown:: Here's what your extension should look like now
+.. dropdown:: Here's what the extension should look like now
     :open:
 
-    .. image:: media/popupdemo.gif
+    .. image:: media/demonstration.gif
 
-  
-.. button-link:: https://anvil.works/build#clone:REN6GWNXX6Y5PODR=5UYQ4J4JS3U3X7O2LJEVOHRZ
-   :color: primary
-   :shadow:
-   
-   Click here to clone the Anvil app
+Summary
+======
+
+In summary, to open a dialogue box:
+
+1. Open the starting form from a startup module using ``dialogs.open_start_form``
+2. Create the form you'd like to show in a dialogue box, and decorate its class definition using ``@dialogs.dialog_form``
+3. Open the dialogue form using the name you specified in #2 using ``dialogs.show_form``
+
+View the reference material for dialogs by clicking here: :obj:`~client_code.dialogs`
+
+`Click to clone the Anvil app. <https://anvil.works/build#clone:REN6GWNXX6Y5PODR=5UYQ4J4JS3U3X7O2LJEVOHRZ>`_
+
+:download:`Download the tableau dashboard <popup_workbook.twb>`

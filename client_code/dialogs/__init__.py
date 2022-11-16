@@ -34,30 +34,31 @@ def _guess_form(bad_form):
 
 
 def show_form(form_str, *args, width=None, height=None, **kwargs):
-    """Pop up the form speicfied by form_str as a dialog in Tableau.
+    """Pop up the form specified by form_str as a dialog in Tableau.
 
-    The string form_str can either specify a form using the same string as used by open_form,
-    or, can be the name of a form decorated with @dialogs.dialog_form("{your_dialog_name}").
+    The string ``form_str`` can either specify a form using the same string as used by ``open_form``,
+    or, can be the name of a form decorated with ``@dialogs.dialog_form("{your_dialog_name}")``.
 
     Example
     --------
-    >>> # in your Form code:
-    >>> @dialogs.dialog_form("my_dialog_form")
-    >>> def UserDialogForm(UserDialogFormTemplate):
-    >>>     def __init__(self, my_argument, **properties):
-    >>>         ...
+    .. code-block:: python
+        :linenos:
 
-    >>>     def button_click_event(self, **event_args):
-    >>>         self.raise_event('x-close-alert', value="my_return_value")
+        # in your Form code:
+        @dialogs.dialog_form("my_dialog_form")
+        def UserDialogForm(UserDialogFormTemplate):
+            def __init__(self, my_argument, **properties):
+                ...
+            def button_click_event(self, **event_args):
+                self.raise_event('x-close-alert', value="my_return_value")
 
-    >>> # Where you want to raise the dialog:
-    >>> response = dialogs.show_form("my_dialog_form", my_argument=my_value)
-    >>> # This will pop up UserDialogForm for the user, and wait until that dialog closes,
-    >>> # i.e. the x-close-alert event occurs (and optionally returns a value through the `value` argument.)
-    >>> print(response)
+        # Where you want to raise the dialog:
+        response = dialogs.show_form("my_dialog_form", my_argument=my_value)
 
-    my_return_value
-
+        # This will pop up UserDialogForm for the user, and wait until that dialog closes,
+        # i.e. the x-close-alert event occurs (and optionally returns a value through the
+        # `value` argument.)
+        print(response)
     """
     if not isinstance(form_str, str):
         guess = _guess_form(form_str)
@@ -100,7 +101,34 @@ def alert(text, buttons=None, width=None, height=None, large=False):
     """If you want to simply show some text, you can specify the text to show and
     use this helper method to raise a simple alert.
 
-    Unlike the anvil.alert, you cannot pass an instance of a form object.
+    Unlike the ``anvil.alert``, you cannot pass an instance of a form object.
+
+    Parameters
+    --------
+    text : str
+        The text to show in the popup window
+
+    width : int
+        Width of the window
+
+    height : int
+        Height of the window
+
+    large : bool
+        Whether or not to make the window large.
+
+    Returns
+    --------
+    None
+
+    Example
+    --------
+
+    .. code-block:: python
+        :linenos:
+
+        from tableau_extension import dialogs
+        dialogs.alert('Hello from an alert!')
     """
     if large:
         width = width or _large["width"]
@@ -124,6 +152,36 @@ def confirm(text, width=None, height=None, large=False):
 
     This dialog will return True if the user clicks okay, False if the user clicks Cancel,
     and None if the user closes the dialog (i.e. hits the X button).
+
+    Parameters
+    --------
+    text : str
+        The text to show in the popup window
+
+    width : int
+        Width of the window
+
+    height : int
+        Height of the window
+
+    large : bool
+        Whether or not to make the window large.
+
+    Returns
+    --------
+    bool
+
+    Example
+    --------
+
+    .. code-block:: python
+        :linenos:
+
+        from tableau_extension import dialogs
+        if dialogs.confirm('Are you sure about that?'):
+            print('User clicked yes')
+        else:
+            print('User clicked no')
     """
     if large:
         width = width or _large["width"]
@@ -164,13 +222,33 @@ def _launch_dialog(show_dialog_form):
 
 
 def open_start_form(start_form):
-    """Routes the form to the start_form, unless this has been opened as a dialog.
+    """Routes the form to the ``start_form``, unless this has been opened as a dialog.
 
-    The start_form should be a string pointing to the default start-up form, just as
-    you would specify a form using open_form.
+    The ``start_form`` should be a string pointing to the default start-up form, just as
+    you would specify a form using ``anvil.open_form``.
 
-    If this is opening as a dialog, then the form specified by the show_form call
+    If this is opening as a dialog, then the form specified by the ``show_form`` call
     from the main session is used.
+
+    Parameters
+    --------
+    start_form : str
+        A string identifier used in the :obj:`~client_code.dialogs.dialog_form` decorator
+
+    Returns
+    --------
+    None
+
+    Example
+    --------
+
+    .. code-block:: python
+        :linenos:
+
+        from tableau_extension import dialogs
+        from .ShowMe import ShowMe
+
+        dialogs.open_start_form('Home')
     """
     show_dialog_form = anvil.get_url_hash()
 

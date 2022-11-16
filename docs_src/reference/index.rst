@@ -56,6 +56,14 @@ You will encounter these classes when registering event handlers. For example, w
 .. automodule:: client_code.model.proxies
    :members: MarksSelectedEvent, FilterChangedEvent, ParameterChangedEvent
 
+Displaying Dialogues
+-----
+
+.. automodule:: client_code.dialogs
+   :members:
+   :show-inheritance:
+
+
 Technical Reference
 -----
 

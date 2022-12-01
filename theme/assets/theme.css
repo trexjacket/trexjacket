@@ -113,7 +113,6 @@ body {
   position: absolute;
   right: 0;
   line-height: 26px;
-  white-space: nowrap;
   color: %color:F8%;
   padding: 6px 8px 0px 8px;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;

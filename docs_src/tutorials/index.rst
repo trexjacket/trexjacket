@@ -15,3 +15,4 @@ These tutorials guide you through examples from start to finish. By the end of e
    js_api
    popup/popup
    dashboard-settings/index
+   salesforce/index

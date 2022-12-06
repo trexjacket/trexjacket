@@ -12,3 +12,4 @@ docs_src/_build
 .anvil-data
 
 .vscode/
+venv/

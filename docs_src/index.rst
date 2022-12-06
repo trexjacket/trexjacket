@@ -14,6 +14,7 @@ Outline
    all_examples.rst
    reference/supported.rst
    reference/index.rst
+   contributing
 
 Indices and tables
 ---------

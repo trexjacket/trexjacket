@@ -246,14 +246,6 @@ class Filter:
         """
         return self._proxy.filterType
 
-    @property
-    def field(self):
-        """The field for the filter.
-
-        :type: :obj:`~client_code.model.marks.Field`
-        """
-        return Field(self._proxy.getFieldAsync())
-
     def set_filter_value(self, new_values, method="replace"):
         """Replaces the list of provided categorical filter values.
 

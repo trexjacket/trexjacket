@@ -4,9 +4,10 @@ import itertools
 from anvil import tableau
 from anvil.js import report_exceptions
 
+from .. import exceptions
 from .._utils import _dejsonify, _jsonify
 from . import events
-from ._utils import clean_record_key, native_value_date_handler
+from ._utils import _clean_columns, clean_record_key, native_value_date_handler
 from .marks import Field, build_marks
 
 _event_cache = {}
@@ -73,79 +74,6 @@ class TableauProxy:
 
     def __eq__(self, other):
         self.id == other.id
-
-
-class Datasource(TableauProxy):
-    """Represents a Tableau data source. Only refreshing data sources is implemented with this API.
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
-    """
-
-    @property
-    def underlying_table_info(self):
-        """Returns information on each table contained in the datasource.
-
-        "caption" is the name of the table in the Tableau UI, while "id" is the unique
-        identifier for the table in Tableau.
-
-        type : :obj:`list` of :obj:`tuple` (caption, id)
-        """
-        return [
-            (table.caption, table.id) for table in self._proxy.getLogicalTablesAsync()
-        ]
-
-    def get_underlying_records(self, table_id=None):
-        """Get the underlying data from a datasource as a list of dictionaries.
-
-        If more than one "underlying table" exists, the table id must be specified.
-
-        Parameters
-        --------
-        table_id : str
-          The table id for which to get the underlying data. Required if more than one logical
-          table exists
-
-        Returns
-        --------
-        :obj:`list` of :obj:`dicts`
-
-        Example
-        --------
-
-        >>> self.dashboard = get_dashboard()
-        >>> datasource = self.dashboard.get_datasource('Sample - Superstore')
-        >>> recs = datasource.get_underlying_records('People_D73023733B004CC1B3CB1ACF62F4A965')
-        >>> print(recs)
-        [{'Regional Manager': 'Sadie Pawthorne'}, {'Regional Manager': 'Chuck Magee'}, {'Regional Manager': 'Roxanne Rodriguez'}, {'Regional Manager': 'Fred Suzuki'}]
-        """
-        ds = self._proxy
-
-        if table_id is None:
-            tables = ds.getLogicalTablesAsync()
-            if len(tables) > 1:
-                raise ValueError(
-                    "More than one underlying table exists."
-                    "Need to specify the underlying table. "
-                    "You can get the underlying table information using the "
-                    "underlying_table_info property. "
-                    f"\nValid tables: {self.underlying_table_info}"
-                )
-
-            table_id = tables[0].id
-
-        datatable = DataTable(ds.getLogicalTableDataAsync(table_id))
-
-        return datatable.records
-
-    def refresh(self):
-        """
-        Refreshes data source
-        """
-        # Can we make this happen without blocking? Not sure how, call_async or something?
-        # Yes, anvil labs has a non-blocking module which would handle that.
-        self._proxy.refreshAsync()
 
 
 class Filter:
@@ -456,6 +384,20 @@ class Worksheet(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/worksheet.html>` and accessed through the ``Worksheet`` object's ``._proxy`` attribute.
     """
+
+    @property
+    def columns(self):
+        """Returns the columns of the worksheet as a dictionary with {colname: coltype}.
+
+        :type: dict
+
+        Example
+        -------
+        >>> ws = self.dashboard.get_worksheet('Sales Summary')
+        >>> ws.columns
+        {'Customer Name': 'string', 'AGG(Profit Ratio)': 'float', 'SUM(Profit)': 'float', 'SUM(Sales)': 'float'}
+        """
+        return _clean_columns(self.getSummaryColumnsInfoAsync())
 
     @property
     def selected_records(self):
@@ -1366,6 +1308,21 @@ class DataTable(TableauProxy):
     """
 
     @property
+    def columns(self) -> dict:
+        """Returns details on the columns in the datatable. {colname: coltype}
+
+        :type: dict
+
+        Example
+        -------
+        >>> ds = self.dashboard.get_worksheet('Sales Summary').datasources[0]
+        >>> underlying_table = ds.get_underlying_table('Orders_6D2EF74F348B46BDA976A7AEEA6FB5C9')
+        >>> underylying_table.columns
+        {'Category': 'string', 'City': 'string', 'Country/Region': 'string', 'Customer ID': 'string'}
+        """
+        return _clean_columns(self._proxy.columns)
+
+    @property
     def records(self):
         """The records in the data table.
 
@@ -1388,6 +1345,87 @@ class DataTable(TableauProxy):
             }
             for row in self._proxy.data
         ]
+
+
+class Datasource(TableauProxy):
+    """Represents a Tableau data source.
+
+    Note that Datasources in Tableau are often comprised of multiple logical tables. If your
+    Datasource contains multiple logical tables you'll need to specify the id when
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
+    """
+
+    @property
+    def columns(self):
+        """The columns in the datasource, if the datasource contains a single logical table. If the datasource
+        contains more than one logical table, a MultipleTablesException error is raised.
+        """
+        try:
+            return self.get_underlying_table().columns
+        except exceptions.MultipleTablesException:
+            raise exceptions.MultipleTablesException(
+                "More than one logical table exists in the datasource so you need\n"
+                'to use the "get_underyling_table" method with a table id rather\n'
+                "than accessing the columns directly:\n"
+                ">>> datasource.get_underlying_table(table_id).columns\n"
+                'A list of (caption, table_id) can be found using the "underlying_table_info" property\n'
+                "(result of self.underlying_table_info listed below)\n"
+                f"{self.underlying_table_info}"
+            )
+
+    def get_underlying_table(self, id=None) -> DataTable:
+        """Returns the underlying DataTable from the datasource by id.
+
+        Parameters
+        ----------
+        id (optional): The ID of the table to get
+
+        Raises
+        ------
+        ValueError if an id is not provided and there are more than 1 logical table in the datasource.
+        """
+        if id:
+            return DataTable(self.getLogicalTableDataAsync(id))
+
+        tables = self.getLogicalTablesAsync()
+        if len(tables) > 1:
+            raise exceptions.MultipleTablesException(
+                "More than one logical table exists in the datasource so you need to specify the underlying table\n"
+                "id using the 'id' argument.\n"
+                'A list of (caption, table_id) can be found using the "underlying_table_info" property\n'
+                "(result of self.underlying_table_info listed below)\n"
+                f"{self.underlying_table_info}"
+            )
+        table_id = tables[0].id
+        return DataTable(self.getLogicalTableDataAsync(table_id))
+
+    @property
+    def underlying_table_info(self):
+        """Information on each table contained in the datasource.
+
+        type : :obj:`list` of :obj:`tuple` (caption, id)
+
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau, which can be used in functions like "get_underlying_table".
+
+        Example
+        -------
+        >>> ds = self.worksheet.datasources[0]
+        >>> ds.underlying_table_info
+        [('Orders', 'Orders_6D2EF74F348B46BDA976A7AEEA6FB5C9'), ('People', 'People_37AF7429D04E4916914EED91681E5975'), ('Returns', 'Returns_11818460B7524AB795D23E763C65D6BC')]
+        """
+        return [(table.caption, table.id) for table in self.getLogicalTablesAsync()]
+
+    def refresh(self):
+        """
+        Refreshes data source
+        """
+        # Can we make this happen without blocking? Not sure how, call_async or something?
+        # Yes, anvil labs has a non-blocking module which would handle that.
+        self._proxy.refreshAsync()
 
 
 class MarksSelectedEvent(TableauProxy):

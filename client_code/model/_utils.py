@@ -3,6 +3,16 @@ import datetime
 import anvil.js
 
 
+def _clean_columns(cols):
+    """
+    cols: list of Column proxy objects
+
+    Returns a dictionary of column types keyed on
+    the column name
+    """
+    return {x.fieldName: x.dataType for x in cols}
+
+
 def clean_record_key(key):
     """Clean the record keys from tableau"""
     return key.replace("(generated)", "").strip()

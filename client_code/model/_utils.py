@@ -1,6 +1,36 @@
 import datetime
+from itertools import groupby
+from operator import itemgetter
 
 import anvil.js
+
+
+def cleanup_measures(records):
+    """Cleans up a list of dicts. Returns a list of dicts"""
+    cols = list(records[0].keys())
+    if "Measure Names" not in cols:
+        return records
+
+    measure_names = set([el["Measure Names"] for el in records])
+
+    # These are the only columns we care about
+    non_measure_columns = [x for x in cols if x not in measure_names]
+
+    # This is what the values should be unique by
+    index_columns = [
+        x for x in non_measure_columns if x not in ["Measure Names", "Measure Values"]
+    ]
+
+    build_recs = []
+    field_getters = itemgetter(*index_columns)
+    records.sort(key=field_getters)
+    for key, values in groupby(records, key=field_getters):
+        key = key if isinstance(key, tuple) else (key,)
+        collapsed_row = dict(zip(index_columns, key))
+        collapsed_row.update({v["Measure Names"]: v["Measure Values"] for v in values})
+        build_recs.append(collapsed_row)
+
+    return build_recs
 
 
 def _clean_columns(cols):

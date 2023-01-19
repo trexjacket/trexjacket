@@ -7,8 +7,12 @@ from anvil.js import report_exceptions
 from .. import exceptions
 from .._utils import _dejsonify, _jsonify
 from . import events
-from ._utils import _clean_columns, clean_record_key, native_value_date_handler
-from .marks import Field, build_marks
+from ._utils import (
+    _clean_columns,
+    clean_record_key,
+    cleanup_measures,
+    native_value_date_handler,
+)
 
 _event_cache = {}
 
@@ -376,6 +380,146 @@ class Parameter(TableauProxy):
         self._proxy = _Tableau.session().dashboard.get_parameter(self.name)._proxy
 
 
+class DataTable(TableauProxy):
+    """Represents a datatable in Tableau.
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``_DataTable`` object's ``._proxy`` attribute.
+    """
+
+    @property
+    def columns(self) -> dict:
+        """Returns details on the columns in the datatable. {colname: coltype}
+
+        :type: dict
+
+        Example
+        -------
+        >>> ds = self.dashboard.get_worksheet('Sales Summary').datasources[0]
+        >>> underlying_table = ds.get_underlying_table('Orders_6D2EF74F348B46BDA976A7AEEA6FB5C9')
+        >>> underylying_table.columns
+        {'Category': 'string', 'City': 'string', 'Country/Region': 'string', 'Customer ID': 'string'}
+        """
+        return _clean_columns(self._proxy.columns)
+
+    def get_records(self, collapse_measures=False):
+        """The records in the data table.
+
+        :obj:`list` of :obj:`dict`
+        """
+        keys = [c.fieldName for c in self._proxy.columns]
+        raw_records = [
+            {
+                clean_record_key(attr[0]): (
+                    attr[1] if attr[0] != "Measure Names" else attr[2]
+                )
+                for attr in zip(
+                    keys,
+                    [
+                        native_value_date_handler(data_value.nativeValue)
+                        for data_value in row
+                    ],
+                    [data_value.formattedValue for data_value in row],
+                )
+            }
+            for row in self._proxy.data
+        ]
+        if not raw_records:
+            return raw_records
+        if collapse_measures:
+            return cleanup_measures(raw_records)
+
+        if "Measure Names" in raw_records[0].keys():
+            print(
+                "Note: 'Measure Names' was found in the keys for these records.\n"
+                "Set the collapse_measures argument to True in order to collapse these values.\n"
+                "Your selection will not be affected by setting the collapse_measures argument to True."
+            )
+        return raw_records
+
+
+class Datasource(TableauProxy):
+    """Represents a Tableau data source.
+
+    Note that Datasources in Tableau are often comprised of multiple logical tables. If your
+    Datasource contains multiple logical tables you'll need to specify the id when
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
+    """
+
+    @property
+    def columns(self):
+        """The columns in the datasource, if the datasource contains a single logical table. If the datasource
+        contains more than one logical table, a MultipleTablesException error is raised.
+        """
+        try:
+            return self.get_underlying_table().columns
+        except exceptions.MultipleTablesException:
+            raise exceptions.MultipleTablesException(
+                "More than one logical table exists in the datasource so you need\n"
+                'to use the "get_underyling_table" method with a table id rather\n'
+                "than accessing the columns directly:\n"
+                ">>> datasource.get_underlying_table(table_id).columns\n"
+                'A list of (caption, table_id) can be found using the "underlying_table_info" property\n'
+                "(result of self.underlying_table_info listed below)\n"
+                f"{self.underlying_table_info}"
+            )
+
+    def get_underlying_table(self, id=None) -> DataTable:
+        """Returns the underlying DataTable from the datasource by id.
+
+        Parameters
+        ----------
+        id (optional): The ID of the table to get
+
+        Raises
+        ------
+        ValueError if an id is not provided and there are more than 1 logical table in the datasource.
+        """
+        if id:
+            return DataTable(self.getLogicalTableDataAsync(id))
+
+        tables = self.getLogicalTablesAsync()
+        if len(tables) > 1:
+            raise exceptions.MultipleTablesException(
+                "More than one logical table exists in the datasource so you need to specify the underlying table\n"
+                "id using the 'id' argument.\n"
+                'A list of (caption, table_id) can be found using the "underlying_table_info" property\n'
+                "(result of self.underlying_table_info listed below)\n"
+                f"{self.underlying_table_info}"
+            )
+        table_id = tables[0].id
+        return DataTable(self.getLogicalTableDataAsync(table_id))
+
+    @property
+    def underlying_table_info(self):
+        """Information on each table contained in the datasource.
+
+        type : :obj:`list` of :obj:`tuple` (caption, id)
+
+        "caption" is the name of the table in the Tableau UI, while "id" is the unique
+        identifier for the table in Tableau, which can be used in functions like "get_underlying_table".
+
+        Example
+        -------
+        >>> ds = self.worksheet.datasources[0]
+        >>> ds.underlying_table_info
+        [('Orders', 'Orders_6D2EF74F348B46BDA976A7AEEA6FB5C9'), ('People', 'People_37AF7429D04E4916914EED91681E5975'), ('Returns', 'Returns_11818460B7524AB795D23E763C65D6BC')]
+        """
+        return [(table.caption, table.id) for table in self.getLogicalTablesAsync()]
+
+    def refresh(self):
+        """
+        Refreshes data source
+        """
+        # Can we make this happen without blocking? Not sure how, call_async or something?
+        # Yes, anvil labs has a non-blocking module which would handle that.
+        self._proxy.refreshAsync()
+
+
 class Worksheet(TableauProxy):
     """Represents an individual Tableau worksheet that exists in a Tableau dashboard. Contains methods to
     get underlying data, filters, and parameters.
@@ -399,8 +543,7 @@ class Worksheet(TableauProxy):
         """
         return _clean_columns(self.getSummaryColumnsInfoAsync())
 
-    @property
-    def selected_records(self):
+    def get_selected_marks(self, collapse_measures=False):
         """The data for the marks which are currently selected on the worksheet.
         If there are no marks currently selected, an empty list is returned.
 
@@ -410,26 +553,20 @@ class Worksheet(TableauProxy):
             Data for the currently selected marks on the worksheet
         """
         data = self._proxy.getSelectedMarksAsync()["data"]
-        datatables = (DataTable(table) for table in data)
-        return list(itertools.chain(*[dt.records for dt in datatables]))
+        datatables = [DataTable(table) for table in data]
+        if len(datatables) > 1:
+            print(
+                'NOTE: "get_selected_marks" is returning data from multiple logical tables. \n'
+                "The returned list will likely have different keys from element to element."
+            )
+        records = list(
+            itertools.chain(*[dt.get_records(collapse_measures) for dt in datatables])
+        )
 
-    @property
-    def selected_marks(self):
-        """Builds off of 'selected_records' method.
+        return records
 
-        Generates Marks by iterating through all records. (see 'build_marks in
-        model.marks')
-
-        Returns
-        --------
-        list : Marks
-            A list of selected mark(s) on the worksheet
-        """
-        records = self.selected_records
-        return build_marks(records)
-
-    def get_underlying_records(self, table_id=None):
-        """Get the underlying worksheet data as a list of dictionaries (records).
+    def get_underlying_data(self, table_id=None):
+        """Get the underlying data as a list of dictionaries (records).
 
         If more than one "underlying table" exists, the table id must be specified.
 
@@ -464,15 +601,20 @@ class Worksheet(TableauProxy):
             table_id = tables[0].id
 
         datatable = DataTable(ws.getUnderlyingTableDataAsync(table_id))
-        return datatable.records
+        return datatable.get_records()
 
-    def get_summary_records(self, ignore_selection=True):
+    def get_summary_data(self, ignore_selection=True, collapse_measures=False):
         """Returns the summary data from a worksheet.
 
         Parameters
         ---------
         ignore_selection : bool
-            Whether or not to ignore the selected marks when getting summary data
+            Whether or not to ignore the selected marks when getting summary data.
+
+        collapse_measures : bool
+            Whether or not to try and collapse records on worksheets that use
+            measure names / measure values. This often happens when getting summary
+            data for dual axis visualizations.
 
         Returns
         ---------
@@ -481,42 +623,7 @@ class Worksheet(TableauProxy):
         datatable = DataTable(
             self._proxy.getSummaryDataAsync({"ignoreSelection": ignore_selection})
         )
-        return datatable.records
-
-    def get_underlying_marks(self, table_id=None):
-        """Get the underlying worksheet data as a list of Marks.
-
-        If more than one "underlying table" exists, the table id must be specified.
-
-
-        Parameters
-        ----------
-        table_id : str
-            The table id for which to get the underlying data. Required if more than
-            one logical table exists.
-
-        Returns
-        -------
-        Mark
-            list of Mark objects
-
-        Raises
-        -------
-            ValueError: If more than one table_id exists, then a table must be specified.
-        """
-        records = self.get_underlying_records(table_id)
-        return build_marks(records)
-
-    def get_selected_records(self):
-        """Gets the data for the marks which are currently selected on the worksheet.
-        If there are no marks currently selected, an empty list is returned.
-
-        Returns
-        --------
-        records : list
-            Data for the currently selected marks on the worksheet
-        """
-        return self.selected_records
+        return datatable.get_records(collapse_measures)
 
     def select_marks(self, dimension, selection_type="select-replace"):
         """Selects the marks and returns them.
@@ -554,7 +661,7 @@ class Worksheet(TableauProxy):
             {"fieldName": k, "value": [v]} for d in dimension for k, v in d.items()
         ]
         self._proxy.selectMarksByValueAsync(selection, selection_type)
-        return self.selected_records
+        return self.get_selected_marks()
 
     def clear_selection(self):
         """Clears the current marks selection."""
@@ -683,7 +790,7 @@ class Worksheet(TableauProxy):
             return Parameter(param_js)
 
     @property
-    def datasources(self) -> str:
+    def datasources(self) -> list[Datasource]:
         """The data sources for this worksheet.
 
         Returns
@@ -1299,135 +1406,6 @@ class _Tableau:
             self.callbacks.pop(identifier)()
 
 
-class DataTable(TableauProxy):
-    """Represents a datatable in Tableau.
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datatable.html>` and accessed through the ``_DataTable`` object's ``._proxy`` attribute.
-    """
-
-    @property
-    def columns(self) -> dict:
-        """Returns details on the columns in the datatable. {colname: coltype}
-
-        :type: dict
-
-        Example
-        -------
-        >>> ds = self.dashboard.get_worksheet('Sales Summary').datasources[0]
-        >>> underlying_table = ds.get_underlying_table('Orders_6D2EF74F348B46BDA976A7AEEA6FB5C9')
-        >>> underylying_table.columns
-        {'Category': 'string', 'City': 'string', 'Country/Region': 'string', 'Customer ID': 'string'}
-        """
-        return _clean_columns(self._proxy.columns)
-
-    @property
-    def records(self):
-        """The records in the data table.
-
-        :obj:`list` of :obj:`dict`
-        """
-        keys = [c.fieldName for c in self._proxy.columns]
-        return [
-            {
-                clean_record_key(attr[0]): (
-                    attr[1] if attr[0] != "Measure Names" else attr[2]
-                )
-                for attr in zip(
-                    keys,
-                    [
-                        native_value_date_handler(data_value.nativeValue)
-                        for data_value in row
-                    ],
-                    [data_value.formattedValue for data_value in row],
-                )
-            }
-            for row in self._proxy.data
-        ]
-
-
-class Datasource(TableauProxy):
-    """Represents a Tableau data source.
-
-    Note that Datasources in Tableau are often comprised of multiple logical tables. If your
-    Datasource contains multiple logical tables you'll need to specify the id when
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
-    """
-
-    @property
-    def columns(self):
-        """The columns in the datasource, if the datasource contains a single logical table. If the datasource
-        contains more than one logical table, a MultipleTablesException error is raised.
-        """
-        try:
-            return self.get_underlying_table().columns
-        except exceptions.MultipleTablesException:
-            raise exceptions.MultipleTablesException(
-                "More than one logical table exists in the datasource so you need\n"
-                'to use the "get_underyling_table" method with a table id rather\n'
-                "than accessing the columns directly:\n"
-                ">>> datasource.get_underlying_table(table_id).columns\n"
-                'A list of (caption, table_id) can be found using the "underlying_table_info" property\n'
-                "(result of self.underlying_table_info listed below)\n"
-                f"{self.underlying_table_info}"
-            )
-
-    def get_underlying_table(self, id=None) -> DataTable:
-        """Returns the underlying DataTable from the datasource by id.
-
-        Parameters
-        ----------
-        id (optional): The ID of the table to get
-
-        Raises
-        ------
-        ValueError if an id is not provided and there are more than 1 logical table in the datasource.
-        """
-        if id:
-            return DataTable(self.getLogicalTableDataAsync(id))
-
-        tables = self.getLogicalTablesAsync()
-        if len(tables) > 1:
-            raise exceptions.MultipleTablesException(
-                "More than one logical table exists in the datasource so you need to specify the underlying table\n"
-                "id using the 'id' argument.\n"
-                'A list of (caption, table_id) can be found using the "underlying_table_info" property\n'
-                "(result of self.underlying_table_info listed below)\n"
-                f"{self.underlying_table_info}"
-            )
-        table_id = tables[0].id
-        return DataTable(self.getLogicalTableDataAsync(table_id))
-
-    @property
-    def underlying_table_info(self):
-        """Information on each table contained in the datasource.
-
-        type : :obj:`list` of :obj:`tuple` (caption, id)
-
-        "caption" is the name of the table in the Tableau UI, while "id" is the unique
-        identifier for the table in Tableau, which can be used in functions like "get_underlying_table".
-
-        Example
-        -------
-        >>> ds = self.worksheet.datasources[0]
-        >>> ds.underlying_table_info
-        [('Orders', 'Orders_6D2EF74F348B46BDA976A7AEEA6FB5C9'), ('People', 'People_37AF7429D04E4916914EED91681E5975'), ('Returns', 'Returns_11818460B7524AB795D23E763C65D6BC')]
-        """
-        return [(table.caption, table.id) for table in self.getLogicalTablesAsync()]
-
-    def refresh(self):
-        """
-        Refreshes data source
-        """
-        # Can we make this happen without blocking? Not sure how, call_async or something?
-        # Yes, anvil labs has a non-blocking module which would handle that.
-        self._proxy.refreshAsync()
-
-
 class MarksSelectedEvent(TableauProxy):
     """Triggered when a user selects a mark on the Tableau dashboard.
 
@@ -1443,15 +1421,6 @@ class MarksSelectedEvent(TableauProxy):
         :type: :obj:`Worksheet`
         """
         return Worksheet(self._proxy._worksheet)
-
-    def get_selected_records(self):
-        """Returns the records that were selected in the worksheet.
-
-        .. seealso::
-
-            Example on the getting started guide :doc:`gettingstarted`
-        """
-        return self.worksheet.selected_records
 
 
 class FilterChangedEvent(TableauProxy):

@@ -1,11 +1,11 @@
 Chapter 2: Create your database table
-===================================
+======================================
 
 Let's create our database using Anvil's built-in Data Tables.
 
 
 Step 1: Adding a database table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Start by navigating to the Data tab on the left hand side of Anvil's environment:
 
@@ -14,7 +14,7 @@ Start by navigating to the Data tab on the left hand side of Anvil's environment
 You will see that there is already a Default Database with no tables of data in it. Let's change that!
 
 Step 2: Create a 'houses' table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For this tutorial, we are going to use data from houses on `Zillow <https://www.zillow.com/>`_ to observe the price and square feet measurements of houses in different locations.
 
@@ -45,7 +45,7 @@ Your Data Table should look something like this:
 Your Data Table is set up and ready to use. Nice work!
 
 Step 3: Resolve Schema Mismatch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you create a new Data Table in the new Anvil environment, your app flags a warning that you have changed the 'schema' of your database.
 
@@ -53,7 +53,7 @@ Note: The term "schema" refers to the organization of data as a blueprint of how
 
 In order to resolve this and keep the changes you made to the database, you will need to do the following:
 
-On the left hand side in the Schema Mismatch error message, click the 'Resolve...' button. 
+On the left hand side in the Schema Mismatch error message, click the 'Resolve...' button.
 
 .. image:: images/10-resolve-schema.png
 
@@ -68,13 +68,13 @@ There you go! You should now see this message, which means we are done creating 
 Now it is time to put some data into our houses data table.
 
 Step 4: Inserting data into our data table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Anvil makes it very easy to store data into Data Tables. More on this `here. <https://anvil.works/docs/data-tables>`_ 
+Anvil makes it very easy to store data into Data Tables. More on this `here. <https://anvil.works/docs/data-tables>`_
 
 Since we currently have no data, let's fix that.
 
-Just like a spreadsheet, you can click to edit any data in the table. To add a new row, simply click in the blank row and start typing! 
+Just like a spreadsheet, you can click to edit any data in the table. To add a new row, simply click in the blank row and start typing!
 
 Using `Zillow <https://www.zillow.com/>`_ we can easily find information on houses and enter them in. Here is something how the first row of data should look:
 
@@ -87,7 +87,7 @@ Once you put some houses into your database (no need to insert more than a coupl
 .. image:: images/14-first-7-rows.png
 
 Step 5: Downloading the data table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the next chapter, we are going to need the data that we just created to be the data source for our Tableau Dashboard.
 

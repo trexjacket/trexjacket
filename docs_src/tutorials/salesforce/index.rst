@@ -125,7 +125,7 @@ App Secrets
 
 App Secrets are a way to store sensitive information, so we don't need to store it in our source code be it API credentials, database passwords, or sensitive personal data.
 
-You can find Anvil's tutorial on App Secrets `here <https://anvil.works/learn/tutorials/app-secrets>`_.
+You can find Anvil's tutorial on App Secrets `at this page <https://anvil.works/learn/tutorials/app-secrets>`_.
 
 The first thing we need to do is enable App Secrets. You can do this by clicking the plus button at the bottom of the module list.
 

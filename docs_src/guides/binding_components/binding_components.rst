@@ -1,5 +1,5 @@
 Bind Anvil components to Tableau filters and parameters
-----------
+----------------------------------------------------------
 
 Keeping Anvil components in sync with components on the dashboard is straight forward and simple using Anvil data bindings.
 
@@ -28,9 +28,9 @@ Let's look at some form code:
       self.dashboard.register_event_handler('parameter_changed', self.refresh_data_bindings)
       self.dashboard.register_event_handler('filter_changed', self.refresh_data_bindings)
 
-Notice that I've registered ``refresh_data_bindings`` to both the parameter_changed and filter_changed events. The only other step is to define the data bindings using the Anvil editor. 
+Notice that I've registered ``refresh_data_bindings`` to both the parameter_changed and filter_changed events. The only other step is to define the data bindings using the Anvil editor.
 
-For the text box, bind the ``text`` property of the text box to ``self.param.value`` and enable write back. 
+For the text box, bind the ``text`` property of the text box to ``self.param.value`` and enable write back.
 
 .. image:: anvil_databinding.PNG
 
@@ -56,7 +56,7 @@ For more information on data bindings, see the `anvil docs here <https://anvil.w
 .. button-link:: https://anvil.works/build#clone:5C66DY2E5OEFWOTZ=N6AIAMZ6S2BXNTBPXWKTAIBM
    :color: primary
    :shadow:
-   
+
    Click here to clone the Anvil used for this howto
-   
+
 Click :download:`here <component_binding.twb>` to download the Tableau workbook.

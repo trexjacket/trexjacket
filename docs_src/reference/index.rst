@@ -1,5 +1,5 @@
 API Reference
-=======
+=============
 
 This reference documentation is divided into 3 major sections:
 
@@ -20,7 +20,7 @@ This reference documentation is divided into 3 major sections:
    - Details of some under the hood functionality.
 
 Connecting to the dashboard
------
+-----------------------------
 
 ``api.get_dashboard`` is the recommended way to connect to the Tableau Dashboard.
 
@@ -28,7 +28,7 @@ Connecting to the dashboard
    :members:
 
 Tableau objects
------
+-----------------
 
 These are the things you can see on the dashboard (filters, parameters, worksheets, etc.).
 
@@ -37,7 +37,7 @@ These are the things you can see on the dashboard (filters, parameters, workshee
    :show-inheritance:
 
 Change event classes
------
+--------------------
 
 You will encounter these classes when registering event handlers. For example, when registering the 'filter_changed' event:
 
@@ -57,7 +57,7 @@ You will encounter these classes when registering event handlers. For example, w
    :members: MarksSelectedEvent, FilterChangedEvent, ParameterChangedEvent
 
 Displaying Dialogues
------
+--------------------
 
 .. automodule:: client_code.dialogs
    :members:
@@ -65,7 +65,7 @@ Displaying Dialogues
 
 
 Technical Reference
------
+--------------------
 
 Documentation for developers requiring a lower level of functionality.
 

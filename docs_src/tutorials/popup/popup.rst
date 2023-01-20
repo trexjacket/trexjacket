@@ -1,14 +1,14 @@
 Displaying a popup within Tableau
-------
+----------------------------------
 
 .. Anvil link here: https://anvil.works/new-build/apps/REN6GWNXX6Y5PODR
 
-In this tutorial we'll create a pop-up window that appears outside the Tableau dashboard. We'll use the :obj:`~client_code.dialogs` module from the Tableau Extensions framework.
+In this tutorial we'll create a pop-up window that appears outside the Tableau dashboard. We'll use the :obj:`~client_code.dialogs` module from the |ProductName|.
 
 Let's get started!
 
 Create a new Anvil App
-======
+=======================
 
 To begin, create a new Anvil app with the following:
 
@@ -34,7 +34,7 @@ Once you're done, the Client Code pane should now look like this:
 Now let's configure our startup module.
 
 Startup Module
-=======
+================
 
 Click on the "startup" module and add the following code:
 
@@ -54,7 +54,7 @@ That's it for the startup module! In order to open dialogue boxes, we need to op
 Now let's move to the Home form.
 
 Home Form
-=======
+==========
 
 Open the "Home" form and add the following code:
 
@@ -95,7 +95,7 @@ Open the "Home" form and add the following code:
 ``btn_alert_click`` and ``btn_confirm_click`` work like the standard Anvil alerts, while ``btn_config_click`` opens a custom form. You might be wondering how I decided to pass the string "alert_form" to ``dialogs.show_form``. We'll cover that in the next section!
 
 ShowMe Form
-=======
+=============
 
 Finally we'll add the following code to the ``ShowMe`` form.
 
@@ -123,7 +123,7 @@ There are 2 important things happening in this form.
 2. On the submit click, we return ``self.tb_config.text``.
 
 View the results
-======
+==================
 
 .. dropdown:: Here's what the extension should look like now
     :open:
@@ -131,7 +131,7 @@ View the results
     .. image:: media/demonstration.gif
 
 Summary
-======
+=========
 
 In summary, to open a dialogue box:
 

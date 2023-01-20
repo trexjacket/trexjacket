@@ -1,12 +1,13 @@
 .. include:: README.rst
 
 Outline
----------
+-------
 
 .. toctree::
    :maxdepth: 1
 
    whatisthis.rst
+   learningpath.rst
    getting_started.rst
    howthisworks.rst
    tutorials/index.rst
@@ -17,10 +18,8 @@ Outline
    contributing
 
 Indices and tables
----------
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. build with  find . -name \*.rst | entr make html

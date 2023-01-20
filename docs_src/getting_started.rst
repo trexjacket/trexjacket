@@ -1,5 +1,5 @@
 Getting Started
----------
+----------------
 
 Let's build a simple extension that displays the summary data from Tableau within Anvil when a user clicks a bar in a bar chart.
 
@@ -14,7 +14,7 @@ First create a new extension in Anvil by selecting "Blank app" and then "Tableau
 
 
 Download and add a trex file to Tableau
-=====
+=========================================
 
 In order to add an extension built in Anvil to Tableau it needs to be added to the dashboard using a `.trex` file. The trex file is first downloaded from Anvil and then uploaded to Tableau.
 
@@ -34,7 +34,7 @@ In Tableau:
     .. image:: media/download_trex.gif
 
 Write some code
-=====
+================
 
 Now that our Anvil app is connected to our dashboard, we'll need to modify the code.
 

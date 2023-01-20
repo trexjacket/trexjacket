@@ -1,5 +1,5 @@
 Configuring 'Settings' for your Dashboard
-------
+------------------------------------------
 
 In this tutorial we will define some "Settings" that allow you to configure your Extension for your users. Settings are persisted in the Workbook, so you can use them to set parameters used by your dashboard.
 

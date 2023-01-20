@@ -1,7 +1,7 @@
-Platform Overview
-------
+What is |ProductName|?
+----------------------
 
-This is a Python library that allows users to create Tableau extensions with Anvil using only Python.
+|ProductName| is a platform that allows users to create Tableau extensions with Anvil using only Python.
 
 .. raw:: html
 
@@ -40,9 +40,9 @@ To get a taste of what other people have built, check out some `dashboard extens
 
 .. raw:: html
 
-  <h3>This Library's Objective: Investment to Insight</h3>
+  <h3>Platform Objective: Investment to Insight</h3>
 
-The primary purpose of this Python library is to reduce the amount of time required to go from investment to insight
+The primary purpose of |ProductName| is to reduce the amount of time required to go from investment to insight
 
 .. important::
 
@@ -62,7 +62,7 @@ The below image outlines how this Python library is related to Anvil and Tableau
 .. image:: media/extension_architecture.PNG
 
 
-Now that you have a good handle on the extensions framework, head over to the :doc:`getting_started` guide for a short walkthrough of what the development experience is like.
+Now that you have a good handle on |ProductName|, head over to the :doc:`getting_started` guide for a short walkthrough of what the development experience is like.
 
 
 .. raw:: html

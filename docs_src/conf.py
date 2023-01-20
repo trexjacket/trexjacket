@@ -22,8 +22,10 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-project = "Tableau Extension Platform"
-copyright = "2022, Baker Tilly Inc."
+PRODUCT_NAME = "Tableau Annex"
+
+project = PRODUCT_NAME
+copyright = "2023, Baker Tilly Inc."
 author = "Baker Tilly Inc."
 
 
@@ -77,3 +79,10 @@ html_static_path = ["_static"]
 # Show methods / classes / functions by their order in the source code
 # instead of aphabetically
 autodoc_member_order = "bysource"
+
+# Create an index
+html_use_index = True
+
+rst_prolog = f"""
+.. |ProductName| replace:: {PRODUCT_NAME}
+"""

@@ -1,7 +1,7 @@
 Supported objects and events
--------------
+-----------------------------
 
-This library enables the user to listen and respond to *events* on *objects* in a Tableau dashboard using *event handlers*.
+|ProductName| enables the user to listen and respond to *events* on *objects* in a Tableau dashboard using *event handlers*.
 
 * **Objects** are the pieces of the Tableau dashboard that a user interacts with. The following objects are supported:
 

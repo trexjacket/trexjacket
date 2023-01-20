@@ -543,9 +543,30 @@ class Worksheet(TableauProxy):
         """
         return _clean_columns(self.getSummaryColumnsInfoAsync())
 
+    def _coalesce_data(self, data, collapse_measures, method_name):
+        """
+        Returns the records from multiple data tables.
+        """
+        datatables = [DataTable(table) for table in data]
+        if len(datatables) > 1:
+            print(
+                f"NOTE: {method_name} is returning data from multiple logical tables. \n"
+                "The returned list will likely have different keys from element to element."
+            )
+        return list(
+            itertools.chain(*[dt.get_records(collapse_measures) for dt in datatables])
+        )
+
     def get_selected_marks(self, collapse_measures=False):
         """The data for the marks which are currently selected on the worksheet.
         If there are no marks currently selected, an empty list is returned.
+
+        Parameters
+        ----------
+        collapse_measures : bool
+            Whether or not to try and collapse records on worksheets that use
+            measure names / measure values. This often happens when getting summary
+            data for dual axis visualizations.
 
         Returns
         --------
@@ -553,17 +574,26 @@ class Worksheet(TableauProxy):
             Data for the currently selected marks on the worksheet
         """
         data = self._proxy.getSelectedMarksAsync()["data"]
-        datatables = [DataTable(table) for table in data]
-        if len(datatables) > 1:
-            print(
-                'NOTE: "get_selected_marks" is returning data from multiple logical tables. \n'
-                "The returned list will likely have different keys from element to element."
-            )
-        records = list(
-            itertools.chain(*[dt.get_records(collapse_measures) for dt in datatables])
-        )
+        return self._coalesce_data(data, collapse_measures, "get_selected_marks")
 
-        return records
+    def get_highlighted_marks(self, collapse_measures=False):
+        """The data for the marks which are currently highlighted on the worksheet.
+        If there are no marks currently highlighted, an empty list is returned.
+
+        Parameters
+        ----------
+        collapse_measures : bool
+            Whether or not to try and collapse records on worksheets that use
+            measure names / measure values. This often happens when getting summary
+            data for dual axis visualizations.
+
+        Returns
+        --------
+        records : list
+            Data for the currently highlighted marks on the worksheet
+        """
+        data = self._proxy.getHighlightedMarksAsync()["data"]
+        return self._coalesce_data(data, collapse_measures, "get_highlighted_marks")
 
     def get_underlying_data(self, table_id=None):
         """Get the underlying data as a list of dictionaries (records).

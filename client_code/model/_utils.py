@@ -23,7 +23,8 @@ def cleanup_measures(records):
 
     build_recs = []
     field_getters = itemgetter(*index_columns)
-    records.sort(key=field_getters)
+    for k in index_columns:
+        records.sort(key=lambda d: (d[k] is None, d[k]))
     for key, values in groupby(records, key=field_getters):
         key = key if isinstance(key, tuple) else (key,)
         collapsed_row = dict(zip(index_columns, key))

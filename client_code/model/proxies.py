@@ -100,10 +100,6 @@ class Filter:
         return f"Filter: '{self.field_name}'"
 
     @property
-    def serialized(self):
-        return {"field_name": self.field_name, "values": self.applied_values}
-
-    @property
     def field_name(self):
         """The name of the field being filtered.
 
@@ -154,7 +150,10 @@ class Filter:
                 "domain is currently only available for categorical filters."
             )
 
-        return [v.nativeValue for v in self._proxy.getDomainAsync("database").values]
+        return [
+            native_value_date_handler(v.nativeValue)
+            for v in self._proxy.getDomainAsync("database").values
+        ]
 
     @property
     def relevant_domain(self):
@@ -168,7 +167,10 @@ class Filter:
         """
         if self.worksheet:
             self._proxy = self.worksheet.get_filter(self.field_name)._proxy
-        return [v.nativeValue for v in self._proxy.getDomainAsync("relevant").values]
+        return [
+            native_value_date_handler(v.nativeValue)
+            for v in self._proxy.getDomainAsync("relevant").values
+        ]
 
     @property
     def filter_type(self):
@@ -195,19 +197,13 @@ class Filter:
         if self._proxy.isAllSelected:
             return self.domain
 
-        try:
-            return [v.nativeValue.getDate() for v in self.appliedValues]
-        except AttributeError:
-            return [v.nativeValue for v in self.appliedValues]
+        return [native_value_date_handler(v.nativeValue) for v in self.appliedValues]
 
     def _range_values(self):
-        try:
-            return (
-                self.minValue.nativeValue.getDate(),
-                self.maxValue.nativeValue.getDate(),
-            )
-        except AttributeError:
-            return (self.minValue.nativeValue, self.maxValue.nativeValue)
+        return (
+            native_value_date_handler(self.minValue.nativeValue.getDate()),
+            native_value_date_handler(self.maxValue.nativeValue.getDate()),
+        )
 
     def _relative_date_values(self):
         return self.periodType
@@ -256,14 +252,18 @@ class Parameter(TableauProxy):
     def value(self):
         """The current value of the parameter."""
         self._refresh()
-        return self._proxy.currentValue.nativeValue
+        return native_value_date_handler(self._proxy.currentValue.nativeValue)
 
-    @property
-    def serialized(self):
-        try:
-            return {"name": self.name, "value": self.value.getDate()}
-        except AttributeError:
-            return {"name": self.name, "value": self.value}
+    @value.setter
+    def value(self, new_value):
+        """Changes the DataValue representing the current value of the parameter.
+
+        Parameters
+        ----------
+        new_value : DataValue
+            DataValue representing the new value of the parameter.
+        """
+        self.change_value(new_value)
 
     @property
     def data_type(self):
@@ -340,17 +340,6 @@ class Parameter(TableauProxy):
             parameters, UTC Date objects are expected.
         """
         self._proxy.changeValueAsync(new_value)
-
-    @value.setter
-    def value(self, new_value):
-        """Changes the DataValue representing the current value of the parameter.
-
-        Parameters
-        ----------
-        new_value : DataValue
-            DataValue representing the new value of the parameter.
-        """
-        self.change_value(new_value)
 
     def register_event_handler(self, handler):
         """Register an event handler that will be called whenever the parameter is changed.
@@ -493,6 +482,15 @@ class Datasource(TableauProxy):
             )
         table_id = tables[0].id
         return DataTable(self.getLogicalTableDataAsync(table_id))
+
+    def get_underlying_data(self, id=None):
+        """Return the underlying data as a list of dictionaries.
+
+        Parameters
+        ----------
+        id (optional): The ID of the table to get. This is requried if there are more than one underlying logical tables.
+        """
+        return self.get_underlying_table(id).get_records()
 
     @property
     def underlying_table_info(self):
@@ -905,6 +903,170 @@ class Worksheet(TableauProxy):
             p.unregister_all_event_handlers()
 
 
+class Settings(TableauProxy):
+    """Dict-like representation of Tableau Settings. Settings are persisted in the workbook between sessions but can only be modified
+    in authoring mode.
+
+    Typically accessed through dashboard.settings.
+
+    Settings behaves like a dict and can be accessed and set through standard dict notation:
+
+    >>> settings = get_dashboard().settings
+    >>> my_setting = settings['my_setting']
+    >>> settings['my_new_setting'] = 'a_new_value'
+
+    Most of the standard dict methods are implemented. ``pop`` is not implemented; settings cannot be changed when
+    the dashboard is not in 'author' mode, so probably, this isn't what you want.
+
+    Non-standard dict methods
+
+    * :obj:`Settings.delete`: Removes that key from settings if it exists.
+
+    * :obj:`Settings.setdefaults`: Similar to ``setdefault`` and ``update``, where all of the keys in the passed dictionary are updated only if they don't exist. This avoids repeated writes to the dashboard if many defaults need setting at once.
+
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Setting`` object's ``._proxy`` attribute.
+    """
+
+    def _setkey(self, key, value):
+        if key is None:
+            raise KeyError("'None' is not a valid key for settings.")
+        elif not isinstance(key, str):
+            raise KeyError(
+                f"Key {key} is not a string. Only string keys are allowed in Settings."
+            )
+
+        if not any(
+            [
+                isinstance(value, t)
+                for t in [int, float, str, dict, list, tuple, dt.date, dt.datetime]
+            ]
+        ):
+            print(
+                f"Warning: Settings {key} (with value {value}) is of type {type(value)}! Settings persisted in the "
+                f"workbook are stored as JSON. Make sure the serialization and deserialization "
+                f"of {key} occurs as you expect. Otherwise, consider converting to a simple object type."
+            )
+
+        self._proxy.set(key, _jsonify(value))
+
+    def keys(self):
+        """Identical to dict.keys()."""
+        return self.dict().keys()
+
+    def values(self):
+        """Identical to dict.values()."""
+        return self.dict().values()
+
+    def items(self):
+        """Identical to dict.items()."""
+        return self.dict().items()
+
+    def get(self, item, default=None):
+        """Identical to dict.get(key, default_value)."""
+        value = _dejsonify(self._proxy.get(item))
+        return value if value is not None else default
+
+    def __getitem__(self, item):
+        if item not in self.keys():
+            raise KeyError(f"Setting {item} wasn't found.")
+        value = self.get(item)
+        return value
+
+    def __setitem__(self, item, value):
+        self._setkey(item, value)
+        self._proxy.saveAsync()
+
+    def __len__(self):
+        return len(self.keys())
+
+    def __contains__(self, item):
+        return item in self.keys()
+
+    def __delitem__(self, item):
+        # A bug exists in the Extension API (or is introduced by the anvil.js framework)
+        # where keys set to an empty string cannot be deleted.
+        if self.get(item) == "":
+            self._proxy.set(item, "TO BE DELETED")
+        self._proxy.erase(item)
+        self._proxy.saveAsync()
+
+    def update(self, update_dict):
+        """Identical to dict.update(dict). This is a little more efficient than updating many keys
+        one at a time, since setting each key requires writing to the dashboard."""
+        for k, v in update_dict.items():
+            self._setkey(k, v)
+        self._proxy.saveAsync()
+
+    def delete(self, key):
+        """This deletes the key from settings.
+
+        Parameters
+        ----------
+        key : str
+            They key to be deleted.
+        """
+        self.__delitem__(key)
+
+    def clear(self):
+        """Identical to dict.clear()."""
+        for key in list(self.keys()):
+            self.delete(key)
+
+    def dict(self):
+        """Converts settings to a dictionary.
+
+        Returns
+        -------
+        settings_dict : a dictionary copy of settings.
+            Note that this makes a copy of settings. Changing settings_dict will not affect
+            the settings in the dashboard.
+        """
+        settings_dict = dict(self._proxy.getAll())
+        settings_dict = {k: _dejsonify(v) for k, v in settings_dict.items()}
+        return settings_dict
+
+    def __repr__(self):
+        return f"Tableau Workbook Settings: {self.dict()}"
+
+    def __str__(self):
+        return str(self.dict())
+
+    def setdefault(self, key, default_value=""):
+        """Identical to dict.setdefault(key, default_value)."""
+        if key in self.keys():
+            return self[key]
+
+        else:
+            self[key] = default_value
+            return default_value
+
+    def setdefaults(self, defaults_dict):
+        """Sets all the defaults in the defaults_dict provided. If a key does not
+        exist in settings, it is set to the default provided; otherwise, the value is not changed.
+
+        Parameters
+        ----------
+        defaults_dict : dict
+            Key value pairs representing the setting key and the default value to use
+            if the key does not exist in settings.
+        """
+        initial_keys = list(self.keys())
+        for k, v in defaults_dict.items():
+            if k not in initial_keys:
+                self._setkey(k, v)
+
+        self._proxy.saveAsync()
+
+    def __bool__(self):
+        return bool(self.dict())
+
+    def __iter__(self):
+        return iter(self.dict())
+
+
 class Dashboard(TableauProxy):
     """This represents the Tableau dashboard within which the extension is embedded. Contains
     methods to retrieve parameters, filters, and data sources.
@@ -1160,170 +1322,6 @@ class Dashboard(TableauProxy):
         return tableau.extensions.environment.mode == "authoring"
 
 
-class Settings(TableauProxy):
-    """Dict-like representation of Tableau Settings. Settings are persisted in the workbook between sessions but can only be modified
-    in authoring mode.
-
-    Typically accessed through dashboard.settings.
-
-    Settings behaves like a dict and can be accessed and set through standard dict notation:
-
-    >>> settings = get_dashboard().settings
-    >>> my_setting = settings['my_setting']
-    >>> settings['my_new_setting'] = 'a_new_value'
-
-    Most of the standard dict methods are implemented. ``pop`` is not implemented; settings cannot be changed when
-    the dashboard is not in 'author' mode, so probably, this isn't what you want.
-
-    Non-standard dict methods
-
-    * :obj:`Settings.delete`: Removes that key from settings if it exists.
-
-    * :obj:`Settings.setdefaults`: Similar to ``setdefault`` and ``update``, where all of the keys in the passed dictionary are updated only if they don't exist. This avoids repeated writes to the dashboard if many defaults need setting at once.
-
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/settings.html>` and accessed through the ``Setting`` object's ``._proxy`` attribute.
-    """
-
-    def _setkey(self, key, value):
-        if key is None:
-            raise KeyError("'None' is not a valid key for settings.")
-        elif not isinstance(key, str):
-            raise KeyError(
-                f"Key {key} is not a string. Only string keys are allowed in Settings."
-            )
-
-        if not any(
-            [
-                isinstance(value, t)
-                for t in [int, float, str, dict, list, tuple, dt.date, dt.datetime]
-            ]
-        ):
-            print(
-                f"Warning: Settings {key} (with value {value}) is of type {type(value)}! Settings persisted in the "
-                f"workbook are stored as JSON. Make sure the serialization and deserialization "
-                f"of {key} occurs as you expect. Otherwise, consider converting to a simple object type."
-            )
-
-        self._proxy.set(key, _jsonify(value))
-
-    def keys(self):
-        """Identical to dict.keys()."""
-        return self.dict().keys()
-
-    def values(self):
-        """Identical to dict.values()."""
-        return self.dict().values()
-
-    def items(self):
-        """Identical to dict.items()."""
-        return self.dict().items()
-
-    def get(self, item, default=None):
-        """Identical to dict.get(key, default_value)."""
-        value = _dejsonify(self._proxy.get(item))
-        return value if value is not None else default
-
-    def __getitem__(self, item):
-        if item not in self.keys():
-            raise KeyError(f"Setting {item} wasn't found.")
-        value = self.get(item)
-        return value
-
-    def __setitem__(self, item, value):
-        self._setkey(item, value)
-        self._proxy.saveAsync()
-
-    def __len__(self):
-        return len(self.keys())
-
-    def __contains__(self, item):
-        return item in self.keys()
-
-    def __delitem__(self, item):
-        # A bug exists in the Extension API (or is introduced by the anvil.js framework)
-        # where keys set to an empty string cannot be deleted.
-        if self.get(item) == "":
-            self._proxy.set(item, "TO BE DELETED")
-        self._proxy.erase(item)
-        self._proxy.saveAsync()
-
-    def update(self, update_dict):
-        """Identical to dict.update(dict). This is a little more efficient than updating many keys
-        one at a time, since setting each key requires writing to the dashboard."""
-        for k, v in update_dict.items():
-            self._setkey(k, v)
-        self._proxy.saveAsync()
-
-    def delete(self, key):
-        """This deletes the key from settings.
-
-        Parameters
-        ----------
-        key : str
-            They key to be deleted.
-        """
-        self.__delitem__(key)
-
-    def clear(self):
-        """Identical to dict.clear()."""
-        for key in list(self.keys()):
-            self.delete(key)
-
-    def dict(self):
-        """Converts settings to a dictionary.
-
-        Returns
-        -------
-        settings_dict : a dictionary copy of settings.
-            Note that this makes a copy of settings. Changing settings_dict will not affect
-            the settings in the dashboard.
-        """
-        settings_dict = dict(self._proxy.getAll())
-        settings_dict = {k: _dejsonify(v) for k, v in settings_dict.items()}
-        return settings_dict
-
-    def __repr__(self):
-        return f"Tableau Workbook Settings: {self.dict()}"
-
-    def __str__(self):
-        return str(self.dict())
-
-    def setdefault(self, key, default_value=""):
-        """Identical to dict.setdefault(key, default_value)."""
-        if key in self.keys():
-            return self[key]
-
-        else:
-            self[key] = default_value
-            return default_value
-
-    def setdefaults(self, defaults_dict):
-        """Sets all the defaults in the defaults_dict provided. If a key does not
-        exist in settings, it is set to the default provided; otherwise, the value is not changed.
-
-        Parameters
-        ----------
-        defaults_dict : dict
-            Key value pairs representing the setting key and the default value to use
-            if the key does not exist in settings.
-        """
-        initial_keys = list(self.keys())
-        for k, v in defaults_dict.items():
-            if k not in initial_keys:
-                self._setkey(k, v)
-
-        self._proxy.saveAsync()
-
-    def __bool__(self):
-        return bool(self.dict())
-
-    def __iter__(self):
-        return iter(self.dict())
-
-
 class _Tableau:
     """The main interface to Tableau.
 
@@ -1357,7 +1355,7 @@ class _Tableau:
             raise ValueError("You've already started a session. Use Tableau.session().")
 
         self.timeout = None
-        self.event_type_mapper = EventTypeMapper()
+        self.event_type_mapper = _EventTypeMapper()
         self._proxy = tableau.extensions
         self.callbacks = {}
         self.dashboard = Dashboard(tableau.extensions.dashboardContent.dashboard)
@@ -1452,6 +1450,24 @@ class MarksSelectedEvent(TableauProxy):
         """
         return Worksheet(self._proxy._worksheet)
 
+    def get_selected_marks(self, collapse_measures=False):
+        """The data for the marks which were selected.
+        If a deselection occured, an empty list is returned.
+
+        Parameters
+        ----------
+        collapse_measures : bool
+            Whether or not to try and collapse records on worksheets that use
+            measure names / measure values. This often happens when getting summary
+            data for dual axis visualizations.
+
+        Returns
+        --------
+        records : list
+            Data for the currently selected marks
+        """
+        return self.worksheet.get_selected_marks(collapse_measures)
+
 
 class FilterChangedEvent(TableauProxy):
     """Triggered when a user changes a filter on a dashboard.
@@ -1503,7 +1519,7 @@ class ParameterChangedEvent(TableauProxy):
         return Parameter(self._proxy.getParameterAsync())
 
 
-class EventTypeMapper:
+class _EventTypeMapper:
     def __init__(self):
         self._tableau_event_types = None
         self._proxies = None

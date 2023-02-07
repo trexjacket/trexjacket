@@ -1,9 +1,6 @@
 Name,Description,"Clone Link","Tableau Workbook",Tutorial
-Image Display,Dynamically show an image when a user clicks a mark on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:H6KTXT5CIJWB5AEW=O4PMZVRIQ6VZEETDJCOAYYMQ>`",":download:`Download<tutorials/reactive-image-display/Reactive Image Display.twb>`",:doc:`tutorials/reactive-image-display/0-main-page`
-Showing a Popup,Create a popup window from your extension.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:REN6GWNXX6Y5PODR=5UYQ4J4JS3U3X7O2LJEVOHRZ>`",":download:`Download<tutorials/popup/popup_workbook.twb>`",:doc:`tutorials/popup/popup`
-Configure Settings,Persist data in a workbook using settings.,":bdg-link-primary:`todo<https://example.com>`","todo",:doc:`tutorials/dashboard-settings/index`
-Chat extension,Allow users to comment on marks on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:GAQT6MCXCLNUCH5Q=YLZRLKEEQKAPDA4ZAT64R762>`",":download:`Download <tutorials/chat-extension/Chat Extension.twb>`",:doc:`tutorials/chat-extension/0-main-page`
+Chat extension,Allow users to comment on marks on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:GAQT6MCXCLNUCH5Q=YLZRLKEEQKAPDA4ZAT64R762>`",":download:`Download <tutorials/chat-extension/Chat Extension Starter Tableau Workbook.twbx>`",:doc:`tutorials/chat-extension/0-main-page`
+Value Override,Allow users to override values and write back to a Tableau datasource.,":bdg-link-primary:`Clone<https://anvil.works/build#clone:6N6MNOEIRVC3CK3A=YPSGLJYOYHTQDM3LPEGYXSY2>`",":download:`Download <tutorials/value-override/media/Value Override Starter Workbook.twbx>`",:doc:`tutorials/value-override/index`
+Salesforce Writeback,Write back to Salesforce from the Tableau Extension.,":bdg-link-primary:`todo<https://example.com>`","todo",:doc:`tutorials/salesforce/index`
+Sales Forecasting,A forecasting app that allows users to input forecast values.,"todo","todo",todo
 Starter App,A starter extension that contains code for common use cases.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:VF5S7JN44C73R3F7=LSJGG6X65OFWFP2I2RKYI5YN>`","None",None
-Value Override,An extension that allows a user to override a value in Tableau and write back to the dashboard.,":bdg-link-primary:`todo<https://anvil.works/build#clone:6N6MNOEIRVC3CK3A=YPSGLJYOYHTQDM3LPEGYXSY2>`",":download:`Download <tutorials/value-override/media/Value Override Starter Worksbook.twbx>`",:doc:`tutorials/value-override/index`
-Salesforce Writeback,todo,":bdg-link-primary:`todo<https://example.com>`","todo",None
-Sales Forecasting,todo,"todo","todo",todo

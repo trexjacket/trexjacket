@@ -6,7 +6,7 @@ Now that our Extension is connected to our dashboard, let's use an event handler
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/eventhandler.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/eventhandler.gif
 
 .. tip::
 

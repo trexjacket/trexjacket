@@ -23,7 +23,7 @@ In Tableau's own words,
 
 Tableau dashboard extensions are web applications that have two-way communication with the dashboard. They enable all sorts of scenarios, like letting you integrate Tableau with custom applications, making possible for you to modify the data for a viz, or even creating custom visualizations inside the dashboard.
 
-.. image:: media/sampleextension.png
+.. image:: https://extension-documentation.s3.amazonaws.com/media/sampleextension.png
 
 .. raw:: html
 
@@ -59,7 +59,7 @@ This Python library accomplishes this by:
 
 The below image outlines how this Python library is related to Anvil and Tableau.
 
-.. image:: media/extension_architecture.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/media/extension_architecture.PNG
 
 
 Now that you have a good handle on |ProductName|, head over to the :doc:`getting_started` guide for a short walkthrough of what the development experience is like.

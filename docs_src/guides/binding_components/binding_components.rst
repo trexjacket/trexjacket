@@ -32,7 +32,7 @@ Notice that I've registered ``refresh_data_bindings`` to both the parameter_chan
 
 For the text box, bind the ``text`` property of the text box to ``self.param.value`` and enable write back.
 
-.. image:: anvil_databinding.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/guides/binding_components/anvil_databinding.PNG
 
 Checking the "Write back" box allows this assignment to go both ways and thus keeping Tableau and our Anvil extension in sync with each other.
 
@@ -41,14 +41,14 @@ The multi-select dropdown works similarly, but we'll need to bind the following:
 - Drop down's ``items`` to ``self.filter.domain``
 - Drop down's ``selected`` to ``self.filter.applied_values``, and enable write back
 
-.. image:: ms_bindings.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/guides/binding_components/ms_bindings.PNG
 
 Once you've added the data bindings, your drop down and text box should be in sync with the Tableau dashboard!
 
 .. dropdown:: Here's what the extension should look like
     :open:
 
-    .. image:: bindingdemo.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/guides/binding_components/bindingdemo.gif
 
 For more information on data bindings, see the `anvil docs here <https://anvil.works/docs/client/data-bindings>`_.
 

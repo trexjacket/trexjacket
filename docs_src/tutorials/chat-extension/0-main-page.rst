@@ -7,7 +7,7 @@ Let's say your team is building dashboards in Tableau that measure performance o
 
     We can use |ProductName| to build an application which will turn a Tableau dashboard into a chat interface where members of the team can select marks and leave comments. By the end of the tutorial you'll have an extension that looks like this:
 
-.. image:: images/gifs/finaloutput.gif
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/finaloutput.gif
 
 Click "Chapter 1" below to get started!
 

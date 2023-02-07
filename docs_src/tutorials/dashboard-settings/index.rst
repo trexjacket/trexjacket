@@ -40,7 +40,7 @@ This is the page we'll show to the user for them to select a Field:
 - Label named ``label_1``
 - dropdown named ``dropdown_field_options``
 
-    .. image:: media/1-settings-page.png
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/dashboard-settings/1-settings-page.png
 
 .. raw:: html
 
@@ -52,11 +52,11 @@ This is the form that will appear in the popup window, and it has the following 
 - Label named: ``lbl_config``
 - Text box named: ``tb_config``
 
-    .. image:: media/1-settings-page.png
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/dashboard-settings/1-settings-page.png
 
 Once you've added the above components, the "Client Code" section of the Anvil IDE should look like this:
 
-.. image:: media/1-ribbon.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/dashboard-settings/1-ribbon.png
 
 Note that the ``startup`` module has the lightning bolt next to it, indicating that it has been selected as the startup module.
 
@@ -92,7 +92,7 @@ For now, we will set a reference to the dashboard as an attribute of the Homepag
 
 Now, lets bind the visibility of the Settings button to the dashboard ``author_mode``.
 
-.. image:: media/1-button-visibility-binding.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/dashboard-settings/1-button-visibility-binding.png
 
 That's it! Whenever the ``visibility`` of the button is determined (like when ``init_components`` occurs), it's set to the dashboard.author_mode. The net result is our Settings button is only shown to authors.
 
@@ -122,7 +122,7 @@ If you run the Extension now, you'll be able to click that button and pop up the
 
 To start with your form should look like:
 
-.. image:: media/1-settings-form.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/dashboard-settings/1-settings-form.png
 
 Dropdown components require you to define the valid options. First, let's define the worksheets in the workbook.
 

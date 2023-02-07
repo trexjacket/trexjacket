@@ -11,7 +11,7 @@ Let's start by adding a text box and button component to our form.
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/createcommentinput.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createcommentinput.gif
 
 In the gif above, we add:
 
@@ -58,7 +58,7 @@ Reload your extension and add a comment to the text box, then click "Save commen
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/createcomment.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createcomment.gif
 
 Step 2: Saving to a data table
 ------------------------------
@@ -68,7 +68,7 @@ Now we have a way to capture what the user has commented, but we need a way to s
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/createdb.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createdb.gif
 
 In Anvil, select the "Data" icon on the left hand side and then click "Add New Table". Create a table named ``comments`` with the following columns:
 

@@ -5,7 +5,7 @@ Chapter 1: Setting up the environment
 
     For this tutorial you'll need to use the Beta editor in Anvil. If what you see does not align with the screenshots in this tutorial, but sure to find and click the "Try the New Editor (Beta)" banner.
 
-    .. image:: images/new-ide.PNG
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/new-ide.PNG
 
 Before we dive in to building extensions we'll need to do some set up.
 
@@ -16,13 +16,13 @@ Creating web apps with Anvil is simple. No need to wrestle with HTML, CSS, or Ja
 
 First log in to Anvil, click "Create a new app - Blank App", and choose the Tableau Extension theme. Give your App a descriptive name by choosing the "Settings" icon (gear) on the left side and modifying the "App Name" text box.
 
-.. image:: images/gifs/createapp.gif
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createapp.gif
 
 Now that we have our Anvil app created, we'll need to add the |ProductName| dependency so we can build extensions.
 
 Open up the "Settings" pane in Anvil and click the "Dependencies" option. Then, choose "Tableau Extension - (Service Based)". Be sure to select the "Published" version.
 
-.. image:: images/gifs/adddependency.gif
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/adddependency.gif
 
 Step 2: Create your Tableau Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,7 +36,7 @@ Step 3: Connect your Anvil app to your Tableau dashboard using a trex file
 
 For our Tableau Dashboard to communicate with out Anvil app, we need to create a ``.trex`` file. The ``.trex`` file allows us to add our Anvil app into our dashboard as an extension.
 
-.. image:: images/gifs/addtrex.gif
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/addtrex.gif
 
 To generate a ``.trex`` file:
 

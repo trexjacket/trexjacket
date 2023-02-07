@@ -14,7 +14,7 @@ Let's add the following components to the ``Homepage`` form:
 
 Once you're done, the ``Homepage`` form should look like this:
 
-.. image:: media/home_page_ui_start.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/home_page_ui_start.PNG
 
 And now let's add the code:
 
@@ -64,7 +64,7 @@ Right now, if you enter an override and a comment and click the Submit button, y
 .. dropdown::
     :open:
 
-    .. image:: media/dummy_override.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/dummy_override.gif
 
 This works, but let's start persisting this data using Anvil data tables.
 
@@ -86,7 +86,7 @@ Make sure to select "Can search, edit and delete" next to permissions. We'd neve
 .. dropdown::
     :open:
 
-    .. image:: media/allow_client_write.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/allow_client_write.gif
 
 
 Now let's add a data grid to the ``Homepage`` form with the following 4 column names and keys:
@@ -112,7 +112,7 @@ Now let's add a data grid to the ``Homepage`` form with the following 4 column n
 .. dropdown::
     :open:
 
-    .. image:: media/add_data_grid.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/add_data_grid.gif
 
 Now that we have our data table and UI set up, let's save the user's override and comment to our data table. Add the following code to the ``Homepage`` form:
 
@@ -177,6 +177,6 @@ Now reload your extension in Tableau and you should be able to add a comment and
 .. dropdown::
     :open:
 
-    .. image:: media/save_override.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/save_override.gif
 
 In the next chapter we'll connect Tableau directly to our data table so we can add the overrides to the dashboard tooltip.

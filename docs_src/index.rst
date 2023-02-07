@@ -7,9 +7,8 @@ Outline
    :maxdepth: 1
 
    whatisthis.rst
-   learningpath.rst
-   getting_started.rst
    howthisworks.rst
+   learningpath.rst
    tutorials/index.rst
    guides/index.rst
    all_examples.rst

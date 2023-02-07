@@ -5,7 +5,7 @@ How does this work?
 
 The process typically looks something like this:
 
-.. image:: media/extension_model.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/media/extension_model.PNG
 
 1. First, a user interacts with the tableau dashboard by doing something like clicking a mark.
 

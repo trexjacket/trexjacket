@@ -6,7 +6,7 @@ Now that we've added the |ProductName| as a dependency and connected our Anvil a
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/helloworld.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/helloworld.gif
 
 Open up ``Form1`` and click on the "code" button at the top. At the code near the top of the form, import ``get_dashboard`` from ``tableau_extension.api`` import ``get_dashboard`` and create an instance of the dashboard in the form:
 

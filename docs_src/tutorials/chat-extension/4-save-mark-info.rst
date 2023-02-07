@@ -46,6 +46,6 @@ Once you've added this code in the code pane of ``Form1``, reload the extension 
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/markselected.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/markselected.gif
 
 In the next chapter we'll add the functionality for a user to add their comment.

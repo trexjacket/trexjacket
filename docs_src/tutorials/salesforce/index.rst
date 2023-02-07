@@ -63,12 +63,12 @@ A Short Introduction
 
 We will start by logging in and creating a new application by selecting Blank App then selecting Tableau Extension
 
-.. image:: media/image001.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image001.png
 
 Now that we have our app, we want to create our form.
 A brand-new app will look like this:
 
-.. image:: media/image003.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image003.png
 
 On the left side we have the app browser which we can use to switch between different parts of our app.
 In the center we have the form editor where we will add our UI elements. We are looking at the design view right now. The form editor also has a code view where we will create our Python class for the form later.
@@ -98,7 +98,7 @@ We will be using the element names above in later sections if you need to refere
 Feel free to stylize your form as you like. We also chose to change the standard labels appearance to blue and the button role to primary to help differentiate them from the other elements.
 When you are all finished, your form should look something like this.
 
-.. image:: media/image005.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image005.png
 
 Chapter 2: Add a Dependency
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,7 +112,7 @@ From this page pick the drop down under Add a dependency
 
 The dependency we want is Tableau Extension (Service-based)
 
-.. image:: media/image007.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image007.png
 
 Chapter 3: Enter our Credentials
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,11 +129,11 @@ You can find Anvil's tutorial on App Secrets `at this page <https://anvil.works/
 
 The first thing we need to do is enable App Secrets. You can do this by clicking the plus button at the bottom of the module list.
 
-.. image:: media/image009.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image009.png
 
 A pop up will appear with a list of features you can add to your app, we'll be selecting App Secrets.
 
-.. image:: media/image011.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image011.png
 
 Once you've added Secrets, you'll see the icon appear in the module list. Select it. We will now create secrets for our Salesforce credentials.
 
@@ -149,7 +149,7 @@ Repeat for your Salesforce password, ``sf_password``, and security token, ``sf_t
 
 If you don't have your security token, you can reset it in Salesforce, and they will email you a new token.
 
-.. image:: media/image013.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image013.png
 
 Server Functions
 +++++++++++++++++
@@ -159,7 +159,7 @@ The first thing we need to do is add our first server module. Navigate to the Ap
 
 For a more detailed explanation of Server Code see Anvil's documentation `here <https://anvil.works/docs/server>`_.
 
-.. image:: media/image015.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image015.png
 
 For our connection to Salesforce, we will need to import two libraries. The first is Secrets to access the credentials we created and the second is Simple Salesforce (`docs <https://simple-salesforce.readthedocs.io/en/latest/>`_) which we will use to connect to the Salesforce REST API using Python.
 
@@ -193,11 +193,11 @@ Salesforce Opportunities
 
 In today's tutorial we will be working with Opportunities which you can find in your Salesforce environment by going to Marketing then selecting Opportunities along the top ribbon.
 
-.. image:: media/image018.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image018.png
 
 We can pick one of the opportunities from the list to open it and see all off the detail. We'll be updating the Stage, Close Date, and Amount.
 
-.. image:: media/image020.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image020.png
 
 Creating our Server Functions
 ++++++++++++++++++++++++++++++
@@ -318,7 +318,7 @@ Chapter 5: Write our Client Code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Now that we've completed our server code, we're moving back to the client side. In the first section we created the UI on the design slide of the form, to write our code we'll going to the aptly name Code tab.
 
-.. image:: media/image028.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image028.png
 
 Init
 ++++
@@ -448,7 +448,7 @@ This will open the split view and create the function ``button_submit_click``.
         """This method is called when the button is clicked"""
         pass
 
-.. image:: media/image038.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image038.png
 
 In the button submit click function we will add a call to the ``update_opportunity`` server function we created passing the ``self.opp_ID`` and ``self.new_dict`` as parameters.
 
@@ -637,7 +637,7 @@ Select the ``label_opp_name`` text box, navigate to Data Bindings, select + Add 
 From the new box click the drop-down next to Bind and set the value to Text.
 In the To section and the variable name ``self.opp_name``.
 
-.. image:: media/image047.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image047.png
 
 Opportunity Stage
 ++++++++++++++++++++++++++
@@ -647,7 +647,7 @@ Select the ``drop_down_stage`` drop-down, navigate to Data Bindings, select + Ad
 From the new box click the drop-down next to Bind and set the value to Selected Value.
 In the To section and the variable name ``self.opp_stage``.
 
-.. image:: media/image049.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image049.png
 
 Close Date
 ++++++++++++++++++++++++++
@@ -657,7 +657,7 @@ Select the ``date_picker_1`` date picker, navigate to Data Bindings, select + Ad
 From the new box click the drop-down next to Bind and set the value to date.
 In the To section and the variable name ``self.opp_date``.
 
-.. image:: media/image051.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image051.png
 
 Amount
 ++++++++++++++++++++++++++
@@ -667,20 +667,20 @@ Select the ``text_box_amount`` text box, navigate to Data Bindings, select + Add
 From the new box click the drop-down next to Bind and set the value to text.
 In the To section and the variable name ``self.opp_amount``.
 
-.. image:: media/image053.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image053.png
 
 Chapter 7: Time for Tableau
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now we are ready to export the extension to drop into Tableau.
 
-.. image:: media/image055.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image055.png
 
 Press the green button in the top right of your screen Test in Tableau.
 
 Follow the instructions on the pop-up.
 
-.. image:: media/image057.png
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/salesforce/image057.png
 
 
 1. Download you Extension Manifest

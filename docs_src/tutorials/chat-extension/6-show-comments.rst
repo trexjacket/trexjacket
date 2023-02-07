@@ -6,7 +6,7 @@ In the last chapter we saved the comments to a database. In this chapter we'll b
 .. dropdown::
     :open:
 
-    .. image:: images/gifs/createdatagrid.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createdatagrid.gif
 
 Click the "Design" button on ``Form1`` in Anvil. Then, let's drag a Data Grid component on to the page and name it ``dg_comments``. Set the ``Name`` and ``Key`` property for each column to the following:
 
@@ -76,7 +76,7 @@ and our ``btn_save_click`` to update when a new comment is made:
 
 Reload your extension in your dashboard, add a comment, and watch the table update!
 
-.. image:: images/gifs/finaloutput.gif
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/finaloutput.gif
 
 .. admonition:: Congrats! You now have a fully functioning Tableau Extension, built with |ProductName|.
 

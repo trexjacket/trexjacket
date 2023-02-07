@@ -6,7 +6,7 @@ This intermediate tutorial builds off of the skills learned in the Chat Extensio
 Want to jump straight to the end? Download the Tableau Workbook and the Anvil app below:
 
 * `Anvil App Clone Link <https://anvil.works/build#clone:6N6MNOEIRVC3CK3A=YPSGLJYOYHTQDM3LPEGYXSY2>`_
-* :download:`Tableau Workbook <media/Value Override Starter Workbook.twbx>`
+* :download:`Tableau Workbook <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value Override Starter Workbook.twbx>`
 
 .. admonition:: Learning objectives
 
@@ -21,7 +21,7 @@ Once we're done, we'll have something like this:
 .. dropdown::
     :open:
 
-    .. image:: media/finished_product.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/finished_product.gif
 
 Click chapter 1 below to get started!
 

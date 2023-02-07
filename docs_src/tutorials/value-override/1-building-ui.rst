@@ -3,7 +3,7 @@ Chapter 1: Creating A Configuration UI
 
 In this chapter we'll be using 2 new pieces of the |ProductName|, dialogs and settings. By the end of this chapter you'll be configuring settings in the dashboard as well as opening popup windows outside of Tableau.
 
-Get started by downloading the starter workbook :download:`here <media/Value Override Starter Workbook.twbx>` and creating a new Tableau Extension in Anvil with the |ProductName| dependency. The Chat tutorial describes these steps if you need a refresher. Click here view the steps: :doc:`/tutorials/chat-extension/1-setting-up`.
+Get started by downloading the starter workbook :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value Override Starter Workbook.twbx>` and creating a new Tableau Extension in Anvil with the |ProductName| dependency. The Chat tutorial describes these steps if you need a refresher. Click here view the steps: :doc:`/tutorials/chat-extension/1-setting-up`.
 
 Once you've created your Anvil app, you'll need to create 3 things in the Client Code section:
 
@@ -13,7 +13,7 @@ Once you've created your Anvil app, you'll need to create 3 things in the Client
 
 Once you're done, the "Client Code" section should look like this (note that the startup module has a lightning bolt next to it):
 
-.. image:: media/code_section.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/code_section.PNG
 
 Startup module
 --------------
@@ -48,11 +48,11 @@ In the ``Homepage`` form, add a button component named ``btn_configure`` with it
 
     To add a button with Anvil, simply drag and drop the component from the Toolbox right into the form's design pane:
 
-    .. image:: media/button_event_click.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/button_event_click.gif
 
     When adding buttons, don't forget to give the component a descriptive name (``btn_configure`` above), as well as register the event handling function in the Toolbox view:
 
-    .. image:: media/container_properties.PNG
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/container_properties.PNG
 
     In the above example we bind the ``btn_configure_click`` method to the button's click event. Now each time a user clicks our button, the ``btn_configure_click`` method of our form will run!
 
@@ -85,7 +85,7 @@ Configure
 
 Finally, let's set up our configure form. Start by adding 4 labels, 4 drop down components, and a button to the ``Configure`` form. Once you're done, the UI of the ``Configure`` form should look like this:
 
-.. image:: media/configure_form.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/configure_form.PNG
 
 Use the table below to configure the data bindings for the drop down components (be sure to check the "writeback" option for each drop down component's data binding):
 
@@ -180,7 +180,7 @@ Now that we've configured our forms, clicking the "Configure" inside our extensi
 .. dropdown::
     :open:
 
-    .. image:: media/configure_settings.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/configure_settings.gif
 
 Go ahead and open the configure form of your extension and select the fields above for each drop down.
 

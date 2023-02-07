@@ -7,13 +7,13 @@ First we'll need to gather our database credentials from Anvil:
 
 1. Click "Publish" in the top right part of the page (click the "Publish Now" button if you see it)
 
-.. image:: media/publish_button.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/publish_button.PNG
 
 2. In Step 5, click "Enable" to display the server name, username, and password for the database connection
 
 3. Copy the "Server name", "Username", and "Password" fields from "Step 5"
 
-.. image:: media/anvil_password.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/anvil_password.PNG
 
 
 Now that we have our credentials we'll need to add our Anvil Data Table as a new datasource to our Tableau dashboard:
@@ -21,7 +21,7 @@ Now that we have our credentials we'll need to add our Anvil Data Table as a new
 .. dropdown::
     :open:
 
-    .. image:: media/add_data_source.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/add_data_source.gif
 
 1. Click "Data" in the top ribbon
 2. Click "New Data Source"
@@ -33,7 +33,7 @@ Now that we have our Anvil data table as a datasource, let's add the override va
 .. dropdown::
     :open:
 
-    .. image:: media/add_tooltip.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/add_tooltip.gif
 
 1. Go to our worksheet (You should now see the ``overrides`` table from Anvil)
 2. Click "Data" > "Edit Blend Relationship" in the top ribbon
@@ -116,7 +116,7 @@ Now everytime an override is added the datasource will update!
 .. dropdown::
     :open:
 
-    .. image:: media/finished_product.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/finished_product.gif
 
 .. admonition:: Looking for more to do?
 

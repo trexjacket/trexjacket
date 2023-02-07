@@ -26,7 +26,7 @@ Summary and underlying data can be retrieved as list of dicts from tableau dashb
 
 After reloading the extension and clicking the "Show data" button, you should see this output in the Anvil "Tableau" pane (screenshot of the ``Viz`` worksheet for reference).
 
-.. image:: static_image.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/guides/get_data/static_image.PNG
 
 .. code-block:: python
 
@@ -57,7 +57,7 @@ After reloading the extension and clicking the "Show data" button, you should se
 .. dropdown:: This gif shows binding the result of :py:meth:`~client_code.model.proxies.Worksheet.get_summary_records` to the text property of a Text Area component
     :open:
 
-    .. image:: demo.gif
+    .. image:: dhttps://extension-documentation.s3.amazonaws.com/guides/get_data/demo.gif
 
 If you aren't familiar with how to bind an Anvil component to a Tableau component, see :doc:`../binding_components/binding_components`.
 

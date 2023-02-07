@@ -13,7 +13,7 @@ The styling of this ``h1`` element will now match the styling selected in Tablea
 .. dropdown:: Tada!
     :open:
 
-    .. image:: styling_demo.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/guides/match_theme/styling_demo.gif
 
 .. button-link:: https://anvil.works/build#clone:DFSSQZK2L4YCLEAW=2RYC5L2DEE5KS4VKVCG6Z675
    :color: primary

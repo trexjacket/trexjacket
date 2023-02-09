@@ -79,3 +79,27 @@ def native_value_date_handler(native_value):
         return datetime_obj.date()
     else:
         return datetime_obj
+
+
+def _to_js_date(input_date):
+    """Converts a python date to a UTC js date."""
+    if type(input_date) is datetime.date:
+        return anvil.js.window.Date(
+            anvil.js.window.Date.UTC(
+                input_date.year, input_date.month - 1, input_date.day
+            )
+        )
+    elif type(input_date) is datetime.datetime:
+        input_date = input_date.astimezone(datetime.timezone.utc)
+        return anvil.js.window.Date(
+            anvil.js.window.Date.UTC(
+                input_date.year,
+                input_date.month - 1,
+                input_date.day,
+                input_date.hour,
+                input_date.minute,
+                input_date.second,
+            )
+        )
+    else:
+        return input_date

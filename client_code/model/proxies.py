@@ -1,6 +1,7 @@
 import datetime as dt
 import itertools
 
+import anvil
 from anvil import tableau
 from anvil.js import report_exceptions
 
@@ -9,6 +10,7 @@ from .._utils import _dejsonify, _jsonify
 from . import events
 from ._utils import (
     _clean_columns,
+    _to_js_date,
     clean_record_key,
     cleanup_measures,
     native_value_date_handler,
@@ -80,151 +82,216 @@ class TableauProxy:
         self.id == other.id
 
 
-class Filter:
-    """Represents a Tableau filter. Similar to parameters, you can use this class to read and change
-    filter values.
+class Field(TableauProxy):
+    """Represents a field in Tableau.
 
     .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/filter.html>` and accessed through the ``Filter`` object's ``._proxy`` attribute.
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/field.html>` and accessed through the ``_DataTable`` object's ``._proxy`` attribute.
     """
 
-    def __init__(self, proxy):
-        self._proxy = proxy
-        self.worksheet = None
+    @property
+    def datasource(self):
+        return Datasource(self._proxy.dataSource)
 
-    def __getattr__(self, name):
-        return getattr(self._proxy, name)
 
-    def __str__(self):
-        return f"Filter: '{self.field_name}'"
+class Filter(TableauProxy):
+    @classmethod
+    def _create_filter(cls, js_filter):
+        """
+        Returns an instance of one of the subclasses based on the proxy object's type.
+        """
+        if js_filter.filterType == "categorical":
+            return CategoricalFilter(js_filter)
+        elif js_filter.filterType == "hierarchical":
+            return HierarchicalFilter(js_filter)
+        elif js_filter.filterType == "range":
+            return RangeFilter(js_filter)
+        elif js_filter.filterType == "relative-date":
+            return RelativeDateFilter(js_filter)
+        else:
+            raise TypeError(
+                f"Filters of type {js_filter.filterType} are not supported."
+            )
+
+    @property
+    def field_id(self):
+        return self._proxy.fieldId
 
     @property
     def field_name(self):
-        """The name of the field being filtered.
-
-        :type: str
-        """
+        """The name of the field that has the filter applied."""
         return self._proxy.fieldName
 
     @property
-    def applied_values(self):
-        """The current value(s) applied to the Filter.
-
-        Returns
-        ----------
-        For categorical filters, returns a list of applied values
-        For range filters, returns a tuple of (min, max)
-        For relative date filters, returns period type
-        For hierarchical filters, simply returns the string "Hierarchical filter"
-        """
-        if self.worksheet:
-            self._proxy = self.worksheet.get_filter(self.field_name)._proxy
-
-        handlers = {
-            "categorical": self._categorical_values,
-            "range": self._range_values,
-            "relativeDate": self._relative_date_values,
-            "hierarchical": self._hierarchical_values,
-        }
-        try:
-            return handlers[self.filterType]()
-        except KeyError:
-            raise ValueError(
-                f"Unrecognized filter type {self.filterType}. "
-                f"Valid filter types: {list(handlers.keys())}"
-            )
-
-    @property
-    def domain(self):
-        """The list of values that the filter can take.
-
-        .. note::
-
-            Only supported for categorical filters, see: https://github.com/Baker-Tilly-US/Tableau-Extension/issues/52
-
-        :type: list
-        """
-        if self._proxy.filterType != "categorical":
-            raise NotImplementedError(
-                "domain is currently only available for categorical filters."
-            )
-
-        return [
-            native_value_date_handler(v.nativeValue)
-            for v in self._proxy.getDomainAsync("database").values
-        ]
-
-    @property
-    def relevant_domain(self):
-        """The 'relevant' values for this specific filter.
-
-        Returns
-        --------
-        domain : list of values
-            The domain values that are relevant to the specified filter i.e. the domain
-            is restricted by a previous filter
-        """
-        if self.worksheet:
-            self._proxy = self.worksheet.get_filter(self.field_name)._proxy
-        return [
-            native_value_date_handler(v.nativeValue)
-            for v in self._proxy.getDomainAsync("relevant").values
-        ]
-
-    @property
     def filter_type(self):
-        """The type of the Filter, one of (categorical | hierarchical | range | relative-date).
-
-        :type: str
-        """
+        """The type of filter."""
         return self._proxy.filterType
 
-    def set_filter_value(self, new_values, method="replace"):
-        """Replaces the list of provided categorical filter values.
+    @property
+    def worksheet_name(self):
+        """The name of the parent worksheet that the filter is on."""
+        return self._proxy.worksheetName
 
-        Parameters
-        ----------
-        new_values : :obj:`list`
-            List of values to filter on
+    @property
+    def parent_worksheet(self):
+        """The parent worksheet.
 
-        optional update_type : str
-            The type of update to be applied to the filter
+        :obj:`Worksheet`
         """
-        self.worksheet.apply_filter(self.field_name, new_values, method)
+        return _Tableau.session().dashboard.get_worksheet(self.worksheet_name)
 
-    def _categorical_values(self):
-        if self._proxy.isAllSelected:
-            return self.domain
+    @property
+    def field(self):
+        """The field that has the filter applied."""
+        return Field(self._proxy.getFieldAsync())
+
+    def clear(self):
+        """This is helper method that clears a filter from it's parent worksheet."""
+        if self.field_name.startswith("Action"):
+            print("Warning! Calling clear on an action filter does nothing.")
+            return
+        #  Filters do not natively know about that dashboard or worksheet they are in,
+        # so clearing them requires us to access the parent_worksheet
+        self.parent_worksheet.clear_filter(self.field_name)
+
+    def __repr__(self):
+        return f"{self.filter_type} filter on the '{self.field_name}' field on the {self.parent_worksheet.name} worksheet."
+
+
+class CategoricalFilter(Filter):
+    """Represents a categorical filter in Tableau."""
+
+    @property
+    def applied_values(self):
+        """The currently applied values to the filter."""
+        if self.parent_worksheet:
+            self._proxy = self.parent_worksheet.get_filter(self.field_name)._proxy
+
+        if self.is_all_selected:
+            return self.get_domain("database")["values"]
 
         return [native_value_date_handler(v.nativeValue) for v in self.appliedValues]
 
-    def _range_values(self):
-        return (
-            native_value_date_handler(self.minValue.nativeValue.getDate()),
-            native_value_date_handler(self.maxValue.nativeValue.getDate()),
-        )
-
-    def _relative_date_values(self):
-        return self.periodType
-
-    def _hierarchical_values(self):
-        return "Hierarchical filter"
-
     @applied_values.setter
-    def applied_values(self, new_values):
-        """Replaces the set filter values.
+    def applied_values(self, values):
+        self.parent_worksheet.apply_categorical_filter(self.field_name, values)
 
-        Parameters
-        ----------
-        new_values : :obj:`list` of :obj:`Filter`
-            The new Filter values
+    @property
+    def is_all_selected(self):
+        """Whether or not the 'All' box is checked on the filter."""
+        return self._proxy.isAllSelected
+
+    @property
+    def is_exclude_mode(self):
+        """Whether or not the filter is in exclude mode."""
+        return self._proxy.isExcludeMode
+
+    def get_domain(self, domain_type="relevant"):
+        """Returns the filter's domain.
+
+        domain_type can either be 'database' or relevant'
         """
-        self.set_filter_value(new_values)
+        raw_domain = self._proxy.getDomainAsync(domain_type)
+        values = [
+            native_value_date_handler(datavalue.nativeValue)
+            for datavalue in raw_domain["values"]
+        ]
+        return {"type": raw_domain["type"], "values": values}
 
-    def clear_filter(self):
-        """Resets the filter. Categorical filters are reset to 'All', range filters are reset to the full range."""
-        self.worksheet.clear_filter(self.field_name)
+    def describe(self):
+        """Returns a descriptive string about the filter."""
+
+        def _first_5(array):
+            s = ", ".join([str(x) for x in array[:5]])
+            if len(array) > 5:
+                s += f" ... ({len(array)} total)"
+            return s
+
+        return f"""
+      Categorical Filter with applied values of {_first_5(self.applied_values)} and domain of {_first_5(self.get_domain('database')['values'])}
+      """
+
+
+class HierarchicalFilter(Filter):
+    """Represents a Hierarchical Filter in Tableau. Currently no methods are wrapped, but attributes can be accessed using
+    their camel case names listed in the Tableau Documentation.
+    """
+
+    def describe(self):
+        """Returns a descriptive string about the filter."""
+        return "Hierarchical Filter"
+
+
+class RangeFilter(Filter):
+    """Represents a Range Filter in Tableau."""
+
+    @property
+    def include_null_values(self):
+        """Whether or not the range filter includes null values."""
+        return self._proxy.includeNullValues
+
+    @property
+    def max(self):
+        """The currently applied maximum value for the range filter. Date and datetime
+        filters will return a UTC datetime.date or datetime.datetime object.
+        """
+        if self.parent_worksheet:
+            self._proxy = self.parent_worksheet.get_filter(self.field_name)._proxy
+        return native_value_date_handler(self.maxValue.nativeValue)
+
+    @max.setter
+    def max(self, value):
+        if isinstance(value, (dt.date, dt.datetime)):
+            min_value, max_value = _to_js_date(self.min), _to_js_date(value)
+        else:
+            min_value, max_value = self.min, value
+        self.parent_worksheet.apply_range_filter(self.field_name, min_value, max_value)
+
+    @property
+    def min(self):
+        """The currently applied minimum value for the range filter. Date and datetime
+        filters will return a UTC datetime.date or datetime.datetime object.
+        """
+        if self.parent_worksheet:
+            self._proxy = self.parent_worksheet.get_filter(self.field_name)._proxy
+        return native_value_date_handler(self.minValue.nativeValue)
+
+    @min.setter
+    def min(self, value):
+        if isinstance(value, (dt.date, dt.datetime)):
+            min_value, max_value = _to_js_date(value), _to_js_date(self.max)
+        else:
+            min_value, max_value = value, self.max
+        self.parent_worksheet.apply_range_filter(self.field_name, min_value, max_value)
+
+    def get_domain(self, domain_type="relevant"):
+        """Returns the filter's domain.
+
+        domain_type can either be 'database' or relevant'
+        """
+        raw_domain = self._proxy.getDomainAsync(domain_type)
+        return {
+            "min": native_value_date_handler(raw_domain["min"].nativeValue),
+            "max": native_value_date_handler(raw_domain["max"].nativeValue),
+            "type": raw_domain["type"],
+        }
+
+    def describe(self):
+        """Returns a descriptive string about the filter."""
+        return f"""
+      Range Filter on field '{self.field_name}', domain of {self.get_domain('database')['min']} to {self.get_domain('database')['max']}
+      Min of {self.min} and max of {self.max} applied.
+      Include nulls? ({self.include_null_values})
+      """
+
+
+class RelativeDateFilter(Filter):
+    def describe(self):
+        """Returns a descriptive string about the filter."""
+        return f"""
+      Relative Date Filter with an anchor date of {self._proxy.anchorDate}
+      with {self._proxy.rangeN} {self._proxy.periodType} periods of {self._proxy.rangeType}
+      """
 
 
 class Parameter(TableauProxy):
@@ -706,10 +773,7 @@ class Worksheet(TableauProxy):
             The currently selected filters. Valid types of filters include:
                 Categorical, Hierarchical, Range, RelativeDate
         """
-        all_filters = [Filter(f) for f in self._proxy.getFiltersAsync()]
-        for f in all_filters:
-            f.worksheet = self
-        return all_filters
+        return [Filter._create_filter(f) for f in self._proxy.getFiltersAsync()]
 
     def get_filter(self, filter_name):
         """Returns information on a given selected filter.
@@ -733,7 +797,6 @@ class Worksheet(TableauProxy):
             )
 
         specified_filter = specified_filter[0]
-        specified_filter.worksheet = self
         return specified_filter
 
     def clear_filter(self, filter):
@@ -748,7 +811,32 @@ class Worksheet(TableauProxy):
             filter = filter.field_name
         self._proxy.clearFilterAsync(filter)
 
-    def apply_filter(self, field_name, values, update_type="replace"):
+    def _check_for_existing_filter(self, field_name, filter_type):
+        """Prints a warning message if a filter on field_name already exists
+        and is a different type than filter_type.
+
+        Example
+        -------
+        Assume that a dashboard has a range filter on SUM(Profit):
+
+        >>> ws = self.dashboard.get_worksheet('ProductView')
+        >>> ws.apply_categorical_filter('SUM(Profit)', ['($606)', '($555)'])
+        # Retrieving the filter raises an error, and the worksheet will show both a categorical
+        # AND a range filter applied to it.
+        >>> ws.get_filter('SUM(Profit)').describe()
+        ExternalError: Error: internal-error: Missing output parameter: categoricalDomain
+        """
+        try:
+            existing_filter = self.get_filter(field_name)
+            if existing_filter.filter_type != filter_type:
+                print(
+                    f"Note: There is already a {existing_filter.filter_type} filter on {field_name}.\n"
+                    f"Applying a {filter_type} filter with apply_{filter_type}_filter will potentially put the dashboard in an unstable state."
+                )
+        except KeyError:
+            pass
+
+    def apply_categorical_filter(self, field_name, values, update_type="replace"):
         """Applies the list of provided categorical filter values.
 
         Parameters
@@ -762,6 +850,7 @@ class Worksheet(TableauProxy):
         optional update_type : str
             The type of update to be applied to the filter
         """
+        self._check_for_existing_filter(field_name, "categorical")
         if not isinstance(values, list):
             values = [values]
 
@@ -781,7 +870,10 @@ class Worksheet(TableauProxy):
         max : float
             Maximum value for the filter
         """
-        self._proxy.applyRangeFilterAsync(field_name, {"min": min, "max": max})
+        self._check_for_existing_filter(field_name, "range")
+        self._proxy.applyRangeFilterAsync(
+            field_name, {"min": _to_js_date(min), "max": _to_js_date(max)}
+        )
 
     @property
     def parameters(self):
@@ -901,6 +993,9 @@ class Worksheet(TableauProxy):
         session.unregister_all_event_handlers(self)
         for p in self.parameters:
             p.unregister_all_event_handlers()
+
+    def __repr__(self):
+        return f"Worksheet named '{self.name}'"
 
 
 class Settings(TableauProxy):
@@ -1134,7 +1229,10 @@ class Dashboard(TableauProxy):
 
         :type: :obj:`list` of :obj:`Filter`
         """
-        return list(itertools.chain(*[ws.filters for ws in self.worksheets]))
+        filters = []
+        for ws in self.worksheets:
+            filters.extend(ws.filters)
+        return filters
 
     @property
     def parameters(self):
@@ -1489,9 +1587,8 @@ class FilterChangedEvent(TableauProxy):
 
         :type: :obj:`Filter`
         """
-        f = Filter(self._proxy.getFilterAsync())
-        f.worksheet = self.worksheet
-        return f
+        f = self._proxy.getFilterAsync()
+        return Filter._create_filter(f)
 
     @property
     def worksheet(self):

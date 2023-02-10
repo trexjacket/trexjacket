@@ -154,8 +154,8 @@ class Filter(TableauProxy):
         # so clearing them requires us to access the parent_worksheet
         self.parent_worksheet.clear_filter(self.field_name)
 
-    def __repr__(self):
-        return f"{self.filter_type} filter on the '{self.field_name}' field on the {self.parent_worksheet.name} worksheet."
+    def __str__(self):
+        return f"Filter ({self.filter_type}) on the '{self.field_name}' field of the {self.parent_worksheet.name} worksheet."
 
 
 class CategoricalFilter(Filter):
@@ -305,7 +305,7 @@ class Parameter(TableauProxy):
     """
 
     def __str__(self):
-        return f"Parameter: '{self.name}'"
+        return f"Parameter named '{self.name}'"
 
     @property
     def name(self):
@@ -505,6 +505,9 @@ class Datasource(TableauProxy):
 
         A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/datasource.html>` and accessed through the ``Datasource`` object's ``._proxy`` attribute.
     """
+
+    def __str__(self):
+        return f"Datasource named '{self.name}'. Use the .underlying_table_info property to retrieve information about the underlying tables that make up the datasource."
 
     @property
     def columns(self):
@@ -994,7 +997,7 @@ class Worksheet(TableauProxy):
         for p in self.parameters:
             p.unregister_all_event_handlers()
 
-    def __repr__(self):
+    def __str__(self):
         return f"Worksheet named '{self.name}'"
 
 
@@ -1123,10 +1126,10 @@ class Settings(TableauProxy):
         settings_dict = {k: _dejsonify(v) for k, v in settings_dict.items()}
         return settings_dict
 
-    def __repr__(self):
+    def __str__(self):
         return f"Tableau Workbook Settings: {self.dict()}"
 
-    def __str__(self):
+    def __repr__(self):
         return str(self.dict())
 
     def setdefault(self, key, default_value=""):
@@ -1179,6 +1182,11 @@ class Dashboard(TableauProxy):
 
     def __getitem__(self, idx):
         return self.get_worksheet(idx)
+
+    def __str__(self):
+        return (
+            f"Dashboard named '{self.name}' with {len(self.worksheets)} worksheet(s)."
+        )
 
     @property
     def name(self):

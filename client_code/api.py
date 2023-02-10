@@ -3,8 +3,6 @@ import anvil.js
 
 from .model.proxies import _Tableau
 
-__version__ = "0.2"
-
 
 def get_environment():
     """Returns a dictionary of useful information about the environment the extension is currently running in.

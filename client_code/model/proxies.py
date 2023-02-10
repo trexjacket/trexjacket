@@ -425,6 +425,7 @@ class Parameter(TableauProxy):
         """
         return self._proxy.dataType
 
+    @property
     def allowable_values(self):
         """Returns the allowable set of values this parameter can take.
 
@@ -450,7 +451,7 @@ class Parameter(TableauProxy):
                 return native_value_date_handler(val.nativeValue)
             elif self.data_type == "float":
                 try:
-                    return float(val.formattedValue)
+                    return float(val.nativeValue)
                 except ValueError:
                     print(
                         "Warning, float conversion failed. Returning the formatted value of the parameter."

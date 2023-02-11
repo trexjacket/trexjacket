@@ -3,6 +3,7 @@ import itertools
 
 import anvil
 from anvil import tableau
+from anvil.code_completion_hints import EventHandler, function_type_hint
 from anvil.js import report_exceptions
 
 from .. import exceptions
@@ -80,6 +81,90 @@ class TableauProxy:
 
     def __eq__(self, other):
         self.id == other.id
+
+
+class MarksSelectedEvent(TableauProxy):
+    """Triggered when a user selects a mark on the Tableau dashboard.
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html>` and accessed through the ``MarksSelectedEvent`` object's ``._proxy`` attribute.
+    """
+
+    @property
+    def worksheet(self):
+        """The Tableau worksheet associated with generating the Selection Event.
+
+        :type: :obj:`Worksheet`
+        """
+        return Worksheet(self._proxy._worksheet)
+
+    def get_selected_marks(self, collapse_measures=False):
+        """The data for the marks which were selected.
+        If a deselection occured, an empty list is returned.
+
+        Parameters
+        ----------
+        collapse_measures : bool
+            Whether or not to try and collapse records on worksheets that use
+            measure names / measure values. This often happens when getting summary
+            data for dual axis visualizations.
+
+        Returns
+        --------
+        records : list
+            Data for the currently selected marks
+        """
+        return self.worksheet.get_selected_marks(collapse_measures)
+
+
+class FilterChangedEvent(TableauProxy):
+    """Triggered when a user changes a filter on a dashboard.
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html>` and accessed through the ``FilterChangedEvent`` object's ``._proxy`` attribute.
+    """
+
+    def __hash__(self):
+        return hash(self.fieldName)
+
+    def __eq__(self, other):
+        return self.fieldName == other.fieldName
+
+    @property
+    def filter(self):
+        """The filter that was changed.
+
+        :type: :obj:`Filter`
+        """
+        f = self._proxy.getFilterAsync()
+        return Filter._create_filter(f)
+
+    @property
+    def worksheet(self):
+        """The worksheet that the filter is on.
+
+        :type: :obj:`Worksheet`
+        """
+        return Worksheet(self._proxy._worksheet)
+
+
+class ParameterChangedEvent(TableauProxy):
+    """Triggered when a user changes a parameter on a dashboard.
+
+    .. note::
+
+        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html>` and accessed through the ``ParameterChangedEvent`` object's ``._proxy`` attribute.
+    """
+
+    @property
+    def parameter(self):
+        """The parameter that was changed.
+
+        :type: :obj:`Parameter`
+        """
+        return Parameter(self._proxy.getParameterAsync())
 
 
 class Field(TableauProxy):
@@ -340,6 +425,7 @@ class Parameter(TableauProxy):
         """
         return self._proxy.dataType
 
+    @property
     def allowable_values(self):
         """Returns the allowable set of values this parameter can take.
 
@@ -365,7 +451,7 @@ class Parameter(TableauProxy):
                 return native_value_date_handler(val.nativeValue)
             elif self.data_type == "float":
                 try:
-                    return float(val.formattedValue)
+                    return float(val.nativeValue)
                 except ValueError:
                     print(
                         "Warning, float conversion failed. Returning the formatted value of the parameter."
@@ -938,6 +1024,11 @@ class Worksheet(TableauProxy):
             for table in self._proxy.getUnderlyingTablesAsync()
         ]
 
+    @function_type_hint.event_handler_enum(
+        selection_changed=EventHandler(event_type=MarksSelectedEvent),
+        filter_changed=EventHandler(event_type=FilterChangedEvent),
+        parameter_changed=EventHandler(event_type=ParameterChangedEvent),
+    )
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
 
@@ -1180,6 +1271,10 @@ class Dashboard(TableauProxy):
         super().__init__(proxy)
         self.refresh()
 
+    def refresh(self):
+        """Refreshes the worksheets in the live Tableau Instance."""
+        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
+
     def __getitem__(self, idx):
         return self.get_worksheet(idx)
 
@@ -1349,7 +1444,7 @@ class Dashboard(TableauProxy):
                 f"Datasource IDs in Dashboard: {[ds.id for ds in self.datasource_id]}"
             )
         else:
-            return ds[0]
+            return Datasource(ds[0]._proxy)
 
     def refresh_data_sources(self):
         """Refresh all data sources for the Tableau dashboard.
@@ -1361,6 +1456,11 @@ class Dashboard(TableauProxy):
         for ds in self.datasources:
             ds.refresh()
 
+    @function_type_hint.event_handler_enum(
+        selection_changed=EventHandler(event_type=MarksSelectedEvent),
+        filter_changed=EventHandler(event_type=FilterChangedEvent),
+        parameter_changed=EventHandler(event_type=ParameterChangedEvent),
+    )
     def register_event_handler(self, event_type, handler):
         """Register an event handling function for a given event type.
 
@@ -1400,10 +1500,6 @@ class Dashboard(TableauProxy):
             w.unregister_all_event_handlers()
         for p in self.parameters:
             p.unregister_all_event_handlers()
-
-    def refresh(self):
-        """Refreshes the worksheets in the live Tableau Instance."""
-        self._worksheets = {ws.name: Worksheet(ws) for ws in self._proxy.worksheets}
 
     @property
     def settings(self):
@@ -1538,90 +1634,6 @@ class _Tableau:
         ]
         for identifier in identifiers:
             self.callbacks.pop(identifier)()
-
-
-class MarksSelectedEvent(TableauProxy):
-    """Triggered when a user selects a mark on the Tableau dashboard.
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/marksselectedevent.html>` and accessed through the ``MarksSelectedEvent`` object's ``._proxy`` attribute.
-    """
-
-    @property
-    def worksheet(self):
-        """The Tableau worksheet associated with generating the Selection Event.
-
-        :type: :obj:`Worksheet`
-        """
-        return Worksheet(self._proxy._worksheet)
-
-    def get_selected_marks(self, collapse_measures=False):
-        """The data for the marks which were selected.
-        If a deselection occured, an empty list is returned.
-
-        Parameters
-        ----------
-        collapse_measures : bool
-            Whether or not to try and collapse records on worksheets that use
-            measure names / measure values. This often happens when getting summary
-            data for dual axis visualizations.
-
-        Returns
-        --------
-        records : list
-            Data for the currently selected marks
-        """
-        return self.worksheet.get_selected_marks(collapse_measures)
-
-
-class FilterChangedEvent(TableauProxy):
-    """Triggered when a user changes a filter on a dashboard.
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/filterchangedevent.html>` and accessed through the ``FilterChangedEvent`` object's ``._proxy`` attribute.
-    """
-
-    def __hash__(self):
-        return hash(self.fieldName)
-
-    def __eq__(self, other):
-        return self.fieldName == other.fieldName
-
-    @property
-    def filter(self):
-        """The filter that was changed.
-
-        :type: :obj:`Filter`
-        """
-        f = self._proxy.getFilterAsync()
-        return Filter._create_filter(f)
-
-    @property
-    def worksheet(self):
-        """The worksheet that the filter is on.
-
-        :type: :obj:`Worksheet`
-        """
-        return Worksheet(self._proxy._worksheet)
-
-
-class ParameterChangedEvent(TableauProxy):
-    """Triggered when a user changes a parameter on a dashboard.
-
-    .. note::
-
-        A full listing of all methods and attributes of the underlying JS object can be viewed in the :bdg-link-primary-line:`Tableau Docs <https://tableau.github.io/extensions-api/docs/interfaces/parameterchangedevent.html>` and accessed through the ``ParameterChangedEvent`` object's ``._proxy`` attribute.
-    """
-
-    @property
-    def parameter(self):
-        """The parameter that was changed.
-
-        :type: :obj:`Parameter`
-        """
-        return Parameter(self._proxy.getParameterAsync())
 
 
 class _EventTypeMapper:

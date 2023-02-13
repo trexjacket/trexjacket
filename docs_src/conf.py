@@ -43,6 +43,7 @@ extensions = [
 autodoc_mock_imports = [
     "anvil.server",
     "anvil.js",
+    "anvil.code_completion_hints",
     "anvil.tableau",
     "client_code._trex.Viewer._anvil_designer",
     "client_code.dialogs._standard_alert._anvil_designer",

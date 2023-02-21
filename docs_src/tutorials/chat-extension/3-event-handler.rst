@@ -31,7 +31,7 @@ In the code pane for ``Form1``, create and register the event handler using the 
       dashboard.register_event_handler('selection_changed', self.selection_changed_event_handler)
 
     def selection_changed_event_handler(self, event):
-      user_selection = event.worksheet.selected_records
+      user_selection = event.worksheet.get_selected_marks()
       print(f"Got a selected record: {user_selection}, with length: ({len(user_selection)})")
 
 ``register_event_handler`` takes 2 arguments:

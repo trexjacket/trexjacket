@@ -4,6 +4,6 @@ Showing a Popup,Create a popup window from your extension.,":bdg-link-primary:`C
 Configure Settings,Persist data in a workbook using settings.,":bdg-link-primary:`todo<https://example.com>`","todo",:doc:`tutorials/dashboard-settings/index`
 Chat extension,Allow users to comment on marks on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:GAQT6MCXCLNUCH5Q=YLZRLKEEQKAPDA4ZAT64R762>`",":download:`Download <tutorials/chat-extension/Chat Extension.twb>`",:doc:`tutorials/chat-extension/0-main-page`
 Starter App,A starter extension that contains code for common use cases.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:VF5S7JN44C73R3F7=LSJGG6X65OFWFP2I2RKYI5YN>`","None",None
-Value Override,todo,":bdg-link-primary:`todo<https://example.com>`","todo",None
+Value Override,An extension that allows a user to override a value in Tableau and write back to the dashboard.,":bdg-link-primary:`todo<https://anvil.works/build#clone:6N6MNOEIRVC3CK3A=YPSGLJYOYHTQDM3LPEGYXSY2>`",":download:`Download <tutorials/value-override/media/Value Override Starter Worksbook.twbx>`",:doc:`tutorials/value-override/index`
 Salesforce Writeback,todo,":bdg-link-primary:`todo<https://example.com>`","todo",None
 Sales Forecasting,todo,"todo","todo",todo

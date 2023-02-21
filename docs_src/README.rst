@@ -15,7 +15,9 @@ Welcome to the online documentation for |ProductName|! This is a Python wrapper 
 Installation
 ------------
 
-To get started building with |ProductName|, add the ``Tableau Extension (Service-Based)`` dependency to your app and import it into your Anvil code using:
+1. Add the following third part dependency token: ``7NA5SUPERPMMYP3A``.
+
+2. Import it into your app using:
 
 .. code-block:: python
 

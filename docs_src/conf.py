@@ -22,7 +22,7 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-PRODUCT_NAME = "Tableau Annex"
+PRODUCT_NAME = "Anvil X Wrapper"
 
 project = PRODUCT_NAME
 copyright = "2023, Baker Tilly Inc."

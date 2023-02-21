@@ -1,7 +1,7 @@
 Chapter 4: Getting comment details
 ==================================
 
-In Chapter 4 we used ``selected_records`` to get the user's selection from the Tableau Dashboard. In this chapter, we'll save the key fields we need to allow users to make a comment.
+In Chapter 4 we used ``get_selected_marks`` to get the user's selection from the Tableau Dashboard. In this chapter, we'll save the key fields we need to allow users to make a comment.
 
 We want to get the name of the state and the profit from the dashboard, which are both contained in ``user_selection``. Let's add some code to our form that saves this information to form attributes:
 
@@ -25,7 +25,7 @@ We want to get the name of the state and the profit from the dashboard, which ar
         dashboard.register_event_handler('selection_changed', self.selection_changed_event_handler)
 
       def selection_changed_event_handler(self, event):
-        user_selection = event.worksheet.selected_records
+        user_selection = event.worksheet.get_selected_marks()
 
         if len(user_selection) == 0:
             self.state_name = None

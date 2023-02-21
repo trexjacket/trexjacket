@@ -70,7 +70,7 @@ Now we have a way to capture what the user has commented, but we need a way to s
 
     .. image:: images/gifs/createdb.gif
 
-In Anvil, select the "Data" icon on the left hand side and then click "Add Table". Create a table named ``comments`` with the following columns:
+In Anvil, select the "Data" icon on the left hand side and then click "Add New Table". Create a table named ``comments`` with the following columns:
 
 * user: ``Text``
 * comment: ``Text``
@@ -129,7 +129,7 @@ At this point, selecting a state and adding a comment should start populating th
             dashboard.register_event_handler('selection_changed', self.selection_changed_event_handler)
 
           def selection_changed_event_handler(self, event):
-            user_selection = event.worksheet.selected_records
+            user_selection = event.worksheet.get_selected_marks()
 
             if len(user_selection) == 0:
                 self.state_name = None

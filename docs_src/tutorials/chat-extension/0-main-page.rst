@@ -1,7 +1,6 @@
 Building a Chat Extension
 =========================
 
-
 Let's say your team is building dashboards in Tableau that measure performance over time. You see something worth commenting on one of the marks of the dashboard and you want to be able to document it and share with your team. You could invest time and energy into a disconnected, shared document where members of the team write down their thoughts and observations or, you could use the tools your business already has to help you organize the commenting process. How can we turn Tableau into an interface where we can quickly share thoughts?
 
 .. admonition:: With |ProductName|!

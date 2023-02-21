@@ -44,3 +44,7 @@ To generate a ``.trex`` file:
 * Click "Click here to download the manifest file for your extension" in Step 1. Steps 2 and forward are relevant if you plan to deploy your extension to Tableau Server, but for this tutorial we'll just do step 1.
 * Once the ``.trex`` file has downloaded, open your Tableau Dashboard and locate the "Extension" button in the Objects pane.
 * Click and drag this button on to the dashboard to add the extension.
+* A dialogue box named "Add an Extension" will open. Click "Access Local Extensions" and select the ``.trex`` file from the second step.
+* Accept the dialogue by clicking the blue button.
+
+And we're done! In the next chapter we'll start interacting with our dashboard with |ProductName|

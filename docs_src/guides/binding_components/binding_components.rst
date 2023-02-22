@@ -59,4 +59,4 @@ For more information on data bindings, see the `anvil docs here <https://anvil.w
 
    Click here to clone the Anvil used for this howto
 
-Click :download:`here <component_binding.twb>` to download the Tableau workbook.
+Click :download:`here <https://extension-documentation.s3.amazonaws.com/guides/binding_components/component_binding.twb>` to download the Tableau workbook.

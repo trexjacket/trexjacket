@@ -134,7 +134,7 @@ select.form-control {
   -moz-appearance: none;
   /* for firefox */
   appearance: none;
-  /* for modern browsers */ 
+  /* for modern browsers */
 }
 
 
@@ -160,5 +160,3 @@ select.form-control {
     border-radius: 0;
     background-image: url(_/theme/loading-spinner.svg) !important;
 }
-
-

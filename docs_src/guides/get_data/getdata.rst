@@ -57,7 +57,7 @@ After reloading the extension and clicking the "Show data" button, you should se
 .. dropdown:: This gif shows binding the result of :py:meth:`~client_code.model.proxies.Worksheet.get_summary_records` to the text property of a Text Area component
     :open:
 
-    .. image:: dhttps://extension-documentation.s3.amazonaws.com/guides/get_data/demo.gif
+    .. image:: https://extension-documentation.s3.amazonaws.com/guides/get_data/demo.gif
 
 If you aren't familiar with how to bind an Anvil component to a Tableau component, see :doc:`../binding_components/binding_components`.
 
@@ -67,4 +67,4 @@ If you aren't familiar with how to bind an Anvil component to a Tableau componen
 
    Click here to clone the Anvil App
 
-And :download:`here <underlying_data.twb>` for the Tableau workbook
+And :download:`here <https://extension-documentation.s3.amazonaws.com/guides/get_data/underlying_data.twb>` for the Tableau workbook

@@ -27,7 +27,7 @@ Open up the "Settings" pane in Anvil and click the "Dependencies" option. Then, 
 Step 2: Create your Tableau Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Normally this would be a step you complete on your own, but we've created a starter workbook avaiable for download. Click :download:`here <Chat Extension Starter Tableau Workbook.twbx>` to download the Tableau dashboard your application will extend off.
+Normally this would be a step you complete on your own, but we've created a starter workbook avaiable for download. Click :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/chat/Chat+Extension+Starter+Tableau+Workbook.twbx>` to download the Tableau dashboard your application will extend off.
 
 If you're brand new to Tableau, `Tableau's Desktop Tutorial <https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm>`_ has sections which will teach you everything you need to connect your data and make visualizations that are relevant to your company's goals.
 

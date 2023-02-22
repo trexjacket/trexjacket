@@ -3,7 +3,7 @@ Chapter 1: Creating A Configuration UI
 
 In this chapter we'll be using 2 new pieces of the |ProductName|, dialogs and settings. By the end of this chapter you'll be configuring settings in the dashboard as well as opening popup windows outside of Tableau.
 
-Get started by downloading the starter workbook :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value Override Starter Workbook.twbx>` and creating a new Tableau Extension in Anvil with the |ProductName| dependency. The Chat tutorial describes these steps if you need a refresher. Click here view the steps: :doc:`/tutorials/chat-extension/1-setting-up`.
+Get started by downloading the starter workbook :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value+Override+Starter+Workbook.twbx>` and creating a new Tableau Extension in Anvil with the |ProductName| dependency. The Chat tutorial describes these steps if you need a refresher. Click here view the steps: :doc:`/tutorials/chat-extension/1-setting-up`.
 
 Once you've created your Anvil app, you'll need to create 3 things in the Client Code section:
 

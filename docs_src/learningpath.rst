@@ -12,46 +12,7 @@
 Recommended Learning Path
 =========================
 
-Prerequisites
-~~~~~~~~~~~~~
-
-Before diving in to |ProductName|, you'll need to have basic skills and practical experience with Tableau, Python, and Anvil.
-
-Tableau
--------
-
-- Creating worksheets and dashboards
-- Connecting to local data sources and databases
-- Working with filters and parameters
-- :bdg-link-primary:`Click here for additional Tableau learning resources <https://www.tableau.com/learn/training/20212>`
-
-Python
-------
-
-- Variables, functions, classes, methods
-- Importing modules
-- :bdg-link-primary:`Click here for additional Python learning resources <https://www.python.org/about/gettingstarted/>`
-
-Anvil
------
-
-- Creating a startup module
-- Using Forms as components
-- Event handlers
-- Adding and naming components
-- Writing server code and calling it from client code
-- :bdg-link-primary:`Click here for additional Anvil learning resources <https://anvil.works/learn/tutorials>`
-
-Once you are comfortable completing the basic tasks of each section above, you're ready to dive into |ProductName|!
-
-.. raw:: html
-
-   <hr>
-
-Extension curriculum
-~~~~~~~~~~~~~~~~~~~~
-
-Training material is broadly divided between 3 categories: beginner, intermediate, and advanced.
+Training material is divided between 3 categories: beginner, intermediate, and advanced.
 
 Beginner
 --------
@@ -114,9 +75,9 @@ Advanced
     :shadow:
     :class: tut-btn
 
-    Recommended resource: Sales Forecasting
+    Recommended Resource: Accessing the underlying JS API
 
 Advanced users should be comfortable performing the following tasks:
 
 - Style your extension to match the Tableau dashboard
-- Use the JS API directly using either ._proxy or just import them directly
+- Use the JS API directly

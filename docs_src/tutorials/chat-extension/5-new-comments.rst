@@ -31,7 +31,7 @@ Let's open the ``btn_save_click`` method and add some code that shows what the u
     from anvil import *
     from anvil import tableau
 
-    from tableau_extension.api import get_dashboard
+    from trexjacket.api import get_dashboard
     dashboard = get_dashboard()
 
     from datetime import datetime
@@ -115,7 +115,7 @@ At this point, selecting a state and adding a comment should start populating th
         from anvil.tables import app_tables
         from anvil import tableau
 
-        from tableau_extension.api import get_dashboard
+        from trexjacket.api import get_dashboard
         dashboard = get_dashboard()
 
         from datetime import datetime

@@ -22,7 +22,7 @@ In the code pane for ``Form1``, create and register the event handler using the 
   from anvil import *
   from anvil import tableau
 
-  from tableau_extension.api import get_dashboard
+  from trexjacket.api import get_dashboard
   dashboard = get_dashboard()
 
   class Form1(Form1Template):

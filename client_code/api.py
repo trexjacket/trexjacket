@@ -18,7 +18,7 @@ def get_environment():
 
     Example
     -------
-    >>> from tableau_extensions import api
+    >>> from trexjackets import api
     >>> print(api.get_environment())
     {'apiVersion': '1.9.0', 'context': 'desktop', 'country': None, 'language': 'en', 'locale': 'en-us', 'mode': 'authoring', 'operatingSystem': 'win', 'tableauVersion': '2022.1.8'}
     """
@@ -52,7 +52,7 @@ def get_dashboard():
 
     Example
     -------
-    >>> from tableau_extensions import api
+    >>> from trexjackets import api
     >>> mydashboard = api.get_dashboard()
     """
     return _Tableau.session().dashboard

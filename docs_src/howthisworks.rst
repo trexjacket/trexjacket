@@ -15,7 +15,7 @@ The process typically looks something like this:
 
 4. (Optional) The Extensions Platform also enables write-back, so if desired, other elements on the dashboard can be controlled using Python.
 
-    - For example, you could apply a filter using a :py:class:`~client_code.model.proxies.Worksheet` object's :py:meth:`~client_code.model.proxies.Worksheet.apply_filter` method.
+    - For example, you could apply a filter using a :py:class:`~client_code.model.proxies.Worksheet` object's :py:meth:`~client_code.model.proxies.Worksheet.apply_categorical_filter` method.
 
 .. raw:: html
 

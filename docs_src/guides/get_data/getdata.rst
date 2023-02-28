@@ -1,28 +1,28 @@
 Getting summary / underlying data
 -----------------------------------
 
-Summary and underlying data can be retrieved as list of dicts from tableau dashboards using the :py:meth:`~client_code.model.proxies.Worksheet.get_underlying_records` and :py:meth:`~client_code.model.proxies.Worksheet.get_summary_records` methods of a :class:`~client_code.model.proxies.Worksheet` object.
+Summary and underlying data can be retrieved as list of dicts from tableau dashboards using the :py:meth:`~client_code.model.proxies.Worksheet.get_underlying_data` and :py:meth:`~client_code.model.proxies.Worksheet.get_summary_data` methods of a :class:`~client_code.model.proxies.Worksheet` object.
 
 
 .. code-block:: python
 
     from ._anvil_designer import MainTemplate
     from anvil import *
-    from tableau_extension.api import get_dashboard
+    from trexjacket.api import get_dashboard
 
     class Main(MainTemplate):
       def __init__(self, **properties):
         self.init_components(**properties)
         self.dashboard = get_dashboard()
         self.chart = self.dashboard.get_worksheet('Viz')
-        print(self.chart.get_underlying_records())
-        print(self.chart.get_summary_records())
+        print(self.chart.get_underlying_data())
+        print(self.chart.get_summary_data())
 
       def primary_button_1_click(self, **event_args):
         """This method is called when the button is clicked"""
-        print(self.chart.get_underlying_records())  # note that this is a lot of output
-        print(self.chart.get_summary_records())
-        self.text_area_1.text = self.chart.get_summary_records()
+        print(self.chart.get_underlying_data())  # note that this is a lot of output
+        print(self.chart.get_summary_data())
+        self.text_area_1.text = self.chart.get_summary_data()
 
 After reloading the extension and clicking the "Show data" button, you should see this output in the Anvil "Tableau" pane (screenshot of the ``Viz`` worksheet for reference).
 
@@ -30,8 +30,8 @@ After reloading the extension and clicking the "Show data" button, you should se
 
 .. code-block:: python
 
-    # printed output from .get_underlying_records()
-    # and .get_summary_records()
+    # printed output from .get_underlying_data()
+    # and .get_summary_data()
 
     [
       ...
@@ -51,10 +51,10 @@ After reloading the extension and clicking the "Show data" button, you should se
 
 .. note::
 
-    Both :py:meth:`~client_code.model.proxies.Worksheet.get_underlying_records` and :py:meth:`~client_code.model.proxies.Worksheet.get_summary_records` return data with the filters applied to them.
+    Both :py:meth:`~client_code.model.proxies.Worksheet.get_underlying_data` and :py:meth:`~client_code.model.proxies.Worksheet.get_summary_data` return data with the filters applied to them.
 
 
-.. dropdown:: This gif shows binding the result of :py:meth:`~client_code.model.proxies.Worksheet.get_summary_records` to the text property of a Text Area component
+.. dropdown:: This gif shows binding the result of :py:meth:`~client_code.model.proxies.Worksheet.get_summary_data` to the text property of a Text Area component
     :open:
 
     .. image:: https://extension-documentation.s3.amazonaws.com/guides/get_data/demo.gif

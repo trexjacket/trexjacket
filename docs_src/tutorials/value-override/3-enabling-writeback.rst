@@ -60,8 +60,8 @@ One last thing, we'll want to refresh this datasource whenever someone adds a ne
       from anvil.tables import app_tables
       from datetime import datetime
 
-      from tableau_extension.api import get_dashboard
-      from tableau_extension import dialogs
+      from trexjacket.api import get_dashboard
+      from trexjacket import dialogs
 
       class Homepage(HomepageTemplate):
         def __init__(self, **properties):

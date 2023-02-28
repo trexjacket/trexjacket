@@ -23,7 +23,7 @@ In the ``startup`` module, let's set some default values for our settings by add
 .. code-block:: python
     :linenos:
 
-    from tableau_extension import api, dialogs
+    from trexjacket import api, dialogs
 
     from .Configure import Configure
 
@@ -66,8 +66,8 @@ Then add the following code to ``Homepage`` (note that the ``btn_configure_click
   from ._anvil_designer import HomepageTemplate
   import anvil
 
-  from tableau_extension.api import get_dashboard
-  from tableau_extension import dialogs
+  from trexjacket.api import get_dashboard
+  from trexjacket import dialogs
 
   class Homepage(HomepageTemplate):
     def __init__(self, **properties):
@@ -123,7 +123,7 @@ Now that we have our UI elements, let's add our code to ``Configure``:
   from ._anvil_designer import ConfigureTemplate
   import anvil
 
-  from tableau_extension import api, dialogs
+  from trexjacket import api, dialogs
 
   # In order for our Configure form to be able to be opened in
   # a popup window we need to register it using the @dialogs.dialog_form decorator.

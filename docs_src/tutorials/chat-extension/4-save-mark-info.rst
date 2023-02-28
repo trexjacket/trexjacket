@@ -13,7 +13,7 @@ We want to get the name of the state and the profit from the dashboard, which ar
     from anvil import *
     from anvil import tableau
 
-    from tableau_extension.api import get_dashboard
+    from trexjacket.api import get_dashboard
     dashboard = get_dashboard()
 
     class Form1(Form1Template):

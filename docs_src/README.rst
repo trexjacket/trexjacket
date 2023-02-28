@@ -1,13 +1,13 @@
-|ProductName|
-=============
+|WrapperName|, a wrapper for |ProductName|
+============================================
 
-Overview
---------
-Welcome to the online documentation for |ProductName|! This is a Python wrapper for the `Tableau Javascript API <https://tableau.github.io/extensions-api/docs/trex_examples.html>`_.
+Welcome to the online documentation for ``trexjacket``, an open source Python wrapper for |ProductName|. |ProductName| is a platform for building Tableau Extensions using nothing but Python.
 
-- If you're new to Tableau extensions in general, consider viewing the :doc:`whatisthis` document.
+The documentation you are currently looking at is for an Anvil App you can import to make building Tableau Extension with |ProductName| much simpler. TODO clean up language here.
 
-- If you're familiar with Tableau extensions and want to dive in to |ProductName|, head to the :doc:`getting_started` document for a short tour.
+- If you're new to |ProductName| in general, consider viewing the :doc:`whatisthis` document.
+
+- If you'd like to start building a Tableau Extension, head to the :doc:`/tutorials/chat-extension/0-main-page` document.
 
 - If you're here to dive into the details, the more technical documentation can be found in the :doc:`reference/index` section.
 
@@ -15,10 +15,19 @@ Welcome to the online documentation for |ProductName|! This is a Python wrapper 
 Installation
 ------------
 
-1. Add the following third part dependency token: ``7NA5SUPERPMMYP3A``.
+To get started using ``trexjacket`` :
+
+1. Add the following third part dependency token: ``TODO``.
 
 2. Import it into your app using:
 
 .. code-block:: python
 
-    from tableau_extension.api import get_dashboard
+    from trexjacket.api import get_dashboard
+
+3. Start building!
+
+.. code-block:: python
+
+    dashboard = get_dashboard()
+    dashboard.worksheets

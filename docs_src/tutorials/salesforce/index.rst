@@ -325,11 +325,11 @@ Init
 
 .. code-block:: python
 
-    from tableau_extension import api
+    from trexjacket import api
     dashboard = api.get_dashboard()
 
 
-First thing we will do is import the tableau_extension library we setup all the way back in the dependency section. Then we are going to setup the dashboard object.
+First thing we will do is import the trexjacket library we setup all the way back in the dependency section. Then we are going to setup the dashboard object.
 
 Create a dictionary to house the Opportunity attributes we want to change. We'll also call a function we haven't created yet ``self.reset()`` to clear the dictionary on screen load and refresh.
 
@@ -545,7 +545,7 @@ Init
     from anvil.tables import app_tables
     import anvil.server
 
-    from tableau_extension import api
+    from trexjacket import api
     dashboard = api.get_dashboard()
 
     class TB_Form(TB_FormTemplate):

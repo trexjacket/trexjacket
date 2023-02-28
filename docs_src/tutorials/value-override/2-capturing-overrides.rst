@@ -25,8 +25,8 @@ And now let's add the code:
   from ._anvil_designer import HomepageTemplate
   import anvil
 
-  from tableau_extension.api import get_dashboard
-  from tableau_extension import dialogs
+  from trexjacket.api import get_dashboard
+  from trexjacket import dialogs
 
   class Homepage(HomepageTemplate):
     def __init__(self, **properties):
@@ -126,8 +126,8 @@ Now that we have our data table and UI set up, let's save the user's override an
   from anvil.tables import app_tables
   from datetime import datetime
 
-  from tableau_extension.api import get_dashboard
-  from tableau_extension import dialogs
+  from trexjacket.api import get_dashboard
+  from trexjacket import dialogs
 
   class Homepage(HomepageTemplate):
     def __init__(self, **properties):

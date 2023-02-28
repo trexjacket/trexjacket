@@ -15,7 +15,7 @@ Let's look at some form code:
   from ._anvil_designer import BindComponentsTemplate
   from anvil import tableau
 
-  from tableau_extension.api import get_dashboard
+  from trexjacket.api import get_dashboard
 
   class BindComponents(BindComponentsTemplate):
     def __init__(self, **properties):

@@ -8,7 +8,7 @@ Now that we've added the |ProductName| as a dependency and connected our Anvil a
 
     .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/helloworld.gif
 
-Open up ``Form1`` and click on the "code" button at the top. At the code near the top of the form, import ``get_dashboard`` from ``tableau_extension.api`` import ``get_dashboard`` and create an instance of the dashboard in the form:
+Open up ``Form1`` and click on the "code" button at the top. At the code near the top of the form, import ``get_dashboard`` from ``trexjacket.api`` import ``get_dashboard`` and create an instance of the dashboard in the form:
 
 .. code-block:: python
   :linenos:
@@ -18,7 +18,7 @@ Open up ``Form1`` and click on the "code" button at the top. At the code near th
   from anvil import *
   from anvil import tableau
 
-  from tableau_extension.api import get_dashboard
+  from trexjacket.api import get_dashboard
   dashboard = get_dashboard()
 
   class Form1(Form1Template):

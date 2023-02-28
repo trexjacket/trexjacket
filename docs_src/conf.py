@@ -22,9 +22,10 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-PRODUCT_NAME = "Anvil X Wrapper"
+PRODUCT_NAME = "Anvil X"
+WRAPPER_NAME = "trexjacket"
 
-project = PRODUCT_NAME
+project = WRAPPER_NAME
 copyright = "2023, Baker Tilly Inc."
 author = "Baker Tilly Inc."
 
@@ -85,5 +86,7 @@ autodoc_member_order = "bysource"
 html_use_index = True
 
 rst_prolog = f"""
+.. |WrapperName| replace:: {WRAPPER_NAME}
+
 .. |ProductName| replace:: {PRODUCT_NAME}
 """

@@ -8,7 +8,7 @@
 
         * .. code-block:: python
 
-            from tableau_extension import dialogs
+            from trexjacket import dialogs
             from .Configure import Configure
             dialogs.open_start_form('Homepage')
 
@@ -16,7 +16,7 @@
 
         * .. code-block:: python
 
-            from tableau_extension import dialogs
+            from trexjacket import dialogs
 
             @dialogs.dialog_form('configure_form')
             class Configure(ConfigureTemplate):
@@ -27,6 +27,6 @@
 
         * .. code-block:: python
 
-            from tableau_extension import dialogs
+            from trexjacket import dialogs
 
             dialogs.show_form('configure_form', width=900, height=900)

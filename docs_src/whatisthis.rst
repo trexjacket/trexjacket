@@ -40,15 +40,13 @@ To get a taste of what other people have built, check out some `dashboard extens
 
 .. raw:: html
 
-  <h3>Platform Objective: Investment to Insight</h3>
+  <h3>The Objective of Anvil X: Investment to Insight</h3>
 
-The primary purpose of |ProductName| is to reduce the amount of time required to go from investment to insight
+The primary purpose of |ProductName| is to reduce the amount of time from investment to insight.
 
-.. important::
+By making Tableau Extensions more accessible to organizations, Dashboard Developers are unleashed to do more. "More" includes new integrations, sophisticated user interfaces, and more advanced data tools.
 
-    By making Tableau Extensions more accessible to organizations, Dashboard Developers are unleashed to do more. "More" includes new integrations, sophisticated user interfaces, and more advanced data tools.
-
-This Python library accomplishes this by:
+|ProductName| does this by:
 
 - Creating a Pythonic representation of the Tableau Dashboard
 - Enabling one-Click extension deployment
@@ -62,31 +60,6 @@ The below image outlines how this Python library is related to Anvil and Tableau
 .. image:: https://extension-documentation.s3.amazonaws.com/media/extension_architecture.PNG
 
 
-Now that you have a good handle on |ProductName|, head over to the :doc:`getting_started` guide for a short walkthrough of what the development experience is like.
+.. admonition:: Eager to build something?
 
-
-.. raw:: html
-
-  <hr>
-  <h2>Further Topics</h2>
-  <h3>Extension API vs. Embedding JavaScript API</h3>
-
-Related, but separate from the Extensions API is the Embedding JavaScript API.
-
-While the Extension API puts web applications into a tableau dashboard, the Embedding Javascript API puts tableau dashboards into a web application.
-
-* You can use the Embedding JavaScript API for embedding Tableau dashboards in web pages (for example, blog posts), or in line of business applications.
-* You can use the Extensions API for integrating web applications into zones in Tableau dashboards.
-
-The Python documentation you are currently reading is related to the Extensions API and **not** the Embedding Javascript API.
-
-.. raw:: html
-
-  <h3>Challenges with Extension Development</h3>
-
-While the Tableau extension JS API is powerful, extension development has challenges. For data teams with Tableau and Python experience,
-
-* There is a significant learning curve to get started
-* Extensions require a significant amount of technical knowledge and supporting tools to operate. This includes networking, dev ops, JS programing, security, etc.
-* During several attended in-person trainings from Tableau, it's rare for developers to make it through the tutorial and many gave up along the way
-* Lots of effort is required to stand up a development environment (chrome headless / npm / sdks)
+  Consider following the :doc:`/tutorials/chat-extension/0-main-page` tutorial where you'll build your first Tableau Extension with |ProductName|!

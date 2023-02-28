@@ -70,7 +70,7 @@ First, lets make it so that dashboard authors (and only dashboard authors) can a
 
 To do this, we want to make the "Settings" button visible only in author mode. Typically we get the dashboard object like this::
 
-  from tableau_extension import api
+  from trexjacket import api
   dashboard = api.get_dashboard()
 
 However it's often helpful if we also make this dashboard an attribute of our forms. This lets us use it in data bindings.
@@ -82,7 +82,7 @@ For now, we will set a reference to the dashboard as an attribute of the Homepag
 .. code-block:: python
   :linenos:
 
-  from tableau_extension import api
+  from trexjacket import api
   dashboard = api.get_dashboard()
 
   class Homepage(HomepageTemplate):
@@ -132,7 +132,7 @@ For the first dropdown, we want the user to select the name of the worksheet we 
 
 .. code-block:: python
 
-  from tableau_extension import api
+  from trexjacket import api
   dashboard = api.get_dashboard()
 
   class Settings(SettingsTemplate):

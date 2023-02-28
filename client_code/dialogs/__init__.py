@@ -127,7 +127,7 @@ def alert(text, buttons=None, width=None, height=None, large=False):
     .. code-block:: python
         :linenos:
 
-        from tableau_extension import dialogs
+        from trexjacket import dialogs
         dialogs.alert('Hello from an alert!')
     """
     if large:
@@ -177,7 +177,7 @@ def confirm(text, width=None, height=None, large=False):
     .. code-block:: python
         :linenos:
 
-        from tableau_extension import dialogs
+        from trexjacket import dialogs
         if dialogs.confirm('Are you sure about that?'):
             print('User clicked yes')
         else:
@@ -245,7 +245,7 @@ def open_start_form(start_form):
     .. code-block:: python
         :linenos:
 
-        from tableau_extension import dialogs
+        from trexjacket import dialogs
         from .ShowMe import ShowMe
 
         dialogs.open_start_form('Home')

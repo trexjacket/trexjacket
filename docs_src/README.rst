@@ -3,7 +3,7 @@
 
 Welcome to the online documentation for ``trexjacket``, an open source Python wrapper for |ProductName|. |ProductName| is a platform for building Tableau Extensions using nothing but Python.
 
-The documentation you are currently looking at is for an Anvil App you can import to make building Tableau Extension with |ProductName| much simpler. TODO clean up language here.
+The documentation you are currently looking at is for an Anvil App you can import to make building Tableau Extensions with |ProductName| much simpler.
 
 - If you're new to |ProductName| in general, consider viewing the :doc:`whatisthis` document.
 
@@ -17,7 +17,7 @@ Installation
 
 To get started using ``trexjacket`` :
 
-1. Add the following third part dependency token: ``TODO``.
+1. Add the following third part dependency token: ``4WJSBYGUAK63RAJO``.
 
 2. Import it into your app using:
 

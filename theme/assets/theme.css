@@ -1,0 +1,162 @@
+body {
+  font-family: "BentonSans Book", Helvetica, Arial, sans-serif !important;
+}
+
+/* Buttons */
+
+.btn {
+  height: 24px;
+  min-width: 84px;
+  border-radius: 1px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin: 6px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  text-shadow: none;
+  color: %color:F8%;
+  background: transparent;
+  border: solid 1px %color:F5%;
+}
+
+.btn:focus:active, .btn:hover, .btn:active:hover, .btn:focus:active:hover, .btn:focus, .btn:active {
+  outline: none;
+  background: transparent;
+  color: %color:F8%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border-color: %color:F5%;
+}
+
+.btn:hover {
+  box-shadow: 1px 1px 1px %color:F5%;
+  -webkit-box-shadow: 1px 1px 1px %color:F5%;
+}
+
+
+
+
+.anvil-role-primary-button > .btn, .anvil-role-primary-button > .btn:focus, .anvil-role-primary-button > .btn:active, .anvil-role-primary-button > .btn:focus:active:hover, .anvil-role-primary-button > .btn:active:hover {
+  color: white;
+  background: %color:Go Green%;
+  border: none;
+}
+
+.anvil-role-primary-button > .btn:hover {
+  box-shadow: inset 1px 6px 6px %color:Go Green%, inset -1px -2px 6px %color:Go Green Dark%;
+}
+
+.anvil-role-secondary-button > .btn {
+  color: white;
+  background: %color:Attention Red%;
+  border: none;
+}
+
+.anvil-role-secondary-button > .btn:focus:active:hover, .anvil-role-secondary-button > .btn:focus:active:hover, .anvil-role-secondary-button > .btn:active:hover, .anvil-role-secondary-button > .btn:active, .anvil-role-secondary-button > .btn:focus:active, .anvil-role-secondary-button > .btn:active:hover {
+  background: %color:Attention Red%;
+  color: white;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.anvil-role-secondary-button > .btn:hover  {
+  box-shadow: inset 1px 8px 6px %color:Attention Red%, inset -1px -4px 6px %color:Attention Red Dark%;
+  -webkit-box-shadow: inset 1px 8px 6px %color:Attention Red%, inset -1px -4px 6px %color:Attention Red Dark%;
+}
+
+.anvil-role-text-button > .btn, .anvil-role-text-button > .btn:active, .anvil-role-text-button > .btn:focus {
+  background: transparent;
+  border: solid 1px transparent;
+  font-weight: bold;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.anvil-role-text-button > .btn:hover, .anvil-role-text-button > .btn:focus:active:hover, .anvil-role-text-button > .btn:active:hover {
+  border: solid 1px %color:F5%;
+}
+
+.btn:disabled, .btn:disabled:hover, .btn:disabled:focus, .btn:disabled:active:hover, .btn:disabled:active {
+  background-color: %color:F5%;
+  color: %color:F8%;
+  opacity: 1;
+  border-color: %color:F5%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+
+}
+
+/* Dropdowns and TextBoxes */
+
+.form-control {
+  border-radius: 1px;
+  border: solid 2px %color:F5%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  height: 24px;
+  padding: 6px;
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  webkit-box-shadow: none;
+}
+
+.anvil-dropdown:hover .form-control, .anvil-dropdown:hover form::after, .form-control:focus, input.form-control:hover {
+  border-color: %color:F8%;
+}
+
+.anvil-dropdown form:after {
+  content: "\25BC";
+  border-left: solid 1.5px %color:F5%;
+  position: absolute;
+  right: 0;
+  line-height: 26px;
+
+  color: %color:F8%;
+  padding: 6px 8px 0px 8px;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  transition-property: border-color, box-shadow, -webkit-box-shadow;
+  transition-duration: 0.15s, 0.15s, 0.15s;
+  transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
+  transition-delay: 0s, 0s, 0s;
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+}
+
+.anvil-role-line.anvil-dropdown form:after, .anvil-role-text.anvil-dropdown form:after  {
+  border-left: none;
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  /* for webkit browsers */
+  -moz-appearance: none;
+  /* for firefox */
+  appearance: none;
+  /* for modern browsers */
+}
+
+
+.anvil-role-line select.form-control, .anvil-role-line.form-control {
+  border: none;
+  border-bottom: solid 1px %color:F5%;
+  border-radius: 0px;
+  padding: 9px 2px 6px 2px;
+
+}
+
+.anvil-role-text select.form-control {
+  border: none;
+  border-radius: 0px;
+}
+
+
+
+/* Loading Spinner */
+#loadingSpinner {
+    width: 50px;
+    height: 50px;
+    border-radius: 0;
+    background-image: url(_/theme/loading-spinner.svg) !important;
+}

@@ -1,0 +1,38 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_2
+  layout_properties: {grid_position: 'BNIOKK,YBRBNS'}
+  components:
+  - type: Label
+    properties: {}
+    name: label_text
+    layout_properties: {grid_position: 'TADXAE,YULCOA'}
+  - type: ColumnPanel
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: never, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: column_panel_1
+    layout_properties: {grid_position: 'WENJJH,VCXEED'}
+    components:
+    - type: Button
+      properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Cancel, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: button_cancel
+      layout_properties: {grid_position: 'IDBRVZ,AUYCCA'}
+      event_bindings: {click: button_cancel_click}
+    - type: Button
+      properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Okay, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: button_okay
+      layout_properties: {grid_position: 'IDBRVZ,TEPGJC'}
+      event_bindings: {click: button_okay_click}
+is_package: true
+component: []

@@ -1,0 +1,4 @@
+Name,Description,"Clone Link","Tableau Workbook",Tutorial
+Chat Extension,Allow users to comment on marks on the dashboard.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:H6KTXT5CIJWB5AEW=O4PMZVRIQ6VZEETDJCOAYYMQ>`",":download:`Download <https://extension-documentation.s3.amazonaws.com/tutorials/chat/Chat+Extension+Starter+Tableau+Workbook.twbx>`",:doc:`tutorials/chat-extension/0-main-page`
+Value Override,Allow users to override values and write back to a Tableau datasource.,":bdg-link-primary:`Clone<https://anvil.works/build#clone:L2PXFYJRCNMMBDAT=EWT43COKT4Y4ZB6BBF6PN2RE>`",":download:`Download <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value%20Override%20Starter%20Workbook.twbx>`",:doc:`tutorials/value-override/index`
+Starter App,A starter extension that contains code for common use cases.,":bdg-link-primary:`Clone <https://anvil.works/build#clone:VF5S7JN44C73R3F7=LSJGG6X65OFWFP2I2RKYI5YN>`","None",None

@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Sphinx
+docs_src/_build
+
+*.twbr
+
+# Anvil
+.anvil-data
+
+.vscode/
+venv/

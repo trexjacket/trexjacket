@@ -12,20 +12,21 @@ Now that our Extension is connected to our dashboard, let's use an event handler
 
   An event handler is a method that is called whenever an event occurs, for example, when the user makes a selection on the dashboard. You can create an event handler using the ``register_event_handler`` method from |ProductName|.
 
-In the code pane for ``Form1``, create and register the event handler using the following code (changes highlighted).
+In the code pane for ``Main``, create and register the event handler using the following code (changes highlighted).
 
 .. code-block:: python
   :linenos:
-  :emphasize-lines: 11,13-15
+  :emphasize-lines: 12, 14-16
 
-  from ._anvil_designer import Form1Template
+  from ._anvil_designer import MainTemplate
   from anvil import *
+  from anvil.tables import app_tables
   from anvil import tableau
 
   from trexjacket.api import get_dashboard
   dashboard = get_dashboard()
 
-  class Form1(Form1Template):
+  class Main(MainTemplate):
     def __init__(self, **properties):
       self.init_components(**properties)
       dashboard.register_event_handler('selection_changed', self.selection_changed_event_handler)

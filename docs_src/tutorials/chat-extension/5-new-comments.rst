@@ -21,14 +21,15 @@ In the gif above, we add:
 
 * A TextBox, called ``tb_comment``
 
-Let's open the ``btn_save_click`` method and add some code that shows what the user commented, along with the selection information we configured in the previous chapter. We can access the content of the text box using its ``text`` attribute: It will also be useful to know when a comment was made, so let's import the ``datetime`` module at the top of ``Form1``s code.
+Let's open the ``btn_save_click`` method and add some code that shows what the user commented, along with the selection information we configured in the previous chapter. We can access the content of the text box using its ``text`` attribute: It will also be useful to know when a comment was made, so let's import the ``datetime`` module at the top of ``Main`` s code.
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 8
+    :emphasize-lines: 9
 
-    from ._anvil_designer import Form1Template
+    from ._anvil_designer import MainTemplate
     from anvil import *
+    from anvil.tables import app_tables
     from anvil import tableau
 
     from trexjacket.api import get_dashboard
@@ -36,7 +37,7 @@ Let's open the ``btn_save_click`` method and add some code that shows what the u
 
     from datetime import datetime
 
-    # rest of Form1 code omitted
+    # rest of Main code omitted
 
 and add some code to the ``btn_save_click`` method that was created:
 
@@ -102,17 +103,16 @@ Now that we've created a datatable, let's modify ``btn_save_click`` to write to 
 At this point, selecting a state and adding a comment should start populating the ``comments`` datatable! In the next chapter we'll build the UI to show what comments have already been made.
 
 
-.. dropdown:: Click to view the full code for ``Form1``
+.. dropdown:: Click to view the full code for ``Main``
 
     .. code-block:: python
         :linenos:
-        :emphasize-lines: 34-42
+        :emphasize-lines: 34-41
 
-        from ._anvil_designer import Form1Template
+        from ._anvil_designer import MainTemplate
         from anvil import *
-        import anvil.tables as tables
-        import anvil.tables.query as q
         from anvil.tables import app_tables
+        import anvil.tables.query as q
         from anvil import tableau
 
         from trexjacket.api import get_dashboard
@@ -120,7 +120,7 @@ At this point, selecting a state and adding a comment should start populating th
 
         from datetime import datetime
 
-        class Form1(Form1Template):
+        class Main(MainTemplate):
           def __init__(self, **properties):
             self.state_name = None
             self.profit = None

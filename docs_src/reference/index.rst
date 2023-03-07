@@ -29,7 +29,7 @@ Tableau objects
 These are the things you can see on the dashboard (filters, parameters, worksheets, etc.).
 
 .. automodule:: client_code.model.proxies
-   :members: Dashboard, Parameter, Filter, Datasource, Worksheet, Settings
+   :members: Dashboard, Parameter, Filter, CategoricalFilter, RangeFilter, Datasource, Worksheet, Settings
    :show-inheritance:
 
 Change event classes
@@ -38,6 +38,7 @@ Change event classes
 You will encounter these classes when registering event handlers. For example, when registering the 'filter_changed' event:
 
 .. code-block:: python
+   :linenos:
 
    # in some form code
    def __init__(self):

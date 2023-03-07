@@ -7,16 +7,17 @@ We want to get the name of the state and the profit from the dashboard, which ar
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 10-12, 19-30
+    :emphasize-lines: 11-13, 20-31
 
-    from ._anvil_designer import Form1Template
+    from ._anvil_designer import MainTemplate
     from anvil import *
+    from anvil.tables import app_tables
     from anvil import tableau
 
     from trexjacket.api import get_dashboard
     dashboard = get_dashboard()
 
-    class Form1(Form1Template):
+    class Main(MainTemplate):
       def __init__(self, **properties):
         self.state_name = None
         self.profit = None
@@ -40,7 +41,7 @@ We want to get the name of the state and the profit from the dashboard, which ar
         msg = f"User: {self.logged_in_user}\nState: {self.state_name}\nProfit Ratio: {self.profit}"
         Notification(msg).show()
 
-Once you've added this code in the code pane of ``Form1``, reload the extension inside Tableau and click on a few states. You should see the selection appearing as a popup in your extension!
+Once you've added this code in the code pane of ``Main``, reload the extension inside Tableau and click on a few states. You should see the selection appearing as a popup in your extension!
 
 
 .. dropdown::

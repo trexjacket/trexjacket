@@ -1,7 +1,7 @@
 Supported objects and events
 -----------------------------
 
-``trexwrapper`` enables the user to listen and respond to **events** on **objects** in a Tableau dashboard using **event handlers**.
+``trexjacket`` enables the user to listen and respond to **events** on **objects** in a Tableau dashboard using **event handlers**.
 
 * **Objects** are the pieces of the Tableau dashboard that a user interacts with. The following objects are supported:
 

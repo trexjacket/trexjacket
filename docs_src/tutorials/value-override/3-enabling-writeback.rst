@@ -1,20 +1,21 @@
-Chapter 3: Enabling Writeback
-=============================
+Chapter 3: Showing Overrides in the Dashboard
+=============================================
 
 In the last chapter we saved the overrides to an Anvil Data Table. In this chapter we'll connect our Tableau Dashboard to our Anvil Data Table so we can insert the overrides into a tooltip.
 
 First we'll need to gather our database credentials from Anvil:
 
-1. Click "Publish" in the top right part of the page (click the "Publish Now" button if you see it)
+1. Click the Anvil X logo on the left sidebar
 
-.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/publish_button.PNG
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/sidebar-x.PNG
 
-2. In Step 5, click "Enable" to display the server name, username, and password for the database connection
+2. Click "Enable" in Step 3.
 
-3. Copy the "Server name", "Username", and "Password" fields from "Step 5"
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/enable-x.PNG
 
-.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/anvil_password.PNG
+3. Note the "Server name", "Username", and "Password" fields
 
+.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/creds-x.PNG
 
 Now that we have our credentials we'll need to add our Anvil Data Table as a new datasource to our Tableau dashboard:
 
@@ -22,6 +23,8 @@ Now that we have our credentials we'll need to add our Anvil Data Table as a new
     :open:
 
     .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/add_data_source.gif
+
+In Tableau:
 
 1. Click "Data" in the top ribbon
 2. Click "New Data Source"
@@ -46,14 +49,14 @@ Now that we have our Anvil data table as a datasource, let's add the override va
 
     Hovering over each state should now show you the override value in the tooltip!
 
-One last thing, we'll want to refresh this datasource whenever someone adds a new override. Luckily |ProductName| makes this simple! We can use the ``refresh`` method of our datasources to refresh them whenever an override is saved:
+One last thing, we'll want to refresh this datasource whenever someone adds a new override. We can use the ``refresh`` method of our datasources to refresh them whenever an override is saved:
 
 .. dropdown:: ``Homepage`` code
     :open:
 
     .. code-block:: python
       :linenos:
-      :emphasize-lines: 47-49
+      :emphasize-lines: 47-48
 
       from ._anvil_designer import HomepageTemplate
       import anvil
@@ -101,9 +104,8 @@ One last thing, we'll want to refresh this datasource whenever someone adds a ne
           )
           self.repeating_panel_1.items = app_tables.overrides.search()
 
-          # Refresh the datasources in our dashboard
-          for ds in self.dashboard.datasources:
-            ds.refresh()
+          # Refresh the Anvil datasource
+          self.dashboard.get_datasource('overrides (postgres)').refresh()
 
           anvil.Notification('Override saved!').show()
 
@@ -130,11 +132,11 @@ Now everytime an override is added the datasource will update!
 
 .. admonition:: Download the resources used in this tutorial!
 
-    .. button-link:: https://anvil.works/build#clone:L2PXFYJRCNMMBDAT=EWT43COKT4Y4ZB6BBF6PN2RE
+    .. button-link:: https://anvil.works/build#clone:IHOJEUVWBQMU3LMD=WRAOCEA3FLDDZU2VNI7RVTNE
         :color: primary
         :shadow:
 
-        :octicon:`link;1em;` Click here to clone the Anvil App
+        :octicon:`link;1em;` Click here to clone a finished version of this extension
 
     .. button-link:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value+Override+Starter+Workbook.twbx
         :color: primary

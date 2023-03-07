@@ -59,12 +59,20 @@ And now let's add the code:
       self.text_box_comment.text = ''
       self.text_box_override.text = None
 
-Right now, if you enter an override and a comment and click the Submit button, you should see a notification but nothing else!
+Right now, if you click a mark, add an override, add a comment and click the Submit button, you should see a notification but nothing else!
 
 .. dropdown::
     :open:
 
     .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/dummy_override.gif
+
+.. admonition:: Having trouble?
+
+  * If you get an ``IndexError: list index out of range``, make sure to select a mark on the dashboard before hitting the submit button.
+
+  * If nothing happens when you click the submit button, double check and make sure you've bound the ``btn_submit_click`` method to the Submit button's "click" event. In the Design pane, click the submit button and scroll to the Properties section. You should see ``btn_submit_click`` in the text box to the right of "click".
+
+  .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/click-bind.PNG
 
 This works, but let's start persisting this data using Anvil data tables.
 
@@ -89,7 +97,7 @@ Make sure to select "Can search, edit and delete" next to permissions. We'd neve
     .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/allow_client_write.gif
 
 
-Now let's add a data grid to the ``Homepage`` form with the following 4 column names and keys:
+Now let's add a Data Grid component to the ``Homepage`` form with the following 4 column names and keys:
 
 .. list-table::
     :header-rows: 1

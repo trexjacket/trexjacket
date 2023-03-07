@@ -1,17 +1,16 @@
 Chapter 1: Creating A Configuration UI
 ======================================
 
-In this chapter we'll be using 2 new pieces of the |ProductName|, dialogs and settings. By the end of this chapter you'll be configuring settings in the dashboard as well as opening popup windows outside of Tableau.
+For this tutorial we'll be using 2 new pieces of ``trexjacket``, dialogs and settings. By the end of this chapter you'll be configuring settings in the dashboard as well as opening popup windows outside of Tableau.
 
-Get started by downloading the starter workbook :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value+Override+Starter+Workbook.twbx>` and creating a new Tableau Extension in Anvil with the ``trexjacket`` dependency. The Chat tutorial describes these steps if you need a refresher. Click here view the steps: :doc:`/tutorials/chat-extension/1-setting-up`.
+Get started by downloading the starter Tableau workbook :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/value-override/Value+Override+Starter+Workbook.twbx>` and `cloning the starter app here <https://anvil.works/build#clone:OICSO7LFVE3PMVQ2=QPX6VIDSY7ARRWMKJEPQVPP5>`_. After downloading both of those items, add your extension to your dashboard just like you did in Chapter 1 of the Chat Tutorial here: :doc:`/tutorials/chat-extension/1-setting-up`
 
-Once you've created your Anvil app, you'll need to create 3 things in the Client Code section:
+
+Once you've cloned the starter app and added your ``trex`` file, you'll see 3 things in the Client Code section of Anvil:
 
 1. A ``Homepage`` form: This will be the main page of our extension
 2. A ``Configure`` form: This will be the configure page of our extension
-3. A module named ``startup`` (set as the startup module): We'll use this page to define our default settings and open the ``Homepage`` form
-
-Once you're done, the "Client Code" section should look like this (note that the startup module has a lightning bolt next to it):
+3. A module named ``startup`` (set as the startup module): We'll use this page to define our default settings and open the ``Homepage`` form. When our extension loads, this module will run first.
 
 .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/code_section.PNG
 
@@ -36,7 +35,7 @@ In the ``startup`` module, let's set some default values for our settings by add
 
     dialogs.open_start_form('Homepage')
 
-Here we define our default values for the workbook settings as well as open our ``Homepage`` form. In order to open dialogs using Tableau Extensions, you must open your main form using ``dialogs.open_start_form``.
+Here we define our default values for the workbook settings as well as open our ``Homepage`` form. In order to open dialogs we must open our primary form using ``dialogs.open_start_form``.
 
 Homepage
 --------
@@ -61,7 +60,7 @@ Then add the following code to ``Homepage`` (note that the ``btn_configure_click
 
 .. code-block:: python
   :linenos:
-  :emphasize-lines: 12-16
+  :emphasize-lines: 4-5, 9, 12-16
 
   from ._anvil_designer import HomepageTemplate
   import anvil
@@ -83,11 +82,11 @@ Then add the following code to ``Homepage`` (note that the ``btn_configure_click
 Configure
 ---------
 
-Finally, let's set up our configure form. Start by adding 4 labels, 4 drop down components, and a button to the ``Configure`` form. Once you're done, the UI of the ``Configure`` form should look like this:
+Finally, let's set up our ``Configure`` form. Start by adding 4 labels, 4 drop down components, and a button. Once you're done, the UI of the ``Configure`` form should look like this:
 
 .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/configure_form.PNG
 
-Use the table below to configure the data bindings for the drop down components (be sure to check the "writeback" option for each drop down component's data binding):
+Use the table below to configure the data bindings for the drop down components (be sure to check the "writeback" and "include placeholder" option for each drop down component):
 
 .. list-table:: Drop down data bindings
     :header-rows: 1
@@ -97,6 +96,9 @@ Use the table below to configure the data bindings for the drop down components 
 
     * - ``drop_down_worksheet``
       - ``selected_value`` to ``self.dashboard.settings['worksheet']``
+
+    * - ``drop_down_worksheet``
+      - ``change`` event bound to ``drop_down_sheet_change``
 
     * - ``drop_down_id_field``
       - ``selected_value`` to ``self.dashboard.settings['id_field']``
@@ -182,6 +184,6 @@ Now that we've configured our forms, clicking the "Configure" inside our extensi
 
     .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/value-override/configure_settings.gif
 
-Go ahead and open the configure form of your extension and select the fields above for each drop down.
+Go ahead and open the configure form of your extension and select the ``Sale Map``, ``State``, ``AGG(Profit Ratio)``, and ``username`` options (in that order!) for each drop down. Click submit to close the dialog window.
 
 In the next chapter we'll enable users to add an override from the ``Homepage`` form.

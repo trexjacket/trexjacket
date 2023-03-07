@@ -1,28 +1,28 @@
 Chapter 1: Setting up the environment
 =====================================
 
-Before we dive in to building extensions we'll need to do some set up.
+Before we dive in to building our extension we'll need to do 3 things:
 
-Step 1: Create your Anvil app and add the ``trexjacket`` dependency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Create an Anvil app with the ``trexjacket`` dependency
+2. Create a Tableau dashboard to use our extension inside of
+3. Add our Anvil app to our Tableau dashboard using a ``.trex`` file
 
-First log in to Anvil, click "Create a new app - Blank App", and choose "Tableau Extension". Give your App a descriptive name by choosing the "Settings" icon (gear) on the left side and modifying the "App Name" text box.
+Step 1: Create your Anvil app
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createapp.gif
+We've created an Anvil app for you to start from: `click here to make your own copy <https://anvil.works/build#clone:KIKWE6ZTOXCWRBAN=NVL6DAXCZCC5WWDRZTPW4SOS>`_.
 
-Now that we have our Anvil app created, let's add the ``trexjacket`` dependency. To add the dependency, go to Settings > Dependencies and add the following third party token: ``4WJSBYGUAK63RAJO``.
+Note that this app already has the ``trexjacket`` dependency added to it, but if you need to add the ``trexjacket`` dependency manually, select "Settings" > "Dependencies" and add the third party dependency using the following token: ``4WJSBYGUAK63RAJO``
 
 Step 2: Create your Tableau Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Normally this would be a step you complete on your own, but we've created a starter workbook avaiable for download. Click :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/chat/Chat+Extension+Starter+Tableau+Workbook.twbx>` to download the Tableau dashboard your application will extend off.
-
-If you're brand new to Tableau, `Tableau's Desktop Tutorial <https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm>`_ has sections which will teach you everything you need to connect your data and make wonderful.
+We've also created a starter workbook that is available for download. Click :download:`here <https://extension-documentation.s3.amazonaws.com/tutorials/chat/Chat+Extension+Starter+Tableau+Workbook.twbx>` to download the Tableau dashboard your extension will extend off.
 
 Step 3: Connect your Anvil app to your Tableau dashboard using a trex file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For our Tableau Dashboard to communicate with out Anvil app, we need to create a ``.trex`` file. The ``.trex`` file allows us to add our Anvil app into our dashboard as an extension.
+For our Tableau Dashboard to communicate with our Anvil app, we need to create a ``.trex`` file. The ``.trex`` file allows us to add our Anvil app into our dashboard as an extension.
 
 .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/addtrex.gif
 

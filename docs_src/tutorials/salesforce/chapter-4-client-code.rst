@@ -69,7 +69,7 @@ The event handler closes with ``self.refresh_data_bindings()``. Refresh data bin
 .. code-block:: python
 
     def my_form_event_handler(self, event):
-        selected_value = event.get_selected_records()
+        selected_value = event.get_selected_marks()
         if selected_value:
           try:
             self.opp_name = selected_value[0]['Name']
@@ -149,7 +149,7 @@ Else, we'd like to create an alert letting the user know they haven't made any c
     def button_submit_click(self, **event_args):
         """This method is called when the button is clicked"""
         response = anvil.server.call('update_opportunity',self.opp_ID,self.new_dict)
-        if response is True:
+        if response:
           self.clear_changes()
         else:
           alert('Please make a change before submitting.')
@@ -252,7 +252,7 @@ Your form code should now look like this:
           self.opp_amount = None
 
       def my_form_event_handler(self, event):
-        selected_value = event.get_selected_records()
+        selected_value = event.get_selected_marks()
         if selected_value:
           try:
             self.opp_name = selected_value[0]['Name']
@@ -272,7 +272,7 @@ Your form code should now look like this:
 
       def button_submit_click(self, **event_args):
           response = anvil.server.call('update_opportunity',self.opp_ID,self.new_dict)
-          if True:
+          if response:
             self.clear_changes()
             self.refresh_data_bindings()
           else:

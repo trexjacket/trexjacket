@@ -8,7 +8,7 @@ In the last chapter we saved the comments to a database. In this chapter we'll b
 
     .. image:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/createdatagrid.gif
 
-Click the "Design" button on ``Form1`` in Anvil. Then, let's drag a Data Grid component on to the page and name it ``dg_comments``. Set the ``Name`` and ``Key`` property for each column to the following:
+Click the "Design" button on ``Main`` in Anvil. Then, let's drag a Data Grid component on to the page and name it ``dg_comments``. Set the ``Name`` and ``Key`` property for each column to the following:
 
 .. list-table:: Data Grid Details
     :header-rows: 1
@@ -44,7 +44,7 @@ Now let's update our ``__init__`` method to populate the data grid with the rows
 
     # imports omitted
 
-    class Form1(Form1Template):
+    class Main(MainTemplate):
         def __init__(self, **properties):
           self.state_name = None
           self.profit = None
@@ -60,7 +60,7 @@ and our ``btn_save_click`` to update when a new comment is made:
 .. code-block:: python
     :emphasize-lines: 12
 
-    # Form1 code omitted
+    # Main code omitted
 
     def btn_save_click(self, **event_args):
         app_tables.comments.add_row(
@@ -88,29 +88,27 @@ Reload your extension in your dashboard, add a comment, and watch the table upda
 
 .. admonition:: Download the resources used in this tutorial!
 
-    .. button-link:: https://anvil.works/build#clone:H6KTXT5CIJWB5AEW=O4PMZVRIQ6VZEETDJCOAYYMQ
+    .. button-link:: https://anvil.works/build#clone:KX3X2K7WPDDBFBAC=IW7URBEMTZJC7QCMRJ32FZTV
         :color: primary
         :shadow:
 
-        :octicon:`link;1em;` Click here to clone the Anvil App
+        :octicon:`link;1em;` Click here to download a version of this app that will work with any dashboard
 
     .. button-link:: https://extension-documentation.s3.amazonaws.com/tutorials/chat/Chat+Extension+Starter+Tableau+Workbook.twbx
         :color: primary
         :shadow:
 
-        :octicon:`graph;1em;` Click here to download the Tableau workbook
+        :octicon:`graph;1em;` Click here to download the starter Tableau workbook
 
-.. dropdown:: Click to view the full code for ``Form1``
+.. dropdown:: Click to view the full code for ``Main``
 
     .. code-block:: python
         :linenos:
-        :emphasize-lines: 18, 44
 
-        from ._anvil_designer import Form1Template
+        from ._anvil_designer import MainTemplate
         from anvil import *
-        import anvil.tables as tables
-        import anvil.tables.query as q
         from anvil.tables import app_tables
+        import anvil.tables.query as q
         from anvil import tableau
 
         from trexjacket.api import get_dashboard
@@ -118,7 +116,7 @@ Reload your extension in your dashboard, add a comment, and watch the table upda
 
         from datetime import datetime
 
-        class Form1(Form1Template):
+        class Main(MainTemplate):
           def __init__(self, **properties):
             self.state_name = None
             self.profit = None
